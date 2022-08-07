@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
-const React = require("../models/React");
-const User = require("../models/User");
+const React = require("../../models/React");
+const User = require("../../models/User");
 
 exports.reactPost = async (req, res) => {
   try {

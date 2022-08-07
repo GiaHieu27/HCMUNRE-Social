@@ -1,7 +1,7 @@
 const cloudinary = require("cloudinary");
 const fs = require("fs");
 
-const removeTemp = require("../helpers/removeTemp");
+const removeTemp = require("../../helpers/removeTemp");
 
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,

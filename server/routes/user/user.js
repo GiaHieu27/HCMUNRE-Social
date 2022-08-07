@@ -1,23 +1,26 @@
 const express = require("express");
 const router = express.Router();
 
-const { authUser } = require("../middlewares/auth");
+const { authUser } = require("../../middlewares/auth");
 
 const {
   findUser,
   senResetPasswordCode,
   validateResetPassword,
   changePassword,
-} = require("../controllers/ResetPassword");
-const register = require("../controllers/Register");
-const login = require("../controllers/Login");
+} = require("../.././controllers/user/ResetPassword");
+const register = require("../.././controllers/user/Register");
+const login = require("../.././controllers/user/Login");
 const {
   getProfile,
   updateProfilePicture,
   updateCover,
   updateDetails,
-} = require("../controllers/Profile");
-const { activeAccount, sendVerification } = require("../controllers/Activate");
+} = require("../.././controllers/user/Profile");
+const {
+  activeAccount,
+  sendVerification,
+} = require("../.././controllers/user/Activate");
 
 router.post("/register", register);
 router.post("/login", login);

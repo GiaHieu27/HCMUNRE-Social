@@ -1,13 +1,13 @@
 const express = require("express");
 const router = express.Router();
 
-const { authUser } = require("../middlewares/auth");
+const { authUser } = require("../../middlewares/auth");
 const {
   search,
   addToSearchHistory,
   getSearchHistory,
   removeHistorySearch,
-} = require("../controllers/Search");
+} = require("../.././controllers/user/Search");
 
 router.post("/search/:searchTerm", authUser, search);
 router.put("/addToSearchHistory", authUser, addToSearchHistory);

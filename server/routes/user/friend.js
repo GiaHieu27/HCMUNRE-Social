@@ -11,7 +11,7 @@ const {
   unfriend,
   deleteRequest,
   getFriend,
-} = require("../controllers/Friend");
+} = require("../.././controllers/user/Friend");
 
 router.put("/addFriend/:id", authUser, addFriend);
 router.put("/cancelRequest/:id", authUser, cancelRequest);

@@ -1,4 +1,4 @@
-const User = require("../models/User");
+const User = require("../../models/User");
 const mongoose = require("mongoose");
 
 exports.addFriend = async (req, res) => {

@@ -17,8 +17,8 @@ app.use(
 );
 
 // route
-readdirSync("./routes").map((route) =>
-  app.use("/", require("./routes/" + route))
+readdirSync("./routes/user").map((route) =>
+  app.use("/", require("./routes/user/" + route))
 );
 
 connectDb(process.env.DATABASE_URL);

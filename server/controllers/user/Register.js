@@ -1,13 +1,13 @@
 const bcrypt = require("bcrypt");
 
-const User = require("../models/User");
+const User = require("../../models/User");
 const {
   validateEmail,
   validateLength,
   validateUserName,
-} = require("../helpers/validation");
-const { sendVerificationEmail } = require("../helpers/mailer");
-const { generateToken } = require("../helpers/tokens");
+} = require("../../helpers/validation");
+const { sendVerificationEmail } = require("../../helpers/mailer");
+const { generateToken } = require("../../helpers/tokens");
 
 async function register(req, res) {
   try {
