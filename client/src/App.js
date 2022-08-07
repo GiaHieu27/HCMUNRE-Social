@@ -5,15 +5,15 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 
 // import project
-import Login from "./pages/login";
-import Profile from "./pages/profile";
-import Home from "./pages/home";
+import Login from "./pages/user/login";
+import Profile from "./pages/user/profile";
+import Home from "./pages/user/home";
 import LoggedInRoutes from "./routes/LoggedInRoutes";
 import NotLoggedInRoutes from "./routes/NotLoggedInRoutes";
-import Activate from "./pages/home/Activate";
-import ResetPassword from "./pages/reset";
-import CreratePostPopup from "./components/CreratePostPopup";
-import Friend from "./pages/friend";
+import Activate from "./pages/user/home/Activate";
+import ResetPassword from "./pages/user/reset";
+import CreratePostPopup from "./components/user/CreratePostPopup";
+import Friend from "./pages/user/friend";
 import { postsReducer } from "./functions/reducer";
 
 function App() {

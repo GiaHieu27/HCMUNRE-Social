@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import { Outlet } from "react-router-dom";
-import Login from "../pages/login";
+import Login from "../pages/user/login";
 
 function LoggedInRoutes() {
   const { user } = useSelector((user) => ({ ...user }));
