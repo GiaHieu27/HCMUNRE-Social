@@ -44,7 +44,7 @@ $insta-color: #e1306c;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   transform: scale(0);
   transition: 0.5s ease-in-out;
-  // transition-delay: 1s;
+  transition-delay: 0.8s;
 
   &_wrapper {
     width: 100%;
@@ -109,7 +109,7 @@ $insta-color: #e1306c;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   transform: scale(0);
   transition: 0.5s ease-in-out;
-  transition-delay: 0.2s;
+  transition-delay: 1s;
 
   & > div {
     margin: 0 0.5rem;
@@ -121,19 +121,19 @@ $insta-color: #e1306c;
     transition: 0.5s ease-in-out;
 
     &:nth-child(1) {
-      transition-delay: 0.4s;
+      transition-delay: 1.2s;
     }
 
     &:nth-child(2) {
-      transition-delay: 0.6s;
+      transition-delay: 1.4s;
     }
 
     &:nth-child(3) {
-      transition-delay: 0.8s;
+      transition-delay: 1.6s;
     }
 
     &:nth-child(4) {
-      transition-delay: 1s;
+      transition-delay: 1.8s;
     }
 
     & > box-icon {
@@ -188,7 +188,7 @@ $insta-color: #e1306c;
 
 .text {
   margin: 4rem;
-  color: var(--white);
+  color: $white;
 
   h2 {
     font-size: 3.5rem;
@@ -229,4 +229,105 @@ $insta-color: #e1306c;
 .login_container.sign-up .text.sign-up h2,
 .login_container.sign-up .img.sign-up img {
   transform: translateX(0);
+}
+
+// background
+.login_container {
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 6;
+
+    height: 100vh;
+    width: 300vw;
+
+    background-image: linear-gradient(
+      -45deg,
+      var(--blue-color) 0%,
+      var(--light-blue-color) 100%
+    );
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    border-bottom-right-radius: max(50vw, 50vh);
+    border-top-left-radius: max(50vw, 50vh);
+
+    transform: translate(35%, 0);
+    transition: 1s ease-in-out;
+  }
+
+  &.sign-in::before {
+    transform: translate(0, 0);
+    right: 50%;
+  }
+
+  &.sign-up::before {
+    transform: translate(100%, 0);
+    right: 50%;
+  }
+}
+
+@media only screen and (max-width: 425px) {
+  .login_container::before,
+  .login_container.sign-in::before,
+  .login_container.sign-up::before {
+    height: 100vh;
+    border-bottom-right-radius: 0;
+    border-top-left-radius: 0;
+    z-index: 0;
+    transform: none;
+    right: 0;
+  }
+
+  .login_container.sign-in .login_col.sign-in,
+  .login_container.sign-up .login_col.sign-up {
+    transform: translateY(0);
+  }
+
+  .content-row {
+    align-items: flex-start !important;
+  }
+
+  .content-row .login_col {
+    transform: translateY(0);
+    background-color: unset;
+  }
+
+  .login {
+    &_row {
+      align-items: flex-end;
+      justify-content: flex-end;
+    }
+
+    &_col {
+      width: 100%;
+      position: absolute;
+      padding: 2rem;
+      background-color: var(--white);
+      border-top-left-radius: 2rem;
+      border-top-right-radius: 2rem;
+      transform: translateY(100%);
+      transition: 1s ease-in-out;
+    }
+  }
+
+  .form,
+  .social-list {
+    box-shadow: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .text {
+    margin: 0;
+
+    p {
+      display: none;
+    }
+
+    h2 {
+      margin: 0.5rem;
+      font-size: 2rem;
+    }
+  }
 }
