@@ -12,7 +12,8 @@ import Post from "../../../components/user/Post";
 import Meeting from "../../../components/user/Meeting";
 
 function Home({ setVisible, posts, loading, getPosts }) {
-  const user = useSelector((state) => state.user);
+  const { user, friends: friendStore } = useSelector((state) => ({ ...state }));
+  const friends = friendStore.data.friends;
   const [height, setHeight] = useState();
   const middle = useRef(null);
 
@@ -25,10 +26,10 @@ function Home({ setVisible, posts, loading, getPosts }) {
       <Header page="home" getPosts={getPosts} />
       <LeftHome user={user} />
       <div className="home_middle" ref={middle}>
-        <Stories />
+        {/* <Stories /> */}
         {!user.verified && <SenVerification user={user} />}
         <CreatePost user={user} setVisible={setVisible} />
-        <Meeting />
+        {friends && friends.length > 0 && <Meeting />}
         {loading ? (
           <div className="sekeleton_loader">
             <ScaleLoader color="#1876f2" />

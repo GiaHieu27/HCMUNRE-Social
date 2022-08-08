@@ -2,10 +2,10 @@
 import { useEffect, useReducer, useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import { useSelector } from "react-redux";
+import Cookies from "js-cookie";
 import axios from "axios";
 
 // import project
-import Login from "./pages/user/login";
 import Profile from "./pages/user/profile";
 import Home from "./pages/user/home";
 import LoggedInRoutes from "./routes/LoggedInRoutes";
@@ -15,6 +15,7 @@ import ResetPassword from "./pages/user/reset";
 import CreratePostPopup from "./components/user/CreratePostPopup";
 import Friend from "./pages/user/friend";
 import { postsReducer } from "./functions/reducer";
+import Login from "./pages/user/login";
 
 function App() {
   const [visible, setVisible] = useState(false);
@@ -27,7 +28,7 @@ function App() {
   });
 
   useEffect(() => {
-    getPosts();
+    if (Cookies.get("user")) getPosts();
   }, []);
 
   const getPosts = async () => {
@@ -85,6 +86,7 @@ function App() {
           <Route path="/activate/:tokenUrl" element={<Activate />} />
         </Route>
         <Route element={<NotLoggedInRoutes />}>
+          {/* <Route path="/login" element={<Login />} /> */}
           <Route path="/login" element={<Login />} />
         </Route>
         <Route path="/reset" element={<ResetPassword />} />

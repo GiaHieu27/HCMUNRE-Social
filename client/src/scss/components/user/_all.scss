@@ -1,19 +1,23 @@
-@import "./register";
+// @import "./register";
+// @import "./inputLogin";
+// @import "./inputRegister";
+// @import "./inputSelect";
+
+@import "./userMenu";
+@import "./allMenu";
+@import "./searchMenu";
+
 @import "./leftHome";
 @import "./rightHome";
 @import "./stories";
+@import "./meeting.scss";
+
 @import "./createPost";
 @import "./createPostPopup";
 @import "./post";
+
 @import "./profilePicture";
 @import "./intro";
+@import "./coverPicture";
 @import "./comment";
 @import "./button";
-@import "./coverPicture";
-@import "./inputLogin";
-@import "./inputRegister";
-@import "./inputSelect";
-@import "./searchMenu";
-@import "./userMenu";
-@import "./allMenu";
-@import "./meeting.scss";

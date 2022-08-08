@@ -33,10 +33,8 @@ function Meeting() {
                 key={friend._id}
               />
             ))
-          : friends &&
-            friends.length &&
-            isMobile &&
-            friends
+          : friends && friends.length && isMobile
+          ? friends
               .slice(0, 2)
               .map((friend) => (
                 <img
@@ -46,7 +44,8 @@ function Meeting() {
                   height="40"
                   key={friend._id}
                 />
-              ))}
+              ))
+          : ""}
       </div>
     </div>
   );

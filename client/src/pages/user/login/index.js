@@ -1,19 +1,18 @@
+import React from "react";
 import LoginForm from "../../../components/user/Form/LoginForm";
-import Footer from "../../../components/user/Form/Footer";
 import RegisterForm from "../../../components/user/Form/RegisterForm";
-import { useState } from "react";
 
-function Login() {
-  const [visible, setVisible] = useState(false);
+function Login2() {
   return (
     <div className="login">
-      <div className="login_wrapper">
-        <LoginForm setVisible={setVisible} />
-        {visible && <RegisterForm setVisible={setVisible} />}
-        <Footer />
+      <div className="login_container">
+        <div className="login_row">
+          <LoginForm />
+          <RegisterForm />
+        </div>
       </div>
     </div>
   );
 }
 
-export default Login;
+export default Login2;
