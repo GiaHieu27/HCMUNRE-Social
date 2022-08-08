@@ -7,7 +7,7 @@ function LoginForm({ containerRef }) {
   };
 
   return (
-    <div className="login_col align-items-center flex-col">
+    <div className="login_col align-items-center flex-col sign-in">
       <div className="form_wrapper align-items-center">
         <div className="form sign-in">
           <div className="input-group">

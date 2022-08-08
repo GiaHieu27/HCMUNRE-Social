@@ -111,12 +111,15 @@ $insta-color: #e1306c;
   transition: 0.5s ease-in-out;
   transition-delay: 1s;
 
+  &.sign-up {
+    transition-delay: 0.8s;
+  }
+
   & > div {
     margin: 0 0.5rem;
     padding: 0.7rem;
     cursor: pointer;
     border-radius: 0.5rem;
-    cursor: pointer;
     transform: scale(0);
     transition: 0.5s ease-in-out;
 
@@ -279,6 +282,9 @@ $insta-color: #e1306c;
     right: 0;
   }
 
+  // .login_container.sign-in .login_col.sign-up {
+  //   transform: translateY(100%);
+  // }
   .login_container.sign-in .login_col.sign-in,
   .login_container.sign-up .login_col.sign-up {
     transform: translateY(0);
@@ -286,28 +292,27 @@ $insta-color: #e1306c;
 
   .content-row {
     align-items: flex-start !important;
-  }
 
-  .content-row .login_col {
-    transform: translateY(0);
-    background-color: unset;
+    .login_col {
+      transform: translateY(0);
+      background-color: unset;
+    }
   }
 
   .login {
-    &_row {
-      align-items: flex-end;
-      justify-content: flex-end;
-    }
-
     &_col {
       width: 100%;
       position: absolute;
       padding: 2rem;
-      background-color: var(--white);
-      border-top-left-radius: 2rem;
-      border-top-right-radius: 2rem;
+      background-color: $white;
+      border-top-left-radius: 20px;
+      border-top-right-radius: 20px;
       transform: translateY(100%);
-      transition: 1s ease-in-out;
+      transition: 0.5s ease-in-out;
+    }
+
+    &_row {
+      align-items: flex-end;
     }
   }
 

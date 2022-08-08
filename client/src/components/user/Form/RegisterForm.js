@@ -7,7 +7,7 @@ function RegisterForm({ containerRef }) {
   };
 
   return (
-    <div className="login_col align-items-center flex-col">
+    <div className="login_col align-items-center flex-col sign-up">
       <div className="form_wrapper align-items-center">
         <div className="form sign-up">
           <div className="input-group">
