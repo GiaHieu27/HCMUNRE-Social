@@ -37,16 +37,16 @@ function RegisterForm({ containerRef }) {
       </div>
       <div className="form_wrapper">
         <div className="social-list align-items-center sign-up">
-          <div className="align-items-center facebook-bg">
+          <div className="align-items-center bg-facebook">
             <box-icon color="white" type="logo" name="facebook"></box-icon>
           </div>
-          <div className="align-items-center google-bg">
+          <div className="align-items-center bg-google">
             <box-icon color="white" name="google" type="logo"></box-icon>
           </div>
-          <div className="align-items-center twitter-bg">
+          <div className="align-items-center bg-twitter">
             <box-icon color="white" name="twitter" type="logo"></box-icon>
           </div>
-          <div className="align-items-center insta-bg">
+          <div className="align-items-center bg-insta">
             <box-icon color="white" name="instagram-alt" type="logo"></box-icon>
           </div>
         </div>

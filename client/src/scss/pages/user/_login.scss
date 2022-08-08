@@ -117,8 +117,24 @@ $insta-color: #e1306c;
     cursor: pointer;
     border-radius: 0.5rem;
     cursor: pointer;
-    // transform: scale(0);
-    // transition: 0.5s ease-in-out;
+    transform: scale(0);
+    transition: 0.5s ease-in-out;
+
+    &:nth-child(1) {
+      transition-delay: 0.4s;
+    }
+
+    &:nth-child(2) {
+      transition-delay: 0.6s;
+    }
+
+    &:nth-child(3) {
+      transition-delay: 0.8s;
+    }
+
+    &:nth-child(4) {
+      transition-delay: 1s;
+    }
 
     & > box-icon {
       transition: 0.4s ease-in-out;
@@ -130,20 +146,22 @@ $insta-color: #e1306c;
   }
 }
 
-.facebook-bg {
-  background-color: $facebook-color;
-}
+.bg {
+  &-facebook {
+    background-color: $facebook-color;
+  }
 
-.google-bg {
-  background-color: $google-color;
-}
+  &-google {
+    background-color: $google-color;
+  }
 
-.twitter-bg {
-  background-color: $twitter-color;
-}
+  &-twitter {
+    background-color: $twitter-color;
+  }
 
-.insta-bg {
-  background-color: $insta-color;
+  &-insta {
+    background-color: $insta-color;
+  }
 }
 
 .pointer {
@@ -152,7 +170,63 @@ $insta-color: #e1306c;
 
 .login_container.sign-in .form.sign-in,
 .login_container.sign-in .social-list.sign-in,
+.login_container.sign-in .social-list.sign-in > div,
 .login_container.sign-up .form.sign-up,
-.login_container.sign-up .social-list.sign-up {
+.login_container.sign-up .social-list.sign-up,
+.login_container.sign-up .social-list.sign-up > div {
   transform: scale(1);
+}
+
+.content-row {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 6;
+  width: 100%;
+}
+
+.text {
+  margin: 4rem;
+  color: var(--white);
+
+  h2 {
+    font-size: 3.5rem;
+    font-weight: 800;
+    margin: 2rem 0;
+    transition: 1s ease-in-out;
+  }
+
+  p {
+    font-weight: 600;
+    transition: 1s ease-in-out;
+    transition-delay: 0.2s;
+  }
+}
+
+.img img {
+  width: 30vw;
+  transition: 1s ease-in-out;
+  transition-delay: 0.4s;
+}
+
+.text.sign-in h2,
+.text.sign-in p,
+.img.sign-in img {
+  transform: translateX(-250%);
+}
+
+.text.sign-up h2,
+.text.sign-up p,
+.img.sign-up img {
+  transform: translateX(250%);
+}
+
+.login_container.sign-in .text.sign-in p,
+.login_container.sign-in .text.sign-in h2,
+.login_container.sign-in .img.sign-in img,
+.login_container.sign-up .text.sign-up p,
+.login_container.sign-up .text.sign-up h2,
+.login_container.sign-up .img.sign-up img {
+  transform: translateX(0);
 }
