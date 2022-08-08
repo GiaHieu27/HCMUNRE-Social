@@ -42,8 +42,8 @@ $insta-color: #e1306c;
   border-radius: 1.5rem;
   width: 100%;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-  // transform: scale(0);
-  // transition: 0.5s ease-in-out;
+  transform: scale(0);
+  transition: 0.5s ease-in-out;
   // transition-delay: 1s;
 
   &_wrapper {
@@ -107,9 +107,9 @@ $insta-color: #e1306c;
   border-radius: 1.5rem;
   width: 100%;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-  // transform: scale(0);
-  // transition: 0.5s ease-in-out;
-  // transition-delay: 1.2s;
+  transform: scale(0);
+  transition: 0.5s ease-in-out;
+  transition-delay: 0.2s;
 
   & > div {
     margin: 0 0.5rem;
@@ -148,4 +148,11 @@ $insta-color: #e1306c;
 
 .pointer {
   cursor: pointer;
+}
+
+.login_container.sign-in .form.sign-in,
+.login_container.sign-in .social-list.sign-in,
+.login_container.sign-up .form.sign-up,
+.login_container.sign-up .social-list.sign-up {
+  transform: scale(1);
 }

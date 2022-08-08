@@ -1,31 +1,42 @@
 import "boxicons";
 
-function RegisterForm() {
+function RegisterForm({ containerRef }) {
+  const handleClick = () => {
+    containerRef.current.classList.toggle("sign-up");
+    containerRef.current.classList.toggle("sign-in");
+  };
+
   return (
     <div className="login_col align-items-center flex-col">
       <div className="form_wrapper align-items-center">
-        <div className="form sign-in">
+        <div className="form sign-up">
           <div className="input-group">
-            <box-icon color="gray" type="solid" name="user"></box-icon>
-            <input type="text" placeholder="Username" />
+            <box-icon color="gray" type="solid" name="envelope"></box-icon>
+            <input type="text" placeholder="Email" />
           </div>
 
           <div className="input-group">
             <box-icon color="gray" type="solid" name="lock-alt"></box-icon>
             <input type="password" placeholder="Password" />
           </div>
-          <button>Đăng nhập</button>
+          <div className="input-group">
+            <box-icon color="gray" type="solid" name="lock-alt"></box-icon>
+            <input type="password" placeholder="Nhập lại mật khẩu" />
+          </div>
+          <button>Đăng ký</button>
           <p>
             <b> Quên mật khẩu </b>
           </p>
           <p>
             <span> Bạn chưa có tài khoản </span>
-            <b className="pointer">Đăng ký tại đây</b>
+            <b className="pointer" onClick={() => handleClick()}>
+              Đăng ký tại đây
+            </b>
           </p>
         </div>
       </div>
       <div className="form_wrapper">
-        <div className="social-list align-items-center sign-in">
+        <div className="social-list align-items-center sign-up">
           <div className="align-items-center facebook-bg">
             <box-icon color="white" type="logo" name="facebook"></box-icon>
           </div>

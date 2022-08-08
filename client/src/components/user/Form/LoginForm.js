@@ -1,12 +1,54 @@
 import "boxicons";
 
-function LoginForm2() {
+function LoginForm({ containerRef }) {
+  const handleClick = () => {
+    containerRef.current.classList.toggle("sign-in");
+    containerRef.current.classList.toggle("sign-up");
+  };
+
   return (
-    <div
-      className="login_col align-items-center flex-col sign-up"
-      style={{ backgroundColor: "aqua" }}
-    ></div>
+    <div className="login_col align-items-center flex-col">
+      <div className="form_wrapper align-items-center">
+        <div className="form sign-in">
+          <div className="input-group">
+            <box-icon color="gray" type="solid" name="envelope"></box-icon>
+            <input type="text" placeholder="Email" />
+          </div>
+
+          <div className="input-group">
+            <box-icon color="gray" type="solid" name="lock-alt"></box-icon>
+            <input type="password" placeholder="Password" />
+          </div>
+          <button>Đăng nhập</button>
+          <p>
+            <b> Quên mật khẩu </b>
+          </p>
+          <p>
+            <span> Bạn chưa có tài khoản </span>
+            <b className="pointer" onClick={() => handleClick()}>
+              Đăng ký tại đây
+            </b>
+          </p>
+        </div>
+      </div>
+      <div className="form_wrapper">
+        <div className="social-list align-items-center sign-in">
+          <div className="align-items-center facebook-bg">
+            <box-icon color="white" type="logo" name="facebook"></box-icon>
+          </div>
+          <div className="align-items-center google-bg">
+            <box-icon color="white" name="google" type="logo"></box-icon>
+          </div>
+          <div className="align-items-center twitter-bg">
+            <box-icon color="white" name="twitter" type="logo"></box-icon>
+          </div>
+          <div className="align-items-center insta-bg">
+            <box-icon color="white" name="instagram-alt" type="logo"></box-icon>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
 
-export default LoginForm2;
+export default LoginForm;
