@@ -7,7 +7,6 @@ import userSlice from "../../../redux/slices/userSlice";
 import SearchAccount from "./SearchAccount";
 import SendMail from "./SendMail";
 import CodeVerification from "./CodeVerification";
-import Footer from "../../../components/user/Form/Footer";
 import ChangePassword from "./ChangePassword";
 
 function ResetPassword() {
@@ -101,7 +100,6 @@ function ResetPassword() {
           />
         )}
       </div>
-      <Footer />
     </div>
   );
 }

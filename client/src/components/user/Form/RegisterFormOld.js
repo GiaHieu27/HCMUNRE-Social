@@ -16,8 +16,8 @@ import userSlice from "../../../redux/slices/userSlice";
 
 function RegisterForm({ setVisible }) {
   const dispatch = useDispatch();
-  useSelector((state) => console.log(state));
   const navigate = useNavigate();
+  useSelector((state) => console.log(state));
 
   const userInfos = {
     first_name: "",

@@ -6,16 +6,16 @@ import Cookies from "js-cookie";
 import axios from "axios";
 
 // import project
-import Profile from "./pages/user/profile";
-import Home from "./pages/user/home";
 import LoggedInRoutes from "./routes/LoggedInRoutes";
 import NotLoggedInRoutes from "./routes/NotLoggedInRoutes";
+import Login from "./pages/user/login";
+import Home from "./pages/user/home";
+import Profile from "./pages/user/profile";
 import Activate from "./pages/user/home/Activate";
 import ResetPassword from "./pages/user/reset";
 import CreratePostPopup from "./components/user/CreratePostPopup";
 import Friend from "./pages/user/friend";
 import { postsReducer } from "./functions/reducer";
-import Login from "./pages/user/login";
 
 function App() {
   const [visible, setVisible] = useState(false);
@@ -86,7 +86,6 @@ function App() {
           <Route path="/activate/:tokenUrl" element={<Activate />} />
         </Route>
         <Route element={<NotLoggedInRoutes />}>
-          {/* <Route path="/login" element={<Login />} /> */}
           <Route path="/login" element={<Login />} />
         </Route>
         <Route path="/reset" element={<ResetPassword />} />
