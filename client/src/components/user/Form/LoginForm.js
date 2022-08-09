@@ -1,23 +1,24 @@
-// import "boxicons";
 import { useState } from "react";
-import { Form, Formik } from "formik";
-import * as yup from "yup";
-import LoginInput from "../Inputs/LoginInput/LoginInput";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
 import { useDispatch } from "react-redux";
+import { Form, Formik } from "formik";
+import PropagateLoader from "react-spinners/PropagateLoader";
+import axios from "axios";
+import * as yup from "yup";
+import "boxicons";
+
+import LoginInput from "../Inputs/LoginInput/LoginInput";
 import Cookies from "js-cookie";
 import userSlice from "../../../redux/slices/userSlice";
-import PropagateLoader from "react-spinners/PropagateLoader";
-
-const loginInfo = {
-  email: "",
-  password: "",
-};
 
 function LoginForm({ containerRef }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const loginInfo = {
+    email: "",
+    password: "",
+  };
 
   const [login, setLogin] = useState(loginInfo);
   const [error, setError] = useState("");
@@ -98,7 +99,10 @@ function LoginForm({ containerRef }) {
                 onChange={handleChangeLogin}
                 bottom
               />
-              <button style={{ paddingBottom: `${loading ? "11px" : "0"}` }}>
+              <button
+                style={{ paddingBottom: `${loading ? "11px" : "0"}` }}
+                type="submit"
+              >
                 {loading ? (
                   <PropagateLoader color="white" loading={loading} size={15} />
                 ) : (
@@ -113,7 +117,7 @@ function LoginForm({ containerRef }) {
                 </b>
               </p>
               <p>
-                <span> Bạn chưa có tài khoản </span>
+                <span>Bạn chưa có tài khoản? </span>
                 <b className="pointer" onClick={() => handleClick()}>
                   Đăng ký ngay
                 </b>
