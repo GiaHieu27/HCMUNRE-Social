@@ -1,8 +1,5 @@
-$black: #000000;
 $white: #ffffff;
 $gray: #efefef;
-$gray-2: #757575;
-
 $facebook-color: #4267b2;
 $google-color: #db4437;
 $twitter-color: #1da1f2;
@@ -39,7 +36,7 @@ $insta-color: #e1306c;
 .form {
   padding: 1rem;
   background-color: $white;
-  border-radius: 1.5rem;
+  border-radius: 0.8rem;
   width: 100%;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   transform: scale(0);
@@ -55,6 +52,12 @@ $insta-color: #e1306c;
     position: relative;
     width: 100%;
     margin: 1rem 0;
+
+    i {
+      position: absolute;
+      top: 17px;
+      right: 21px;
+    }
 
     box-icon {
       position: absolute;
@@ -82,7 +85,7 @@ $insta-color: #e1306c;
   button {
     cursor: pointer;
     width: 100%;
-    padding: 0.6rem 0;
+    height: 50px;
     border-radius: 0.5rem;
     border: none;
     background-color: var(--blue-color);
@@ -92,13 +95,25 @@ $insta-color: #e1306c;
   }
 
   p {
-    margin: 1rem 0;
+    margin: 0.7rem 0;
     font-size: 14.5px;
   }
 }
 
 .flex-col {
   flex-direction: column;
+}
+
+.error_text {
+  margin-top: 13px;
+  font-weight: 700;
+  color: #b94a48;
+}
+
+.success_text {
+  margin-top: 13px;
+  font-weight: 700;
+  color: var(--green_color);
 }
 
 .social-list {
