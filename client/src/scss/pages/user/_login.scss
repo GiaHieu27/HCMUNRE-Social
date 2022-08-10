@@ -1,9 +1,5 @@
 $white: #ffffff;
 $gray: #efefef;
-$facebook-color: #4267b2;
-$google-color: #db4437;
-$twitter-color: #1da1f2;
-$insta-color: #e1306c;
 
 .login {
   height: 100vh;
@@ -116,6 +112,24 @@ $insta-color: #e1306c;
   color: var(--green_color);
 }
 
+.reg {
+  &_row {
+    display: flex;
+  }
+
+  &_line_header {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    font-size: 13px;
+    color: var(--color-secondary);
+
+    i {
+      margin-top: 3px;
+    }
+  }
+}
+
 .social-list {
   margin: 2rem 0;
   padding: 1rem;
@@ -161,24 +175,6 @@ $insta-color: #e1306c;
     &:hover box-icon {
       transform: scale(1.5);
     }
-  }
-}
-
-.bg {
-  &-facebook {
-    background-color: $facebook-color;
-  }
-
-  &-google {
-    background-color: $google-color;
-  }
-
-  &-twitter {
-    background-color: $twitter-color;
-  }
-
-  &-insta {
-    background-color: $insta-color;
   }
 }
 
@@ -298,9 +294,6 @@ $insta-color: #e1306c;
     right: 0;
   }
 
-  // .login_container.sign-in .login_col.sign-up {
-  //   transform: translateY(100%);
-  // }
   .login_container.sign-in .login_col.sign-in,
   .login_container.sign-up .login_col.sign-up {
     transform: translateY(0);

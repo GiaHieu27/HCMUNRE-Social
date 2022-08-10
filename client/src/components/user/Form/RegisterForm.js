@@ -1,11 +1,21 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { Form, Formik } from "formik";
+import Cookies from "js-cookie";
+import axios from "axios";
 import * as yup from "yup";
 import "boxicons";
 
 import RegisterInput from "../Inputs/RegisterInput/RegisterInput";
+import DateOfBirthSelect from "../Inputs/SelectInput/DateOfBirthSelect";
+import GenderSelect from "../Inputs/RadioInput/GenderRadio";
+import userSlice from "../../../redux/slices/userSlice";
 
 function RegisterForm({ containerRef }) {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const userInfos = {
     first_name: "",
     last_name: "",
@@ -35,6 +45,14 @@ function RegisterForm({ containerRef }) {
   const [error, setError] = useState("");
   const [success, setSuccessse] = useState("");
   const [loading, setLoading] = useState(false);
+
+  const currentYear = new Date().getFullYear();
+  const years = Array.from(new Array(108), (val, index) => currentYear - index);
+  const months = Array.from(new Array(12), (val, index) => 1 + index);
+  const getDates = () => {
+    return new Date(bYear, bMonth, 0).getDate();
+  };
+  const days = Array.from(new Array(getDates()), (val, index) => 1 + index);
 
   const handleRegisterChange = (e) => {
     const { name, value } = e.target;
@@ -70,6 +88,39 @@ function RegisterForm({ containerRef }) {
       .oneOf([yup.ref("password")], "Mật khẩu không trùng khớp"),
   });
 
+  const registerSubmit = async () => {
+    try {
+      setLoading(true);
+      const { data } = await axios.post(
+        `${process.env.REACT_APP_BACKEND_URL}/register`,
+        {
+          first_name,
+          last_name,
+          email,
+          password,
+          bYear,
+          bMonth,
+          bDate,
+          gender,
+        }
+      );
+
+      setError("");
+      setSuccessse(data.message);
+
+      const { message, ...rest } = data;
+      setTimeout(() => {
+        dispatch(userSlice.actions.LOGIN(rest));
+        Cookies.set("user", JSON.stringify(rest));
+        navigate("/");
+      }, 2000);
+    } catch (error) {
+      setLoading(false);
+      setSuccessse("");
+      setError(error.response.data.message);
+    }
+  };
+
   const handleClick = () => {
     containerRef.current.classList.toggle("sign-up");
     containerRef.current.classList.toggle("sign-in");
@@ -86,29 +137,56 @@ function RegisterForm({ containerRef }) {
             email,
             password,
             conf_password,
-            // bYear,
-            // bMonth,
-            // bDate,
-            // gender,
+            bYear,
+            bMonth,
+            bDate,
+            gender,
           }}
           validationSchema={RegisterValidation}
+          onSubmit={() => {
+            let currentDate = new Date();
+            let pickedDate = new Date(bYear, bMonth - 1, bDate);
+            let atleast14 = new Date(1970 + 14, 0, 1);
+            let noMoreThan70 = new Date(1970 + 70, 0, 1);
+            if (currentDate - pickedDate < atleast14) {
+              setDateError(
+                "Co ve ban da nhap sai ngay sinh, dam bao ban nhap dung ngay sinh"
+              );
+            } else if (currentDate - pickedDate > noMoreThan70) {
+              setDateError(
+                "Co ve ban da nhap sai ngay sinh, dam bao ban nhap dung ngay sinh"
+              );
+            } else {
+              setDateError("");
+            }
+
+            if (gender === "") {
+              setGenderError("Hay chon gioi tinh");
+            } else {
+              setGenderError("");
+            }
+
+            registerSubmit();
+          }}
         >
           {(formik) => (
             <Form className="form sign-up">
-              <RegisterInput
-                type="text"
-                name="first_name"
-                placeholder="Họ của bạn"
-                iconName="user"
-                onChange={handleRegisterChange}
-              />
-              <RegisterInput
-                type="text"
-                name="last_name"
-                placeholder="Tên của bạn"
-                iconName="user"
-                onChange={handleRegisterChange}
-              />
+              <div className="reg_row">
+                <RegisterInput
+                  type="text"
+                  name="first_name"
+                  placeholder="Họ của bạn"
+                  iconName="user"
+                  onChange={handleRegisterChange}
+                />
+                <RegisterInput
+                  type="text"
+                  name="last_name"
+                  placeholder="Tên của bạn"
+                  iconName="user"
+                  onChange={handleRegisterChange}
+                />
+              </div>
               <RegisterInput
                 type="text"
                 name="email"
@@ -130,6 +208,31 @@ function RegisterForm({ containerRef }) {
                 iconName="lock-alt"
                 onChange={handleRegisterChange}
               />
+              <div className="reg_col">
+                <div className="reg_line_header">
+                  Date of birth <i className="info_icon"></i>
+                </div>
+                <DateOfBirthSelect
+                  bYear={bYear}
+                  bDate={bDate}
+                  bMonth={bMonth}
+                  handleRegisterChange={handleRegisterChange}
+                  years={years}
+                  months={months}
+                  days={days}
+                  dateError={dateError}
+                />
+              </div>
+
+              <div className="reg_col">
+                <div className="reg_line_header">
+                  Gender <i className="info_icon"></i>
+                </div>
+                <GenderSelect
+                  genderError={genderError}
+                  handleRegisterChange={handleRegisterChange}
+                />
+              </div>
 
               <button type="submit">Đăng ký</button>
               <p>
