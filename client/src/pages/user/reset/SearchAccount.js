@@ -1,16 +1,16 @@
 import { Form, Formik } from "formik";
 import { Link } from "react-router-dom";
-import HashLoader from "react-spinners/HashLoader";
+import PulseLoader from "react-spinners/PulseLoader";
 import * as Yup from "yup";
 import axios from "axios";
 import LoginInput from "../../../components/user/Inputs/LoginInput";
 
-function SearchAccount({ email, ...props }) {
+function SearchAccount({ reset, email, ...props }) {
   const validateEmail = Yup.object({
     email: Yup.string()
-      .required("Hãy nhập email của bạn")
-      .email("Hay nhập đúng định dạng email")
-      .max(50, "Tối đa 50 kí tự"),
+      .required("Vui lòng nhập email")
+      .email("Vui lòng nhập đúng định dạng email")
+      .max(100, "Email tối đa 100 ký tự"),
   });
 
   const handleSubmit = async () => {
@@ -33,8 +33,8 @@ function SearchAccount({ email, ...props }) {
   return (
     <>
       <div className="reset_form">
-        <div className="reset_form_header">Tìm tài khoản của bạn</div>
-        <div className="reset_form_text">Nhập email của bạn vào đây nhé</div>
+        <div className="reset_form_header">Tìm kiếm tài khoản của bạn</div>
+        <div className="reset_form_text">Nhập email của bạn vào ô dưới đây</div>
         <Formik
           enableReinitialize
           initialValues={{ email }}
@@ -50,21 +50,33 @@ function SearchAccount({ email, ...props }) {
                 name="email"
                 onChange={(e) => props.setEmail(e.target.value)}
                 placeholder="Nhập email của bạn"
+                reset
               />
-              {props.error && <div className="error_text">{props.error}</div>}
+              {props.error && (
+                <div className="error_text" style={{ marginTop: "-7px" }}>
+                  {props.error}
+                </div>
+              )}
               <div className="reset_form_btns">
                 <Link to="/login" className="gray_btn">
-                  Cancel
+                  Huỷ bỏ
                 </Link>
                 <button type="submit" className="blue_btn">
-                  Gửi
+                  {props.loading ? (
+                    <PulseLoader
+                      color="white"
+                      loading={props.loading}
+                      size={6}
+                    />
+                  ) : (
+                    "Tiếp tục"
+                  )}
                 </button>
               </div>
             </Form>
           )}
         </Formik>
       </div>
-      {props.loading && <HashLoader color="blue" size={30} />}
     </>
   );
 }

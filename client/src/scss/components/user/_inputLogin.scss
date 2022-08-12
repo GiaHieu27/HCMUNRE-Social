@@ -8,7 +8,7 @@
 
     input {
       outline: none;
-      border: 1px solid var(--bg-third);
+      border: 2px solid var(--border-color);
       background: var(--bg-primary);
       width: 100%;
       height: 50px;
@@ -19,7 +19,7 @@
       color: var(--color-primary);
 
       &:focus {
-        border-color: #1876f2;
+        border-color: var(--blue-color);
       }
     }
 
@@ -48,7 +48,6 @@
     &_desktop {
       position: absolute;
       width: 239px;
-      left: 24.6rem;
     }
   }
 }

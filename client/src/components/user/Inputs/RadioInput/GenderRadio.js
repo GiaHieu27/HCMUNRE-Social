@@ -1,12 +1,6 @@
 import { useMediaQuery } from "react-responsive";
 
 function GenderSelect({ ...props }) {
-  // const view1 = useMediaQuery({
-  //   query: "(min-width: 539px)",
-  // });
-  // const view2 = useMediaQuery({
-  //   query: "(min-width: 850px)",
-  // });
   const view3 = useMediaQuery({
     query: "(min-width: 1170px)",
   });
@@ -17,7 +11,7 @@ function GenderSelect({ ...props }) {
       style={{ marginBottom: `${props.genderError && !view3 && "50px"}` }}
     >
       <label htmlFor="male">
-        Male
+        Nam
         <input
           type="radio"
           name="gender"
@@ -27,7 +21,7 @@ function GenderSelect({ ...props }) {
         />
       </label>
       <label htmlFor="female">
-        Female
+        Nữ
         <input
           type="radio"
           name="gender"
@@ -37,7 +31,7 @@ function GenderSelect({ ...props }) {
         />
       </label>
       <label htmlFor="custom">
-        Other
+        Khác
         <input
           type="radio"
           name="gender"

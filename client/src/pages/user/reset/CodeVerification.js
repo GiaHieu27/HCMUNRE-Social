@@ -1,11 +1,11 @@
 import { Form, Formik } from "formik";
-import React from "react";
 import { Link } from "react-router-dom";
-import LoginInput from "../../../components/user/Inputs/LoginInput";
-import * as Yup from "yup";
+import PulseLoader from "react-spinners/PulseLoader";
 import axios from "axios";
+import * as Yup from "yup";
+import LoginInput from "../../../components/user/Inputs/LoginInput";
 
-function CodeVerification({ code, ...props }) {
+function CodeVerification({ reset, code, ...props }) {
   const { email } = props.userInfos;
   const handleSubmit = async () => {
     try {
@@ -25,7 +25,9 @@ function CodeVerification({ code, ...props }) {
   };
 
   const validationSchema = Yup.object({
-    code: Yup.string().required("Hãy nhập code").min(5, "Ít nhât 5"),
+    code: Yup.string()
+      .required("Vui lòng nhập mã xác thực")
+      .min(5, "Mã xác thực ít nhất 5 ký tự"),
   });
 
   return (
@@ -46,18 +48,31 @@ function CodeVerification({ code, ...props }) {
           {(formik) => (
             <Form>
               <LoginInput
+                reset
                 type="text"
                 name="code"
                 onChange={(e) => props.setCode(e.target.value)}
-                placeholder="Nhập mã xác thực của bạn"
+                placeholder="Nhập mã xác thực"
               />
-              {props.error && <div className="error_text">{props.error}</div>}
+              {props.error && (
+                <div className="error_text" style={{ marginTop: "-7px" }}>
+                  {props.error}
+                </div>
+              )}
               <div className="reset_form_btns">
                 <Link to="/" className="gray_btn">
-                  Cancel
+                  Huỷ bỏ
                 </Link>
                 <button type="submit" className="blue_btn">
-                  Tiếp tục
+                  {props.loading ? (
+                    <PulseLoader
+                      color="white"
+                      loading={props.loading}
+                      size={6}
+                    />
+                  ) : (
+                    "Tiếp tục"
+                  )}
                 </button>
               </div>
             </Form>

@@ -30,11 +30,13 @@ function ResetPassword() {
       navigate("/login");
     }, 2000);
   };
+
   return (
     <div className="reset">
       <div className="reset_header">
-        <Link to="/">
-          <img src="../../../icons/facebook.svg" alt="" />
+        <Link to="/" className="align-items-center">
+          <img src="../../../icons/LogoTNMT.svg" alt="logo" />
+          <img src="../../../icons/HCMUNRE.png" alt="logo" />
         </Link>
         {user ? (
           <div className="right_reset">
@@ -42,18 +44,19 @@ function ResetPassword() {
               <img src={user?.picture} alt="avatar" />
             </Link>
             <button className="blue_btn" onClick={logOut}>
-              Logout
+              Đăng xuất
             </button>
           </div>
         ) : (
           <Link to="/login" className="right_reset">
-            <button className="blue_btn">Login</button>
+            <button className="blue_btn">Đăng nhập</button>
           </Link>
         )}
       </div>
       <div className="reset_wrap">
         {visible === 0 && (
           <SearchAccount
+            reset
             email={email}
             setEmail={setEmail}
             error={error}
@@ -77,6 +80,7 @@ function ResetPassword() {
         )}
         {visible === 2 && (
           <CodeVerification
+            reset
             code={code}
             setCode={setCode}
             error={error}
@@ -88,6 +92,7 @@ function ResetPassword() {
         )}
         {visible === 3 && (
           <ChangePassword
+            reset
             password={password}
             conf_password={conf_password}
             setConf_password={setConf_password}

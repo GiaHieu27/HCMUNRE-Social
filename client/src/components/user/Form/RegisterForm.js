@@ -239,7 +239,7 @@ function RegisterForm({ containerRef }) {
                 {loading ? (
                   <PropagateLoader color="white" loading={loading} size={15} />
                 ) : (
-                  "Đăng nhập"
+                  "Đăng ký"
                 )}
               </button>
               {error && <div className="error_text">{error}</div>}

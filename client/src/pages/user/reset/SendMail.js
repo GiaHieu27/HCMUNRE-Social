@@ -1,5 +1,6 @@
-import axios from "axios";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import PulseLoader from "react-spinners/PulseLoader";
 
 function SendMail({ email, ...props }) {
   const senCodeResetEmail = async () => {
@@ -24,11 +25,11 @@ function SendMail({ email, ...props }) {
       <div className="reset_form_header">Đặt lại mật khẩu</div>
       <div className="reset_grid">
         <div className="reset_left">
-          <div className="reset_form_text">Bạn muốn dùng cách nào</div>
+          <div className="reset_form_text">Lựa chọn hình thức</div>
           <label htmlFor="email" className="hover1">
             <input type="radio" name="" id="email" checked readOnly />
             <div className="label_col">
-              <span>Gửi code qua email</span>
+              <span>Gửi mã xác thực qua email</span>
               <span>{props.userInfos.email}</span>
             </div>
           </label>
@@ -46,15 +47,14 @@ function SendMail({ email, ...props }) {
       )}
       <div className="reset_form_btns">
         <Link to="/login" className="gray_btn">
-          Not now
+          Huỷ bỏ
         </Link>
-        <button
-          onClick={() => {
-            senCodeResetEmail();
-          }}
-          className="blue_btn"
-        >
-          Tiếp tục
+        <button onClick={() => senCodeResetEmail()} className="blue_btn">
+          {props.loading ? (
+            <PulseLoader color="white" loading={props.loading} size={6} />
+          ) : (
+            "Tiếp tục"
+          )}
         </button>
       </div>
     </div>

@@ -1,13 +1,13 @@
 import { Form, Formik } from "formik";
 import { Link, useNavigate } from "react-router-dom";
+import PulseLoader from "react-spinners/PulseLoader";
 import * as Yup from "yup";
 import axios from "axios";
 
 import LoginInput from "../../../components/user/Inputs/LoginInput";
 
-function ChangePassword({ password, conf_password, ...props }) {
+function ChangePassword({ reset, password, conf_password, ...props }) {
   const navigate = useNavigate();
-
   const { email } = props.userInfos;
 
   const handleSubmit = async () => {
@@ -29,13 +29,11 @@ function ChangePassword({ password, conf_password, ...props }) {
 
   const validateChange = Yup.object({
     password: Yup.string()
-      .required(
-        "Mật khẩu ít nhất 6 ký tự (số, chữ và ký tự đặt biệt như ! hay $)"
-      )
-      .min(6, "Ít nhất 6")
-      .max(36, "Nhiều nhất 30"),
+      .required("Vui lòng nhập mật khẩu")
+      .min(6, "Mật khẩu tối thiểu 6 ký tự")
+      .max(30, "Mật khẩu tối đa 30 kí tự"),
     conf_password: Yup.string()
-      .required("Nhập lại mật khẩu")
+      .required("Vui lòng nhập lại mật khẩu")
       .oneOf([Yup.ref("password")], "Mật khẩu không trùng khớp"),
   });
 
@@ -59,6 +57,7 @@ function ChangePassword({ password, conf_password, ...props }) {
                 name="password"
                 onChange={(e) => props.setPassword(e.target.value)}
                 placeholder="Nhập mật khẩu mới của bạn"
+                reset
               />
               <LoginInput
                 type="password"
@@ -66,14 +65,27 @@ function ChangePassword({ password, conf_password, ...props }) {
                 onChange={(e) => props.setConf_password(e.target.value)}
                 placeholder="Nhập lại mật khẩu"
                 bottom
+                reset
               />
-              {props.error && <div className="error_text">{props.error}</div>}
+              {props.error && (
+                <div className="error_text" style={{ marginTop: "-7px" }}>
+                  {props.error}
+                </div>
+              )}
               <div className="reset_form_btns">
-                <Link to="./login" className="gray_btn">
-                  Cancel
+                <Link to="/login" className="gray_btn">
+                  Huỷ bỏ
                 </Link>
                 <button type="submit" className="blue_btn">
-                  Tiếp tục
+                  {props.loading ? (
+                    <PulseLoader
+                      color="white"
+                      loading={props.loading}
+                      size={6}
+                    />
+                  ) : (
+                    "Hoàn tất"
+                  )}
                 </button>
               </div>
             </Form>

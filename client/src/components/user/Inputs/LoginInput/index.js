@@ -1,7 +1,9 @@
 import { ErrorMessage, useField } from "formik";
 import { useMediaQuery } from "react-responsive";
 
-function LoginInput({ placeholder, bottom, ...props }) {
+function LoginInput({ reset, placeholder, bottom, ...props }) {
+  console.log(reset);
+
   const [field, meta] = useField(props);
   const desktopView = useMediaQuery({
     query: "(min-width: 850px)",
@@ -21,7 +23,11 @@ function LoginInput({ placeholder, bottom, ...props }) {
               ? "input_error input_error_desktop"
               : "input_error"
           }
-          style={{ transform: "translateY(5px)" }}
+          style={{
+            transform: "translateY(5px)",
+            left: `${reset ? "-15.4rem" : "24.6rem"}`,
+            top: `${reset ? "-3px" : ""}`,
+          }}
         >
           <ErrorMessage name={field.name} />
           <div
@@ -46,7 +52,11 @@ function LoginInput({ placeholder, bottom, ...props }) {
               ? "input_error input_error_desktop"
               : "input_error"
           }
-          style={{ transform: "translateY(5px)" }}
+          style={{
+            transform: "translateY(5px)",
+            left: `${reset ? "-15.4rem" : "24.6rem"}`,
+            top: `${reset ? "-3px" : ""}`,
+          }}
         >
           <ErrorMessage name={field.name} />
           <div
