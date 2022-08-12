@@ -1,11 +1,6 @@
-const bcrypt = require("bcrypt");
-
 const User = require("../../models/User");
-const {
-  validateEmail,
-  validateLength,
-  validateUserName,
-} = require("../../helpers/validation");
+const bcrypt = require("bcrypt");
+const { validateUserName } = require("../../helpers/validation");
 const { sendVerificationEmail } = require("../../helpers/mailer");
 const { generateToken } = require("../../helpers/tokens");
 
@@ -22,31 +17,11 @@ async function register(req, res) {
       gender,
     } = req.body;
 
-    if (!validateEmail(email)) {
-      return res.status(400).json({ message: "Email không đúng định dạng" });
-    }
-
     const checkEmailUnique = await User.findOne({ email });
     if (checkEmailUnique) {
       return res
         .status(400)
-        .json({ message: "Email đã được sử dung! Vui lòng nhập email khác" });
-    }
-
-    if (!validateLength(first_name, 2, 30)) {
-      return res
-        .status(400)
-        .json({ message: "first name Chỉ được nhập từ 2 đến 13 kí tự" });
-    }
-
-    if (!validateLength(last_name, 2, 30)) {
-      return res
-        .status(400)
-        .json({ message: "last name Chỉ được nhập từ 2 đến 13 kí tự" });
-    }
-
-    if (!validateLength(password, 6, 30)) {
-      return res.status(400).json({ message: "password tối đa 6 ký tự" });
+        .json({ message: "Email đã được sử dụng! Vui lòng nhập email khác" });
     }
 
     const cryptedPassword = await bcrypt.hash(password, 12);
@@ -83,10 +58,14 @@ async function register(req, res) {
       picture: user.picture,
       token: token,
       verified: user.verified,
-      message: "Đăng ký thành công ! Xác thực Email của bạn",
+      message: "Đăng ký thành công ! Xác thực email của bạn",
     });
   } catch (e) {
-    res.status(500).json({ message: e.message });
+    if (e.message === "User validation failed: gender: gender is required") {
+      res.status(500).json({ message: "Vui lòng nhập đầy đủ thông tin" });
+    } else {
+      res.status(500).json({ message: e.message });
+    }
   }
 }
 module.exports = register;

@@ -33,13 +33,13 @@
 
   &_error {
     position: relative;
-    padding: 15px 10px;
+    padding: 14px 10px;
     background: #b94a48;
     width: 100%;
     color: #fff;
-    font-size: 13px;
     border-radius: 5px;
     margin-bottom: 15px;
+    font-size: 13.5px;
 
     &_border {
       border-color: #b94a48 !important;
@@ -47,12 +47,52 @@
 
     &_desktop {
       position: absolute;
-      width: 265px;
-      left: -17rem;
-      top: -4px;
+      width: 239px;
+      left: 24.6rem;
     }
   }
 }
+
+.register {
+  &_input {
+    &_wrap {
+      width: 100%;
+
+      input {
+        width: 300px;
+        background: var(--bg-secondary);
+      }
+
+      .input_error {
+        max-width: 300px;
+      }
+
+      .error_arrow_bottom {
+        transform: translateY(1px);
+      }
+    }
+  }
+}
+
+/*----------------DateOfBirth---------------*/
+.reg_grid {
+  .input_error {
+    width: 290px;
+    position: absolute;
+    top: 68px;
+
+    &_select_large {
+      left: -94.5%;
+      top: 13px;
+
+      &_right {
+        right: -53.5%;
+        top: 17px;
+      }
+    }
+  }
+}
+/*----------------DateOfBirth---------------*/
 
 .error_arrow {
   &_top {
@@ -80,5 +120,27 @@
     border-right: 10px solid #b94a48;
     border-bottom: 10px solid transparent;
     transform: rotateY(534deg);
+  }
+
+  &_right {
+    border-top: 10px solid transparent;
+    border-right: 10px solid #b94a48;
+    border-bottom: 10px solid transparent;
+    position: absolute;
+    // bottom: 16px;
+    left: -10px;
+    top: 14px;
+  }
+}
+
+@media (min-width: 539px) {
+  .register {
+    &_input {
+      &_wrap {
+        .input_error {
+          max-width: 100%;
+        }
+      }
+    }
   }
 }

@@ -46,7 +46,7 @@ $gray: #efefef;
 
   .input-group {
     position: relative;
-    width: 100%;
+    // width: 100%;
     margin: 1rem 0;
 
     i {
@@ -98,6 +98,10 @@ $gray: #efefef;
 
 .flex-col {
   flex-direction: column;
+
+  &.sign-up .form_wrapper {
+    max-width: 25rem;
+  }
 }
 
 .error_text {
@@ -109,7 +113,7 @@ $gray: #efefef;
 .success_text {
   margin-top: 13px;
   font-weight: 700;
-  color: var(--green_color);
+  color: var(--blue-color);
 }
 
 .reg {

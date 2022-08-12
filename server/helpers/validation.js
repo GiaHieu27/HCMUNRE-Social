@@ -9,9 +9,7 @@ exports.validateEmail = (email) => {
 };
 
 exports.validateLength = (text, min, max) => {
-  if (text.length < min || text.length > max) {
-    return false;
-  }
+  if (text.length < min || text.length > max) return false;
   return true;
 };
 

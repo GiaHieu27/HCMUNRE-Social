@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Form, Formik } from "formik";
+import PropagateLoader from "react-spinners/PropagateLoader";
 import Cookies from "js-cookie";
 import axios from "axios";
 import * as yup from "yup";
@@ -29,6 +30,9 @@ function RegisterForm({ containerRef }) {
 
   const [dateError, setDateError] = useState("");
   const [genderError, setGenderError] = useState("");
+  const [error, setError] = useState("");
+  const [success, setSuccessse] = useState("");
+  const [loading, setLoading] = useState(false);
   const [user, setUser] = useState(userInfos);
   const {
     first_name,
@@ -41,10 +45,6 @@ function RegisterForm({ containerRef }) {
     bDate,
     gender,
   } = user;
-
-  const [error, setError] = useState("");
-  const [success, setSuccessse] = useState("");
-  const [loading, setLoading] = useState(false);
 
   const currentYear = new Date().getFullYear();
   const years = Array.from(new Array(108), (val, index) => currentYear - index);
@@ -63,30 +63,49 @@ function RegisterForm({ containerRef }) {
     first_name: yup
       .string()
       .required("Vui lòng nhập Họ")
-      .max(30, "Tối đa 30 kí tự")
       .min(2, "Tối thiểu 2 lý tự")
-      .matches(/^[aA-zZ]+$/, "Tên không được chứa số"),
+      .max(30, "Tối đa 30 kí tự")
+      .matches(/^[aA-zZ]+$/, "Họ không được chứa số"),
     last_name: yup
       .string()
       .required("Vui lòng nhập Tên")
-      .max(30, "Tối đa 30 kí tự")
       .min(2, "Tối thiểu 2 lý tự")
+      .max(30, "Tối đa 30 kí tự")
       .matches(/^[aA-zZ]+$/, "Tên không được chứa số"),
     email: yup
       .string()
-      .required("Vui lòng nhập email để đăng ký tài khoản")
-      .email("Vui lòng nhập đúng định dạng email")
+      .required("Vui lòng nhập email")
+      .email("Email không đúng định dạng")
       .max(100, "Email tối đa 100 kí tự"),
     password: yup
       .string()
       .required("Vui lòng nhập mật khẩu")
-      .max(30, "Mật khẩu tối đa 30 kí tự")
-      .min(6, "Mật khẩu tối thiểu 6 lý tự"),
+      .min(6, "Mật khẩu tối thiểu 6 ký tự")
+      .max(30, "Mật khẩu tối đa 30 kí tự"),
     conf_password: yup
       .string()
       .required("Vui lòng nhập mật khẩu")
       .oneOf([yup.ref("password")], "Mật khẩu không trùng khớp"),
   });
+
+  const checkDateAndGender = () => {
+    let currentDate = new Date();
+    let pickedDate = new Date(bYear, bMonth - 1, bDate);
+    let atleast14 = new Date(1970 + 14, 0, 1);
+    let noMoreThan70 = new Date(1970 + 70, 0, 1);
+    if (currentDate - pickedDate < atleast14) {
+      setDateError("Vui lòng chọn đúng sinh nhật");
+    } else if (currentDate - pickedDate > noMoreThan70) {
+      setDateError("Vui lòng chọn sinh nhật");
+    } else {
+      setDateError("");
+    }
+    if (gender === "") {
+      setGenderError("Vui lòng chọn giới tính");
+    } else {
+      setGenderError("");
+    }
+  };
 
   const registerSubmit = async () => {
     try {
@@ -144,28 +163,7 @@ function RegisterForm({ containerRef }) {
           }}
           validationSchema={RegisterValidation}
           onSubmit={() => {
-            let currentDate = new Date();
-            let pickedDate = new Date(bYear, bMonth - 1, bDate);
-            let atleast14 = new Date(1970 + 14, 0, 1);
-            let noMoreThan70 = new Date(1970 + 70, 0, 1);
-            if (currentDate - pickedDate < atleast14) {
-              setDateError(
-                "Co ve ban da nhap sai ngay sinh, dam bao ban nhap dung ngay sinh"
-              );
-            } else if (currentDate - pickedDate > noMoreThan70) {
-              setDateError(
-                "Co ve ban da nhap sai ngay sinh, dam bao ban nhap dung ngay sinh"
-              );
-            } else {
-              setDateError("");
-            }
-
-            if (gender === "") {
-              setGenderError("Hay chon gioi tinh");
-            } else {
-              setGenderError("");
-            }
-
+            checkDateAndGender();
             registerSubmit();
           }}
         >
@@ -210,7 +208,7 @@ function RegisterForm({ containerRef }) {
               />
               <div className="reg_col">
                 <div className="reg_line_header">
-                  Date of birth <i className="info_icon"></i>
+                  Sinh nhật <i className="info_icon"></i>
                 </div>
                 <DateOfBirthSelect
                   bYear={bYear}
@@ -226,7 +224,7 @@ function RegisterForm({ containerRef }) {
 
               <div className="reg_col">
                 <div className="reg_line_header">
-                  Gender <i className="info_icon"></i>
+                  Giới tính <i className="info_icon"></i>
                 </div>
                 <GenderSelect
                   genderError={genderError}
@@ -234,7 +232,18 @@ function RegisterForm({ containerRef }) {
                 />
               </div>
 
-              <button type="submit">Đăng ký</button>
+              <button
+                type="submit"
+                style={{ paddingBottom: `${loading ? "11px" : "0"}` }}
+              >
+                {loading ? (
+                  <PropagateLoader color="white" loading={loading} size={15} />
+                ) : (
+                  "Đăng nhập"
+                )}
+              </button>
+              {error && <div className="error_text">{error}</div>}
+              {success && <div className="success_text">{success}</div>}
               <p>
                 <span>Bạn đã có tài khoản </span>
                 <b className="pointer" onClick={() => handleClick()}>

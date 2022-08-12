@@ -6,9 +6,31 @@ function RegisterInput({ iconName, placeholder, ...props }) {
   return (
     <>
       {meta.touched && meta.error && (
-        <div className="input_error" style={{ transform: "translateY(6px)" }}>
+        <div
+          className={`input_error ${
+            field.name === "first_name" ? "" : "input_error_desktop"
+          }`}
+          style={{
+            transform: `${
+              field.name === "email" ||
+              field.name === "first_name" ||
+              field.name === "last_name"
+                ? "translateY(18px)"
+                : "translateY(3px)"
+            } `,
+            position: `${field.name === "first_name" ? "absolute" : ""}`,
+            left: `${field.name === "first_name" ? "-10.2rem" : ""}`,
+            width: `${field.name === "first_name" ? "43%" : ""}`,
+          }}
+        >
           <ErrorMessage name={field.name} />
-          <div className="error_arrow_top"></div>
+          <div
+            className={
+              field.name === "first_name"
+                ? "error_arrow_left"
+                : "error_arrow_right"
+            }
+          ></div>
         </div>
       )}
 
@@ -27,7 +49,7 @@ function RegisterInput({ iconName, placeholder, ...props }) {
       >
         <box-icon color="gray" type="solid" name={iconName}></box-icon>
         <input
-          className={meta.touched && meta.error ? "input_error_border" : null}
+          className={meta.touched && meta.error ? "input_error_border" : ""}
           type={field.type}
           name={field.name}
           placeholder={placeholder}
@@ -36,13 +58,6 @@ function RegisterInput({ iconName, placeholder, ...props }) {
         />
         {meta.touched && meta.error && <i className="error_icon"></i>}
       </div>
-
-      {/* {meta.touched && meta.error && bottom && (
-        <div className="input_error" style={{ transform: "translateY(-6px)" }}>
-          <ErrorMessage name={field.name} />
-          <div className="error_arrow_bottom"></div>
-        </div>
-      )} */}
     </>
   );
 }

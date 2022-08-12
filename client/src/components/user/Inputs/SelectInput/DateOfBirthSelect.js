@@ -54,11 +54,11 @@ function DateOfBirthSelect({ ...props }) {
       {props.dateError && (
         <div
           className={
-            view3 ? "input_error input_error_select_large" : "input_error"
+            view3 ? "input_error input_error_select_large_right" : "input_error"
           }
         >
           <div
-            className={!view3 ? "error_arrow_bottom" : "error_arrow_left"}
+            className={!view3 ? "error_arrow_bottom" : "error_arrow_right"}
           ></div>
           {props.dateError}
         </div>
