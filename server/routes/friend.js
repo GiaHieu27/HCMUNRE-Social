@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-const { authUser } = require("../../middlewares/auth");
+const { authUser } = require("../middlewares/auth");
 const {
   addFriend,
   cancelRequest,
@@ -11,7 +11,7 @@ const {
   unfriend,
   deleteRequest,
   getFriend,
-} = require("../.././controllers/user/Friend");
+} = require("../controllers/user/Friend");
 
 router.put("/addFriend/:id", authUser, addFriend);
 router.put("/cancelRequest/:id", authUser, cancelRequest);
