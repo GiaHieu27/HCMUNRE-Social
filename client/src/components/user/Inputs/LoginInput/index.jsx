@@ -2,8 +2,6 @@ import { ErrorMessage, useField } from "formik";
 import { useMediaQuery } from "react-responsive";
 
 function LoginInput({ reset, placeholder, bottom, ...props }) {
-  console.log(reset);
-
   const [field, meta] = useField(props);
   const desktopView = useMediaQuery({
     query: "(min-width: 850px)",
@@ -25,7 +23,7 @@ function LoginInput({ reset, placeholder, bottom, ...props }) {
           }
           style={{
             transform: "translateY(5px)",
-            left: `${reset ? "-15.4rem" : "24.6rem"}`,
+            left: `${reset ? "-15.4rem" : ""}`,
             top: `${reset ? "-3px" : ""}`,
           }}
         >

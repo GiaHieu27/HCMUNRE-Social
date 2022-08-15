@@ -15,13 +15,16 @@ const postSchema = mongoose.Schema(
     images: {
       type: Array,
     },
+    videos: {
+      type: Array,
+    },
+    background: {
+      type: String,
+    },
     user: {
       type: ObjectId,
       ref: "User",
       required: true,
-    },
-    background: {
-      type: String,
     },
     comments: [
       {

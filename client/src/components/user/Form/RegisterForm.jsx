@@ -146,8 +146,8 @@ function RegisterForm({ containerRef }) {
   };
 
   return (
-    <div className="login_col align-items-center flex-col sign-up">
-      <div className="form_wrapper align-items-center">
+    <div className="login_col align-items-centers flex-col sign-up">
+      <div className="form_wrapper align-items-centers">
         <Formik
           enableReinitialize
           initialValues={{

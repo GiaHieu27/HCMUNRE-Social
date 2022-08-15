@@ -6,7 +6,7 @@ function CreatePost({ user, setVisible, profile }) {
       <div className="createPost_header">
         <img src={user?.picture} alt="" />
         <div className="open_post hover2" onClick={() => setVisible(true)}>
-          What's on your mind, {user?.last_name}
+          Bạn đang nghĩ gì thế, {user?.last_name}
         </div>
       </div>
       <div className="create_splitter"></div>

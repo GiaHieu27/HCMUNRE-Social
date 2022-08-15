@@ -42,7 +42,7 @@ function CreateComments({ user, postId, setComments, setCount }) {
     ) {
       setError(`${file.name} đinh dạng khong duoc ho tro`);
       return;
-    } else if (file.size > 1024 * 1024 * 5) {
+    } else if (file.size > 1024 * 1024 * 10) {
       setError(`${file.name} dung lượng quá lớn`);
       return;
     }

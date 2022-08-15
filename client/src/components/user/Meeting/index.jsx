@@ -17,22 +17,26 @@ function Meeting() {
         rel="noopener noreferrer"
       >
         <button className="meeting_btn hover3">
-          <img src="../../../icons/meeting.png" alt="" width="23" />
+          <img src="../../../icons/icon-meeting-tran.png" alt="" width="23" />
           <span>Tạo phòng họp mặt</span>
         </button>
       </a>
 
       <div className="meeting_friends">
         {friends && friends.length && !isMobile
-          ? friends.map((friend) => (
-              <img
-                src={friend.picture}
-                alt=""
-                width="40"
-                height="40"
-                key={friend._id}
-              />
-            ))
+          ? friends.map(
+              (
+                friend //
+              ) => (
+                <img
+                  src={friend.picture}
+                  alt=""
+                  width="40"
+                  height="40"
+                  key={friend._id}
+                />
+              )
+            )
           : friends && friends.length && isMobile
           ? friends
               .slice(0, 2)

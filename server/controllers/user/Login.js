@@ -1,6 +1,5 @@
-const bcrypt = require("bcrypt");
-
 const User = require("../../models/User");
+const bcrypt = require("bcrypt");
 const { generateToken } = require("../../helpers/tokens");
 
 async function login(req, res) {
@@ -14,7 +13,7 @@ async function login(req, res) {
 
     const check = await bcrypt.compare(password, user.password);
     if (!check) {
-      return res.status(404).json({ message: "Password không trùng khớp" });
+      return res.status(404).json({ message: "Mật khẩu không trùng khớp" });
     }
 
     const token = generateToken({ id: user._id.toString() }, "7d");

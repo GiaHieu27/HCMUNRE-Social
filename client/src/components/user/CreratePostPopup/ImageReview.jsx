@@ -24,10 +24,10 @@ function ImageReview({
         img.type !== "image/jpeg" &&
         img.type !== "image/webp"
       ) {
-        setError(`${img.name} format is unsupport! only image`);
+        setError(`${img.name} định dạng không được hỗ trợ`);
         return;
-      } else if (img.size > 1024 * 1024 * 5) {
-        setError(`${img.name} size too large`);
+      } else if (img.size > 1024 * 1024 * 10) {
+        setError(`${img.name} kích thước tệp tin quá lớn`);
         files = files.filter((item) => item.name !== img.name);
         // console.log(files);
         return;
@@ -60,7 +60,7 @@ function ImageReview({
             <div className="preview_actions">
               <button className="hover1">
                 <i className="edit_icon"></i>
-                Edit
+                Chỉnh sửa
               </button>
               <button
                 className="hover1"
@@ -69,7 +69,7 @@ function ImageReview({
                 }}
               >
                 <i className="addPhoto_icon"></i>
-                Add Photos/Videos
+                Thêm hình ảnh/video
               </button>
             </div>
             <div className="small_white_circle" onClick={() => setImages([])}>
@@ -115,19 +115,19 @@ function ImageReview({
               <div className="add_circle">
                 <i className="addPhoto_icon"></i>
               </div>
-              <span>Add Photos/Video</span>
-              <span>or drag and drop</span>
+              <span>Thêm hình ảnh/video</span>
+              <span>hoặc kéo thả vào đây</span>
             </div>
           </div>
         )}
 
-        <div className="add_pics_inside2">
+        {/* <div className="add_pics_inside2">
           <div className="add_circle">
             <i className="phone_icon"></i>
           </div>
           <div className="mobile_text">Add photos from your device</div>
           <span className="addphone_btn">Add</span>
-        </div>
+        </div> */}
       </div>
     </div>
   );

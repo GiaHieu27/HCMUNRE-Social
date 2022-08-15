@@ -60,7 +60,7 @@
   &_privacy {
     display: flex;
     align-items: center;
-    width: 81px;
+    width: 102px;
     gap: 4px;
     font-size: 12px;
     padding: 3px 8px 4px 8px;
@@ -163,6 +163,7 @@
 .addtoyourpost {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 10px;
   margin: 0 10px;
   padding: 10px;
@@ -212,7 +213,7 @@
     border: 1px solid var(--bg-third);
     border-radius: 10px;
     color: var(--color-primary);
-    // 
+    //
   }
 
   &_pics {

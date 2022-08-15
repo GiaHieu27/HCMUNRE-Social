@@ -16,6 +16,7 @@ import ResetPassword from "./pages/user/reset";
 import CreratePostPopup from "./components/user/CreratePostPopup";
 import Friend from "./pages/user/friend";
 import { postsReducer } from "./functions/reducer";
+import LoginAdmin from "./pages/admin/login";
 
 function App() {
   const [visible, setVisible] = useState(false);
@@ -67,6 +68,7 @@ function App() {
         />
       )}
       <Routes>
+        {/* ---------User--------- */}
         <Route element={<LoggedInRoutes />}>
           <Route path="/profile/" element={<Profile />} getPosts={getPosts} />
           <Route path="/profile/:username" element={<Profile />} />
@@ -89,6 +91,12 @@ function App() {
           <Route path="/login" element={<Login />} />
         </Route>
         <Route path="/reset" element={<ResetPassword />} />
+        {/* ---------User--------- */}
+
+        {/* ---------Admin--------- */}
+        <Route path="admin/login" element={<LoginAdmin />} />
+
+        {/* ---------Admin--------- */}
       </Routes>
     </div>
   );

@@ -22,7 +22,7 @@ $gray: #efefef;
   }
 }
 
-.align-items-center {
+.align-items-centers {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -68,9 +68,10 @@ $gray: #efefef;
       padding: 1rem 3rem;
       font-size: 1rem;
       background-color: $gray;
-      border-radius: 0.5rem;
+      border-radius: 0.5rem !important;
       border: 0.125rem solid $white;
       outline: none;
+      margin-left: 0 !important;
 
       &:focus {
         border: 0.125rem solid var(--blue-color);

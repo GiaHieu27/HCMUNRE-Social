@@ -3,7 +3,7 @@ import { Dots, Feeling, Photo } from "../../../svg";
 function AddYourPost({ setShowPrev }) {
   return (
     <div className="addtoyourpost">
-      <div className="addto_text">Add to your post</div>
+      <div className="addto_text">Thêm vào bài viết</div>
       <div
         className="post_header_right hover1"
         onClick={() => {
@@ -12,7 +12,7 @@ function AddYourPost({ setShowPrev }) {
       >
         <Photo color="#45bd62" />
       </div>
-      <div className="post_header_right hover1">
+      {/* <div className="post_header_right hover1">
         <i className="tag_icon"></i>
       </div>
       <div className="post_header_right hover1">
@@ -26,7 +26,7 @@ function AddYourPost({ setShowPrev }) {
       </div>
       <div className="post_header_right hover1">
         <Dots color="#65676b" />
-      </div>
+      </div> */}
     </div>
   );
 }

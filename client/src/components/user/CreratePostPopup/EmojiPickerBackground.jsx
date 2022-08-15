@@ -64,7 +64,7 @@ function EmojiPickerBackground({
           ref={textRef}
           maxLength="250"
           value={text}
-          placeholder={`Ban dang nghi gi the ${user.last_name}`}
+          placeholder={`Bạn đang nghĩ gì thế ${user.last_name}`}
           onChange={(e) => setText(e.target.value)}
           onClick={() => setPicker(false)}
           className={`post_input ${!type2 ? "" : "input2"} ${

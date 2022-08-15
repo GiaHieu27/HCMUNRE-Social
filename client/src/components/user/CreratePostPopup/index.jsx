@@ -116,7 +116,7 @@ function CreratePostPopup({ user, setVisible, posts, dispatch, profile }) {
         setError(res);
       }
     } else {
-      setError("Ban chua nhap gi het");
+      setError("Bạn chưa nhập gì cả");
     }
   };
 
@@ -128,7 +128,7 @@ function CreratePostPopup({ user, setVisible, posts, dispatch, profile }) {
           <div className="small_circle" onClick={() => setVisible(false)}>
             <i className="exit_icon"></i>
           </div>
-          <span>Create Post</span>
+          <span>Tạo bài viết</span>
         </div>
 
         <div className="box_profile">
@@ -137,7 +137,7 @@ function CreratePostPopup({ user, setVisible, posts, dispatch, profile }) {
             <div className="box_profile_name">{user.username}</div>
             <div className="box_privacy">
               <img src="../../../icons/public.png" alt="" />
-              <span>public</span>
+              <span>Công khai</span>
               <i className="arrowDown_icon"></i>
             </div>
           </div>

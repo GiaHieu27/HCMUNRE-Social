@@ -91,7 +91,7 @@ function SearchMenu({ color, setShowSearchMenu }) {
           />
         </div>
       </div>
-      {results == "" && (
+      {results === "" && (
         <div className="search_history_header">
           <span>Recent searches</span>
           <a href="/">Edit</a>
@@ -99,7 +99,7 @@ function SearchMenu({ color, setShowSearchMenu }) {
       )}
       <div className="search_history scrollbar">
         {searchHistory &&
-          results == "" &&
+          results === "" &&
           searchHistory
             .sort((a, b) => {
               return new Date(b.createAt) - new Date(a.createAt);

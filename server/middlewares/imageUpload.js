@@ -15,12 +15,14 @@ exports.imageUpload = async (req, res, next) => {
         file.mimetype !== "image/webp"
       ) {
         removeTemp(file.tempFilePath);
-        return res.status(400).json({ message: "files no support" });
+        return res
+          .status(400)
+          .json({ message: "Định dạng tệp tin không được hỗ trợ" });
       }
 
-      if (file.size > 1024 * 1024 * 5) {
+      if (file.size > 1024 * 1024 * 10) {
         removeTemp(file.tempFilePath);
-        return res.status(400).json({ message: "File size is too large" });
+        return res.status(400).json({ message: "Dung lượng file quá lớn" });
       }
     });
 
