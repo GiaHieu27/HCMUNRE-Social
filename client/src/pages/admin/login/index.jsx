@@ -6,6 +6,7 @@ import Container from "react-bootstrap/Container";
 import Stack from "react-bootstrap/Stack";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import PulseLoader from "react-spinners/PulseLoader";
 import axios from "axios";
 import * as yup from "yup";
 import Cookies from "js-cookie";
@@ -141,7 +142,11 @@ function LoginAdmin() {
                   )}
 
                   <Button type="submit" variant="success">
-                    Đăng nhập
+                    {loading ? (
+                      <PulseLoader color="white" loading={loading} size={8} />
+                    ) : (
+                      "Đăng nhập"
+                    )}
                   </Button>
                 </Stack>
               </Form>

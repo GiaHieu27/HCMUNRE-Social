@@ -109,7 +109,7 @@ function LoginForm({ containerRef }) {
                     <PropagateLoader
                       color="white"
                       loading={loading}
-                      size={15}
+                      size={12}
                     />
                   ) : (
                     "Đăng nhập"

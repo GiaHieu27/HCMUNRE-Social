@@ -237,7 +237,7 @@ function RegisterForm({ containerRef }) {
                 style={{ paddingBottom: `${loading ? "11px" : "0"}` }}
               >
                 {loading ? (
-                  <PropagateLoader color="white" loading={loading} size={15} />
+                  <PropagateLoader color="white" loading={loading} size={12} />
                 ) : (
                   "Đăng ký"
                 )}
