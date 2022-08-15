@@ -24,7 +24,9 @@ async function login(req, res) {
       last_name: user.last_name,
       picture: user.picture,
       token: token,
+      isAdmin: user.isAdmin,
       verified: user.verified,
+      message: "Đăng nhập thành công",
     });
   } catch (e) {
     res.status(500).json({ message: e.message });

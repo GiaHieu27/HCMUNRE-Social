@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import Cookies from "js-cookie";
 import axios from "axios";
 
-// import project
+// User
 import LoggedInRoutes from "./routes/LoggedInRoutes";
 import NotLoggedInRoutes from "./routes/NotLoggedInRoutes";
 import Login from "./pages/user/login";
@@ -16,7 +16,10 @@ import ResetPassword from "./pages/user/reset";
 import CreratePostPopup from "./components/user/CreratePostPopup";
 import Friend from "./pages/user/friend";
 import { postsReducer } from "./functions/reducer";
+
+// Admin
 import LoginAdmin from "./pages/admin/login";
+import HomeAdmin from "./pages/admin/home";
 
 function App() {
   const [visible, setVisible] = useState(false);
@@ -94,7 +97,8 @@ function App() {
         {/* ---------User--------- */}
 
         {/* ---------Admin--------- */}
-        <Route path="admin/login" element={<LoginAdmin />} />
+        <Route path="/admin/login" element={<LoginAdmin />} />
+        <Route path="/admin" element={<HomeAdmin />} />
 
         {/* ---------Admin--------- */}
       </Routes>

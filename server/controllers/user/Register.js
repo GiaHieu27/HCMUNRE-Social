@@ -56,6 +56,7 @@ async function register(req, res) {
       first_name: user.first_name,
       last_name: user.last_name,
       picture: user.picture,
+      isAdmin: user.isAdmin,
       token: token,
       verified: user.verified,
       message: "Đăng ký thành công ! Xác thực email của bạn",

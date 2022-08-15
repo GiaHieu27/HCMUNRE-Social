@@ -1,9 +1,16 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { Formik } from "formik";
 import Container from "react-bootstrap/Container";
 import Stack from "react-bootstrap/Stack";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import axios from "axios";
 import * as yup from "yup";
+import Cookies from "js-cookie";
+
+import adminSlice from "../../../redux/slices/adminSlice";
 
 const schema = yup.object().shape({
   email: yup
@@ -18,6 +25,36 @@ const schema = yup.object().shape({
 });
 
 function LoginAdmin() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const [error, setError] = useState("");
+  const [success, setSuccessse] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmitLogin = async (values) => {
+    try {
+      const { email, password } = values;
+      setLoading(true);
+      const { data } = await axios.post(
+        `${process.env.REACT_APP_BACKEND_URL}/admin/login`,
+        { email, password }
+      );
+      setError("");
+      setSuccessse(data.message);
+
+      setTimeout(() => {
+        dispatch(adminSlice.actions.LOGIN(data));
+        Cookies.set("admin", JSON.stringify(data));
+        navigate("/admin");
+      }, 2000);
+    } catch (error) {
+      setLoading(false);
+      setSuccessse("");
+      setError(error.response.data.message);
+    }
+  };
+
   return (
     <Container
       fluid
@@ -27,7 +64,7 @@ function LoginAdmin() {
       <Container>
         <Formik
           validationSchema={schema}
-          onSubmit={console.log}
+          onSubmit={(values) => handleSubmitLogin(values)}
           initialValues={{
             email: "",
             password: "",
@@ -57,7 +94,7 @@ function LoginAdmin() {
                     className="mx-auto"
                   />
                   <h3 className="text-center">Đăng nhập</h3>
-                  <Form.Group md="4" controlId="validationFormik01">
+                  <Form.Group md="4" controlId="email">
                     <Form.Floating>
                       <Form.Control
                         type="text"
@@ -77,7 +114,7 @@ function LoginAdmin() {
                     )}
                   </Form.Group>
 
-                  <Form.Group md="4" controlId="validationFormik02">
+                  <Form.Group md="4" controlId="password">
                     <Form.Floating>
                       <Form.Control
                         type="password"
@@ -96,6 +133,12 @@ function LoginAdmin() {
                       </Form.Control.Feedback>
                     )}
                   </Form.Group>
+                  {error && (
+                    <div className="error_text text-center">{error}</div>
+                  )}
+                  {success && (
+                    <div className="success_text text-center">{success}</div>
+                  )}
 
                   <Button type="submit" variant="success">
                     Đăng nhập

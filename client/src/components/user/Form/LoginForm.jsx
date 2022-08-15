@@ -11,14 +11,14 @@ import LoginInput from "../Inputs/LoginInput/LoginInput";
 import Cookies from "js-cookie";
 import userSlice from "../../../redux/slices/userSlice";
 
+const loginInfo = {
+  email: "",
+  password: "",
+};
+
 function LoginForm({ containerRef }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const loginInfo = {
-    email: "",
-    password: "",
-  };
 
   const [login, setLogin] = useState(loginInfo);
   const [error, setError] = useState("");
@@ -52,6 +52,7 @@ function LoginForm({ containerRef }) {
         { email, password }
       );
       setError("");
+      setSuccessse(data.message);
 
       setTimeout(() => {
         dispatch(userSlice.actions.LOGIN(data));
@@ -83,7 +84,6 @@ function LoginForm({ containerRef }) {
           onSubmit={() => handleLoginSubmit()}
         >
           {(formik) => {
-            console.log(formik);
             return (
               <Form className="form sign-in">
                 <LoginInput
