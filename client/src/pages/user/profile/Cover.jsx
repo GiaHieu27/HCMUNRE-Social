@@ -132,12 +132,12 @@ function Cover({ cover, visitor, photos }) {
           </div>
           <div className="save_changes_right">
             <button
-              className="blue_btn opacity_btn"
+              className="green_btn opacity_btn"
               onClick={() => setCoverPicture("")}
             >
               Cancel
             </button>
-            <button className="blue_btn" onClick={handleUpdateCover}>
+            <button className="green_btn" onClick={handleUpdateCover}>
               {loading ? <PulseLoader color="white" size="7px" /> : "Save"}
             </button>
           </div>
@@ -200,7 +200,7 @@ function Cover({ cover, visitor, photos }) {
       {error && (
         <div className="postError comment_error">
           <div className="postError_error">{error}</div>
-          <button className="blue_btn" onClick={() => setError("")}>
+          <button className="green_btn" onClick={() => setError("")}>
             Thử lại
           </button>
         </div>

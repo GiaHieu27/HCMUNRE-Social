@@ -95,7 +95,7 @@ function LoginForm({ setVisible }) {
                   bottom
                 />
 
-                <button type="submit" className="blue_btn">
+                <button type="submit" className="green_btn">
                   Log In
                 </button>
               </Form>
@@ -111,7 +111,7 @@ function LoginForm({ setVisible }) {
 
           <div className="sign_splitter"></div>
           <button
-            className="blue_btn open_signup"
+            className="green_btn open_signup"
             onClick={() => setVisible(true)}
           >
             Create Account

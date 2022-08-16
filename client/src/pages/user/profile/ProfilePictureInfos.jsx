@@ -64,7 +64,7 @@ function ProfilePictureInfos({ profile, visitor, photos }) {
 
       {!visitor ? (
         <div className="profile_w_right">
-          <div className="blue_btn">
+          <div className="green_btn">
             <img src="../../../icons/plus.png" alt="" className="invert" />
             <span>Add to story</span>
           </div>

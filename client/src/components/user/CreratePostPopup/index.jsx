@@ -134,7 +134,9 @@ function CreratePostPopup({ user, setVisible, posts, dispatch, profile }) {
         <div className="box_profile">
           <img src={user.picture} alt="" className="box_profile_img" />
           <div className="box_col">
-            <div className="box_profile_name">{user.username}</div>
+            <div className="box_profile_name">
+              {user.first_name} {user.last_name}
+            </div>
             <div className="box_privacy">
               <img src="../../../icons/public.png" alt="" />
               <span>Công khai</span>

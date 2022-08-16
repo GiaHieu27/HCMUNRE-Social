@@ -29,7 +29,7 @@ function Card({ userr, user, type, getFriendPages }) {
       </div>
       {type === "sent" ? (
         <button
-          className="blue_btn"
+          className="green_btn"
           onClick={() => handleCancelRequest(userr._id)}
         >
           Cancel Requests
@@ -37,7 +37,7 @@ function Card({ userr, user, type, getFriendPages }) {
       ) : type === "request" ? (
         <>
           <button
-            className="blue_btn"
+            className="green_btn"
             onClick={() => handleAcceptRequest(userr._id)}
           >
             Confirm

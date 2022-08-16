@@ -57,10 +57,10 @@ function ProfilePicture({ setShow, pRef, photos }) {
         <div className="update_picture_wrap">
           <div className="update_picture_buttons">
             <button
-              className="light_blue_btn"
+              className="light_green_btn"
               onClick={() => inputRef.current.click()}
             >
-              <i className="plus_icon filter_blue"></i>
+              <i className="plus_icon filter_green"></i>
               Upload photo
             </button>
             <button className="gray_btn">
@@ -73,13 +73,13 @@ function ProfilePicture({ setShow, pRef, photos }) {
         {error && (
           <div className="postError comment_error">
             <div className="postError_error">{error}</div>
-            <button className="blue_btn" onClick={() => setError("")}>
+            <button className="green_btn" onClick={() => setError("")}>
               Thử lại
             </button>
           </div>
         )}
         <div className="old_pictures_wrap scrollbar">
-          <h4>Your profile Picture</h4>
+          <h4 className="fs-6">Your profile Picture</h4>
           <div className="old_pictures">
             {photos
               .filter(
@@ -94,7 +94,7 @@ function ProfilePicture({ setShow, pRef, photos }) {
                 />
               ))}
           </div>
-          <h4>Other Picture</h4>
+          <h4 className="fs-6">Other Picture</h4>
           <div className="old_pictures">
             {photos
               .filter(

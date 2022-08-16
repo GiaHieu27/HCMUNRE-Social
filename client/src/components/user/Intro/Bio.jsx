@@ -25,7 +25,7 @@ function Bio({ placeholder, name, detail, setShow, rel }) {
           placeholder={placeholder}
           value={infos?.[name]}
           maxLength={100}
-          className="textarea_blue details_input"
+          className="textarea_green details_input"
           onChange={handleChange}
         ></textarea>
       )}
@@ -43,7 +43,7 @@ function Bio({ placeholder, name, detail, setShow, rel }) {
             Cancel
           </button>
           <button
-            className="blue_btn"
+            className="green_btn"
             onClick={() => {
               updateDetails();
               setShow(false);

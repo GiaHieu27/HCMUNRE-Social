@@ -118,7 +118,7 @@ function UpdateProfileImage({ image, setImage, setError, setShow, pRef }) {
           placeholder="Description"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
-          className="textarea_blue details_input"
+          className="textarea_green details_input"
         ></textarea>
       </div>
 
@@ -168,10 +168,10 @@ function UpdateProfileImage({ image, setImage, setError, setShow, pRef }) {
         Your profile picture is public
       </div>
       <div className="update_submit_wrap">
-        <div className="blue_link" onClick={() => setImage("")}>
+        <div className="green_link" onClick={() => setImage("")}>
           Cancel
         </div>
-        <button className="blue_btn" onClick={handleUpdateProfilePicture}>
+        <button className="green_btn" onClick={handleUpdateProfilePicture}>
           {loading ? <PulseLoader color="white" size="7px" /> : "Save"}
         </button>
       </div>

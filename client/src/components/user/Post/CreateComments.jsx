@@ -110,7 +110,7 @@ function CreateComments({ user, postId, setComments, setCount }) {
           {error && (
             <div className="postError comment_error">
               <div className="postError_error">{error}</div>
-              <button className="blue_btn" onClick={() => setError("")}>
+              <button className="green_btn" onClick={() => setError("")}>
                 Thử lại
               </button>
             </div>

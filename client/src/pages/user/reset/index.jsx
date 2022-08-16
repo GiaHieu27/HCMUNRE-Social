@@ -34,7 +34,7 @@ function ResetPassword() {
   return (
     <div className="reset">
       <div className="reset_header">
-        <Link to="/" className="align-items-center">
+        <Link to="/" className="align-items-centers">
           <img src="../../../icons/LogoTNMT.svg" alt="logo" />
           <img src="../../../icons/HCMUNRE.png" alt="logo" />
         </Link>
@@ -43,13 +43,13 @@ function ResetPassword() {
             <Link to="/profile">
               <img src={user?.picture} alt="avatar" />
             </Link>
-            <button className="blue_btn" onClick={logOut}>
+            <button className="green_btn" onClick={logOut}>
               Đăng xuất
             </button>
           </div>
         ) : (
           <Link to="/login" className="right_reset">
-            <button className="blue_btn">Đăng nhập</button>
+            <button className="green_btn">Đăng nhập</button>
           </Link>
         )}
       </div>

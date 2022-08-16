@@ -25,11 +25,11 @@
   }
 
   .active_header {
-    background: var(--light-blue-color) !important;
+    background: var(--light-green-color) !important;
   }
 
   .active_header svg {
-    fill: var(--blue-color) !important;
+    fill: var(--green-color) !important;
   }
 
   .header_right .circle_icon:hover {
@@ -79,7 +79,7 @@
   }
   /*----profile---*/
   .active_link:hover {
-    background: var(--light-blue-color);
+    background: var(--light-green-color);
   }
   .open_cover_menu i,
   .open_cover_menu img {

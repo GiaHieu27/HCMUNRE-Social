@@ -1,7 +1,7 @@
-.blue_btn {
+.green_btn {
   border: none;
   outline: none;
-  background: var(--blue-color);
+  background: var(--green-color);
   padding: 8.5px 12px;
   border-radius: 7px;
   font-family: inherit;
@@ -15,10 +15,10 @@
   cursor: pointer;
 }
 
-.light_blue_btn {
+.light_green_btn {
   border: none;
   outline: none;
-  background: var(--light-blue-color);
+  background: var(--light-green-color);
   padding: 8.5px 12px;
   border-radius: 7px;
   font-family: inherit;
@@ -49,7 +49,7 @@
   cursor: pointer;
 }
 
-.blue_btn,
+.green_btn,
 .gray_btn {
   transform: translateY(-1px);
 }

@@ -110,7 +110,7 @@ header {
 }
 
 .active {
-  border-bottom: 3px solid var(--blue-color);
+  border-bottom: 3px solid var(--green-color);
   border-radius: 0;
   height: 56px;
   width: 108px;
@@ -121,16 +121,16 @@ header {
   }
 
   &_header {
-    background: var(--light-blue-color);
+    background: var(--light-green-color);
 
     svg {
-      fill: var(--blue-color);
+      fill: var(--green-color);
     }
   }
 
   &_link {
-    background: var(--light-blue-color);
-    color: var(--blue-color);
+    background: var(--light-green-color);
+    color: var(--green-color);
   }
 }
 

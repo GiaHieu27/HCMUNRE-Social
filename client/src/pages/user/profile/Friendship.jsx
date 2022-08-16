@@ -119,14 +119,14 @@ function Friendship() {
       ) : (
         !friendship?.requestSent &&
         !friendship?.requestReceived && (
-          <button className="blue_btn" onClick={() => handleAddFriend()}>
+          <button className="green_btn" onClick={() => handleAddFriend()}>
             <img src="../../../icons/addFriend.png" alt="" className="invert" />
             <span>Add Friend</span>
           </button>
         )
       )}
       {friendship?.requestSent ? (
-        <button className="blue_btn" onClick={() => handleCancelRequest()}>
+        <button className="green_btn" onClick={() => handleCancelRequest()}>
           <img
             src="../../../icons/cancelRequest.png"
             alt=""
@@ -138,7 +138,7 @@ function Friendship() {
         friendship?.requestReceived && (
           <div className="friends_menu_wrap">
             <button
-              className="blue_btn"
+              className="green_btn"
               onClick={() => setRespondMenu(!reponseMenu)}
             >
               <img src="../../../icons/friends.png" alt="" className="invert" />
@@ -171,13 +171,13 @@ function Friendship() {
             <span>Đang theo dõi</span>
           </button>
         ) : (
-          <button className="blue_btn" onClick={() => handleFollow()}>
+          <button className="green_btn" onClick={() => handleFollow()}>
             <img src="../../../icons/follow.png" alt="" className="invert" />
             <span>Theo dõi</span>
           </button>
         )}
 
-        <button className={friendship?.friends ? "blue_btn" : "gray_btn"}>
+        <button className={friendship?.friends ? "green_btn" : "gray_btn"}>
           <img
             src="../../../icons/message.png"
             alt=""

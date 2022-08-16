@@ -32,6 +32,7 @@ function Profile({ getPosts }) {
 
   let userParam = username === undefined ? user.username : username;
   let visitor = userParam === user.username ? false : true;
+  let year = new Date().getFullYear();
 
   const [photos, setPhotos] = useState([]);
   const [visible, setVisible] = useState(false);
@@ -266,9 +267,9 @@ function Profile({ getPosts }) {
 
                     <div className="profile_card">
                       <div className="profile_card_header">
-                        Photos
+                        Hình ảnh
                         <div className="profile_header_link">
-                          See all photos
+                          Xem tất cả ảnh
                         </div>
                       </div>
                       <div className="sekeleton_loader">
@@ -278,9 +279,9 @@ function Profile({ getPosts }) {
 
                     <div className="profile_card">
                       <div className="profile_card_header">
-                        Friends
+                        Bạn bè
                         <div className="profile_header_link">
-                          See all friends
+                          Xem tất cả bạn bè
                         </div>
                       </div>
                       <div className="sekeleton_loader">
@@ -301,20 +302,7 @@ function Profile({ getPosts }) {
                 )}
 
                 <div className="relative_fb_copyright">
-                  <Link to="/">Privacy </Link>
-                  <span>. </span>
-                  <Link to="/">Terms </Link>
-                  <span>. </span>
-                  <Link to="/">Advertising </Link>
-                  <span>. </span>
-                  <Link to="/">
-                    Ad Choices <i className="ad_choices_icon"></i>{" "}
-                  </Link>
-                  <span>. </span>
-                  <Link to="/"></Link>Cookies <span>. </span>
-                  <Link to="/">More </Link>
-                  <span>. </span> <br />
-                  Meta © 2022
+                  {`HCMUNRE @ ${year}`}
                 </div>
               </div>
 

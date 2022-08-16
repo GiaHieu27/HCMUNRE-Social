@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { Formik } from "formik";
 import Container from "react-bootstrap/Container";
@@ -140,6 +140,12 @@ function LoginAdmin() {
                   {success && (
                     <div className="success_text text-center">{success}</div>
                   )}
+
+                  <p className="text-center mb-0">
+                    <b>
+                      <Link to="/reset">Quên mật khẩu</Link>
+                    </b>
+                  </p>
 
                   <Button type="submit" variant="success">
                     {loading ? (

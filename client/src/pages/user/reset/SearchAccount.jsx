@@ -61,7 +61,7 @@ function SearchAccount({ reset, email, ...props }) {
                 <Link to="/login" className="gray_btn">
                   Huỷ bỏ
                 </Link>
-                <button type="submit" className="blue_btn">
+                <button type="submit" className="green_btn">
                   {props.loading ? (
                     <PulseLoader
                       color="white"

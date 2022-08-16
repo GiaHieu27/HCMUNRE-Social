@@ -49,7 +49,7 @@ function SendMail({ email, ...props }) {
         <Link to="/login" className="gray_btn">
           Huỷ bỏ
         </Link>
-        <button onClick={() => senCodeResetEmail()} className="blue_btn">
+        <button onClick={() => senCodeResetEmail()} className="green_btn">
           {props.loading ? (
             <PulseLoader color="white" loading={props.loading} size={6} />
           ) : (

@@ -9,7 +9,7 @@ function AddFriendSmallCard({ item }) {
               ? `${item.profile_name.substring(0, 10)}...`
               : item.profile_name}
           </div>
-          <div className="light_blue_btn">
+          <div className="light_green_btn">
             <img
               src="../../../icons/addFriend.png"
               alt=""
