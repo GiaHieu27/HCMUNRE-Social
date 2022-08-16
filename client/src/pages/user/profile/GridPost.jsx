@@ -2,7 +2,7 @@ import React from "react";
 
 function GridPost() {
   return (
-    <div className="createPost">
+    <div className="createPost mt-3">
       <div
         className="createPost_header"
         style={{ justifyContent: "space-between" }}

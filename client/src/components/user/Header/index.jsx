@@ -6,7 +6,6 @@ import {
   Friends,
   Gaming,
   HomeActive,
-  Logo,
   Market,
   Menu,
   Search,
@@ -45,7 +44,12 @@ function Header({ page, getPosts }) {
       <div className="header_left">
         <Link to="/" className="header_logo">
           <div className="circle">
-            <Logo />
+            <img
+              src="/icons/LogoTNMT.svg"
+              alt="logo-header"
+              width={40}
+              height={40}
+            />
           </div>
         </Link>
         <div
@@ -55,11 +59,7 @@ function Header({ page, getPosts }) {
           }}
         >
           <Search color={color} />
-          <input
-            type="text"
-            placeholder="Search Facebook"
-            className="hide_input"
-          />
+          <input type="text" placeholder="Tìm kiếm" className="hide_input" />
         </div>
       </div>
       {showSearchMenu && (
@@ -70,11 +70,14 @@ function Header({ page, getPosts }) {
         <Link
           to="/"
           className={`middle_icon ${page === "home" ? "active" : "hover1"}`}
-          // onClick={() => getPosts()}
+          onClick={() => getPosts()}
         >
           {page === "home" ? <HomeActive /> : <Home color={color} />}
         </Link>
-        <Link to="/friends" className="middle_icon hover1">
+        <Link
+          to="/friends"
+          className={`middle_icon ${page === "friends" ? "active" : "hover1"}`}
+        >
           {page === "friends" ? <FriendsActive /> : <Friends color={color} />}
         </Link>
         <Link to="/" className="middle_icon hover1">
@@ -92,7 +95,7 @@ function Header({ page, getPosts }) {
       <div className="header_right">
         <Link
           to="/profile"
-          className={`profile_link hover1 ${
+          className={`profile_link hover4 ${
             page === "profile" ? "active_link" : ""
           }`}
         >

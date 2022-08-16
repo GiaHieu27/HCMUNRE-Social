@@ -129,8 +129,8 @@ header {
   }
 
   &_link {
-    background: var(--light-green-color);
-    color: var(--green-color);
+    background: var(--lighter-green-color);
+    color: var(--green-dark-color);
   }
 }
 
@@ -157,6 +157,7 @@ header {
     line-height: 19px;
     margin-right: 10px;
     cursor: pointer;
+    transition: all 0.3s ease;
 
     img {
       width: 28.7px;

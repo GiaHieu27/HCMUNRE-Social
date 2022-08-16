@@ -17,6 +17,10 @@
 .hover3:hover {
   background: #d4d6da3a;
 }
+.hover4:hover {
+  background: var(--light-green-color);
+  color: var(--green-darker-color);
+}
 
 .card {
   height: 500px;
@@ -47,6 +51,6 @@
 
 .filter_green {
   filter: invert(39%) sepia(57%) saturate(200%) saturate(200%) saturate(200%)
-    saturate(200%) saturate(200%) saturate(147.75%) hue-rotate(202deg)
+    saturate(200%) saturate(200%) saturate(147.75%) hue-rotate(116deg)
     brightness(97%) contrast(96%);
 }

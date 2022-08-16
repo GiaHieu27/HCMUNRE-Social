@@ -26,13 +26,12 @@ function Home({ setVisible, posts, loading, getPosts }) {
       <Header page="home" getPosts={getPosts} />
       <LeftHome user={user} />
       <div className="home_middle" ref={middle}>
-        {/* <Stories /> */}
         {!user.verified && <SenVerification user={user} />}
         <CreatePost user={user} setVisible={setVisible} />
         {friends && friends.length > 0 && <Meeting />}
         {loading ? (
           <div className="sekeleton_loader">
-            <ScaleLoader color="#1876f2" />
+            <ScaleLoader color="#00AB55" />
           </div>
         ) : (
           <div className="posts">

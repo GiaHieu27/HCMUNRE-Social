@@ -81,7 +81,7 @@ function SearchMenu({ color, setShowSearchMenu }) {
           )}
           <input
             type="text"
-            placeholder="Search Facebook"
+            placeholder="Tìm kiếm"
             value={searchTerm}
             ref={inputRef}
             onChange={(e) => setSearchTerm(e.target.value)}

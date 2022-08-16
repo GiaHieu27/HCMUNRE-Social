@@ -1,6 +1,6 @@
 // lib
 import { useContext, useEffect, useRef, useState } from "react";
-import { useParams, useNavigate, Link } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useMediaQuery } from "react-responsive";
 import Skeleton from "react-loading-skeleton";
@@ -261,7 +261,7 @@ function Profile({ getPosts }) {
                     <div className="profile_card">
                       <div className="profile_card_header">Intro</div>
                       <div className="sekeleton_loader">
-                        <ScaleLoader color="#1876f2" />
+                        <ScaleLoader color="#00AB55" />
                       </div>
                     </div>
 
@@ -273,7 +273,7 @@ function Profile({ getPosts }) {
                         </div>
                       </div>
                       <div className="sekeleton_loader">
-                        <ScaleLoader color="#1876f2" />
+                        <ScaleLoader color="#00AB55" />
                       </div>
                     </div>
 
@@ -285,7 +285,7 @@ function Profile({ getPosts }) {
                         </div>
                       </div>
                       <div className="sekeleton_loader">
-                        <ScaleLoader color="#1876f2" />
+                        <ScaleLoader color="#00AB55" />
                       </div>
                     </div>
                   </>
@@ -313,7 +313,7 @@ function Profile({ getPosts }) {
                 <GridPost />
                 {loading ? (
                   <div className="sekeleton_loader">
-                    <ScaleLoader color="#1876f2" />
+                    <ScaleLoader color="#00AB55" />
                   </div>
                 ) : (
                   <div className="posts">
