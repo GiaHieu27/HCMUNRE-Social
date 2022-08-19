@@ -9,15 +9,17 @@ function EmojiPickerBackground({
   background,
   setBackground,
   type2,
+  showBg,
+  picker,
+  setPicker,
 }) {
-  const [picker, setPicker] = useState(false);
-  const [showBg, setShowBg] = useState(false);
+  // const [picker, setPicker] = useState(false);
   const [cursorPosition, setCursorPosition] = useState();
 
   const sm = useMediaQuery({ query: "(max-width: 550px)" });
 
-  const textRef = useRef(null);
   const bgRef = useRef(null);
+  const textRef = useRef(null);
 
   useEffect(() => {
     textRef.current.selectionEnd = cursorPosition;
@@ -89,13 +91,13 @@ function EmojiPickerBackground({
             <Picker onEmojiClick={handleEmojiClick} />
           </div>
         )}
-        {!type2 && (
+        {/* {!type2 && (
           <img
             src="../../../icons/colorful.png"
             alt=""
             onClick={() => setShowBg(!showBg)}
           />
-        )}
+        )} */}
         {!type2 && showBg && (
           <div className="post_background">
             <div
@@ -117,12 +119,12 @@ function EmojiPickerBackground({
           </div>
         )}
 
-        <i
+        {/* <i
           className={`emoji_icon_large ${!type2 ? "" : "moveleft"}`}
           onClick={() => {
             setPicker(!picker);
           }}
-        ></i>
+        ></i> */}
       </div>
     </div>
   );

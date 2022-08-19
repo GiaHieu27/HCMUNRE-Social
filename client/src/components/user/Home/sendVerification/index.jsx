@@ -1,6 +1,6 @@
-import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function SenVerification({ user }) {
   const navigate = useNavigate();
@@ -28,19 +28,20 @@ function SenVerification({ user }) {
   };
 
   return (
-    <div className="send_verification">
+    <div className="send_verification mb-3">
       <span>
-        Your account is not verified,verify your account before it gets deleted
-        after a month from creating.
+        Tài khoản của bạn chưa được xác minh, xác minh tài khoản của bạn trước
+        khi liên kết xác thực hết hạn.
       </span>
-      <a
+      <p
+        className="mb-0"
         onClick={() => {
           sendVerifycationLink();
         }}
       >
-        click here to resend verification link
-      </a>
-      {success && <div className="success_text">{success}</div>}
+        Nhấp vào đây để gửi lại liên kết
+      </p>
+      {success && <div className="success_text mt-0">{success}</div>}
       {error && <div className="error_text">{error}</div>}
     </div>
   );

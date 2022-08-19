@@ -51,13 +51,15 @@
   display: flex;
   flex-direction: column;
   border-radius: 10px;
-}
-.send_verification a {
-  color: var(--green-color);
-  cursor: pointer;
-}
-.send_verification a:hover {
-  text-decoration: underline;
+
+  p {
+    color: var(--green-color);
+    cursor: pointer;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 }
 
 @media (max-width: 1175px) {

@@ -93,8 +93,8 @@ function SearchMenu({ color, setShowSearchMenu }) {
       </div>
       {results === "" && (
         <div className="search_history_header">
-          <span>Recent searches</span>
-          <a href="/">Edit</a>
+          <span>Tìm kiếm gần đây</span>
+          <a href="/">Chỉnh sửa</a>
         </div>
       )}
       <div className="search_history scrollbar">

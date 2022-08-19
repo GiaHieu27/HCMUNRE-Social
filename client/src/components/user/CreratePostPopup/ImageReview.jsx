@@ -9,6 +9,8 @@ function ImageReview({
   setImages,
   setShowPrev,
   setError,
+  picker,
+  setPicker,
 }) {
   const imageInputRef = useRef(null);
 
@@ -24,7 +26,7 @@ function ImageReview({
         img.type !== "image/jpeg" &&
         img.type !== "image/webp"
       ) {
-        setError(`${img.name} định dạng không được hỗ trợ`);
+        setError(`${img.name} định dạng chưa được hỗ trợ`);
         return;
       } else if (img.size > 1024 * 1024 * 10) {
         setError(`${img.name} kích thước tệp tin quá lớn`);
@@ -43,7 +45,14 @@ function ImageReview({
 
   return (
     <div className="overflow_a scrollbar">
-      <EmojiPickerBackground text={text} setText={setText} user={user} type2 />
+      <EmojiPickerBackground
+        text={text}
+        setText={setText}
+        user={user}
+        picker={picker}
+        setPicker={setPicker}
+        type2
+      />
 
       <div className="add_pics_wrap">
         <input
@@ -120,14 +129,6 @@ function ImageReview({
             </div>
           </div>
         )}
-
-        {/* <div className="add_pics_inside2">
-          <div className="add_circle">
-            <i className="phone_icon"></i>
-          </div>
-          <div className="mobile_text">Add photos from your device</div>
-          <span className="addphone_btn">Add</span>
-        </div> */}
       </div>
     </div>
   );

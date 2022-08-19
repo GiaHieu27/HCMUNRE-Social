@@ -21,6 +21,8 @@ function CreratePostPopup({ user, setVisible, posts, dispatch, profile }) {
   const [background, setBackground] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [showBg, setShowBg] = useState(false);
+  const [picker, setPicker] = useState(false);
 
   const postRef = useRef(null);
   useClickOutSide(postRef, () => {
@@ -152,6 +154,10 @@ function CreratePostPopup({ user, setVisible, posts, dispatch, profile }) {
             user={user}
             setBackground={setBackground}
             background={background}
+            showBg={showBg}
+            setShowBg={setShowBg}
+            picker={picker}
+            setPicker={setPicker}
           />
         ) : (
           <ImageReview
@@ -162,16 +168,24 @@ function CreratePostPopup({ user, setVisible, posts, dispatch, profile }) {
             setImages={setImages}
             setShowPrev={setShowPrev}
             setError={setError}
+            picker={picker}
+            setPicker={setPicker}
           />
         )}
-        <AddYourPost setShowPrev={setShowPrev} />
+        <AddYourPost
+          setShowPrev={setShowPrev}
+          showBg={showBg}
+          setShowBg={setShowBg}
+          picker={picker}
+          setPicker={setPicker}
+        />
 
         <button
           className="post_submit"
           style={{
-            background: `${!text && !images.length ? "#e4e6eb" : "#1876f2"}`,
+            background: `${!text && !images.length ? "#e4e6eb" : "#20a305"}`,
             cursor: `${!text && !images.length ? "not-allowed" : "pointer"}`,
-            color: `${!text && !images.length ? "#bcc0c4" : "white"}`,
+            color: `${!text && !images.length ? "#bcc0c4" : "#ffff"}`,
           }}
           onClick={() => {
             handleSubmitPost();

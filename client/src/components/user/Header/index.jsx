@@ -23,10 +23,9 @@ import UserMenu from "./UserMenu";
 
 function Header({ page, getPosts }) {
   const { user } = useSelector((user) => ({ ...user }));
-  const color = "#198754";
+  const color = "#20a305";
 
   const [showSearchMenu, setShowSearchMenu] = useState(false);
-
   const [showAllMenu, setShowAllMenu] = useState(false);
   const allMenu = useRef(null);
   useClickOutSide(allMenu, () => {
@@ -72,13 +71,21 @@ function Header({ page, getPosts }) {
           className={`middle_icon ${page === "home" ? "active" : "hover1"}`}
           onClick={() => getPosts()}
         >
-          {page === "home" ? <HomeActive /> : <Home color={color} />}
+          {page === "home" ? (
+            <HomeActive color={color} />
+          ) : (
+            <Home color={color} />
+          )}
         </Link>
         <Link
           to="/friends"
           className={`middle_icon ${page === "friends" ? "active" : "hover1"}`}
         >
-          {page === "friends" ? <FriendsActive /> : <Friends color={color} />}
+          {page === "friends" ? (
+            <FriendsActive color={color} />
+          ) : (
+            <Friends color={color} />
+          )}
         </Link>
         <Link to="/" className="middle_icon hover1">
           <Watch color={color} />
