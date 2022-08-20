@@ -16,13 +16,13 @@ function CreratePostPopup({ user, setVisible, posts, dispatch, profile }) {
   const dispatchh = useDispatch();
 
   const [text, setText] = useState("");
-  const [showPrev, setShowPrev] = useState(false);
-  const [images, setImages] = useState([]);
   const [background, setBackground] = useState("");
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [showPrev, setShowPrev] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [showBg, setShowBg] = useState(false);
   const [picker, setPicker] = useState(false);
+  const [images, setImages] = useState([]);
 
   const postRef = useRef(null);
   useClickOutSide(postRef, () => {
@@ -140,7 +140,7 @@ function CreratePostPopup({ user, setVisible, posts, dispatch, profile }) {
               {user.first_name} {user.last_name}
             </div>
             <div className="box_privacy">
-              <img src="../../../icons/public.png" alt="" />
+              <img src="/icons/public.png" alt="" />
               <span>Công khai</span>
               <i className="arrowDown_icon"></i>
             </div>
@@ -149,9 +149,9 @@ function CreratePostPopup({ user, setVisible, posts, dispatch, profile }) {
 
         {!showPrev ? (
           <EmojiPickerBackground
+            user={user}
             text={text}
             setText={setText}
-            user={user}
             setBackground={setBackground}
             background={background}
             showBg={showBg}
@@ -161,9 +161,9 @@ function CreratePostPopup({ user, setVisible, posts, dispatch, profile }) {
           />
         ) : (
           <ImageReview
+            user={user}
             text={text}
             setText={setText}
-            user={user}
             images={images}
             setImages={setImages}
             setShowPrev={setShowPrev}
@@ -174,6 +174,7 @@ function CreratePostPopup({ user, setVisible, posts, dispatch, profile }) {
         )}
         <AddYourPost
           setShowPrev={setShowPrev}
+          showPrev={showPrev}
           showBg={showBg}
           setShowBg={setShowBg}
           picker={picker}
