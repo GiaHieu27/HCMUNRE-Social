@@ -25,7 +25,7 @@ function CreratePostPopup({ user, setVisible, posts, dispatch, profile }) {
   const [images, setImages] = useState([]);
   const [videos, setVideos] = useState([]);
 
-  console.log(videos);
+  // console.log(videos);
   // console.log(images);
 
   const postRef = useRef(null);
@@ -82,12 +82,13 @@ function CreratePostPopup({ user, setVisible, posts, dispatch, profile }) {
         null,
         null,
         text,
-        response,
+        response.images,
         null,
         user.id,
         user.token
       );
       setLoading(false);
+
       if (res.status === "ok") {
         if (profile) {
           dispatchh(profileSlice.actions.PROFILE_POSTS([res.data, ...posts]));
@@ -120,30 +121,32 @@ function CreratePostPopup({ user, setVisible, posts, dispatch, profile }) {
 
       const response = await uploadImages(formData, user.token);
       console.log(response);
-      // const res = await createPost(
-      //   null,
-      //   null,
-      //   text,
-      //   response,
-      //   user.id,
-      //   user.token
-      // );
-      // setLoading(false);
-      // if (res.status === "ok") {
-      //   if (profile) {
-      //     dispatchh(profileSlice.actions.PROFILE_POSTS([res.data, ...posts]));
-      //   } else {
-      //     dispatch({
-      //       type: "POST_SUCCESS",
-      //       payload: [res.data, ...posts],
-      //     });
-      //   }
-      //   setText("");
-      //   setImages([]);
-      //   setVisible(false);
-      // } else {
-      //   setError(res);
-      // }
+      const res = await createPost(
+        null,
+        null,
+        text,
+        null,
+        response.videos,
+        user.id,
+        user.token
+      );
+      setLoading(false);
+
+      if (res.status === "ok") {
+        if (profile) {
+          dispatchh(profileSlice.actions.PROFILE_POSTS([res.data, ...posts]));
+        } else {
+          dispatch({
+            type: "POST_SUCCESS",
+            payload: [res.data, ...posts],
+          });
+        }
+        setText("");
+        setImages([]);
+        setVisible(false);
+      } else {
+        setError(res);
+      }
     } else if ((images && images.length) || (videos && videos.length)) {
       setLoading(true);
 

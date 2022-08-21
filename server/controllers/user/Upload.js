@@ -18,20 +18,21 @@ exports.uploadImages = async (req, res) => {
 
     for (const file of files) {
       if (
-        file.mimetype === "image/jpeg" &&
-        file.mimetype === "image/jpg" &&
-        file.mimetype === "image/png" &&
-        file.mimetype === "image/gif" &&
+        file.mimetype === "image/jpeg" ||
+        file.mimetype === "image/jpg" ||
+        file.mimetype === "image/png" ||
+        file.mimetype === "image/gif" ||
         file.mimetype === "image/webp"
       ) {
         const url = await uploadToCloudinaryImg(file, path);
         images.push(url);
+        removeTemp(file.tempFilePath);
       }
       if (file.mimetype === "video/mp4") {
         const url = await uploadToCloudinaryVideo(file, path);
         videos.push(url);
+        removeTemp(file.tempFilePath);
       }
-      removeTemp(file.tempFilePath);
     }
     console.log(images);
     console.log(videos);
@@ -70,6 +71,7 @@ const uploadToCloudinaryImg = async (file, path) => {
           res.status(400).json({ message: err.message });
         }
         console.log(res);
+        console.log(111);
         resolve({
           url: res.secure_url,
         });

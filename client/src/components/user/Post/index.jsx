@@ -142,7 +142,7 @@ function Post({ post, user, profile }) {
       ) : post.type === null ? (
         <>
           <div className="post_text">{post.text}</div>
-          {post.images && post.images.length && (
+          {post.images && post.images.length ? (
             <div
               className={
                 post.images.length === 1
@@ -158,9 +158,9 @@ function Post({ post, user, profile }) {
             >
               {post.images.slice(0, 5).map((image, i) => (
                 <img
+                  key={i}
                   src={image.url}
                   alt="post_img"
-                  key={i}
                   className={`img-${i}`}
                 />
               ))}
@@ -170,7 +170,40 @@ function Post({ post, user, profile }) {
                 </div>
               )}
             </div>
+          ) : (
+            post.videos &&
+            post.videos.length && (
+              <div
+                className={
+                  post.videos.length === 1
+                    ? "grid_1"
+                    : post.videos.length === 2
+                    ? "grid_2"
+                    : post.videos.length === 3
+                    ? "grid_3"
+                    : post.videos.length === 4
+                    ? "grid_4"
+                    : post.videos.length >= 5 && "grid_5"
+                }
+              >
+                {post.videos.slice(0, 5).map((video, i) => (
+                  <video
+                    src={video.url}
+                    alt="post_video"
+                    key={i}
+                    className={`video-${i}`}
+                    controls
+                  />
+                ))}
+                {post.videos.length > 5 && (
+                  <div className="more-pics-shadow">
+                    +{post.videos.length - 5}
+                  </div>
+                )}
+              </div>
+            )
           )}
+          {}
         </>
       ) : post.type === "profilePicture" ? (
         <>
