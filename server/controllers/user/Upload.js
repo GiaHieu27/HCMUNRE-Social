@@ -1,5 +1,4 @@
 const cloudinary = require("cloudinary");
-const fs = require("fs");
 
 const removeTemp = require("../../helpers/removeTemp");
 
@@ -13,13 +12,30 @@ exports.uploadImages = async (req, res) => {
   try {
     const { path } = req.body;
     const files = Object.values(req.files).flat();
+    console.log(files);
     const images = [];
+    const videos = [];
+
     for (const file of files) {
-      const url = await uploadToCloudinary(file, path);
-      images.push(url);
+      if (
+        file.mimetype === "image/jpeg" &&
+        file.mimetype === "image/jpg" &&
+        file.mimetype === "image/png" &&
+        file.mimetype === "image/gif" &&
+        file.mimetype === "image/webp"
+      ) {
+        const url = await uploadToCloudinaryImg(file, path);
+        images.push(url);
+      }
+      if (file.mimetype === "video/mp4") {
+        const url = await uploadToCloudinaryVideo(file, path);
+        videos.push(url);
+      }
       removeTemp(file.tempFilePath);
     }
-    res.send(images);
+    console.log(images);
+    console.log(videos);
+    res.json({ images, videos });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -40,7 +56,7 @@ exports.listImages = async (req, res) => {
   }
 };
 
-const uploadToCloudinary = async (file, path) => {
+const uploadToCloudinaryImg = async (file, path) => {
   return new Promise((resolve) => {
     cloudinary.v2.uploader.upload(
       file.tempFilePath,
@@ -50,8 +66,34 @@ const uploadToCloudinary = async (file, path) => {
       (err, res) => {
         if (err) {
           removeTemp(file.tempFilePath);
-          res.status(400).json({ message: "Upload file failed" });
+          console.log(err.message);
+          res.status(400).json({ message: err.message });
         }
+        console.log(res);
+        resolve({
+          url: res.secure_url,
+        });
+      }
+    );
+  });
+};
+
+const uploadToCloudinaryVideo = async (file, path) => {
+  return new Promise((resolve) => {
+    cloudinary.v2.uploader.upload(
+      file.tempFilePath,
+      {
+        resource_type: "video",
+        folder: path,
+      },
+      (err, res) => {
+        if (err) {
+          removeTemp(file.tempFilePath);
+          console.log(err.message);
+          res.status(400).json({ message: err.message });
+        }
+        console.log(res);
+
         resolve({
           url: res.secure_url,
         });

@@ -12,7 +12,8 @@ exports.imageUpload = async (req, res, next) => {
         file.mimetype !== "image/jpg" &&
         file.mimetype !== "image/png" &&
         file.mimetype !== "image/gif" &&
-        file.mimetype !== "image/webp"
+        file.mimetype !== "image/webp" &&
+        file.mimetype !== "video/mp4"
       ) {
         removeTemp(file.tempFilePath);
         return res
@@ -20,7 +21,7 @@ exports.imageUpload = async (req, res, next) => {
           .json({ message: "Định dạng tệp tin không được hỗ trợ" });
       }
 
-      if (file.size > 1024 * 1024 * 10) {
+      if (file.size > 1024 * 1024 * 50) {
         removeTemp(file.tempFilePath);
         return res.status(400).json({ message: "Dung lượng file quá lớn" });
       }

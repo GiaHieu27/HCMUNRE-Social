@@ -2,17 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import Picker from "emoji-picker-react";
 import { useMediaQuery } from "react-responsive";
 
-function EmojiPickerBackground({
-  text,
-  setText,
-  user,
-  background,
-  setBackground,
-  type2,
-  showBg,
-  picker,
-  setPicker,
-}) {
+function EmojiPickerBackground(props) {
   const [cursorPosition, setCursorPosition] = useState();
 
   const sm = useMediaQuery({ query: "(max-width: 550px)" });
@@ -39,59 +29,59 @@ function EmojiPickerBackground({
   const handleEmojiClick = (e, { emoji }) => {
     const ref = textRef.current;
     ref.focus();
-    const start = text.substring(0, ref.selectionStart);
-    const end = text.substring(ref.selectionStart);
+    const start = props.text.substring(0, ref.selectionStart);
+    const end = props.text.substring(ref.selectionStart);
     const newText = start + emoji + end;
-    setText(newText);
+    props.setText(newText);
     setCursorPosition(start.length + emoji.length);
   };
 
   const handleBackgroundClick = (i) => {
     bgRef.current.style.backgroundImage = `url(${postBackgrounds[i]})`;
-    setBackground(postBackgrounds[i]);
+    props.setBackground(postBackgrounds[i]);
     bgRef.current.classList.add("bgHandler");
   };
 
   const handleRemoveBackground = () => {
     bgRef.current.style.backgroundImage = ``;
-    setBackground();
+    props.setBackground();
     bgRef.current.classList.remove("bgHandler");
   };
 
   return (
-    <div className={!type2 ? "" : "images_input"}>
-      <div className={!type2 ? "flex_center" : ""} ref={bgRef}>
+    <div className={!props.type2 ? "" : "images_input"}>
+      <div className={!props.type2 ? "flex_center" : ""} ref={bgRef}>
         <textarea
           ref={textRef}
           maxLength="250"
-          value={text}
-          placeholder={`Bạn đang nghĩ gì thế ${user.last_name}`}
-          onChange={(e) => setText(e.target.value)}
-          onClick={() => setPicker(false)}
-          className={`post_input ${!type2 ? "" : "input2"} ${
-            sm && !background && "ww"
+          value={props.text}
+          placeholder={`Bạn đang nghĩ gì thế ${props.user.last_name}`}
+          onChange={(e) => props.setText(e.target.value)}
+          onClick={() => props.setPicker(false)}
+          className={`post_input ${!props.type2 ? "" : "input2"} ${
+            sm && !props.background && "ww"
           }`}
           style={{
             paddingTop: `${
-              background
+              props.background
                 ? Math.abs(textRef.current.value.length * 0.1 - 30)
                 : "0"
             }%`,
           }}
         ></textarea>
       </div>
-      <div className={!type2 ? "post_emojis_wrap" : ""}>
-        {picker && (
+      <div className={!props.type2 ? "post_emojis_wrap" : ""}>
+        {props.picker && (
           <div
             className={`comment_emoji_picker ${
-              !type2 ? "rlmove" : "movepicker2"
+              !props.type2 ? "rlmove" : "movepicker2"
             }`}
           >
             <Picker onEmojiClick={handleEmojiClick} />
           </div>
         )}
 
-        {!type2 && showBg && (
+        {!props.type2 && props.showBg && (
           <div className="post_background">
             <div
               className="no_bg"

@@ -23,6 +23,10 @@ function CreratePostPopup({ user, setVisible, posts, dispatch, profile }) {
   const [showBg, setShowBg] = useState(false);
   const [picker, setPicker] = useState(false);
   const [images, setImages] = useState([]);
+  const [videos, setVideos] = useState([]);
+
+  console.log(videos);
+  // console.log(images);
 
   const postRef = useRef(null);
   useClickOutSide(postRef, () => {
@@ -36,6 +40,7 @@ function CreratePostPopup({ user, setVisible, posts, dispatch, profile }) {
         null,
         background,
         text,
+        null,
         null,
         user.id,
         user.token
@@ -69,7 +74,89 @@ function CreratePostPopup({ user, setVisible, posts, dispatch, profile }) {
       let formData = new FormData();
       formData.append("path", path);
       postImage.forEach((image) => {
-        formData.append("filesssss", image);
+        formData.append("files", image);
+      });
+
+      const response = await uploadImages(formData, user.token);
+      const res = await createPost(
+        null,
+        null,
+        text,
+        response,
+        null,
+        user.id,
+        user.token
+      );
+      setLoading(false);
+      if (res.status === "ok") {
+        if (profile) {
+          dispatchh(profileSlice.actions.PROFILE_POSTS([res.data, ...posts]));
+        } else {
+          dispatch({
+            type: "POST_SUCCESS",
+            payload: [res.data, ...posts],
+          });
+        }
+        setText("");
+        setImages([]);
+        setVisible(false);
+      } else {
+        setError(res);
+      }
+    } else if (videos && videos.length) {
+      setLoading(true);
+
+      const postVideo = videos.map((image) => {
+        return dataURLtoBlob(image);
+      });
+      console.log(postVideo);
+      const path = `${user.username}/post_images`;
+
+      let formData = new FormData();
+      formData.append("path", path);
+      postVideo.forEach((image) => {
+        formData.append("files", image);
+      });
+
+      const response = await uploadImages(formData, user.token);
+      console.log(response);
+      // const res = await createPost(
+      //   null,
+      //   null,
+      //   text,
+      //   response,
+      //   user.id,
+      //   user.token
+      // );
+      // setLoading(false);
+      // if (res.status === "ok") {
+      //   if (profile) {
+      //     dispatchh(profileSlice.actions.PROFILE_POSTS([res.data, ...posts]));
+      //   } else {
+      //     dispatch({
+      //       type: "POST_SUCCESS",
+      //       payload: [res.data, ...posts],
+      //     });
+      //   }
+      //   setText("");
+      //   setImages([]);
+      //   setVisible(false);
+      // } else {
+      //   setError(res);
+      // }
+    } else if ((images && images.length) || (videos && videos.length)) {
+      setLoading(true);
+
+      const postImage = images.map((image) => {
+        return dataURLtoBlob(image);
+      });
+      // console.log(postImage);
+      const path = `${user.username}/post_images`;
+
+      let formData = new FormData();
+      formData.append("path", path);
+      postImage.forEach((image) => {
+        formData.append("files", image);
       });
 
       const response = await uploadImages(formData, user.token);
@@ -170,6 +257,8 @@ function CreratePostPopup({ user, setVisible, posts, dispatch, profile }) {
             setError={setError}
             picker={picker}
             setPicker={setPicker}
+            videos={videos}
+            setVideos={setVideos}
           />
         )}
         <AddYourPost
@@ -184,9 +273,17 @@ function CreratePostPopup({ user, setVisible, posts, dispatch, profile }) {
         <button
           className="post_submit"
           style={{
-            background: `${!text && !images.length ? "#e4e6eb" : "#20a305"}`,
-            cursor: `${!text && !images.length ? "not-allowed" : "pointer"}`,
-            color: `${!text && !images.length ? "#bcc0c4" : "#ffff"}`,
+            background: `${
+              !text && !images.length && !videos.length ? "#e4e6eb" : "#20a305"
+            }`,
+            cursor: `${
+              !text && !images.length && !videos.length
+                ? "not-allowed"
+                : "pointer"
+            }`,
+            color: `${
+              !text && !images.length && !videos.length ? "#bcc0c4" : "#ffff"
+            }`,
           }}
           onClick={() => {
             handleSubmitPost();

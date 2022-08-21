@@ -215,12 +215,12 @@
 
 .add {
   &_pics_wrap {
+    position: relative;
     margin: 10px 15px;
     padding: 10px;
     border: 1px solid var(--bg-third);
     border-radius: 10px;
     color: var(--color-primary);
-    //
   }
 
   &_pics {
@@ -233,6 +233,33 @@
       display: grid;
       place-items: center;
       cursor: pointer;
+
+      &.dragover {
+        background: var(--bg-third);
+      }
+
+      input {
+        opacity: 0;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        cursor: pointer;
+
+        // &::-webkit-file-upload-button {
+        //   opacity: 0;
+        //   width: 100%;
+        //   height: 100%;
+        // }
+      }
+
+      &.p0 {
+        input {
+          width: 0;
+          height: 0;
+        }
+      }
     }
 
     &_inside2 {
@@ -259,7 +286,7 @@
     }
 
     span:last-of-type {
-      font-size: 12px;
+      font-size: 13px;
       color: var(--color-secondary);
     }
   }
@@ -352,6 +379,11 @@
     height: 100%;
     object-fit: cover;
   }
+
+  video {
+    width: 100%;
+    height: 100%;
+  }
 }
 
 .preview2 {
@@ -360,6 +392,12 @@
   gap: 2px;
 
   img {
+    width: 50%;
+    height: 230px;
+    object-fit: cover;
+  }
+
+  video {
     width: 50%;
     height: 230px;
     object-fit: cover;
@@ -383,6 +421,16 @@
       grid-column: 1/3;
     }
   }
+
+  video {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+
+    &:nth-child(1) {
+      grid-column: 1/3;
+    }
+  }
 }
 
 .preview4 {
@@ -393,6 +441,16 @@
   gap: 2px;
 
   img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+
+    &:nth-child(1) {
+      grid-column: 1/4;
+    }
+  }
+
+  video {
     width: 100%;
     height: 200px;
     object-fit: cover;
@@ -421,6 +479,18 @@
       grid-column: auto / span 3;
     }
   }
+
+  video {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    grid-column: auto / span 2;
+
+    &:nth-child(1),
+    &:nth-child(2) {
+      grid-column: auto / span 3;
+    }
+  }
 }
 
 .preview6 {
@@ -434,10 +504,20 @@
     height: 200px;
     object-fit: cover;
   }
+
+  video {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+  }
 }
 
 .singular_grid {
   img:nth-child(1) {
+    grid-column: 1/3;
+  }
+
+  video:nth-child(1) {
     grid-column: 1/3;
   }
 }
