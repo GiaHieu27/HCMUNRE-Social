@@ -65,14 +65,17 @@ function UpdateProfileImage({ image, setImage, setError, setShow, pRef }) {
       formData.append("file", blob);
       formData.append("path", path);
       const res = await uploadImages(formData, user.token);
-      // console.log(response);
-      const updatePicture = await updateProfilePicture(res[0].url, user.token);
+      const updatePicture = await updateProfilePicture(
+        res.images[0].url,
+        user.token
+      );
       if (updatePicture === "ok") {
         const newPost = await createPost(
           "profilePicture",
           null,
           description,
-          res,
+          res.images,
+          null,
           user.id,
           user.token
         );
@@ -80,15 +83,15 @@ function UpdateProfileImage({ image, setImage, setError, setShow, pRef }) {
         if (newPost.status === "ok") {
           setLoading(false);
           setImage("");
-          pRef.current.style.backgroundImage = `url(${res[0].url})`;
+          pRef.current.style.backgroundImage = `url(${res.images[0].url})`;
           Cookies.set(
             "user",
             JSON.stringify({
               ...user,
-              picture: res[0].url,
+              picture: res.images[0].url,
             })
           );
-          dispatch(userSlice.actions.UPDATEPICTURE(res[0].url));
+          dispatch(userSlice.actions.UPDATEPICTURE(res.images[0].url));
           setShow(false);
         } else {
           setLoading(false);
@@ -100,6 +103,7 @@ function UpdateProfileImage({ image, setImage, setError, setShow, pRef }) {
       }
     } catch (error) {
       setLoading(false);
+      console.log(error);
       setError(error.response.data.message);
     }
   };

@@ -93,13 +93,14 @@ function Cover({ cover, visitor, photos }) {
       formData.append("path", path);
       const res = await uploadImages(formData, user.token);
 
-      const update_cover = await updateCover(res[0].url, user.token);
+      const update_cover = await updateCover(res.images[0].url, user.token);
       if (update_cover === "ok") {
         const newPost = await createPost(
           "cover",
           null,
           null,
-          res,
+          res.images,
+          null,
           user.id,
           user.token
         );
@@ -107,7 +108,7 @@ function Cover({ cover, visitor, photos }) {
         if (newPost.status === "ok") {
           setLoading(false);
           setCoverPicture("");
-          coverRef.current.src = res[0].url;
+          coverRef.current.src = res.images[0].url;
         } else {
           setLoading(false);
           setError(newPost);

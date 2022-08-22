@@ -25,9 +25,6 @@ function CreratePostPopup({ user, setVisible, posts, dispatch, profile }) {
   const [background, setBackground] = useState("");
   const [error, setError] = useState("");
 
-  // console.log(videos);
-  // console.log(images);
-
   const postRef = useRef(null);
   useClickOutSide(postRef, () => {
     setVisible(false);
@@ -279,6 +276,9 @@ function CreratePostPopup({ user, setVisible, posts, dispatch, profile }) {
           setShowBg={setShowBg}
           picker={picker}
           setPicker={setPicker}
+          background={background}
+          videos={videos}
+          images={images}
         />
 
         <button
@@ -297,7 +297,8 @@ function CreratePostPopup({ user, setVisible, posts, dispatch, profile }) {
             }`,
           }}
           onClick={() => {
-            handleSubmitPost();
+            if (text || images.length || videos.length || background)
+              handleSubmitPost();
           }}
           disabled={loading}
         >

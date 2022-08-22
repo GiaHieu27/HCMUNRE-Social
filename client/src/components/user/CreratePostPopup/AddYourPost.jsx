@@ -1,25 +1,43 @@
 import { Photo } from "../../../svg";
 
 function AddYourPost(props) {
+  console.log(!props.images);
   return (
     <div className="addtoyourpost">
       <div className="addto_text">Thêm vào bài viết</div>
       <div className="d-flex flex-row ">
         <div
-          className="post_header_right hover1 "
+          className="post_header_right hover1"
+          style={{
+            cursor: `${props.background ? "not-allowed" : "pointer"}`,
+          }}
           onClick={() => {
-            props.setShowPrev(!props.showPrev);
+            if (!props.background) props.setShowPrev(!props.showPrev);
           }}
         >
-          <Photo color="#45bd62" />
+          <Photo color={`${props.background ? "#b0b3b8" : "#20a305"}`} />
         </div>
 
-        <div className="post_header_right">
+        <div
+          className="post_header_right"
+          style={{
+            cursor: `${
+              (props.images && props.images.length) ||
+              (props.videos && props.videos.length)
+                ? "not-allowed"
+                : "pointer"
+            }`,
+          }}
+        >
           <img
-            src="../../../icons/colorful.png"
-            alt=""
+            src="/icons/colorful.png"
+            alt="pick-background-color"
             width={35}
-            onClick={() => props.setShowBg(!props.showBg)}
+            onClick={() => {
+              if (!props.images.length || !props.videos.length) {
+                props.setShowBg(!props.showBg);
+              }
+            }}
           />
         </div>
         <div className="post_header_right">
