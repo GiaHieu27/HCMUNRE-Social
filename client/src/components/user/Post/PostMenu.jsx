@@ -4,38 +4,28 @@ import MenuItem from "./MenuItem";
 import useClickOutside from "../../../hooks/useClickOutSide";
 import { deletePost, savePost } from "../../../functions/post";
 
-function PostMenu({
-  user,
-  postUserId,
-  postId,
-  imageLenght,
-  setShowMenu,
-  checkSavedPost,
-  setCheckSavedPost,
-  images,
-  postRef,
-}) {
-  const [compare] = useState(user.id === postUserId ? true : false);
+function PostMenu(props) {
+  const [compare] = useState(props.user.id === props.postUserId ? true : false);
 
   const menuRef = useRef(null);
   useClickOutside(menuRef, () => {
-    setShowMenu(false);
+    props.setShowMenu(false);
   });
 
   const handleSavePost = async () => {
-    savePost(postId, user.token);
-    if (checkSavedPost) setCheckSavedPost(false);
-    else setCheckSavedPost(true);
+    savePost(props.postId, props.user.token);
+    if (props.checkSavedPost) props.setCheckSavedPost(false);
+    else props.setCheckSavedPost(true);
   };
 
   const handleDownloadImg = async () => {
-    images.map((image) => saveAs(image.url, "image.jpg"));
+    props.images.map((image) => saveAs(image.url, "image.jpg"));
   };
 
   const handleDelPost = async () => {
-    const res = await deletePost(postId, user.token);
+    const res = await deletePost(props.postId, props.user.token);
     if (res.status === "ok") {
-      postRef.current.remove();
+      props.postRef.current.remove();
       // postRef.current.style.display = "none";
     }
   };
@@ -45,7 +35,7 @@ function PostMenu({
       <MenuItem icon="pin_icon" title="Pin Post" />
 
       <div onClick={handleSavePost}>
-        {checkSavedPost ? (
+        {props.checkSavedPost ? (
           <MenuItem
             icon="save_icon"
             title="Unsave Post"
@@ -68,12 +58,12 @@ function PostMenu({
           title="Turn on notifications for this post"
         />
       )}
-      {imageLenght && (
+      {props.imageLenght && (
         <div onClick={() => handleDownloadImg()}>
           <MenuItem icon="download_icon" title="Download" />
         </div>
       )}
-      {imageLenght && (
+      {props.imageLenght && (
         <MenuItem icon="fullscreen_icon" title="Enter Fullscreen" />
       )}
       {compare && (

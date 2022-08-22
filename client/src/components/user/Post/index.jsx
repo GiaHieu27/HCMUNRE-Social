@@ -13,10 +13,10 @@ function Post({ post, user, profile }) {
   const [visible, setVisible] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
   const [reacts, setReacts] = useState([]);
-  const [check, setCheck] = useState("");
-  const [total, setTotal] = useState(0);
   const [comments, setComments] = useState([]);
+  const [total, setTotal] = useState(0);
   const [count, setCount] = useState(1);
+  const [check, setCheck] = useState("");
   const [checkSavedPost, setCheckSavedPost] = useState();
 
   const postRef = useRef(null);
@@ -104,7 +104,7 @@ function Post({ post, user, profile }) {
               <Moment fromNow interval={30}>
                 {post.createdAt}
               </Moment>
-              . <Public color="gray" />
+              <Public color="gray" />
             </div>
           </div>
         </Link>
@@ -307,11 +307,11 @@ function Post({ post, user, profile }) {
         </div>
         <div className="post_action hover1">
           <i className="comment_icon"></i>
-          <span>Comment</span>
+          <span>Bình luận</span>
         </div>
         <div className="post_action hover1">
           <i className="share_icon"></i>
-          <span>Share</span>
+          <span>Chia sẻ</span>
         </div>
       </div>
 
@@ -330,7 +330,7 @@ function Post({ post, user, profile }) {
             .map((comment, i) => <Comment comment={comment} key={i} />)}
         {count < comments.length && (
           <div className="view_comments" onClick={() => showMore()}>
-            View more commens
+            Xem thêm bình luận
           </div>
         )}
       </div>

@@ -60,7 +60,7 @@ function UpdateProfileImage({ image, setImage, setError, setShow, pRef }) {
       let blob = await fetch(img).then((i) => i.blob());
       // console.log(img);
       // console.log(blob);
-      const path = `${user.username}/profilePicture`;
+      const path = `${user.username}/avatar`;
       let formData = new FormData();
       formData.append("file", blob);
       formData.append("path", path);

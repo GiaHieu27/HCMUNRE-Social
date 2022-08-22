@@ -15,15 +15,15 @@ import { createPost } from "../../../functions/post";
 function CreratePostPopup({ user, setVisible, posts, dispatch, profile }) {
   const dispatchh = useDispatch();
 
-  const [text, setText] = useState("");
-  const [background, setBackground] = useState("");
-  const [error, setError] = useState("");
   const [showPrev, setShowPrev] = useState(false);
   const [loading, setLoading] = useState(false);
   const [showBg, setShowBg] = useState(false);
   const [picker, setPicker] = useState(false);
   const [images, setImages] = useState([]);
   const [videos, setVideos] = useState([]);
+  const [text, setText] = useState("");
+  const [background, setBackground] = useState("");
+  const [error, setError] = useState("");
 
   // console.log(videos);
   // console.log(images);
@@ -69,7 +69,7 @@ function CreratePostPopup({ user, setVisible, posts, dispatch, profile }) {
         return dataURLtoBlob(image);
       });
       // console.log(postImage);
-      const path = `${user.username}/post_images`;
+      const path = `${user.username}/post_contents`;
 
       let formData = new FormData();
       formData.append("path", path);
@@ -111,7 +111,7 @@ function CreratePostPopup({ user, setVisible, posts, dispatch, profile }) {
         return dataURLtoBlob(image);
       });
       console.log(postVideo);
-      const path = `${user.username}/post_images`;
+      const path = `${user.username}/post_contents`;
 
       let formData = new FormData();
       formData.append("path", path);
@@ -154,7 +154,7 @@ function CreratePostPopup({ user, setVisible, posts, dispatch, profile }) {
         return dataURLtoBlob(image);
       });
       // console.log(postImage);
-      const path = `${user.username}/post_images`;
+      const path = `${user.username}/post_contents`;
 
       let formData = new FormData();
       formData.append("path", path);
@@ -189,7 +189,15 @@ function CreratePostPopup({ user, setVisible, posts, dispatch, profile }) {
       }
     } else if (text) {
       setLoading(true);
-      const res = await createPost(null, null, text, null, user.id, user.token);
+      const res = await createPost(
+        null,
+        null,
+        text,
+        null,
+        null,
+        user.id,
+        user.token
+      );
       setLoading(false);
 
       if (res.status === "ok") {

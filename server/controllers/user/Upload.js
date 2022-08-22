@@ -1,5 +1,4 @@
 const cloudinary = require("cloudinary");
-
 const removeTemp = require("../../helpers/removeTemp");
 
 cloudinary.config({
@@ -12,7 +11,6 @@ exports.uploadImages = async (req, res) => {
   try {
     const { path } = req.body;
     const files = Object.values(req.files).flat();
-    console.log(files);
     const images = [];
     const videos = [];
 
@@ -34,8 +32,6 @@ exports.uploadImages = async (req, res) => {
         removeTemp(file.tempFilePath);
       }
     }
-    console.log(images);
-    console.log(videos);
     res.json({ images, videos });
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -67,11 +63,8 @@ const uploadToCloudinaryImg = async (file, path) => {
       (err, res) => {
         if (err) {
           removeTemp(file.tempFilePath);
-          console.log(err.message);
           res.status(400).json({ message: err.message });
         }
-        console.log(res);
-        console.log(111);
         resolve({
           url: res.secure_url,
         });
@@ -91,11 +84,8 @@ const uploadToCloudinaryVideo = async (file, path) => {
       (err, res) => {
         if (err) {
           removeTemp(file.tempFilePath);
-          console.log(err.message);
           res.status(400).json({ message: err.message });
         }
-        console.log(res);
-
         resolve({
           url: res.secure_url,
         });
