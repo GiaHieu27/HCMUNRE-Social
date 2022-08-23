@@ -19,14 +19,24 @@ exports.imageUpload = async (req, res, next) => {
         return res
           .status(400)
           .json({ message: "Định dạng tệp tin không được hỗ trợ" });
-      }
-
-      if (file.size > 1024 * 1024 * 50) {
+      } else if (
+        (file.mimetype === "image/jpeg" ||
+          file.mimetype === "image/jpg" ||
+          file.mimetype === "image/png" ||
+          file.mimetype === "image/gif" ||
+          file.mimetype === "image/webp") &&
+        file.size > 1024 * 1024 * 9
+      ) {
         removeTemp(file.tempFilePath);
-        return res.status(400).json({ message: "Dung lượng file quá lớn" });
+        return res.status(400).json({ message: "Dung lượng hình ảnh quá lớn" });
+      } else if (
+        file.mimetype === "video/mp4" &&
+        file.size > 1024 * 1024 * 70
+      ) {
+        removeTemp(file.tempFilePath);
+        return res.status(400).json({ message: "Dung lượng video quá lớn" });
       }
     });
-
     next();
   } catch (error) {
     res.status(500).json({ message: error.message });

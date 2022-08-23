@@ -1,5 +1,3 @@
-import { Photo } from "../../../svg";
-
 function CreatePost({ user, setVisible, profile }) {
   return (
     <div className={`createPost ${profile ? "mt-3" : ""}`}>
@@ -8,7 +6,6 @@ function CreatePost({ user, setVisible, profile }) {
         <div className="open_post hover2" onClick={() => setVisible(true)}>
           Đăng bài viết tại đây nhé {user?.last_name}
         </div>
-        <Photo color="#45bd62" />
       </div>
     </div>
   );

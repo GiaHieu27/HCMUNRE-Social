@@ -1,7 +1,6 @@
 import { Photo } from "../../../svg";
 
 function AddYourPost(props) {
-  console.log(!props.images);
   return (
     <div className="addtoyourpost">
       <div className="addto_text">Thêm vào bài viết</div>
@@ -12,7 +11,10 @@ function AddYourPost(props) {
             cursor: `${props.background ? "not-allowed" : "pointer"}`,
           }}
           onClick={() => {
-            if (!props.background) props.setShowPrev(!props.showPrev);
+            if (!props.background) {
+              props.setShowBg(false);
+              props.setShowPrev(!props.showPrev);
+            }
           }}
         >
           <Photo color={`${props.background ? "#b0b3b8" : "#20a305"}`} />
@@ -34,7 +36,7 @@ function AddYourPost(props) {
             alt="pick-background-color"
             width={35}
             onClick={() => {
-              if (!props.images.length || !props.videos.length) {
+              if (!props.images.length && !props.videos.length) {
                 props.setShowBg(!props.showBg);
               }
             }}

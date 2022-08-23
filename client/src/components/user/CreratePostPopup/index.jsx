@@ -103,11 +103,9 @@ function CreratePostPopup({ user, setVisible, posts, dispatch, profile }) {
       }
     } else if (videos && videos.length) {
       setLoading(true);
-
       const postVideo = videos.map((image) => {
         return dataURLtoBlob(image);
       });
-      console.log(postVideo);
       const path = `${user.username}/post_contents`;
 
       let formData = new FormData();
@@ -297,8 +295,7 @@ function CreratePostPopup({ user, setVisible, posts, dispatch, profile }) {
             }`,
           }}
           onClick={() => {
-            if (text || images.length || videos.length || background)
-              handleSubmitPost();
+            if (text || images.length || videos.length) handleSubmitPost();
           }}
           disabled={loading}
         >

@@ -11,32 +11,45 @@ function ImageReview(props) {
 
   const handleImages = (e) => {
     let files = Array.from(e.target.files);
-    files.forEach((img) => {
-      // console.log(img);
+    files.forEach((file) => {
       if (
-        img.type !== "image/jpeg" &&
-        img.type !== "image/png" &&
-        img.type !== "image/webp" &&
-        img.type !== "image/gif" &&
-        img.type !== "video/mp4"
+        file.type !== "image/jpeg" &&
+        file.type !== "image/png" &&
+        file.type !== "image/webp" &&
+        file.type !== "image/gif" &&
+        file.type !== "video/mp4"
       ) {
-        props.setError(`${img.name} loại tệp tin không phù hợp`);
-        files = files.filter((item) => item.name !== img.name);
+        props.setError(`${file.name} loại tệp tin không phù hợp`);
+        files = files.filter((item) => item.name !== file.name);
         return;
-      } else if (img.size > 1024 * 1024 * 50) {
-        props.setError(`${img.name} kích thước tệp tin quá lớn`);
-        files = files.filter((item) => item.name !== img.name);
+      } else if (file.type === "video/mp4" && file.size > 1024 * 1024 * 70) {
+        props.setError(
+          `${file.name} có kích thước video quá lớn, hãy chọn những video dưới 20MB`
+        );
+        files = files.filter((item) => item.name !== file.name);
+        return;
+      } else if (
+        (file.type === "image/jpeg" ||
+          file.type === "image/png" ||
+          file.type === "image/webp" ||
+          file.type === "image/gif") &&
+        file.size > 1024 * 1024 * 9
+      ) {
+        props.setError(
+          `${file.name} có kích thước hình ảnh quá lớn, hãy chọn những hình ảnh dưới 10MB`
+        );
+        files = files.filter((item) => item.name !== file.name);
         return;
       } else {
-        if (img.type === "video/mp4") {
+        if (file.type === "video/mp4") {
           const reader = new FileReader();
-          reader.readAsDataURL(img);
+          reader.readAsDataURL(file);
           reader.onload = (readerEvent) => {
             props.setVideos((videos) => [...videos, readerEvent.target.result]);
           };
         } else {
           const reader = new FileReader();
-          reader.readAsDataURL(img);
+          reader.readAsDataURL(file);
           reader.onload = (readerEvent) => {
             props.setImages((images) => [...images, readerEvent.target.result]);
           };
@@ -56,15 +69,6 @@ function ImageReview(props) {
         type2
       />
 
-      {/* <input
-        type="file"
-        accept="image/jpeg,image/png,image/gif,image/jpg,image/webp"
-        multiple
-        hidden
-        ref={imageInputRef}
-        onChange={handleImages}
-      /> */}
-
       <div className="add_pics_wrap">
         {(props.images && props.images.length) ||
         (props.videos && props.videos.length) ? (
@@ -74,13 +78,13 @@ function ImageReview(props) {
                 <i className="edit_icon"></i>
                 Chỉnh sửa
               </button>
+
               <button
                 className="hover1"
-                // onClick={() => {
-                //   imageInputRef.current.click();
-                // }}
+                onClick={() => {
+                  imageInputRef.current.click();
+                }}
               >
-                <i className="addPhoto_icon"></i>
                 <input
                   type="file"
                   accept="image/jpeg,image/png,image/gif,image/jpg,image/webp,video/mp4"
@@ -89,6 +93,7 @@ function ImageReview(props) {
                   ref={imageInputRef}
                   onChange={handleImages}
                 />
+                <i className="addPhoto_icon"></i>
                 Thêm hình ảnh/video
               </button>
             </div>
@@ -156,12 +161,7 @@ function ImageReview(props) {
             >
               <i className="exit_icon"></i>
             </div>
-            <div
-              className="add_col"
-              // onClick={() => {
-              //   imageInputRef.current.click();
-              // }}
-            >
+            <div className="add_col">
               <div className="add_circle">
                 <i className="addPhoto_icon"></i>
               </div>
