@@ -141,8 +141,68 @@ function Post({ post, user, profile }) {
         </div>
       ) : post.type === null ? (
         <>
-          <div className="post_text">{post.text}</div>
-          {post.images && post.images.length ? (
+          {post.images &&
+          post.images.length &&
+          post.videos &&
+          post.videos.length ? (
+            <div
+              className={
+                post.images.length === 1 && post.videos.length === 1
+                  ? "grid_2"
+                  : (post.images.length === 2 && post.videos.length === 1) ||
+                    (post.images.length === 1 && post.videos.length === 2)
+                  ? "grid_3"
+                  : (post.images.length === 3 && post.videos.length === 1) ||
+                    (post.images.length === 1 && post.videos.length === 3) ||
+                    (post.images.length === 2 && post.videos.length === 2)
+                  ? "grid_4"
+                  : (post.images.length === 4 && post.videos.length === 1) ||
+                    (post.images.length === 1 && post.videos.length === 4) ||
+                    (post.images.length === 3 && post.videos.length === 2) ||
+                    (post.images.length === 2 && post.videos.length === 3)
+                  ? "grid_5"
+                  : post.images.length >= 5 && "grid_5"
+              }
+            >
+              {post.videos.slice(0, 5).map((video, i) => (
+                <video
+                  src={video.url}
+                  alt="post_video"
+                  key={i}
+                  className={`video-${i} ${
+                    post.images.length === 1 ? "image1-1" : ""
+                  }`}
+                  controls
+                />
+              ))}
+              {post.images.slice(0, 5).map((image, i) => (
+                <img
+                  key={i}
+                  src={image.url}
+                  alt="post_img"
+                  className={`img-${i} ${
+                    post.videos.length === 1 && post.images.length === 3
+                      ? "video1-3"
+                      : post.videos.length === 1
+                      ? "video1-2"
+                      : post.videos.length === 2 && post.images.length === 1
+                      ? "video2-1"
+                      : post.videos.length === 2 && post.images.length === 2
+                      ? "video2-2"
+                      : post.videos.length === 3 && post.images.length === 1
+                      ? "video3-1"
+                      : ""
+                  }`}
+                />
+              ))}
+
+              {(post.videos.length > 5 || post.videos.length > 5) && (
+                <div className="more-pics-shadow">
+                  +{post.videos.length - 5}
+                </div>
+              )}
+            </div>
+          ) : post.images && post.images.length ? (
             <div
               className={
                 post.images.length === 1
@@ -203,7 +263,6 @@ function Post({ post, user, profile }) {
               </div>
             )
           )}
-          {}
         </>
       ) : post.type === "profilePicture" ? (
         <>
@@ -214,7 +273,7 @@ function Post({ post, user, profile }) {
             </div>
             <img
               src={post.images[0].url}
-              alt=""
+              alt="cập nhật ảnh đại diện"
               className="post_updated_picture"
             />
           </div>
@@ -238,7 +297,7 @@ function Post({ post, user, profile }) {
                       <img
                         src={`../../../reacts/${react.react}.svg`}
                         key={i}
-                        alt=""
+                        alt="cảm xúc"
                       />
                     )
                 )}
@@ -247,7 +306,7 @@ function Post({ post, user, profile }) {
         </div>
         <div className="to_right">
           <div className="comments_count">
-            {comments.length > 0 ? `${comments.length} comments` : ""}
+            {comments.length > 0 ? `${comments.length} bình luận` : ""}
           </div>
           {/* <div className="share_count">100 share</div> */}
         </div>

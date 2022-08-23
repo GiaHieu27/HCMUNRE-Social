@@ -59,6 +59,53 @@ function CreratePostPopup({ user, setVisible, posts, dispatch, profile }) {
       } else {
         setError(res);
       }
+    } else if (images && images.length && videos && videos.length) {
+      setLoading(true);
+
+      const postImage = images.map((image) => {
+        return dataURLtoBlob(image);
+      });
+      const postVideo = videos.map((video) => {
+        return dataURLtoBlob(video);
+      });
+      // console.log(postImage);
+      const path = `${user.username}/post_contents`;
+
+      let formData = new FormData();
+      formData.append("path", path);
+      postImage.forEach((image) => {
+        formData.append("files", image);
+      });
+      postVideo.forEach((video) => {
+        formData.append("files", video);
+      });
+
+      const response = await uploadImages(formData, user.token);
+      const res = await createPost(
+        null,
+        null,
+        text,
+        response.images,
+        response.videos,
+        user.id,
+        user.token
+      );
+      setLoading(false);
+      if (res.status === "ok") {
+        if (profile) {
+          dispatchh(profileSlice.actions.PROFILE_POSTS([res.data, ...posts]));
+        } else {
+          dispatch({
+            type: "POST_SUCCESS",
+            payload: [res.data, ...posts],
+          });
+        }
+        setText("");
+        setImages([]);
+        setVisible(false);
+      } else {
+        setError(res);
+      }
     } else if (images && images.length) {
       setLoading(true);
 
@@ -103,19 +150,18 @@ function CreratePostPopup({ user, setVisible, posts, dispatch, profile }) {
       }
     } else if (videos && videos.length) {
       setLoading(true);
-      const postVideo = videos.map((image) => {
-        return dataURLtoBlob(image);
+      const postVideo = videos.map((video) => {
+        return dataURLtoBlob(video);
       });
       const path = `${user.username}/post_contents`;
 
       let formData = new FormData();
       formData.append("path", path);
-      postVideo.forEach((image) => {
-        formData.append("files", image);
+      postVideo.forEach((video) => {
+        formData.append("files", video);
       });
 
       const response = await uploadImages(formData, user.token);
-      console.log(response);
       const res = await createPost(
         null,
         null,
@@ -127,46 +173,6 @@ function CreratePostPopup({ user, setVisible, posts, dispatch, profile }) {
       );
       setLoading(false);
 
-      if (res.status === "ok") {
-        if (profile) {
-          dispatchh(profileSlice.actions.PROFILE_POSTS([res.data, ...posts]));
-        } else {
-          dispatch({
-            type: "POST_SUCCESS",
-            payload: [res.data, ...posts],
-          });
-        }
-        setText("");
-        setImages([]);
-        setVisible(false);
-      } else {
-        setError(res);
-      }
-    } else if ((images && images.length) || (videos && videos.length)) {
-      setLoading(true);
-
-      const postImage = images.map((image) => {
-        return dataURLtoBlob(image);
-      });
-      // console.log(postImage);
-      const path = `${user.username}/post_contents`;
-
-      let formData = new FormData();
-      formData.append("path", path);
-      postImage.forEach((image) => {
-        formData.append("files", image);
-      });
-
-      const response = await uploadImages(formData, user.token);
-      const res = await createPost(
-        null,
-        null,
-        text,
-        response,
-        user.id,
-        user.token
-      );
-      setLoading(false);
       if (res.status === "ok") {
         if (profile) {
           dispatchh(profileSlice.actions.PROFILE_POSTS([res.data, ...posts]));

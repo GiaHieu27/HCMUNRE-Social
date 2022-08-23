@@ -115,13 +115,20 @@ function ImageReview(props) {
                     (props.images.length === 1 && props.videos.length === 2)
                   ? "preview3"
                   : (props.images.length === 3 && props.videos.length === 1) ||
-                    (props.images.length === 1 && props.videos.length === 3)
+                    (props.images.length === 1 && props.videos.length === 3) ||
+                    (props.images.length === 2 && props.videos.length === 2)
                   ? "preview4"
                   : (props.images.length === 4 && props.videos.length === 1) ||
-                    (props.images.length === 1 && props.videos.length === 4)
+                    (props.images.length === 1 && props.videos.length === 4) ||
+                    (props.images.length === 3 && props.videos.length === 2) ||
+                    (props.images.length === 2 && props.videos.length === 3)
                   ? "preview5"
                   : (props.images.length === 5 && props.videos.length === 1) ||
-                    (props.images.length === 1 && props.videos.length === 5)
+                    (props.images.length === 1 && props.videos.length === 5) ||
+                    (props.images.length === 4 && props.videos.length === 2) ||
+                    (props.images.length === 2 && props.videos.length === 4) ||
+                    (props.images.length === 3 && props.videos.length === 3) ||
+                    (props.images.length === 3 && props.videos.length === 3)
                   ? "preview6"
                   : props.images.length === 1 || props.videos.length === 1
                   ? "preview1"
