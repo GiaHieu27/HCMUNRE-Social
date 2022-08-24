@@ -2,12 +2,12 @@ import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import Moment from "react-moment";
 
-import { Dots, Public } from "../../../svg";
 import ReactsPopup from "./ReactsPopup";
 import CreateComments from "./CreateComments";
 import PostMenu from "./PostMenu";
-import { getReacts, reactPost } from "../../../functions/post";
 import Comment from "./Comment";
+import { Dots, Public } from "../../../svg";
+import { getReacts, reactPost } from "../../../functions/post";
 
 function Post({ post, user, profile }) {
   const [visible, setVisible] = useState(false);
@@ -158,10 +158,13 @@ function Post({ post, user, profile }) {
                   ? "grid_4"
                   : (post.images.length === 4 && post.videos.length === 1) ||
                     (post.images.length === 1 && post.videos.length === 4) ||
+                    (post.images.length === 4 && post.videos.length === 2) ||
+                    (post.images.length === 2 && post.videos.length === 4) ||
                     (post.images.length === 3 && post.videos.length === 2) ||
                     (post.images.length === 2 && post.videos.length === 3)
                   ? "grid_5"
-                  : post.images.length >= 5 && "grid_5"
+                  : (post.images.length >= 5 || post.videos.length >= 5) &&
+                    "grid_5"
               }
             >
               {post.videos.slice(0, 5).map((video, i) => (
@@ -170,7 +173,9 @@ function Post({ post, user, profile }) {
                   alt="post_video"
                   key={i}
                   className={`video-${i} ${
-                    post.images.length === 1 ? "image1-1" : ""
+                    post.videos.length === 1 && post.images.length === 5
+                      ? "video1-5"
+                      : ""
                   }`}
                   controls
                 />
@@ -181,25 +186,41 @@ function Post({ post, user, profile }) {
                   src={image.url}
                   alt="post_img"
                   className={`img-${i} ${
-                    post.videos.length === 1 && post.images.length === 3
-                      ? "video1-3"
+                    post.videos.length === 1 && post.images.length === 4
+                      ? "img4-1"
+                      : post.videos.length === 1 && post.images.length === 3
+                      ? "img3-1"
                       : post.videos.length === 1
-                      ? "video1-2"
+                      ? "img2-1"
                       : post.videos.length === 2 && post.images.length === 1
-                      ? "video2-1"
+                      ? "img1-2"
                       : post.videos.length === 2 && post.images.length === 2
-                      ? "video2-2"
+                      ? "img2-2"
                       : post.videos.length === 3 && post.images.length === 1
-                      ? "video3-1"
+                      ? "img1-3"
+                      : post.videos.length === 4 && post.images.length === 1
+                      ? "img1-4"
+                      : post.videos.length === 2 && post.images.length === 3
+                      ? "img3-2"
+                      : post.videos.length === 3 && post.images.length === 2
+                      ? "img2-3"
+                      : post.videos.length === 5 && post.images.length === 1
+                      ? "img1-5"
                       : ""
                   }`}
                 />
               ))}
 
-              {(post.videos.length > 5 || post.videos.length > 5) && (
+              {post.videos.length > 5 || post.images.length > 5 ? (
                 <div className="more-pics-shadow">
                   +{post.videos.length - 5}
                 </div>
+              ) : post.images.length + post.videos.length > 5 ? (
+                <div className="more-pics-shadow">
+                  +{post.images.length + post.videos.length - 5}
+                </div>
+              ) : (
+                ""
               )}
             </div>
           ) : post.images && post.images.length ? (
