@@ -6,6 +6,7 @@ import ReactsPopup from "./ReactsPopup";
 import CreateComments from "./CreateComments";
 import PostMenu from "./PostMenu";
 import Comment from "./Comment";
+import ImgAndVid from "./ImgAndVid";
 import { Dots, Public } from "../../../svg";
 import { getReacts, reactPost } from "../../../functions/post";
 
@@ -124,10 +125,10 @@ function Post({ post, user, profile }) {
           postUserId={post.user._id}
           postId={post._id}
           imageLenght={post?.images?.length}
-          setShowMenu={setShowMenu}
-          checkSavedPost={checkSavedPost}
-          setCheckSavedPost={setCheckSavedPost}
           images={post.images}
+          setShowMenu={setShowMenu}
+          setCheckSavedPost={setCheckSavedPost}
+          checkSavedPost={checkSavedPost}
           postRef={postRef}
         />
       )}
@@ -145,84 +146,7 @@ function Post({ post, user, profile }) {
           post.images.length &&
           post.videos &&
           post.videos.length ? (
-            <div
-              className={
-                post.images.length === 1 && post.videos.length === 1
-                  ? "grid_2"
-                  : (post.images.length === 2 && post.videos.length === 1) ||
-                    (post.images.length === 1 && post.videos.length === 2)
-                  ? "grid_3"
-                  : (post.images.length === 3 && post.videos.length === 1) ||
-                    (post.images.length === 1 && post.videos.length === 3) ||
-                    (post.images.length === 2 && post.videos.length === 2)
-                  ? "grid_4"
-                  : (post.images.length === 4 && post.videos.length === 1) ||
-                    (post.images.length === 1 && post.videos.length === 4) ||
-                    (post.images.length === 4 && post.videos.length === 2) ||
-                    (post.images.length === 2 && post.videos.length === 4) ||
-                    (post.images.length === 3 && post.videos.length === 2) ||
-                    (post.images.length === 2 && post.videos.length === 3)
-                  ? "grid_5"
-                  : (post.images.length >= 5 || post.videos.length >= 5) &&
-                    "grid_5"
-              }
-            >
-              {post.videos.slice(0, 5).map((video, i) => (
-                <video
-                  src={video.url}
-                  alt="post_video"
-                  key={i}
-                  className={`video-${i} ${
-                    post.videos.length === 1 && post.images.length === 5
-                      ? "video1-5"
-                      : ""
-                  }`}
-                  controls
-                />
-              ))}
-              {post.images.slice(0, 5).map((image, i) => (
-                <img
-                  key={i}
-                  src={image.url}
-                  alt="post_img"
-                  className={`img-${i} ${
-                    post.videos.length === 1 && post.images.length === 4
-                      ? "img4-1"
-                      : post.videos.length === 1 && post.images.length === 3
-                      ? "img3-1"
-                      : post.videos.length === 1
-                      ? "img2-1"
-                      : post.videos.length === 2 && post.images.length === 1
-                      ? "img1-2"
-                      : post.videos.length === 2 && post.images.length === 2
-                      ? "img2-2"
-                      : post.videos.length === 3 && post.images.length === 1
-                      ? "img1-3"
-                      : post.videos.length === 4 && post.images.length === 1
-                      ? "img1-4"
-                      : post.videos.length === 2 && post.images.length === 3
-                      ? "img3-2"
-                      : post.videos.length === 3 && post.images.length === 2
-                      ? "img2-3"
-                      : post.videos.length === 5 && post.images.length === 1
-                      ? "img1-5"
-                      : ""
-                  }`}
-                />
-              ))}
-
-              {post.videos.length > 5 || post.images.length > 5 ? (
-                <div className="more-pics-shadow">
-                  +{post.videos.length - 5}
-                </div>
-              ) : post.images.length + post.videos.length > 5 ? (
-                <div className="more-pics-shadow">
-                  +{post.images.length + post.videos.length - 5}
-                </div>
-              ) : (
-                ""
-              )}
-            </div>
+            <ImgAndVid videos={post.videos} images={post.images} />
           ) : post.images && post.images.length ? (
             <div
               className={

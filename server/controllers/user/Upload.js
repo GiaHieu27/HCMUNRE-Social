@@ -67,6 +67,7 @@ const uploadToCloudinaryImg = async (file, path) => {
         }
         resolve({
           url: res.secure_url,
+          type: res.resource_type,
         });
       }
     );
@@ -88,6 +89,7 @@ const uploadToCloudinaryVideo = async (file, path) => {
         }
         resolve({
           url: res.secure_url,
+          type: res.resource_type,
         });
       }
     );
