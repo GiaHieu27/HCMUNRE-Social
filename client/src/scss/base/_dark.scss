@@ -16,6 +16,10 @@
     background: var(--bg-third);
   }
 
+  a:hover {
+    color: var(--light-green-color);
+  }
+
   .header_right svg {
     fill: #fff;
   }

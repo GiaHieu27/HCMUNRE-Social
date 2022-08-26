@@ -32,7 +32,7 @@ function Friend() {
         <div className="friends_left">
           <div className="friends_left_header">
             <h3>Friends</h3>
-            <div className="small_circle">
+            <div className="small_circle me-1">
               <i className="settings_filled_icon"></i>
             </div>
           </div>

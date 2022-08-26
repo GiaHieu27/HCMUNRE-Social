@@ -74,11 +74,11 @@ export const comment = async (postId, comment, image, token) => {
   }
 };
 
-export const savePost = async (postId, token) => {
+export const savePost = async (postId, postUserId, token) => {
   try {
     const { data } = await axios.put(
       `${process.env.REACT_APP_BACKEND_URL}/savePost/${postId}`,
-      {},
+      { postUserId },
       {
         headers: {
           Authorization: "Bearer " + token,

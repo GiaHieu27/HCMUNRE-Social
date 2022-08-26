@@ -13,7 +13,7 @@ function PostMenu(props) {
   });
 
   const handleSavePost = async () => {
-    savePost(props.postId, props.user.token);
+    savePost(props.postId, props.postUserId, props.user.token);
     if (props.checkSavedPost) props.setCheckSavedPost(false);
     else props.setCheckSavedPost(true);
   };

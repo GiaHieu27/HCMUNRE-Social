@@ -69,6 +69,7 @@ exports.comment = async (req, res) => {
 exports.savePost = async (req, res) => {
   try {
     const postId = req.params.id;
+    const postUserId = req.body.postUserId;
     const user = await User.findById(req.user.id);
 
     const check = user?.savedPosts.find(
@@ -86,7 +87,11 @@ exports.savePost = async (req, res) => {
         req.user.id,
         {
           $push: {
-            savedPosts: { post: postId, savedAt: new Date() },
+            savedPosts: {
+              post: postId,
+              postBy: postUserId,
+              savedAt: new Date(),
+            },
           },
         },
         {
@@ -94,6 +99,19 @@ exports.savePost = async (req, res) => {
         }
       );
     }
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+exports.getSavedPosts = async (req, res) => {
+  try {
+    const savedPostsOfUser = await User.findById(req.user.id)
+      .select("savedPosts")
+      .populate("savedPosts.post", "text images videos background")
+      .populate("savedPosts.postBy", "first_name last_name picture");
+
+    res.json(savedPostsOfUser.savedPosts);
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
