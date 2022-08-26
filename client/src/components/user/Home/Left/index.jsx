@@ -24,7 +24,6 @@ function LeftHome({ user }) {
           notification={link.notification}
         />
       ))}
-
       <div className={`fb_copyright ${visible && "relative_fb_copyright"}`}>
         HCMUNRE © {year}
       </div>

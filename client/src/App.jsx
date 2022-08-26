@@ -11,6 +11,7 @@ import NotLoggedInRoutes from "./routes/NotLoggedInRoutes";
 import Login from "./pages/user/login";
 import Home from "./pages/user/home";
 import Profile from "./pages/user/profile";
+import Saved from "./pages/user/save";
 import Activate from "./pages/user/home/Activate";
 import ResetPassword from "./pages/user/reset";
 import CreratePostPopup from "./components/user/CreratePostPopup";
@@ -89,6 +90,7 @@ function App() {
             }
           />
           <Route path="/activate/:tokenUrl" element={<Activate />} />
+          <Route path="/saved" element={<Saved />} />
         </Route>
         <Route element={<NotLoggedInRoutes />}>
           <Route path="/login" element={<Login />} />
