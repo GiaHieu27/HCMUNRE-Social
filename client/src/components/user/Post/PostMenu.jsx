@@ -32,71 +32,40 @@ function PostMenu(props) {
 
   return (
     <ul className="post_menu" ref={menuRef}>
-      <MenuItem icon="pin_icon" title="Pin Post" />
-
       <div onClick={handleSavePost}>
         {props.checkSavedPost ? (
           <MenuItem
             icon="save_icon"
-            title="Unsave Post"
-            subtitle="Remove this to your saved items."
+            title="Huỷ lưu bài viết"
+            subtitle="Xoá khỏi danh sách đã lưu"
           />
         ) : (
           <MenuItem
             icon="save_icon"
-            title="Save Post"
-            subtitle="Add this to your saved items."
+            title="Lưu bài viết"
+            subtitle="Thêm vào danh sách đã lưu"
           />
         )}
       </div>
       <div className="line"></div>
 
-      {compare && <MenuItem icon="edit_icon" title="Edit Post" />}
-      {!compare && (
-        <MenuItem
-          icon="turnOnNotification_icon"
-          title="Turn on notifications for this post"
-        />
-      )}
       {props.imageLenght && (
         <div onClick={() => handleDownloadImg()}>
-          <MenuItem icon="download_icon" title="Download" />
+          <MenuItem icon="download_icon" title="Tải xuống" />
         </div>
       )}
       {props.imageLenght && (
-        <MenuItem icon="fullscreen_icon" title="Enter Fullscreen" />
+        <MenuItem icon="fullscreen_icon" title="Xem ảnh toàn màn hình" />
       )}
-      {compare && (
-        <MenuItem img="../../../icons/lock.png" title="Edit audience" />
-      )}
-      {compare && (
-        <MenuItem
-          icon="turnOffNotifications_icon"
-          title="Turn off notifications for this post"
-        />
-      )}
-      {compare && <MenuItem icon="delete_icon" title="Turn off translations" />}
-      {compare && <MenuItem icon="date_icon" title="Edit Date" />}
-      {compare && (
-        <MenuItem icon="refresh_icon" title="Refresh share attachment" />
-      )}
-      {compare && <MenuItem icon="archive_icon" title="Move to archive" />}
+
       {compare && (
         <div onClick={() => handleDelPost()}>
           <MenuItem
             icon="trash_icon"
-            title="Move to trash"
-            subtitle="items in your trash are deleted after 30 days"
+            title="Chuyển vào thùng rác"
+            subtitle="Các mục trong thùng rác sẽ bị xoá sau 30 ngày"
           />
         </div>
-      )}
-      {!compare && <div className="line"></div>}
-      {!compare && (
-        <MenuItem
-          img="../../../icons/report.png"
-          title="Report post"
-          subtitle="i'm concerned about this post"
-        />
       )}
     </ul>
   );

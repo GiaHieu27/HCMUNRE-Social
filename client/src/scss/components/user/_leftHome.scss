@@ -10,6 +10,7 @@
     padding: 15px 0;
     padding-bottom: 5rem;
     user-select: none;
+    overflow-x: hidden;
 
     .small_circle {
       background: rgb(214, 214, 214);
@@ -42,9 +43,6 @@
 }
 
 .col {
-  // margin-left: 2px;
-  // transform: translateY(-2px);
-
   &_1 {
     transform: translateX(-1px);
   }
@@ -52,20 +50,22 @@
   &_2 {
     position: relative;
     font-size: 12px;
-    color: var(--green-color);
-    margin-left: 9px;
-    margin-top: 2px;
     font-weight: normal;
+    margin-top: 2px;
+    margin-left: 9px;
+    color: var(--green-color);
 
     &::before {
       content: "";
       width: 7px;
       height: 7px;
-      border-radius: 50%;
-      background: var(--green-color);
+
       position: absolute;
       left: -10px;
-      bottom: 2px;
+      bottom: 5.5px;
+
+      border-radius: 50%;
+      background: var(--green-color);
     }
   }
 }

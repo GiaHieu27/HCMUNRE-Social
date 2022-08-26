@@ -8,6 +8,7 @@ import { Return, Search } from "../../../svg";
 
 function SearchMenu({ color, setShowSearchMenu }) {
   const user = useSelector((state) => state.user);
+
   const [iconVisible, setIconVisible] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [results, setResults] = useState([]);

@@ -1,8 +1,5 @@
 import { useMediaQuery } from "react-responsive";
-
 import { ArrowRight, Plus } from "../../../../svg";
-import { stories } from "../../../../data/home";
-import Story from "./Story";
 
 function Stories() {
   const query1175px = useMediaQuery({
@@ -29,7 +26,7 @@ function Stories() {
     ? 4
     : query1175px
     ? 4
-    : stories.length;
+    : "";
   return (
     <div className="stories">
       <div className="create_story_card">
@@ -43,10 +40,6 @@ function Stories() {
         </div>
         <div className="story_create_text">Create Story</div>
       </div>
-      {stories.slice(0, max).map((story, index) => (
-        <Story key={index} story={story} />
-      ))}
-
       <div className="white_circle">
         <ArrowRight color="#65676b" />
       </div>

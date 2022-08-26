@@ -2,6 +2,10 @@ import { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
+import SearchMenu from "./SearchMenu";
+import AllMenu from "./AllMenu";
+import useClickOutSide from "../../../hooks/useClickOutSide";
+import UserMenu from "./UserMenu";
 import {
   Friends,
   Gaming,
@@ -16,10 +20,6 @@ import {
   Home,
   FriendsActive,
 } from "../../../svg";
-import SearchMenu from "./SearchMenu";
-import AllMenu from "./AllMenu";
-import useClickOutSide from "../../../hooks/useClickOutSide";
-import UserMenu from "./UserMenu";
 
 function Header({ page, getPosts }) {
   const { user } = useSelector((user) => ({ ...user }));
