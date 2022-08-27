@@ -1,15 +1,15 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import Header from "../../../components/user/Header";
 import axios from "axios";
-import { useSelector } from "react-redux";
 import ItemSaved from "./ItemSaved";
 
-function Saved(props) {
+function Saved() {
   const user = useSelector((state) => state.user);
   const [savedPosts, setSavedPosts] = useState([]);
 
-  const getSavedPosts = async () => {
+  const getSavedPosts = useCallback(async () => {
     try {
       const { data } = await axios.get(
         `${process.env.REACT_APP_BACKEND_URL}/getSavedPosts`,
@@ -23,11 +23,11 @@ function Saved(props) {
     } catch (error) {
       return error.response.data.message;
     }
-  };
+  }, [user.token]);
 
   useEffect(() => {
     getSavedPosts();
-  }, []);
+  }, [getSavedPosts]);
 
   return (
     <>

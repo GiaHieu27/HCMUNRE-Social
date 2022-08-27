@@ -1,9 +1,8 @@
-import PropTypes from "prop-types";
-import { useEffect } from "react";
-import { useState } from "react";
-import { BsDot } from "react-icons/bs";
+import { useRef, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { BsDot } from "react-icons/bs";
+import PropTypes from "prop-types";
 
 import { savePost } from "../../../functions/post";
 
@@ -12,24 +11,35 @@ function ItemSaved({ item }) {
   const [savedPosts, setSavedPosts] = useState({});
 
   const { post, postBy } = savedPosts;
+  const postRef = useRef(null);
 
   useEffect(() => {
     setSavedPosts(item);
   }, [item]);
 
-  const handleUnSavedPost = () => {
-    savePost(item.post._id, item.postBy._id, user.token);
+  const handleUnSavedPost = async () => {
+    const result = await savePost(post._id, postBy._id, user.token);
+    if (result.status === "ok") postRef.current.remove();
   };
 
   return (
-    <div className="createPost saved-card mt-3">
-      <img src={post.images[0].url} alt="saved" />
+    <div className="createPost saved-card mt-3" ref={postRef}>
+      {post?.images && post?.images.length ? (
+        <img src={post?.images[0].url} alt="saved" />
+      ) : post?.videos && post?.videos.length ? (
+        <video src={post?.videos[0].url}></video>
+      ) : (
+        <img src={postBy?.picture} alt="saved" />
+      )}
 
       <div className="saved-card_content">
         <div className="saved-card_header">
           <div className="saved-card_title">
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Explicabo
-            voluptates sapiente sit qui sequi. Voluptates,
+            {post?.text
+              ? post.text
+              : post?.images && post?.images.length
+              ? post?.images.length + " ảnh"
+              : post?.videos.length + " video"}
           </div>
           <div className="saved-card_subtitle">
             <span>Bài viết</span>
@@ -39,12 +49,12 @@ function ItemSaved({ item }) {
         </div>
 
         <div className="saved-card_source">
-          <img src={postBy.picture} alt="avatar" />
+          <img src={postBy?.picture} alt="avatar" />
 
           <p>
             Đã lưu từ{" "}
-            <Link to={`/profile/${postBy.username}`}>
-              bài viết của {postBy.first_name} {postBy.last_name}
+            <Link to={`/profile/${postBy?.username}`}>
+              bài viết của {postBy?.first_name} {postBy?.last_name}
             </Link>
           </p>
         </div>

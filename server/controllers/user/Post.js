@@ -99,6 +99,7 @@ exports.savePost = async (req, res) => {
         }
       );
     }
+    res.json({ status: "ok" });
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
@@ -106,12 +107,13 @@ exports.savePost = async (req, res) => {
 
 exports.getSavedPosts = async (req, res) => {
   try {
-    const savedPostsOfUser = await User.findById(req.user.id)
+    const savedPosts = await User.findById(req.user.id)
       .select("savedPosts")
       .populate("savedPosts.post", "text images videos background")
-      .populate("savedPosts.postBy", "first_name last_name picture");
+      .populate("savedPosts.postBy", "first_name last_name picture username")
+      .lean();
 
-    res.json(savedPostsOfUser.savedPosts);
+    res.json(savedPosts.savedPosts);
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
