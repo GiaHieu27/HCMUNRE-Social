@@ -52,9 +52,14 @@ function Saved(props) {
         </div>
 
         <div className="friends_right">
-          {savedPosts &&
-            savedPosts.length &&
-            savedPosts.map((item) => <ItemSaved key={item._id} item={item} />)}
+          <h4 className="fw-bold fs-5 mt-2">Tất cả</h4>
+          {savedPosts && savedPosts.length ? (
+            savedPosts.map((item) => <ItemSaved key={item._id} item={item} />)
+          ) : (
+            <h4 className="createPost text-center p-5 mt-4 text-secondary">
+              Chưa có bài viết nào được lưu
+            </h4>
+          )}
         </div>
       </div>
     </>

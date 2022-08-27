@@ -1,12 +1,29 @@
 import PropTypes from "prop-types";
+import { useEffect } from "react";
+import { useState } from "react";
 import { BsDot } from "react-icons/bs";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
+import { savePost } from "../../../functions/post";
+
 function ItemSaved({ item }) {
-  console.log(item);
+  const user = useSelector((state) => state.user);
+  const [savedPosts, setSavedPosts] = useState({});
+
+  const { post, postBy } = savedPosts;
+
+  useEffect(() => {
+    setSavedPosts(item);
+  }, [item]);
+
+  const handleUnSavedPost = () => {
+    savePost(item.post._id, item.postBy._id, user.token);
+  };
+
   return (
-    <div className="createPost saved-card">
-      <img src={item.post.images[0].url} alt="saved" />
+    <div className="createPost saved-card mt-3">
+      <img src={post.images[0].url} alt="saved" />
 
       <div className="saved-card_content">
         <div className="saved-card_header">
@@ -22,17 +39,21 @@ function ItemSaved({ item }) {
         </div>
 
         <div className="saved-card_source">
-          <img src={item.postBy.picture} alt="avatar" />
+          <img src={postBy.picture} alt="avatar" />
 
           <p>
             Đã lưu từ{" "}
-            <Link to={`/profile/${item.postBy.username}`}>
-              bài viết của {item.postBy.first_name} {item.postBy.last_name}
+            <Link to={`/profile/${postBy.username}`}>
+              bài viết của {postBy.first_name} {postBy.last_name}
             </Link>
           </p>
         </div>
 
-        <button className="green_btn saved-card_btn hover1" type="button">
+        <button
+          className="green_btn saved-card_btn hover1"
+          type="button"
+          onClick={() => handleUnSavedPost()}
+        >
           <i className="remove_saved_icon"></i>
           Bỏ lưu
         </button>
