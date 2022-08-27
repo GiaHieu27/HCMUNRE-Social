@@ -118,7 +118,7 @@ function Header({ page, getPosts }) {
               setShowAllMenu(!showAllMenu);
             }}
           >
-            <div style={{ transform: "translateY(2px)" }}>
+            <div style={{ transform: "translateY(-2px)" }}>
               <Menu />
             </div>
           </div>
@@ -136,7 +136,7 @@ function Header({ page, getPosts }) {
           ref={userMenu}
         >
           <div onClick={() => setShowUserMenu(!showUserMenu)}>
-            <div style={{ transform: "translateY(2px)" }}>
+            <div style={{ transform: "translateY(-1px)" }}>
               <ArrowDown />
             </div>
           </div>

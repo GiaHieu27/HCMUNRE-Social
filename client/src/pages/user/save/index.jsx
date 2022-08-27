@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
-import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import Header from "../../../components/user/Header";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import ItemSaved from "./ItemSaved";
 
 function Saved(props) {
   const user = useSelector((state) => state.user);
-  const [savedPosts, setSavedPosts] = useState();
+  const [savedPosts, setSavedPosts] = useState([]);
 
   const getSavedPosts = async () => {
     try {
@@ -19,7 +19,7 @@ function Saved(props) {
           },
         }
       );
-      console.log(data);
+      setSavedPosts(data);
     } catch (error) {
       return error.response.data.message;
     }
@@ -51,12 +51,14 @@ function Saved(props) {
           </div>
         </div>
 
-        <div className="friends_right"></div>
+        <div className="friends_right">
+          {savedPosts &&
+            savedPosts.length &&
+            savedPosts.map((item) => <ItemSaved key={item._id} item={item} />)}
+        </div>
       </div>
     </>
   );
 }
-
-Saved.propTypes = {};
 
 export default Saved;

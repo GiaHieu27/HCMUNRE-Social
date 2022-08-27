@@ -35,7 +35,7 @@ function PostMenu(props) {
       <div onClick={handleSavePost}>
         {props.checkSavedPost ? (
           <MenuItem
-            icon="save_icon"
+            icon="remove_saved_icon"
             title="Huỷ lưu bài viết"
             subtitle="Xoá khỏi danh sách đã lưu"
           />
