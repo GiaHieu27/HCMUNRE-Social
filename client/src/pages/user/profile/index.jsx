@@ -1,5 +1,5 @@
 // lib
-import { useContext, useEffect, useRef, useState } from "react";
+import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useMediaQuery } from "react-responsive";
@@ -41,11 +41,7 @@ function Profile({ getPosts }) {
   const max = 30;
   const sort = "desc";
 
-  useEffect(() => {
-    getProfile();
-  }, [userParam]);
-
-  const getProfile = async () => {
+  const getProfile = useCallback(async () => {
     try {
       dispatch(profileSlice.actions.PROFILE_REQUEST());
       const { data } = await axios.get(
@@ -56,7 +52,6 @@ function Profile({ getPosts }) {
           },
         }
       );
-
       if (data.ok === false) {
         navigate("/profile");
       } else {
@@ -81,7 +76,11 @@ function Profile({ getPosts }) {
         profileSlice.actions.PROFILE_SUCCESS(error.response.data.message)
       );
     }
-  };
+  }, [dispatch, navigate, path, user.token, userParam]);
+
+  useEffect(() => {
+    getProfile();
+  }, [userParam, getProfile]);
 
   // Scroll fixed
   const profileTopRef = useRef(null);

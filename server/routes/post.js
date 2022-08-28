@@ -8,13 +8,15 @@ const {
   comment,
   savePost,
   deletePost,
-  getSavedPosts,
+  getAllSavedPosts,
+  getOneSavedPost,
 } = require(".././controllers/user/Post");
 
 router.post("/createPost", authUser, createPost);
 
 router.get("/getAllPosts", authUser, getAllPosts);
-router.get("/getSavedPosts", authUser, getSavedPosts);
+router.get("/getAllSavedPosts", authUser, getAllSavedPosts);
+router.get("/getOneSavedPost/:postId", authUser, getOneSavedPost);
 
 router.put("/comment", authUser, comment);
 router.put("/savePost/:id", authUser, savePost);

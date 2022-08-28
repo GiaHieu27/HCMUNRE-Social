@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { Link } from "react-router-dom";
 import Moment from "react-moment";
 
@@ -22,25 +22,17 @@ function Post({ post, user, profile }) {
 
   const postRef = useRef(null);
 
-  useEffect(() => {
-    getReactPosts();
-  }, [post]);
-
-  useEffect(() => {
-    setComments(post?.comments);
-  }, [post]);
-
   const showMore = () => {
     setCount((prev) => prev + 3);
   };
 
-  const getReactPosts = async () => {
+  const getReactPosts = useCallback(async () => {
     const res = await getReacts(post._id, user.token);
     setReacts(res.reacts);
     setCheck(res.check);
     setTotal(res.total);
     setCheckSavedPost(res.checkPostSaved);
-  };
+  }, [post._id, user.token]);
 
   const handleReact = async (reactName) => {
     reactPost(post._id, reactName, user.token);
@@ -66,6 +58,14 @@ function Post({ post, user, profile }) {
       }
     }
   };
+
+  useEffect(() => {
+    getReactPosts();
+  }, [post, getReactPosts]);
+
+  useEffect(() => {
+    setComments(post?.comments);
+  }, [post]);
 
   return (
     <div

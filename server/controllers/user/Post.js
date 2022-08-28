@@ -105,7 +105,7 @@ exports.savePost = async (req, res) => {
   }
 };
 
-exports.getSavedPosts = async (req, res) => {
+exports.getAllSavedPosts = async (req, res) => {
   try {
     const savedPosts = await User.findById(req.user.id)
       .select("savedPosts")
@@ -114,6 +114,18 @@ exports.getSavedPosts = async (req, res) => {
       .lean();
 
     res.json(savedPosts.savedPosts);
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+exports.getOneSavedPost = async (req, res) => {
+  try {
+    const { postId } = req.params;
+    const post = await Post.findById(postId)
+      .populate("user", "first_name last_name username picture")
+      .populate("comments.commentBy", "first_name last_name username picture");
+    res.json(post);
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }

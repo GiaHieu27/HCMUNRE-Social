@@ -1,5 +1,5 @@
 // import lib
-import { useEffect, useReducer, useState } from "react";
+import { useCallback, useEffect, useReducer, useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Cookies from "js-cookie";
@@ -12,6 +12,7 @@ import Login from "./pages/user/login";
 import Home from "./pages/user/home";
 import Profile from "./pages/user/profile";
 import Saved from "./pages/user/save";
+import SavedPosstProfile from "./pages/user/profile/SavedPosstProfile";
 import Activate from "./pages/user/home/Activate";
 import ResetPassword from "./pages/user/reset";
 import CreratePostPopup from "./components/user/CreratePostPopup";
@@ -32,11 +33,7 @@ function App() {
     error: "",
   });
 
-  useEffect(() => {
-    if (Cookies.get("user")) getPosts();
-  }, []);
-
-  const getPosts = async () => {
+  const getPosts = useCallback(async () => {
     try {
       dispatch({
         type: "POST_REQUEST",
@@ -59,7 +56,11 @@ function App() {
         payload: error.response.data.message,
       });
     }
-  };
+  }, [user.token]);
+
+  useEffect(() => {
+    if (Cookies.get("user")) getPosts();
+  }, [getPosts]);
 
   return (
     <div className={theme ? "dark" : ""}>
@@ -91,6 +92,10 @@ function App() {
           />
           <Route path="/activate/:tokenUrl" element={<Activate />} />
           <Route path="/saved" element={<Saved />} />
+          <Route
+            path="/:username/posts/:idPost"
+            element={<SavedPosstProfile />}
+          />
         </Route>
         <Route element={<NotLoggedInRoutes />}>
           <Route path="/login" element={<Login />} />

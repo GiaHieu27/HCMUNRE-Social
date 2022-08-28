@@ -7,27 +7,27 @@ import ItemSaved from "./ItemSaved";
 
 function Saved() {
   const user = useSelector((state) => state.user);
-  const [savedPosts, setSavedPosts] = useState([]);
+  const [allSavedPosts, setAllSavedPosts] = useState([]);
 
-  const getSavedPosts = useCallback(async () => {
+  const getAllSavedPosts = useCallback(async () => {
     try {
       const { data } = await axios.get(
-        `${process.env.REACT_APP_BACKEND_URL}/getSavedPosts`,
+        `${process.env.REACT_APP_BACKEND_URL}/getAllSavedPosts`,
         {
           headers: {
             Authorization: "Bearer " + user.token,
           },
         }
       );
-      setSavedPosts(data);
+      setAllSavedPosts(data);
     } catch (error) {
       return error.response.data.message;
     }
   }, [user.token]);
 
   useEffect(() => {
-    getSavedPosts();
-  }, [getSavedPosts]);
+    getAllSavedPosts();
+  }, [getAllSavedPosts]);
 
   return (
     <>
@@ -53,8 +53,10 @@ function Saved() {
 
         <div className="friends_right">
           <h4 className="fw-bold fs-5 mt-2">Tất cả</h4>
-          {savedPosts && savedPosts.length ? (
-            savedPosts.map((item) => <ItemSaved key={item._id} item={item} />)
+          {allSavedPosts && allSavedPosts.length ? (
+            allSavedPosts.map((item) => (
+              <ItemSaved key={item._id} item={item} />
+            ))
           ) : (
             <h4 className="createPost text-center p-5 mt-4 text-secondary">
               Chưa có bài viết nào được lưu

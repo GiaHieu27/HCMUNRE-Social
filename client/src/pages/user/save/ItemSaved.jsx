@@ -53,7 +53,7 @@ function ItemSaved({ item }) {
 
           <p>
             Đã lưu từ{" "}
-            <Link to={`/profile/${postBy?.username}`}>
+            <Link to={`/${postBy?.username}/posts/${post?._id}`}>
               bài viết của {postBy?.first_name} {postBy?.last_name}
             </Link>
           </p>
