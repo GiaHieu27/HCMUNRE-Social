@@ -5,7 +5,6 @@ import ScaleLoader from "react-spinners/ScaleLoader";
 import Header from "../../../components/user/Header";
 import LeftHome from "../../../components/user/Home/Left";
 import RightHome from "../../../components/user/Home/Right";
-import Stories from "../../../components/user/Home/Stories";
 import CreatePost from "../../../components/user/CreatePost";
 import SenVerification from "../../../components/user/Home/sendVerification";
 import Post from "../../../components/user/Post";
