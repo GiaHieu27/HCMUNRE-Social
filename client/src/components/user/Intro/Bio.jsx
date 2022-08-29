@@ -40,7 +40,7 @@ function Bio({ placeholder, name, detail, setShow, rel }) {
             className="gray_btn"
             onClick={() => (!detail ? setShowBio(false) : setShow(false))}
           >
-            Cancel
+            Huỷ
           </button>
           <button
             className="green_btn"
@@ -49,7 +49,7 @@ function Bio({ placeholder, name, detail, setShow, rel }) {
               setShow(false);
             }}
           >
-            Save
+            Lưu
           </button>
         </div>
       </div>

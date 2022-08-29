@@ -2,16 +2,16 @@ function Photos({ photos }) {
   return (
     <div className="profile_card">
       <div className="profile_card_header">
-        Photos
+        Hình ảnh
         <div className="profile_header_link">Xem tất cả hình ảnh</div>
       </div>
 
       <div className="profile_header_count">
         {photos.total_count === 0
-          ? "No photos"
+          ? ""
           : photos.total_count === 1
-          ? "1 Photo"
-          : `${photos.total_count} photos`}
+          ? "1 hình ảnh"
+          : `${photos.total_count} hình ảnh`}
       </div>
       <div className="profile_card_grid">
         {photos.resources &&

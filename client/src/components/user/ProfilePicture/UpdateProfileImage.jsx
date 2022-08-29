@@ -109,17 +109,17 @@ function UpdateProfileImage({ image, setImage, setError, setShow, pRef }) {
   };
 
   return (
-    <div className="postBox update_img">
+    <div className="postBox update_img scrollbar">
       <div className="box_header">
         <div className="small_circle" onClick={() => setImage("")}>
           <i className="exit_icon"></i>
         </div>
-        <span>Update profile picture</span>
+        <span>Cập nhật ảnh đại diện</span>
       </div>
 
       <div className="update_image_desc">
         <textarea
-          placeholder="Description"
+          placeholder="Mô tả"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           className="textarea_green details_input"
@@ -161,22 +161,19 @@ function UpdateProfileImage({ image, setImage, setError, setShow, pRef }) {
       </div>
       <div className="flex_up">
         <div className="gray_btn" onClick={() => getCroppedImage("show")}>
-          <i className="crop_icon"></i>Crop photo
-        </div>
-        <div className="gray_btn">
-          <i className="temp_icon"></i>Make temporary
+          <i className="crop_icon"></i>Cắt ảnh
         </div>
       </div>
       <div className="flex_p_t">
         <i className="public_icon"></i>
-        Your profile picture is public
+        Ảnh đại diện của bạn sẽ được hiển thị công khai
       </div>
       <div className="update_submit_wrap">
         <div className="green_link" onClick={() => setImage("")}>
-          Cancel
+          Huỷ
         </div>
         <button className="green_btn" onClick={handleUpdateProfilePicture}>
-          {loading ? <PulseLoader color="white" size="7px" /> : "Save"}
+          {loading ? <PulseLoader color="white" size="7px" /> : "Lưu"}
         </button>
       </div>
     </div>

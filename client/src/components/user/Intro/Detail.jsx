@@ -16,13 +16,13 @@ function Detail({ img, value, text, name, rel }) {
         ) : (
           <>
             <i className="rounded_plus_icon"></i>
-            <div className="underline">Add {text}</div>
+            <div className="underline">Thêm {text}</div>
           </>
         )}
       </div>
       {show && (
         <Bio
-          placeholder={`Edit ${name}`}
+          placeholder={`Chỉnh sửa ${name}`}
           name={name}
           setShow={setShow}
           detail

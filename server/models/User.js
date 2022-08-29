@@ -134,10 +134,7 @@ const userSchema = mongoose.Schema(
       },
       relationship: {
         type: String,
-        enum: ["Single", "In a relationship", "Married", "Divorced"],
-      },
-      instagram: {
-        type: String,
+        enum: ["Độc thân", "Trong một mối quan hệ", "Đã kết hôn", "Đã ly dị"],
       },
     },
     savedPosts: [

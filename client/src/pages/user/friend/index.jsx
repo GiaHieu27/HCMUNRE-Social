@@ -1,11 +1,11 @@
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Link, useParams } from "react-router-dom";
 
 import Header from "../../../components/user/Header";
+import Card from "./Card";
 import friendsSlice from "../../../redux/slices/friendsSlice";
 import { getFriend } from "../../../functions/friend";
-import Card from "./Card";
-import { Link, useParams } from "react-router-dom";
 
 function Friend() {
   const { user, friends } = useSelector((state) => ({ ...state }));
@@ -13,17 +13,17 @@ function Friend() {
   const dispatch = useDispatch();
   const { type } = useParams();
 
-  useEffect(() => {
-    getFriendPages();
-  }, []);
-
-  const getFriendPages = async () => {
+  const getFriendPages = useCallback(async () => {
     dispatch(friendsSlice.actions.FRIEND_REQUEST());
     const res = await getFriend(user.token);
     if (res.success === true)
       dispatch(friendsSlice.actions.FRIEND_SUCCESS(res.data));
     else dispatch(friendsSlice.actions.FRIEND_ERROR(res.data));
-  };
+  }, [dispatch, user.token]);
+
+  useEffect(() => {
+    getFriendPages();
+  }, [getFriendPages]);
 
   return (
     <>
@@ -47,7 +47,7 @@ function Friend() {
               <div className="small_circle">
                 <i className="friends_home_icon"></i>
               </div>
-              <span>Home</span>
+              <span>Trang chủ</span>
             </Link>
 
             <Link
@@ -59,7 +59,7 @@ function Friend() {
               <div className="small_circle">
                 <i className="friends_requests_icon"></i>
               </div>
-              <span>Friends Requests</span>
+              <span>Yêu cầu kết bạn</span>
               <div className="rArrow">
                 <i className="right_icon"></i>
               </div>
@@ -74,7 +74,7 @@ function Friend() {
               <div className="small_circle">
                 <i className="friends_requests_icon"></i>
               </div>
-              <span>Sent Requests</span>
+              <span>Lời mời kết bạn</span>
               <div className="rArrow">
                 <i className="right_icon"></i>
               </div>
@@ -84,7 +84,7 @@ function Friend() {
               <div className="small_circle">
                 <i className="friends_suggestions_icon"></i>
               </div>
-              <span>Suggestions</span>
+              <span>Gợi ý</span>
               <div className="rArrow">
                 <i className="right_icon"></i>
               </div>
@@ -99,31 +99,11 @@ function Friend() {
               <div className="small_circle">
                 <i className="all_friends_icon"></i>
               </div>
-              <span>All friends</span>
+              <span>Tất cả bạn bè</span>
               <div className="rArrow">
                 <i className="right_icon"></i>
               </div>
             </Link>
-
-            <div className="mmenu_item hover3">
-              <div className="small_circle">
-                <i className="birthdays_icon"></i>
-              </div>
-              <span>Birthdays</span>
-              <div className="rArrow">
-                <i className="right_icon"></i>
-              </div>
-            </div>
-
-            <div className="mmenu_item hover3">
-              <div className="small_circle">
-                <i className="all_friends_icon"></i>
-              </div>
-              <span>Custom Lists</span>
-              <div className="rArrow">
-                <i className="right_icon"></i>
-              </div>
-            </div>
           </div>
         </div>
 
@@ -131,10 +111,10 @@ function Friend() {
           {(type === undefined || type === "requests") && (
             <div className="friends_right_wrap">
               <div className="friends_left_header">
-                <h3>Friend Requests</h3>
+                <h3>Yêu cầu kết bạn</h3>
                 {type === undefined && (
                   <Link to="/friends/requests" className="see_link hover3">
-                    See all
+                    Xem tất cả
                   </Link>
                 )}
               </div>
@@ -156,10 +136,10 @@ function Friend() {
           {(type === undefined || type === "sent") && (
             <div className="friends_right_wrap">
               <div className="friends_left_header">
-                <h3>Sent Requests</h3>
+                <h3>Lời mời kết bạn</h3>
                 {type === undefined && (
                   <Link to="/friends/sent" className="see_link hover3">
-                    See all
+                    Xem tất cả
                   </Link>
                 )}
               </div>
@@ -181,10 +161,10 @@ function Friend() {
           {(type === undefined || type === "all") && (
             <div className="friends_right_wrap">
               <div className="friends_left_header">
-                <h3>Friends</h3>
+                <h3>Tất cả bạn bè</h3>
                 {type === undefined && (
                   <Link to="/friends/all" className="see_link hover3">
-                    See all
+                    Xem tất cả
                   </Link>
                 )}
               </div>

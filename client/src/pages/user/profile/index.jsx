@@ -258,7 +258,7 @@ function Profile({ getPosts }) {
                 {loading ? (
                   <>
                     <div className="profile_card">
-                      <div className="profile_card_header">Intro</div>
+                      <div className="profile_card_header">Giới thiệu</div>
                       <div className="sekeleton_loader">
                         <ScaleLoader color="#00AB55" />
                       </div>

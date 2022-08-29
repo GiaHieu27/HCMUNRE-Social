@@ -24,6 +24,7 @@ function ItemSaved({ item }) {
 
   return (
     <div className="createPost saved-card mt-3" ref={postRef}>
+      {/* <Link to={`/${postBy?.username}/posts/${post?._id}`}> */}
       {post?.images && post?.images.length ? (
         <img src={post?.images[0].url} alt="saved" />
       ) : post?.videos && post?.videos.length ? (
@@ -31,15 +32,18 @@ function ItemSaved({ item }) {
       ) : (
         <img src={postBy?.picture} alt="saved" />
       )}
+      {/* </Link> */}
 
       <div className="saved-card_content">
         <div className="saved-card_header">
           <div className="saved-card_title">
-            {post?.text
-              ? post.text
-              : post?.images && post?.images.length
-              ? post?.images.length + " ảnh"
-              : post?.videos.length + " video"}
+            <Link to={`/${postBy?.username}/posts/${post?._id}`}>
+              {post?.text
+                ? post.text
+                : post?.images && post?.images.length
+                ? post?.images.length + " ảnh"
+                : post?.videos.length + " video"}
+            </Link>
           </div>
           <div className="saved-card_subtitle">
             <span>Bài viết</span>

@@ -14,14 +14,14 @@ function Cover({ cover, visitor, photos }) {
   const { user } = useSelector((state) => ({ ...state }));
 
   const [showCoverMenu, setShowCoverMenu] = useState(false);
-  const [coverPicture, setCoverPicture] = useState("");
-  const [error, setError] = useState("");
-  const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
-  const [crop, setCrop] = useState({ x: 0, y: 0 });
-  const [zoom, setZoom] = useState(1);
-  const [width, setWidth] = useState();
   const [loading, setLoading] = useState(false);
   const [show, setShow] = useState(false);
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+  const [coverPicture, setCoverPicture] = useState("");
+  const [error, setError] = useState("");
+  const [width, setWidth] = useState();
+  const [zoom, setZoom] = useState(1);
+  const [crop, setCrop] = useState({ x: 0, y: 0 });
 
   const menuRef = useRef(null);
   const uploadRef = useRef(null);
@@ -49,10 +49,10 @@ function Cover({ cover, visitor, photos }) {
       file.type !== "image/webp" &&
       file.type !== "image/gif"
     ) {
-      setError(`${file.name} đinh dạng khong duoc ho tro`);
+      setError(`${file.name} đinh dạng không được hỗ trợ`);
       return;
     } else if (file.size > 1024 * 1024 * 10) {
-      setError(`${file.name} dung lượng quá lớn`);
+      setError(`${file.name} dung lượng tải lên quá lớn`);
       return;
     }
 
@@ -129,14 +129,14 @@ function Cover({ cover, visitor, photos }) {
         <div className="save_changes_cover">
           <div className="save_changes_left">
             <i className="public_icon"></i>
-            Your cover picture is public
+            Ảnh bìa của bạn sẽ được hiển thị công khai
           </div>
           <div className="save_changes_right">
             <button
               className="green_btn opacity_btn"
               onClick={() => setCoverPicture("")}
             >
-              Cancel
+              Huỷ
             </button>
             <button className="green_btn" onClick={handleUpdateCover}>
               {loading ? <PulseLoader color="white" size="7px" /> : "Save"}
@@ -176,23 +176,23 @@ function Cover({ cover, visitor, photos }) {
             onClick={() => setShowCoverMenu(!showCoverMenu)}
           >
             <i className="camera_filled_icon"></i>
-            Add Cover Photo
+            Thêm ảnh bìa
           </div>
           {showCoverMenu && (
             <div className="open_cover_menu">
               <div
-                className="open_cover_menu_item"
+                className="open_cover_menu_item hover2"
                 onClick={() => setShow(true)}
               >
                 <i className="photo_icon"></i>
-                Select Photo
+                Chọn ảnh
               </div>
               <div
-                className="open_cover_menu_item"
+                className="open_cover_menu_item hover2"
                 onClick={() => uploadRef.current.click()}
               >
                 <i className="upload_icon"></i>
-                Upload Photo
+                Tải ảnh lên
               </div>
             </div>
           )}

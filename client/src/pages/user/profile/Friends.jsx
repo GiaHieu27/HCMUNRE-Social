@@ -4,18 +4,18 @@ function Friends({ friends }) {
   return (
     <div className="profile_card">
       <div className="profile_card_header">
-        Friends
-        <div className="profile_header_link">Xem tất cả freinds</div>
+        Bạn bè
+        <div className="profile_header_link">Xem tất cả bạn bè</div>
       </div>
 
       {friends && (
         <div className="profile_header_count">
           {friends.length === 0
-            ? "No friend"
+            ? ""
             : friends.length === 1
-            ? "1 friend"
+            ? "1 bạn bè"
             : friends.length > 1
-            ? `${friends.length} friends`
+            ? `${friends.length} bạn bè`
             : ""}
         </div>
       )}

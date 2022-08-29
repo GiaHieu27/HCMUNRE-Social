@@ -11,7 +11,7 @@ function Intro({ visitor }) {
 
   return (
     <div className="profile_card">
-      <div className="profile_card_header">Intro</div>
+      <div className="profile_card_header">Giới thiệu</div>
 
       {details?.bio && !showBio && (
         <div className="info_col">
@@ -21,7 +21,7 @@ function Intro({ visitor }) {
               className="gray_btn hover1"
               onClick={() => setShowBio(true)}
             >
-              Edit bio
+              Chỉnh sửa tiểu sử
             </button>
           )}
         </div>
@@ -31,26 +31,26 @@ function Intro({ visitor }) {
           className="gray_btn hover1 w100"
           onClick={() => setShowBio(true)}
         >
-          Add bio
+          Thêm tiểu sử
         </button>
       )}
       {showBio && <Bio placeholder="Add bio" name="bio" />}
       {details?.job && details?.workplace ? (
         <div className="info_profile">
           <img src="../../../icons/job.png" alt="" />
-          works as {details?.job} at {details?.workplace}
+          Nghề nghiệp {details?.job} tại {details?.workplace}
         </div>
       ) : details?.job && !details?.workplace ? (
         <div className="info_profile">
           <img src="../../../icons/job.png" alt="" />
-          works as {details?.job}
+          Nghề nghiệp {details?.job}
         </div>
       ) : (
         !details?.job &&
         details?.workplace && (
           <div className="info_profile">
             <img src="../../../icons/job.png" alt="" />
-            works at {details?.workplace}
+            Làm việc tại {details?.workplace}
           </div>
         )
       )}
@@ -63,37 +63,25 @@ function Intro({ visitor }) {
       {details?.college && (
         <div className="info_profile">
           <img src="../../../icons/studies.png" alt="" />
-          studied at {details?.college}
+          Đã học tại {details?.college}
         </div>
       )}
       {details?.highSchool && (
         <div className="info_profile">
           <img src="../../../icons/studies.png" alt="" />
-          studied at {details?.highSchool}
+          Đã học tại {details?.highSchool}
         </div>
       )}
       {details?.currentCity && (
         <div className="info_profile">
           <img src="../../../icons/home.png" alt="" />
-          Live in {details?.currentCity}
+          Sống tại {details?.currentCity}
         </div>
       )}
       {details?.hometown && (
         <div className="info_profile">
           <img src="../../../icons/from.png" alt="" />
-          From {details?.hometown}
-        </div>
-      )}
-      {details?.instagram && (
-        <div className="info_profile">
-          <img src="../../../icons/instagram.png" alt="" />
-          <a
-            href={`https://www.instagram.com/${details?.instagram}`}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {details?.instagram}
-          </a>
+          Đến từ {details?.hometown}
         </div>
       )}
 
@@ -102,16 +90,10 @@ function Intro({ visitor }) {
           className="gray_btn hover1 w100"
           onClick={() => setVisible(true)}
         >
-          Edit details
+          Chỉnh sửa chi tiết
         </button>
       )}
       {visible && !visitor && <EditDetails setVisible={setVisible} />}
-      {!visitor && (
-        <button className="gray_btn hover1 w100">Edit hobbies</button>
-      )}
-      {!visitor && (
-        <button className="gray_btn hover1 w100">Edit features</button>
-      )}
     </div>
   );
 }

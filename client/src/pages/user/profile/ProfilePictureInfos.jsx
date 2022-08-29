@@ -62,20 +62,7 @@ function ProfilePictureInfos({ profile, visitor, photos }) {
         </div>
       </div>
 
-      {!visitor ? (
-        <div className="profile_w_right">
-          <div className="green_btn">
-            <img src="../../../icons/plus.png" alt="" className="invert" />
-            <span>Add to story</span>
-          </div>
-          <div className="gray_btn">
-            <i className="edit_icon"></i>
-            <span>Edit Profile</span>
-          </div>
-        </div>
-      ) : (
-        <Friendship />
-      )}
+      {!visitor ? "" : <Friendship />}
     </div>
   );
 }

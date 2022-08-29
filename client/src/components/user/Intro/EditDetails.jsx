@@ -16,16 +16,16 @@ function EditDetails({ setVisible }) {
           <div className="small_circle" onClick={() => setVisible(false)}>
             <i className="exit_icon"></i>
           </div>
-          <span>Edit Details</span>
+          <span>Chỉnh sửa chi tiết</span>
         </div>
 
         <div className="details_wrapper scrollbar">
           <div className="details_col">
-            <span>Customize your details</span>
-            <span>Details you seclect will be public</span>
+            <span>Tuỳ chỉnh chi tiết về bạn</span>
+            <span>Chi tiết về bạn sẽ được hiển thị công khai</span>
           </div>
 
-          <div className="details_header">Other Name</div>
+          <div className="details_header">Tên khác</div>
           <Detail
             value={details?.otherName}
             img="studies"
@@ -33,7 +33,7 @@ function EditDetails({ setVisible }) {
             name="otherName"
           />
 
-          <div className="details_header">Work</div>
+          <div className="details_header">Công việc</div>
           <Detail value={details?.job} img="job" text="job" name="job" />
           <Detail
             value={details?.workplace}
@@ -42,7 +42,7 @@ function EditDetails({ setVisible }) {
             name="workplace"
           />
 
-          <div className="details_header">Education</div>
+          <div className="details_header">Trình độ học vấn</div>
           <Detail
             value={details?.highSchool}
             img="studies"
@@ -58,36 +58,28 @@ function EditDetails({ setVisible }) {
             text="college"
           />
 
-          <div className="details_header">Current City</div>
+          <div className="details_header">Tỉnh/Thành phố hiện tại</div>
           <Detail
             value={details?.currentCity}
             img="home"
-            placeholder="Add a current city"
+            placeholder="Thêm Tỉnh/Thành phố hiện tại"
             name="currentCity"
             text="a current city"
           />
-          <div className="details_header">Hometown</div>
+          <div className="details_header">Quê hương</div>
           <Detail
             value={details?.hometown}
             img="home"
-            placeholder="Add hometown"
+            placeholder="Thêm quê hương"
             name="hometown"
             text="hometown"
           />
-          <div className="details_header">Relationship</div>
+          <div className="details_header">Mối quan hệ</div>
           <Detail
             value={details?.relationship}
             img="relationship"
             name="relationship"
             rel
-          />
-          <div className="details_header">Instagram</div>
-          <Detail
-            value={details?.instagram}
-            img="instagram"
-            placeholder="Add instagram"
-            name="instagram"
-            text="instagram"
           />
         </div>
       </div>

@@ -16,12 +16,12 @@ function OldCover({ photos, setCoverPicture, setShow }) {
           <div className="small_circle" onClick={() => setShow(false)}>
             <i className="exit_icon"></i>
           </div>
-          <span>Select Photo</span>
+          <span>Chọn ảnh</span>
         </div>
 
         <div className="selectCoverBox_links">
-          <div className="selectCoverBox_link">Recent Photos</div>
-          <div className="selectCoverBox_link">Photo Albums</div>
+          <div className="selectCoverBox_link">Ảnh gần đây</div>
+          <div className="selectCoverBox_link">Albums ảnh</div>
         </div>
 
         <div className="old_pictures_wrap scrollbar">
@@ -31,7 +31,7 @@ function OldCover({ photos, setCoverPicture, setShow }) {
               .map((photo) => (
                 <img
                   src={photo.secure_url}
-                  alt=""
+                  alt="old_cover"
                   key={photo.public_id}
                   onClick={() => {
                     setCoverPicture(photo.secure_url);
@@ -42,11 +42,13 @@ function OldCover({ photos, setCoverPicture, setShow }) {
           </div>
           <div className="old_pictures">
             {photos
-              .filter((item) => item.folder !== `${user.username}/post_images`)
+              .filter(
+                (item) => item.folder !== `${user.username}/post_contents`
+              )
               .map((photo) => (
                 <img
                   src={photo.secure_url}
-                  alt=""
+                  alt="old_cover_avatar"
                   key={photo.public_id}
                   onClick={() => {
                     setCoverPicture(photo.secure_url);

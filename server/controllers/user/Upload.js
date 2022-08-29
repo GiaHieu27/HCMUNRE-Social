@@ -42,7 +42,7 @@ exports.listImages = async (req, res) => {
   try {
     const { path, sort, max } = req.body;
     cloudinary.v2.search
-      .expression(path)
+      .expression(`${path} AND resource_type:image`)
       .sort_by("created_at", sort)
       .max_results(max)
       .execute()

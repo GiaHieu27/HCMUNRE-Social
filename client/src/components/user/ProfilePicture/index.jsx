@@ -52,7 +52,7 @@ function ProfilePicture({ setShow, pRef, photos }) {
           <div className="small_circle" onClick={() => setShow(false)}>
             <i className="exit_icon"></i>
           </div>
-          <span>Update profile picture</span>
+          <span>Cập nhật ảnh đại diện</span>
         </div>
         <div className="update_picture_wrap">
           <div className="update_picture_buttons">
@@ -61,11 +61,7 @@ function ProfilePicture({ setShow, pRef, photos }) {
               onClick={() => inputRef.current.click()}
             >
               <i className="plus_icon filter_green"></i>
-              Upload photo
-            </button>
-            <button className="gray_btn">
-              <i className="frame_icon"></i>
-              Add frame
+              Tải ảnh lên
             </button>
           </div>
         </div>
@@ -79,12 +75,10 @@ function ProfilePicture({ setShow, pRef, photos }) {
           </div>
         )}
         <div className="old_pictures_wrap scrollbar">
-          <h4 className="fs-6">Your profile Picture</h4>
+          <h4 className="fs-6">Ảnh đại diện bạn đã dùng</h4>
           <div className="old_pictures">
             {photos
-              .filter(
-                (item) => item.folder === `${user.username}/profilePicture`
-              )
+              .filter((item) => item.folder === `${user.username}/avatar`)
               .map((photo) => (
                 <img
                   src={photo.secure_url}
@@ -94,12 +88,10 @@ function ProfilePicture({ setShow, pRef, photos }) {
                 />
               ))}
           </div>
-          <h4 className="fs-6">Other Picture</h4>
+          <h4 className="fs-6">Hình ảnh khác</h4>
           <div className="old_pictures">
             {photos
-              .filter(
-                (item) => item.folder !== `${user.username}/profilePicture`
-              )
+              .filter((item) => item.folder !== `${user.username}/avatar`)
               .map((photo) => (
                 <img
                   src={photo.secure_url}

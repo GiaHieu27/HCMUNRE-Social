@@ -6,25 +6,16 @@ function ProfileMenu() {
     <div className="profile_menu_wrap">
       <div className="profile_menu">
         <Link to="/" className="profile_menu_active">
-          Posts
+          Bài viết
         </Link>
         <Link to="/" className="hover1">
-          About
+          Bạn bè
         </Link>
         <Link to="/" className="hover1">
-          Friends
-        </Link>
-        <Link to="/" className="hover1">
-          Photos
+          Hình ảnh
         </Link>
         <Link to="/" className="hover1">
           Videos
-        </Link>
-        <Link to="/" className="hover1">
-          Checkins
-        </Link>
-        <Link to="/" className="hover1">
-          More
         </Link>
         <div className="p10_dots">
           <Dots />
