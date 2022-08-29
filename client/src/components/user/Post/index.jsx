@@ -142,7 +142,16 @@ function Post({ post, user, profile }) {
         </div>
       ) : post.type === null ? (
         <>
-          <div className="post_text">{post.text}</div>
+          <div
+            className={`post_text ${
+              (post.images && post.images.length) ||
+              (post.videos && post.videos.length)
+                ? "mb-2"
+                : ""
+            }`}
+          >
+            {post.text}
+          </div>
           {post.images &&
           post.images.length &&
           post.videos &&

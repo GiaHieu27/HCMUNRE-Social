@@ -37,7 +37,9 @@ function Profile({ getPosts }) {
   const [photos, setPhotos] = useState([]);
   const [visible, setVisible] = useState(false);
 
-  const path = `${userParam}/*`;
+  const path1 = `${userParam}/avatar`;
+  const path2 = `${userParam}/cover`;
+  const path3 = `${userParam}/post_contents`;
   const max = 30;
   const sort = "desc";
 
@@ -58,7 +60,7 @@ function Profile({ getPosts }) {
         try {
           const images = await axios.post(
             `${process.env.REACT_APP_BACKEND_URL}/listImages/`,
-            { path, max, sort },
+            { path1, path2, path3, max, sort },
             {
               headers: {
                 Authorization: "Bearer " + user.token,
@@ -76,7 +78,7 @@ function Profile({ getPosts }) {
         profileSlice.actions.PROFILE_SUCCESS(error.response.data.message)
       );
     }
-  }, [dispatch, navigate, path, user.token, userParam]);
+  }, [dispatch, navigate, path1, path2, path3, user.token, userParam]);
 
   useEffect(() => {
     getProfile();

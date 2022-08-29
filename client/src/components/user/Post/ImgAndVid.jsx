@@ -3,7 +3,6 @@ function ImgAndVid({ videos, images, text }) {
 
   return (
     <>
-      {/* <div className="post_text">{text}</div> */}
       <div
         className={
           images.length === 1 && videos.length === 1

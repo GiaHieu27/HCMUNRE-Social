@@ -40,9 +40,11 @@ exports.uploadImages = async (req, res) => {
 
 exports.listImages = async (req, res) => {
   try {
-    const { path, sort, max } = req.body;
+    const { path1, path2, path3, sort, max } = req.body;
     cloudinary.v2.search
-      .expression(`${path} AND resource_type:image`)
+      .expression(
+        `(${path1} AND resource_type:image) OR (${path2} AND resource_type:image) OR (${path3} AND resource_type:image)`
+      )
       .sort_by("created_at", sort)
       .max_results(max)
       .execute()

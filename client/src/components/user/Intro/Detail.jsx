@@ -22,7 +22,7 @@ function Detail({ img, value, text, name, rel }) {
       </div>
       {show && (
         <Bio
-          placeholder={`Chỉnh sửa ${name}`}
+          placeholder={`Chỉnh sửa ${text}`}
           name={name}
           setShow={setShow}
           detail

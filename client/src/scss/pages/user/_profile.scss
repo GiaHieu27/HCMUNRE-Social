@@ -51,7 +51,7 @@
 
     &_img {
       position: relative;
-      z-index: 9;
+      // z-index: 9;
     }
 
     &_bg {
@@ -106,7 +106,7 @@
       height: 54px;
       width: 78.5px;
       font-weight: 600;
-      font-size: 14px;
+      font-size: 16.5px;
       cursor: pointer;
       display: flex;
       align-items: center;
@@ -281,7 +281,8 @@
     height: 240px;
 
     .light_green_btn {
-      color: var(--green-color);
+      color: var(--green-dark-color);
+      background: var(--lighter-green-color);
     }
   }
 }

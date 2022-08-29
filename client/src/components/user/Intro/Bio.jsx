@@ -14,10 +14,10 @@ function Bio({ placeholder, name, detail, setShow, rel }) {
           onChange={handleChange}
           className="select_rel"
         >
-          <option value="Single">Single</option>
-          <option value="In a relationship">In a relationship</option>
-          <option value="Married">Married</option>
-          <option value="Divorced">Divorced</option>
+          <option value="Độc thân">Độc thân</option>
+          <option value="Trong một mối quan hệ">Trong một mối quan hệ</option>
+          <option value="Đã kết hôn">Đã kết hôn</option>
+          <option value="Đã ly dị">Đã ly dị</option>
         </select>
       ) : (
         <textarea
@@ -30,7 +30,7 @@ function Bio({ placeholder, name, detail, setShow, rel }) {
         ></textarea>
       )}
 
-      {!detail && <div className="remaining">{max} characters remaining</div>}
+      {!detail && <div className="remaining">còn {max} ký tự</div>}
       <div className="flex">
         <div className="flex flex_left">
           <i className="public_icon"></i>

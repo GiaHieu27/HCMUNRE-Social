@@ -29,16 +29,16 @@ function EditDetails({ setVisible }) {
           <Detail
             value={details?.otherName}
             img="studies"
-            text="other name"
+            text="tên khác"
             name="otherName"
           />
 
           <div className="details_header">Công việc</div>
-          <Detail value={details?.job} img="job" text="job" name="job" />
+          <Detail value={details?.job} img="job" text="công việc" name="job" />
           <Detail
             value={details?.workplace}
             img="job"
-            text="workplace"
+            text="nơi làm việc"
             name="workplace"
           />
 
@@ -46,16 +46,16 @@ function EditDetails({ setVisible }) {
           <Detail
             value={details?.highSchool}
             img="studies"
-            placeholder="Add a high school"
+            placeholder="Thêm trường trung học"
             name="highSchool"
-            text="a high school"
+            text="trường học"
           />
           <Detail
             value={details?.college}
             img="studies"
-            placeholder="Add a college"
+            placeholder="Thêm trường đại học"
             name="college"
-            text="college"
+            text="trường đại học"
           />
 
           <div className="details_header">Tỉnh/Thành phố hiện tại</div>
@@ -64,7 +64,7 @@ function EditDetails({ setVisible }) {
             img="home"
             placeholder="Thêm Tỉnh/Thành phố hiện tại"
             name="currentCity"
-            text="a current city"
+            text="tỉnh/thành phố hiện tại"
           />
           <div className="details_header">Quê hương</div>
           <Detail
@@ -72,7 +72,7 @@ function EditDetails({ setVisible }) {
             img="home"
             placeholder="Thêm quê hương"
             name="hometown"
-            text="hometown"
+            text="quê hương"
           />
           <div className="details_header">Mối quan hệ</div>
           <Detail

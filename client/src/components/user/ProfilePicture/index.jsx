@@ -24,7 +24,7 @@ function ProfilePicture({ setShow, pRef, photos }) {
       file.type !== "image/webp" &&
       file.type !== "image/gif"
     ) {
-      setError(`${file.name} đinh dạng khong duoc ho tro`);
+      setError(`${file.name} đinh dạng không được hỗ trợ`);
       return;
     } else if (file.size > 1024 * 1024 * 10) {
       setError(`${file.name} dung lượng quá lớn`);

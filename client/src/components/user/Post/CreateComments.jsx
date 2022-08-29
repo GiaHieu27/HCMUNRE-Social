@@ -40,7 +40,7 @@ function CreateComments({ user, postId, setComments, setCount }) {
       file.type !== "image/webp" &&
       file.type !== "image/gif"
     ) {
-      setError(`${file.name} đinh dạng khong duoc ho tro`);
+      setError(`${file.name} đinh dạng không được hỗ trợ`);
       return;
     } else if (file.size > 1024 * 1024 * 10) {
       setError(`${file.name} dung lượng quá lớn`);
@@ -59,7 +59,7 @@ function CreateComments({ user, postId, setComments, setCount }) {
       if (commentImage !== "") {
         setLoading(true);
         const img = dataURLtoBlob(commentImage);
-        const path = `${user.username}/post_images/${postId}`;
+        const path = `${user.username}/images_comment`;
 
         let formData = new FormData();
         formData.append("path", path);
@@ -69,7 +69,7 @@ function CreateComments({ user, postId, setComments, setCount }) {
         const comments = await comment(
           postId,
           text,
-          imgComment[0].url,
+          imgComment.images[0].url,
           user.token
         );
 
