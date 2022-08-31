@@ -1,5 +1,8 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { Link } from "react-router-dom";
+import LightGallery from "lightgallery/react";
+import lgZoom from "lightgallery/plugins/zoom";
+import lgVideo from "lightgallery/plugins/video";
 import Moment from "react-moment";
 
 import ReactsPopup from "./ReactsPopup";
@@ -10,7 +13,7 @@ import ImgAndVid from "./ImgAndVid";
 import { Dots, Public } from "../../../svg";
 import { getReacts, reactPost } from "../../../functions/post";
 
-function Post({ post, user, profile }) {
+function Post({ post, user, profile, saved }) {
   const [visible, setVisible] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
   const [reacts, setReacts] = useState([]);
@@ -162,8 +165,9 @@ function Post({ post, user, profile }) {
               text={post.text}
             />
           ) : post.images && post.images.length ? (
-            <div
-              className={
+            <LightGallery
+              plugins={[lgZoom]}
+              elementClassNames={
                 post.images.length === 1
                   ? "grid_1"
                   : post.images.length === 2
@@ -180,7 +184,7 @@ function Post({ post, user, profile }) {
                   key={i}
                   src={image.url}
                   alt="post_img"
-                  className={`img-${i}`}
+                  className={`img-${i} img-responsive`}
                 />
               ))}
               {post.images.length > 5 && (
@@ -188,11 +192,12 @@ function Post({ post, user, profile }) {
                   +{post.images.length - 5}
                 </div>
               )}
-            </div>
+            </LightGallery>
           ) : (
             post.videos &&
             post.videos.length && (
-              <div
+              <LightGallery
+                onHasVideo={true}
                 className={
                   post.videos.length === 1
                     ? "grid_1"
@@ -219,7 +224,7 @@ function Post({ post, user, profile }) {
                     +{post.videos.length - 5}
                   </div>
                 )}
-              </div>
+              </LightGallery>
             )
           )}
         </>
@@ -344,9 +349,9 @@ function Post({ post, user, profile }) {
         {comments &&
           [...comments]
             .sort((a, b) => new Date(b.commentAt) - new Date(a.commentAt))
-            .slice(0, count)
+            .slice(0, saved ? comments.length : count)
             .map((comment, i) => <Comment comment={comment} key={i} />)}
-        {count < comments.length && (
+        {count < comments.length && !saved && (
           <div className="view_comments" onClick={() => showMore()}>
             Xem thêm bình luận
           </div>

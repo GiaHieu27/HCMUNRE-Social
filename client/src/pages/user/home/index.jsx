@@ -16,14 +16,14 @@ function Home({ setVisible, posts, loading, getPosts }) {
   const [height, setHeight] = useState();
   const middle = useRef(null);
 
-  useEffect(() => {
-    const a = setInterval(() => {
-      setHeight(middle.current.clientHeight);
-    }, 1000);
-    return () => {
-      clearInterval(a);
-    };
-  }, [middle.current?.clientHeight]);
+  // useEffect(() => {
+  //   const a = setInterval(() => {
+  //     setHeight(middle.current.clientHeight);
+  //   }, 1000);
+  //   return () => {
+  //     clearInterval(a);
+  //   };
+  // }, [middle.current?.clientHeight]);
 
   return (
     <div className="home" style={{ height: `${height + 150}px` }}>
@@ -33,6 +33,7 @@ function Home({ setVisible, posts, loading, getPosts }) {
         {!user.verified && <SenVerification user={user} />}
         <CreatePost user={user} setVisible={setVisible} />
         {friends && friends.length > 0 && <Meeting />}
+
         {loading ? (
           <div className="sekeleton_loader">
             <ScaleLoader color="#00AB55" />

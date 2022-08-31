@@ -40,8 +40,8 @@ function ProfilePictureInfos({ profile, visitor, photos }) {
               {profile?.friends.length === 0
                 ? ""
                 : profile?.friends.length === 1
-                ? "1 friend"
-                : `${profile?.friends.length} friends`}
+                ? "1 bạn bè"
+                : `${profile?.friends.length} bạn bè`}
             </div>
           )}
           <div className="profile_friend_imgs">
