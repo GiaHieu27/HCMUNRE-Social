@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import LightGallery from "lightgallery/react";
 import lgZoom from "lightgallery/plugins/zoom";
 import lgVideo from "lightgallery/plugins/video";
+
 import Moment from "react-moment";
 
 import ReactsPopup from "./ReactsPopup";
@@ -60,6 +61,10 @@ function Post({ post, user, profile, saved }) {
         setTotal((prev) => --prev);
       }
     }
+  };
+
+  const onInit = () => {
+    if (!document) return;
   };
 
   useEffect(() => {
@@ -167,6 +172,7 @@ function Post({ post, user, profile, saved }) {
           ) : post.images && post.images.length ? (
             <LightGallery
               plugins={[lgZoom]}
+              mode="lg-fade"
               elementClassNames={
                 post.images.length === 1
                   ? "grid_1"
@@ -180,12 +186,14 @@ function Post({ post, user, profile, saved }) {
               }
             >
               {post.images.slice(0, 5).map((image, i) => (
+                // <a key={i} className="gallery-item" data-src={image.url} href>
                 <img
                   key={i}
                   src={image.url}
-                  alt="post_img"
                   className={`img-${i} img-responsive`}
+                  alt="post_img"
                 />
+                // </a>
               ))}
               {post.images.length > 5 && (
                 <div className="more-pics-shadow">
@@ -197,8 +205,14 @@ function Post({ post, user, profile, saved }) {
             post.videos &&
             post.videos.length && (
               <LightGallery
-                onHasVideo={true}
-                className={
+                onInit={() => onInit}
+                plugins={[lgVideo]}
+                // videojs={true}
+                mode="lg-fade"
+                onHasVideo={(detail) => {
+                  console.log(detail);
+                }}
+                elementClassNames={
                   post.videos.length === 1
                     ? "grid_1"
                     : post.videos.length === 2
@@ -211,13 +225,20 @@ function Post({ post, user, profile, saved }) {
                 }
               >
                 {post.videos.slice(0, 5).map((video, i) => (
-                  <video
-                    src={video.url}
-                    alt="post_video"
+                  <a
                     key={i}
-                    className={`video-${i}`}
-                    controls
-                  />
+                    className="gallery-item"
+                    data-video={`{"source": [{"src": "${video.url}", "type":"video/mp4"}], "attributes": {"preload": false, "playsinline": true, "controls": true}}`}
+                    href
+                  >
+                    <video
+                      src={video.url}
+                      alt="post_video"
+                      key={i}
+                      className={`video-${i}`}
+                      controls
+                    />
+                  </a>
                 ))}
                 {post.videos.length > 5 && (
                   <div className="more-pics-shadow">
@@ -235,17 +256,19 @@ function Post({ post, user, profile, saved }) {
             <div className="post_updated_bg">
               <img src={post.user.cover} alt="" />
             </div>
-            <img
-              src={post.images[0].url}
-              alt="cập nhật ảnh đại diện"
-              className="post_updated_picture"
-            />
+            <LightGallery plugins={[lgZoom]}>
+              <img
+                src={post.images[0].url}
+                alt="cập nhật ảnh đại diện"
+                className="post_updated_picture img-responsive"
+              />
+            </LightGallery>
           </div>
         </>
       ) : (
-        <div className="post_cover_wrap">
-          <img src={post.images[0].url} alt="" />
-        </div>
+        <LightGallery elementClassNames="post_cover_wrap" plugins={[lgZoom]}>
+          <img src={post.images[0].url} alt="" className="img-responsive" />
+        </LightGallery>
       )}
 
       <div className="post_infos">

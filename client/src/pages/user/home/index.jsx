@@ -16,14 +16,14 @@ function Home({ setVisible, posts, loading, getPosts }) {
   const [height, setHeight] = useState();
   const middle = useRef(null);
 
-  // useEffect(() => {
-  //   const a = setInterval(() => {
-  //     setHeight(middle.current.clientHeight);
-  //   }, 1000);
-  //   return () => {
-  //     clearInterval(a);
-  //   };
-  // }, [middle.current?.clientHeight]);
+  useEffect(() => {
+    const a = setTimeout(() => {
+      setHeight(middle.current.clientHeight);
+    }, 1000);
+    return () => {
+      clearTimeout(a);
+    };
+  }, [middle.current?.clientHeight]);
 
   return (
     <div className="home" style={{ height: `${height + 150}px` }}>

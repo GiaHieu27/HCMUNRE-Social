@@ -56,7 +56,7 @@ function App() {
         payload: error.response.data.message,
       });
     }
-  }, [user.token]);
+  }, [user?.token]);
 
   useEffect(() => {
     if (Cookies.get("user")) getPosts();
