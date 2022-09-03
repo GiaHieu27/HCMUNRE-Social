@@ -207,7 +207,6 @@ function Post({ post, user, profile, saved }) {
               <LightGallery
                 onInit={() => onInit}
                 plugins={[lgVideo]}
-                // videojs={true}
                 mode="lg-fade"
                 onHasVideo={(detail) => {
                   console.log(detail);
@@ -227,7 +226,7 @@ function Post({ post, user, profile, saved }) {
                 {post.videos.slice(0, 5).map((video, i) => (
                   <a
                     key={i}
-                    className="gallery-item"
+                    className={`gallery-item a-${i}`}
                     data-video={`{"source": [{"src": "${video.url}", "type":"video/mp4"}], "attributes": {"preload": false, "playsinline": true, "controls": true}}`}
                     href
                   >

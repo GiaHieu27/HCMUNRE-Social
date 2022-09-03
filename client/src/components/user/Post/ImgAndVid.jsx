@@ -35,7 +35,7 @@ function ImgAndVid({ videos, images, text }) {
                     alt="post_video"
                     className={`video-${i}`}
                     controls
-                  ></video>
+                  />
                 ) : (
                   <img
                     key={i}
@@ -109,14 +109,8 @@ function ImgAndVid({ videos, images, text }) {
           </>
         )}
 
-        {videos.length > 5 || images.length > 5 ? (
-          <div className="more-pics-shadow">+{videos.length - 5}</div>
-        ) : images.length + videos.length > 5 ? (
-          <div className="more-pics-shadow">
-            +{images.length + videos.length - 5}
-          </div>
-        ) : (
-          ""
+        {media.length > 5 && (
+          <div className="more-pics-shadow">+{media.length - 5}</div>
         )}
       </div>
     </>

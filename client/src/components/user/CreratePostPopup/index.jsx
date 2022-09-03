@@ -305,7 +305,7 @@ function CreratePostPopup({ user, setVisible, posts, dispatch, profile }) {
           }}
           disabled={loading}
         >
-          {loading ? <PulseLoader color="#fff" size={5} /> : "Post"}
+          {loading ? <PulseLoader color="#fff" size={5} /> : "Đăng"}
         </button>
       </div>
     </div>

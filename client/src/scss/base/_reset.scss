@@ -22,3 +22,7 @@ ul {
 p {
   margin: 0;
 }
+img,
+video {
+  object-fit: cover;
+}
