@@ -1,26 +1,28 @@
-import { useCallback, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import Cookies from "js-cookie";
-import Cropper from "react-easy-crop";
-import PulseLoader from "react-spinners/PulseLoader";
+import { useCallback, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import Cookies from 'js-cookie';
+import Cropper from 'react-easy-crop';
+import PulseLoader from 'react-spinners/PulseLoader';
 
-import getCroppedImg from "../../../helpers/getCroppedImg";
-import uploadImages from "../../../functions/uploadImages";
-import userSlice from "../../../redux/slices/userSlice";
-import { updateProfilePicture } from "../../../functions/profile";
-import { createPost } from "../../../functions/post";
+import getCroppedImg from '../../../helpers/getCroppedImg';
+import uploadImages from '../../../functions/uploadImages';
+import userSlice from '../../../redux/slices/userSlice';
+import { updateProfilePicture } from '../../../functions/profile';
+import { createPost } from '../../../functions/post';
+import useBodyScrollLock from '../../../hooks/useBodyScrollLock';
 
 function UpdateProfileImage({ image, setImage, setError, setShow, pRef }) {
   const { user } = useSelector((state) => ({ ...state }));
   const dispatch = useDispatch();
 
-  const [description, setDescription] = useState("");
+  const [description, setDescription] = useState('');
   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
   const [loading, setLoading] = useState(false);
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
 
   const slider = useRef(null);
+  useBodyScrollLock();
 
   const onCropComplete = useCallback((croppedArea, croppedAreaPixels) => {
     setCroppedAreaPixels(croppedAreaPixels);
@@ -62,16 +64,16 @@ function UpdateProfileImage({ image, setImage, setError, setShow, pRef }) {
       // console.log(blob);
       const path = `${user.username}/avatar`;
       let formData = new FormData();
-      formData.append("file", blob);
-      formData.append("path", path);
+      formData.append('file', blob);
+      formData.append('path', path);
       const res = await uploadImages(formData, user.token);
       const updatePicture = await updateProfilePicture(
         res.images[0].url,
         user.token
       );
-      if (updatePicture === "ok") {
+      if (updatePicture === 'ok') {
         const newPost = await createPost(
-          "profilePicture",
+          'profilePicture',
           null,
           description,
           res.images,
@@ -80,12 +82,12 @@ function UpdateProfileImage({ image, setImage, setError, setShow, pRef }) {
           user.token
         );
 
-        if (newPost.status === "ok") {
+        if (newPost.status === 'ok') {
           setLoading(false);
-          setImage("");
+          setImage('');
           pRef.current.style.backgroundImage = `url(${res.images[0].url})`;
           Cookies.set(
-            "user",
+            'user',
             JSON.stringify({
               ...user,
               picture: res.images[0].url,
@@ -111,7 +113,7 @@ function UpdateProfileImage({ image, setImage, setError, setShow, pRef }) {
   return (
     <div className="postBox update_img scrollbar">
       <div className="box_header">
-        <div className="small_circle" onClick={() => setImage("")}>
+        <div className="small_circle" onClick={() => setImage('')}>
           <i className="exit_icon"></i>
         </div>
         <span>Cập nhật ảnh đại diện</span>
@@ -160,7 +162,7 @@ function UpdateProfileImage({ image, setImage, setError, setShow, pRef }) {
         </div>
       </div>
       <div className="flex_up">
-        <div className="gray_btn" onClick={() => getCroppedImage("show")}>
+        <div className="gray_btn" onClick={() => getCroppedImage('show')}>
           <i className="crop_icon"></i>Cắt ảnh
         </div>
       </div>
@@ -169,11 +171,11 @@ function UpdateProfileImage({ image, setImage, setError, setShow, pRef }) {
         Ảnh đại diện của bạn sẽ được hiển thị công khai
       </div>
       <div className="update_submit_wrap">
-        <div className="green_link" onClick={() => setImage("")}>
+        <div className="green_link" onClick={() => setImage('')}>
           Huỷ
         </div>
         <button className="green_btn" onClick={handleUpdateProfilePicture}>
-          {loading ? <PulseLoader color="white" size="7px" /> : "Lưu"}
+          {loading ? <PulseLoader color="white" size="7px" /> : 'Lưu'}
         </button>
       </div>
     </div>

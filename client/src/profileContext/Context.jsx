@@ -1,6 +1,6 @@
-import { createContext, useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import axios from "axios";
+import { createContext, useEffect, useRef, useState } from 'react';
+import { useSelector } from 'react-redux';
+import axios from 'axios';
 
 const ProfileContext = createContext();
 
@@ -13,23 +13,23 @@ function ProfileProvider({ children }) {
   const [details, setDetails] = useState(detailss);
 
   const initInfos = {
-    bio: details?.bio ? details.bio : "",
-    otherName: details?.otherName ? details.otherName : "",
-    job: details?.job ? details.job : "",
-    workplace: details?.workplace ? details.workplace : "",
-    highSchool: details?.highSchool ? details.highSchool : "",
-    college: details?.college ? details.college : "",
-    currentCity: details?.currentCity ? details.currentCity : "",
-    hometown: details?.hometown ? details.hometown : "",
-    relationship: details?.relationship ? details.relationship : "",
-    instagram: details?.instagram ? details.instagram : "",
+    bio: details?.bio ? details.bio : '',
+    otherName: details?.otherName ? details.otherName : '',
+    job: details?.job ? details.job : '',
+    workplace: details?.workplace ? details.workplace : '',
+    highSchool: details?.highSchool ? details.highSchool : '',
+    college: details?.college ? details.college : '',
+    currentCity: details?.currentCity ? details.currentCity : '',
+    hometown: details?.hometown ? details.hometown : '',
+    relationship: details?.relationship ? details.relationship : '',
+    instagram: details?.instagram ? details.instagram : '',
   };
 
   const [infos, setInfos] = useState(initInfos);
   const [max, setMax] = useState(infos?.bio ? 100 - infos?.bio.length : 100);
   const [showBio, setShowBio] = useState(false);
-  const [error, setError] = useState("");
-  const [othername, setOthername] = useState("");
+  const [error, setError] = useState('');
+  const [othername, setOthername] = useState('');
 
   useEffect(() => {
     setDetails(detailss);
@@ -49,6 +49,8 @@ function ProfileProvider({ children }) {
     setInfos({ ...infos, [name]: value });
     setMax(100 - e.target.value.length);
   };
+
+  const ref = useRef(null);
 
   const updateDetails = async () => {
     try {
@@ -85,6 +87,7 @@ function ProfileProvider({ children }) {
         handleChange,
         updateDetails,
         loading,
+        ref,
       }}
     >
       {children}

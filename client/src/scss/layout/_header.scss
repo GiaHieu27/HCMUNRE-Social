@@ -90,23 +90,6 @@ header {
   height: 50px;
   border-radius: 10px;
   cursor: pointer;
-  transform: translateX(-2px);
-
-  &:nth-child(2) {
-    transform: translateX(-4px);
-  }
-
-  &:nth-child(3) {
-    transform: translateX(-3px);
-  }
-
-  &:nth-child(4) {
-    transform: translateX(-5px);
-  }
-
-  &:nth-child(5) {
-    transform: translateX(-5px);
-  }
 }
 
 .active {
@@ -114,7 +97,6 @@ header {
   border-radius: 0;
   height: 56px;
   width: 108px;
-  transform: translateX(0);
 
   svg {
     transform: translateY(1px) translateX(-1px);

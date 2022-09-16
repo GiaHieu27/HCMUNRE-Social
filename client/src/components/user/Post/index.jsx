@@ -1,18 +1,18 @@
-import { useEffect, useRef, useState, useCallback } from "react";
-import { Link } from "react-router-dom";
-import LightGallery from "lightgallery/react";
-import lgZoom from "lightgallery/plugins/zoom";
-import lgVideo from "lightgallery/plugins/video";
+import { useEffect, useRef, useState, useCallback } from 'react';
+import { Link } from 'react-router-dom';
+import LightGallery from 'lightgallery/react';
+import lgZoom from 'lightgallery/plugins/zoom';
+import lgVideo from 'lightgallery/plugins/video';
 
-import Moment from "react-moment";
+import Moment from 'react-moment';
 
-import ReactsPopup from "./ReactsPopup";
-import CreateComments from "./CreateComments";
-import PostMenu from "./PostMenu";
-import Comment from "./Comment";
-import ImgAndVid from "./ImgAndVid";
-import { Dots, Public } from "../../../svg";
-import { getReacts, reactPost } from "../../../functions/post";
+import ReactsPopup from './ReactsPopup';
+import CreateComments from './CreateComments';
+import PostMenu from './PostMenu';
+import Comment from './Comment';
+import ImgAndVid from './ImgAndVid';
+import { Dots, Public } from '../../../svg';
+import { getReacts, reactPost } from '../../../functions/post';
 
 function Post({ post, user, profile, saved }) {
   const [visible, setVisible] = useState(false);
@@ -21,7 +21,7 @@ function Post({ post, user, profile, saved }) {
   const [comments, setComments] = useState([]);
   const [total, setTotal] = useState(0);
   const [count, setCount] = useState(1);
-  const [check, setCheck] = useState("");
+  const [check, setCheck] = useState('');
   const [checkSavedPost, setCheckSavedPost] = useState();
 
   const postRef = useRef(null);
@@ -78,7 +78,7 @@ function Post({ post, user, profile, saved }) {
   return (
     <div
       className="post"
-      style={{ width: `${profile && "100%"}` }}
+      style={{ width: `${profile && '100%'}` }}
       ref={postRef}
     >
       <div className="post_header">
@@ -91,21 +91,21 @@ function Post({ post, user, profile, saved }) {
             <div className="post_profile_name">
               {post.user.first_name} {post.user.last_name}
               <div className="updated_p">
-                {post.type === "profilePicture" &&
+                {post.type === 'profilePicture' &&
                   `${
-                    post.user.gender === "male"
-                      ? "đã cập ảnh đại diện của anh ấy"
-                      : post.user.gender === "female"
-                      ? "đã cập ảnh đại diện của cô ấy"
-                      : "đã cập ảnh đại diện"
+                    post.user.gender === 'male'
+                      ? 'đã cập ảnh đại diện của anh ấy'
+                      : post.user.gender === 'female'
+                      ? 'đã cập ảnh đại diện của cô ấy'
+                      : 'đã cập ảnh đại diện'
                   }`}
-                {post.type === "cover" &&
+                {post.type === 'cover' &&
                   ` ${
-                    post.user.gender === "male"
-                      ? "đã cập ảnh bìa của anh ấy"
-                      : post.user.gender === "female"
-                      ? "đã cập ảnh bìa của cô ấy"
-                      : "đã cập ảnh bìa"
+                    post.user.gender === 'male'
+                      ? 'đã cập ảnh bìa của anh ấy'
+                      : post.user.gender === 'female'
+                      ? 'đã cập ảnh bìa của cô ấy'
+                      : 'đã cập ảnh bìa'
                   }`}
               </div>
             </div>
@@ -154,8 +154,8 @@ function Post({ post, user, profile, saved }) {
             className={`post_text ${
               (post.images && post.images.length) ||
               (post.videos && post.videos.length)
-                ? "mb-2"
-                : ""
+                ? 'mb-2'
+                : ''
             }`}
           >
             {post.text}
@@ -171,18 +171,19 @@ function Post({ post, user, profile, saved }) {
             />
           ) : post.images && post.images.length ? (
             <LightGallery
+              licenseKey="`0000-0000-000-0000"
               plugins={[lgZoom]}
               mode="lg-fade"
               elementClassNames={
                 post.images.length === 1
-                  ? "grid_1"
+                  ? 'grid_1'
                   : post.images.length === 2
-                  ? "grid_2"
+                  ? 'grid_2'
                   : post.images.length === 3
-                  ? "grid_3"
+                  ? 'grid_3'
                   : post.images.length === 4
-                  ? "grid_4"
-                  : post.images.length >= 5 && "grid_5"
+                  ? 'grid_4'
+                  : post.images.length >= 5 && 'grid_5'
               }
             >
               {post.images.slice(0, 5).map((image, i) => (
@@ -205,6 +206,7 @@ function Post({ post, user, profile, saved }) {
             post.videos &&
             post.videos.length && (
               <LightGallery
+                licenseKey="`0000-0000-000-0000"
                 onInit={() => onInit}
                 plugins={[lgVideo]}
                 mode="lg-fade"
@@ -213,14 +215,14 @@ function Post({ post, user, profile, saved }) {
                 }}
                 elementClassNames={
                   post.videos.length === 1
-                    ? "grid_1"
+                    ? 'grid_1'
                     : post.videos.length === 2
-                    ? "grid_2"
+                    ? 'grid_2'
                     : post.videos.length === 3
-                    ? "grid_3"
+                    ? 'grid_3'
                     : post.videos.length === 4
-                    ? "grid_4"
-                    : post.videos.length >= 5 && "grid_5"
+                    ? 'grid_4'
+                    : post.videos.length >= 5 && 'grid_5'
                 }
               >
                 {post.videos.slice(0, 5).map((video, i) => (
@@ -248,14 +250,14 @@ function Post({ post, user, profile, saved }) {
             )
           )}
         </>
-      ) : post.type === "profilePicture" ? (
+      ) : post.type === 'profilePicture' ? (
         <>
           <div className="post_text">{post.text}</div>
           <div className="post_profile_wrap">
             <div className="post_updated_bg">
               <img src={post.user.cover} alt="" />
             </div>
-            <LightGallery plugins={[lgZoom]}>
+            <LightGallery licenseKey="`0000-0000-000-0000" plugins={[lgZoom]}>
               <img
                 src={post.images[0].url}
                 alt="cập nhật ảnh đại diện"
@@ -265,7 +267,11 @@ function Post({ post, user, profile, saved }) {
           </div>
         </>
       ) : (
-        <LightGallery elementClassNames="post_cover_wrap" plugins={[lgZoom]}>
+        <LightGallery
+          elementClassNames="post_cover_wrap"
+          plugins={[lgZoom]}
+          licenseKey="`0000-0000-000-0000"
+        >
           <img src={post.images[0].url} alt="" className="img-responsive" />
         </LightGallery>
       )}
@@ -288,11 +294,11 @@ function Post({ post, user, profile, saved }) {
                     )
                 )}
           </div>
-          <div className="reacts_count_num">{total ? total : ""}</div>
+          <div className="reacts_count_num">{total ? total : ''}</div>
         </div>
         <div className="to_right">
           <div className="comments_count">
-            {comments.length > 0 ? `${comments.length} bình luận` : ""}
+            {comments.length > 0 ? `${comments.length} bình luận` : ''}
           </div>
           {/* <div className="share_count">100 share</div> */}
         </div>
@@ -316,7 +322,7 @@ function Post({ post, user, profile, saved }) {
               setVisible(false);
             }, 500);
           }}
-          onClick={() => handleReact(check ? check : "like")}
+          onClick={() => handleReact(check ? check : 'like')}
         >
           {check ? (
             <img
@@ -331,23 +337,23 @@ function Post({ post, user, profile, saved }) {
           <span
             style={{
               color: `${
-                check === "like"
-                  ? "#4267b2"
-                  : check === "love"
-                  ? "#f63459"
-                  : check === "haha"
-                  ? "#f7b125"
-                  : check === "sad"
-                  ? "#f7b152"
-                  : check === "wow"
-                  ? "#f7b152"
-                  : check === "angry"
-                  ? "rgb(233, 113, 15)"
-                  : "#65676b"
+                check === 'like'
+                  ? '#4267b2'
+                  : check === 'love'
+                  ? '#f63459'
+                  : check === 'haha'
+                  ? '#f7b125'
+                  : check === 'sad'
+                  ? '#f7b152'
+                  : check === 'wow'
+                  ? '#f7b152'
+                  : check === 'angry'
+                  ? 'rgb(233, 113, 15)'
+                  : '#65676b'
               }`,
             }}
           >
-            {check ? check : "like"}
+            {check ? check : 'like'}
           </span>
         </div>
         <div className="post_action hover1">

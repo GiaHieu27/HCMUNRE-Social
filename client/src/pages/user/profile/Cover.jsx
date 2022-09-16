@@ -1,14 +1,14 @@
-import { useCallback, useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
-import Cropper from "react-easy-crop";
-import PulseLoader from "react-spinners/PulseLoader";
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { useSelector } from 'react-redux';
+import Cropper from 'react-easy-crop';
+import PulseLoader from 'react-spinners/PulseLoader';
 
-import useClickOutSide from "../../../hooks/useClickOutSide";
-import uploadImages from "../../../functions/uploadImages";
-import getCroppedImg from "../../../helpers/getCroppedImg";
-import OldCover from "./OldCover";
-import { createPost } from "../../../functions/post";
-import { updateCover } from "../../../functions/profile";
+import useClickOutSide from '../../../hooks/useClickOutSide';
+import uploadImages from '../../../functions/uploadImages';
+import getCroppedImg from '../../../helpers/getCroppedImg';
+import OldCover from './OldCover';
+import { createPost } from '../../../functions/post';
+import { updateCover } from '../../../functions/profile';
 
 function Cover({ cover, visitor, photos }) {
   const { user } = useSelector((state) => ({ ...state }));
@@ -17,8 +17,8 @@ function Cover({ cover, visitor, photos }) {
   const [loading, setLoading] = useState(false);
   const [show, setShow] = useState(false);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
-  const [coverPicture, setCoverPicture] = useState("");
-  const [error, setError] = useState("");
+  const [coverPicture, setCoverPicture] = useState('');
+  const [error, setError] = useState('');
   const [width, setWidth] = useState();
   const [zoom, setZoom] = useState(1);
   const [crop, setCrop] = useState({ x: 0, y: 0 });
@@ -43,11 +43,11 @@ function Cover({ cover, visitor, photos }) {
   const handleChangeImage = (e) => {
     let file = e.target.files[0];
     if (
-      file.type !== "image/png" &&
-      file.type !== "image/jpg" &&
-      file.type !== "image/jpeg" &&
-      file.type !== "image/webp" &&
-      file.type !== "image/gif"
+      file.type !== 'image/png' &&
+      file.type !== 'image/jpg' &&
+      file.type !== 'image/jpeg' &&
+      file.type !== 'image/webp' &&
+      file.type !== 'image/gif'
     ) {
       setError(`${file.name} đinh dạng không được hỗ trợ`);
       return;
@@ -89,14 +89,14 @@ function Cover({ cover, visitor, photos }) {
 
       const path = `${user.username}/cover`;
       let formData = new FormData();
-      formData.append("file", blob);
-      formData.append("path", path);
+      formData.append('file', blob);
+      formData.append('path', path);
       const res = await uploadImages(formData, user.token);
 
       const update_cover = await updateCover(res.images[0].url, user.token);
-      if (update_cover === "ok") {
+      if (update_cover === 'ok') {
         const newPost = await createPost(
-          "cover",
+          'cover',
           null,
           null,
           res.images,
@@ -105,9 +105,9 @@ function Cover({ cover, visitor, photos }) {
           user.token
         );
 
-        if (newPost.status === "ok") {
+        if (newPost.status === 'ok') {
           setLoading(false);
-          setCoverPicture("");
+          setCoverPicture('');
           coverRef.current.src = res.images[0].url;
         } else {
           setLoading(false);
@@ -134,12 +134,12 @@ function Cover({ cover, visitor, photos }) {
           <div className="save_changes_right">
             <button
               className="green_btn opacity_btn"
-              onClick={() => setCoverPicture("")}
+              onClick={() => setCoverPicture('')}
             >
               Huỷ
             </button>
             <button className="green_btn" onClick={handleUpdateCover}>
-              {loading ? <PulseLoader color="white" size="7px" /> : "Save"}
+              {loading ? <PulseLoader color="white" size="7px" /> : 'Save'}
             </button>
           </div>
         </div>
@@ -201,7 +201,7 @@ function Cover({ cover, visitor, photos }) {
       {error && (
         <div className="postError comment_error">
           <div className="postError_error">{error}</div>
-          <button className="green_btn" onClick={() => setError("")}>
+          <button className="green_btn" onClick={() => setError('')}>
             Thử lại
           </button>
         </div>

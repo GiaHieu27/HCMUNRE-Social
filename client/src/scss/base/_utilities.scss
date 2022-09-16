@@ -6,6 +6,8 @@
   right: 0;
   background: rgba(255, 255, 255, 0.768);
   z-index: 100;
+  height: 100%;
+  width: 100%;
 }
 
 .hover1:hover {
@@ -21,12 +23,6 @@
   background: var(--light-green-color);
   color: var(--green-darker-color);
 }
-
-// .card {
-//   height: 500px;
-//   width: 500px;
-//   background: red;
-// }
 
 .scrollbar::-webkit-scrollbar {
   width: 8px;

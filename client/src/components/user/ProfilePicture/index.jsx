@@ -1,16 +1,18 @@
-import { useRef, useState } from "react";
-import { useSelector } from "react-redux";
-import UpdateProfileImage from "./UpdateProfileImage";
+import { useRef, useState } from 'react';
+import { useSelector } from 'react-redux';
+import UpdateProfileImage from './UpdateProfileImage';
 
-import useClickOutSide from "../../../hooks/useClickOutSide";
+import useClickOutSide from '../../../hooks/useClickOutSide';
+import useBodyScrollLock from '../../../hooks/useBodyScrollLock';
 
 function ProfilePicture({ setShow, pRef, photos }) {
   const { user } = useSelector((state) => ({ ...state }));
-  const [image, setImage] = useState("");
-  const [error, setError] = useState("");
+  const [image, setImage] = useState('');
+  const [error, setError] = useState('');
   const inputRef = useRef(null);
   const popupRef = useRef(null);
 
+  useBodyScrollLock();
   useClickOutSide(popupRef, () => {
     setShow(false);
   });
@@ -18,11 +20,11 @@ function ProfilePicture({ setShow, pRef, photos }) {
   const handleChangeImage = (e) => {
     let file = e.target.files[0];
     if (
-      file.type !== "image/png" &&
-      file.type !== "image/jpg" &&
-      file.type !== "image/jpeg" &&
-      file.type !== "image/webp" &&
-      file.type !== "image/gif"
+      file.type !== 'image/png' &&
+      file.type !== 'image/jpg' &&
+      file.type !== 'image/jpeg' &&
+      file.type !== 'image/webp' &&
+      file.type !== 'image/gif'
     ) {
       setError(`${file.name} đinh dạng không được hỗ trợ`);
       return;
@@ -69,7 +71,7 @@ function ProfilePicture({ setShow, pRef, photos }) {
         {error && (
           <div className="postError comment_error">
             <div className="postError_error">{error}</div>
-            <button className="green_btn" onClick={() => setError("")}>
+            <button className="green_btn" onClick={() => setError('')}>
               Thử lại
             </button>
           </div>

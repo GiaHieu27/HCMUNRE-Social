@@ -1,6 +1,7 @@
-import { useRef } from "react";
-import { useSelector } from "react-redux";
-import useClickOutSide from "../../../hooks/useClickOutSide";
+import { useRef } from 'react';
+import { useSelector } from 'react-redux';
+import useClickOutSide from '../../../hooks/useClickOutSide';
+import useBodyScrollLock from '../../../hooks/useBodyScrollLock';
 
 function OldCover({ photos, setCoverPicture, setShow }) {
   const { user } = useSelector((state) => ({ ...state }));
@@ -8,6 +9,7 @@ function OldCover({ photos, setCoverPicture, setShow }) {
   useClickOutSide(selectRef, () => {
     setShow(false);
   });
+  useBodyScrollLock();
 
   return (
     <div className="blur">

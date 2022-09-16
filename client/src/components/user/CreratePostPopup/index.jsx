@@ -1,16 +1,17 @@
-import { useRef, useState } from "react";
-import { useDispatch } from "react-redux";
-import PulseLoader from "react-spinners/PulseLoader";
+import { useRef, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import PulseLoader from 'react-spinners/PulseLoader';
 
-import EmojiPickerBackground from "./EmojiPickerBackground";
-import ImageReview from "./ImageReview";
-import AddYourPost from "./AddYourPost";
-import useClickOutSide from "../../../hooks/useClickOutSide";
-import PostError from "./PostError";
-import dataURLtoBlob from "../../../helpers/dataURLtoBlob";
-import uploadImages from "../../../functions/uploadImages";
-import profileSlice from "../../../redux/slices/profileSlice";
-import { createPost } from "../../../functions/post";
+import EmojiPickerBackground from './EmojiPickerBackground';
+import ImageReview from './ImageReview';
+import AddYourPost from './AddYourPost';
+import useClickOutSide from '../../../hooks/useClickOutSide';
+import useBodyScrollLock from '../../../hooks/useBodyScrollLock';
+import PostError from './PostError';
+import dataURLtoBlob from '../../../helpers/dataURLtoBlob';
+import uploadImages from '../../../functions/uploadImages';
+import profileSlice from '../../../redux/slices/profileSlice';
+import { createPost } from '../../../functions/post';
 
 function CreratePostPopup({ user, setVisible, posts, dispatch, profile }) {
   const dispatchh = useDispatch();
@@ -21,9 +22,9 @@ function CreratePostPopup({ user, setVisible, posts, dispatch, profile }) {
   const [picker, setPicker] = useState(false);
   const [images, setImages] = useState([]);
   const [videos, setVideos] = useState([]);
-  const [text, setText] = useState("");
-  const [background, setBackground] = useState("");
-  const [error, setError] = useState("");
+  const [text, setText] = useState('');
+  const [background, setBackground] = useState('');
+  const [error, setError] = useState('');
 
   const postRef = useRef(null);
   useClickOutSide(postRef, () => {
@@ -44,17 +45,17 @@ function CreratePostPopup({ user, setVisible, posts, dispatch, profile }) {
       );
       setLoading(false);
 
-      if (res.status === "ok") {
+      if (res.status === 'ok') {
         if (profile) {
           dispatchh(profileSlice.actions.PROFILE_POSTS([res.data, ...posts]));
         } else {
           dispatch({
-            type: "POST_SUCCESS",
+            type: 'POST_SUCCESS',
             payload: [res.data, ...posts],
           });
         }
-        setBackground("");
-        setText("");
+        setBackground('');
+        setText('');
         setVisible(false);
       } else {
         setError(res);
@@ -72,12 +73,12 @@ function CreratePostPopup({ user, setVisible, posts, dispatch, profile }) {
       const path = `${user.username}/post_contents`;
 
       let formData = new FormData();
-      formData.append("path", path);
+      formData.append('path', path);
       postImage.forEach((image) => {
-        formData.append("files", image);
+        formData.append('files', image);
       });
       postVideo.forEach((video) => {
-        formData.append("files", video);
+        formData.append('files', video);
       });
 
       const response = await uploadImages(formData, user.token);
@@ -91,16 +92,16 @@ function CreratePostPopup({ user, setVisible, posts, dispatch, profile }) {
         user.token
       );
       setLoading(false);
-      if (res.status === "ok") {
+      if (res.status === 'ok') {
         if (profile) {
           dispatchh(profileSlice.actions.PROFILE_POSTS([res.data, ...posts]));
         } else {
           dispatch({
-            type: "POST_SUCCESS",
+            type: 'POST_SUCCESS',
             payload: [res.data, ...posts],
           });
         }
-        setText("");
+        setText('');
         setImages([]);
         setVisible(false);
       } else {
@@ -116,9 +117,9 @@ function CreratePostPopup({ user, setVisible, posts, dispatch, profile }) {
       const path = `${user.username}/post_contents`;
 
       let formData = new FormData();
-      formData.append("path", path);
+      formData.append('path', path);
       postImage.forEach((image) => {
-        formData.append("files", image);
+        formData.append('files', image);
       });
 
       const response = await uploadImages(formData, user.token);
@@ -133,16 +134,16 @@ function CreratePostPopup({ user, setVisible, posts, dispatch, profile }) {
       );
       setLoading(false);
 
-      if (res.status === "ok") {
+      if (res.status === 'ok') {
         if (profile) {
           dispatchh(profileSlice.actions.PROFILE_POSTS([res.data, ...posts]));
         } else {
           dispatch({
-            type: "POST_SUCCESS",
+            type: 'POST_SUCCESS',
             payload: [res.data, ...posts],
           });
         }
-        setText("");
+        setText('');
         setImages([]);
         setVisible(false);
       } else {
@@ -156,9 +157,9 @@ function CreratePostPopup({ user, setVisible, posts, dispatch, profile }) {
       const path = `${user.username}/post_contents`;
 
       let formData = new FormData();
-      formData.append("path", path);
+      formData.append('path', path);
       postVideo.forEach((video) => {
-        formData.append("files", video);
+        formData.append('files', video);
       });
 
       const response = await uploadImages(formData, user.token);
@@ -173,16 +174,16 @@ function CreratePostPopup({ user, setVisible, posts, dispatch, profile }) {
       );
       setLoading(false);
 
-      if (res.status === "ok") {
+      if (res.status === 'ok') {
         if (profile) {
           dispatchh(profileSlice.actions.PROFILE_POSTS([res.data, ...posts]));
         } else {
           dispatch({
-            type: "POST_SUCCESS",
+            type: 'POST_SUCCESS',
             payload: [res.data, ...posts],
           });
         }
-        setText("");
+        setText('');
         setImages([]);
         setVisible(false);
       } else {
@@ -201,25 +202,26 @@ function CreratePostPopup({ user, setVisible, posts, dispatch, profile }) {
       );
       setLoading(false);
 
-      if (res.status === "ok") {
+      if (res.status === 'ok') {
         if (profile) {
           dispatchh(profileSlice.actions.PROFILE_POSTS([res.data, ...posts]));
         } else {
           dispatch({
-            type: "POST_SUCCESS",
+            type: 'POST_SUCCESS',
             payload: [res.data, ...posts],
           });
         }
-        setBackground("");
-        setText("");
+        setBackground('');
+        setText('');
         setVisible(false);
       } else {
         setError(res);
       }
     } else {
-      setError("Bạn chưa nhập gì cả");
+      setError('Bạn chưa nhập gì cả');
     }
   };
+  useBodyScrollLock();
 
   return (
     <div className="blur">
@@ -289,15 +291,15 @@ function CreratePostPopup({ user, setVisible, posts, dispatch, profile }) {
           className="post_submit"
           style={{
             background: `${
-              !text && !images.length && !videos.length ? "#e4e6eb" : "#20a305"
+              !text && !images.length && !videos.length ? '#e4e6eb' : '#20a305'
             }`,
             cursor: `${
               !text && !images.length && !videos.length
-                ? "not-allowed"
-                : "pointer"
+                ? 'not-allowed'
+                : 'pointer'
             }`,
             color: `${
-              !text && !images.length && !videos.length ? "#bcc0c4" : "#ffff"
+              !text && !images.length && !videos.length ? '#bcc0c4' : '#ffff'
             }`,
           }}
           onClick={() => {
@@ -305,7 +307,7 @@ function CreratePostPopup({ user, setVisible, posts, dispatch, profile }) {
           }}
           disabled={loading}
         >
-          {loading ? <PulseLoader color="#fff" size={5} /> : "Đăng"}
+          {loading ? <PulseLoader color="#fff" size={5} /> : 'Đăng'}
         </button>
       </div>
     </div>
