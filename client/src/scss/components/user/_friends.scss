@@ -1,33 +1,44 @@
-.friends {
+.friends-mess {
   display: flex;
   flex-direction: column;
   height: 100%;
   overflow-y: auto;
+
   &::-webkit-scrollbar {
     display: none;
   }
+
   .hover-friend.active1 {
     background-color: var(--mes-active-color);
   }
+
   .hover-friend {
     cursor: pointer;
+
     &:hover {
       background-color: var(--mes-hover-color);
     }
-    .friend {
+
+    .friend-mess {
       display: flex;
       width: 100%;
       padding: 7px 15px;
+      font-size: inherit;
+      margin-bottom: 0;
+
       .friend-image {
         .image {
           margin-right: 8px;
           position: relative;
+
           img {
             width: 50px;
             height: 50px;
             border-radius: 50%;
             border: 1px solid var(--mes-text-color);
+            vertical-align: unset;
           }
+
           .active_icon {
             position: absolute;
             width: 13px;
@@ -45,11 +56,13 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
+
         .friend-name {
           display: flex;
           align-items: flex-start;
           justify-content: center;
           flex-direction: column;
+
           h4.unseen_message {
             font-weight: 700 !important;
           }
@@ -71,15 +84,18 @@
           display: flex;
           justify-content: center;
           align-items: center;
+
           img {
             width: 15px;
             height: 15px;
             border-radius: 50%;
           }
+
           .unseen,
           .delivared {
             color: var(--mes-text-color);
           }
+
           .seen-icon {
             width: 15px;
             height: 15px;

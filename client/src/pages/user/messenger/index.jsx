@@ -4,6 +4,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 
 import Header from '../../../components/user/Header';
+import FriendMess from '../../../components/user/Messenger/FriendMess';
 
 function Messenger() {
   const { user } = useSelector((state) => ({ ...state }));
@@ -69,27 +70,11 @@ function Messenger() {
                 </div>
               </div>
 
-              {/* <div className="friends"> */}
-              {/* {friends && friends.length
-                  ? friends.map((friend) => (
-                      <div
-                        className={
-                          currentFriend?._id === friend?.fndInfo?._id
-                            ? 'hover-friend active1'
-                            : 'hover-friend'
-                        }
-                        onClick={() => setCurrentFriend(friend.fndInfo)}
-                        key={friend.fndInfo._id}
-                      >
-                        <FriendMess
-                          friend={friend}
-                          userId={user.id}
-                          activeUser={activeUser}
-                        />
-                      </div>
-                    ))
-                  : 'No friends'} */}
-              {/* </div> */}
+              <div className="friends-mess">
+                <div className="hover-friend">
+                  <FriendMess />
+                </div>
+              </div>
             </div>
           </div>
         </div>
