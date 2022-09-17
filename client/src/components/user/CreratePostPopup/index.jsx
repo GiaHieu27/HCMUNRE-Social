@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import PropTypes from 'prop-types';
 import PulseLoader from 'react-spinners/PulseLoader';
 
 import EmojiPickerBackground from './EmojiPickerBackground';
@@ -313,5 +314,14 @@ function CreratePostPopup({ user, setVisible, posts, dispatch, profile }) {
     </div>
   );
 }
+
+CreratePostPopup.propTypes = {
+  setVisible: PropTypes.func,
+  dispatch: PropTypes.func,
+
+  posts: PropTypes.array,
+
+  user: PropTypes.object,
+};
 
 export default CreratePostPopup;

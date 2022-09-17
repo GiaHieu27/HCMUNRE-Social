@@ -1,11 +1,12 @@
-import { useState, useRef } from "react";
-import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useState, useRef } from 'react';
+import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 
-import SearchMenu from "./SearchMenu";
-import AllMenu from "./AllMenu";
-import useClickOutSide from "../../../hooks/useClickOutSide";
-import UserMenu from "./UserMenu";
+import SearchMenu from './SearchMenu';
+import AllMenu from './AllMenu';
+import useClickOutSide from '../../../hooks/useClickOutSide';
+import UserMenu from './UserMenu';
 import {
   Friends,
   Gaming,
@@ -19,11 +20,11 @@ import {
   ArrowDown,
   Home,
   FriendsActive,
-} from "../../../svg";
+} from '../../../svg';
 
 function Header({ page, getPosts }) {
   const { user } = useSelector((user) => ({ ...user }));
-  const color = "#20a305";
+  const color = '#20a305';
 
   const [showSearchMenu, setShowSearchMenu] = useState(false);
   const [showAllMenu, setShowAllMenu] = useState(false);
@@ -68,10 +69,10 @@ function Header({ page, getPosts }) {
       <div className="header_middle">
         <Link
           to="/"
-          className={`middle_icon ${page === "home" ? "active" : "hover1"}`}
+          className={`middle_icon ${page === 'home' ? 'active' : 'hover1'}`}
           onClick={() => getPosts()}
         >
-          {page === "home" ? (
+          {page === 'home' ? (
             <HomeActive color={color} />
           ) : (
             <Home color={color} />
@@ -79,9 +80,9 @@ function Header({ page, getPosts }) {
         </Link>
         <Link
           to="/friends"
-          className={`middle_icon ${page === "friends" ? "active" : "hover1"}`}
+          className={`middle_icon ${page === 'friends' ? 'active' : 'hover1'}`}
         >
-          {page === "friends" ? (
+          {page === 'friends' ? (
             <FriendsActive color={color} />
           ) : (
             <Friends color={color} />
@@ -103,14 +104,14 @@ function Header({ page, getPosts }) {
         <Link
           to="/profile"
           className={`profile_link hover4 ${
-            page === "profile" ? "active_link" : ""
+            page === 'profile' ? 'active_link' : ''
           }`}
         >
           <img src={user?.picture} alt="" />
           <span>{user?.last_name}</span>
         </Link>
         <div
-          className={`circle_icon hover1 ${showAllMenu && "active_header"}`}
+          className={`circle_icon hover1 ${showAllMenu && 'active_header'}`}
           ref={allMenu}
         >
           <div
@@ -118,7 +119,7 @@ function Header({ page, getPosts }) {
               setShowAllMenu(!showAllMenu);
             }}
           >
-            <div style={{ transform: "translateY(-2px)" }}>
+            <div style={{ transform: 'translateY(-2px)' }}>
               <Menu />
             </div>
           </div>
@@ -132,11 +133,11 @@ function Header({ page, getPosts }) {
           <div className="right_notification">5</div>
         </div>
         <div
-          className={`circle_icon hover1 ${showUserMenu && "active_header"}`}
+          className={`circle_icon hover1 ${showUserMenu && 'active_header'}`}
           ref={userMenu}
         >
           <div onClick={() => setShowUserMenu(!showUserMenu)}>
-            <div style={{ transform: "translateY(-1px)" }}>
+            <div style={{ transform: 'translateY(-1px)' }}>
               <ArrowDown />
             </div>
           </div>
@@ -146,5 +147,10 @@ function Header({ page, getPosts }) {
     </header>
   );
 }
+
+Header.propTypes = {
+  page: PropTypes.string,
+  getPosts: PropTypes.func,
+};
 
 export default Header;

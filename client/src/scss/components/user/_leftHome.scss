@@ -56,7 +56,7 @@
     color: var(--green-color);
 
     &::before {
-      content: "";
+      content: '';
       width: 7px;
       height: 7px;
 
@@ -137,6 +137,6 @@
   position: relative;
   width: 97%;
   margin-top: 2rem;
-  font-size: 12px;
+  font-size: 13px;
   color: var(--color-secondary);
 }

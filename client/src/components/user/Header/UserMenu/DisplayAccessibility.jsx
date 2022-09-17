@@ -1,7 +1,8 @@
-import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import Cookies from "js-cookie";
-import themeSlice from "../../../../redux/slices/themeSlice";
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
+import Cookies from 'js-cookie';
+import themeSlice from '../../../../redux/slices/themeSlice';
 
 function DisplayAccessibility({ setVisible }) {
   const darkTheme = useSelector((sate) => sate.theme);
@@ -22,7 +23,7 @@ function DisplayAccessibility({ setVisible }) {
         Màn hình hiển thị
       </div>
       <div className="mmenu_main">
-        <div className="small_circle" style={{ width: "60px" }}>
+        <div className="small_circle" style={{ width: '60px' }}>
           <i className="dark_filled_icon"></i>
         </div>
         <div className="mmenu_col">
@@ -43,7 +44,7 @@ function DisplayAccessibility({ setVisible }) {
           checked={!state ? true : false}
           onChange={() => {
             dispatch(themeSlice.actions.LIGHT());
-            Cookies.set("darkTheme", false);
+            Cookies.set('darkTheme', false);
             setState(false);
           }}
         />
@@ -57,7 +58,7 @@ function DisplayAccessibility({ setVisible }) {
           checked={state ? state : false}
           onChange={() => {
             dispatch(themeSlice.actions.DARK());
-            Cookies.set("darkTheme", true);
+            Cookies.set('darkTheme', true);
             setState(true);
           }}
         />
@@ -82,5 +83,9 @@ function DisplayAccessibility({ setVisible }) {
     </div>
   );
 }
+
+DisplayAccessibility.propTypes = {
+  setVisible: PropTypes.func,
+};
 
 export default DisplayAccessibility;

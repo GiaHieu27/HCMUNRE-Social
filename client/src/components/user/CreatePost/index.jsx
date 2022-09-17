@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 function CreatePost({ user, setVisible, profile }) {
   return (
     <div className={`createPost ${profile ? 'mt-3' : ''}`}>
@@ -15,5 +17,10 @@ function CreatePost({ user, setVisible, profile }) {
     </div>
   );
 }
+
+CreatePost.propTypes = {
+  user: PropTypes.object,
+  setVisible: PropTypes.bool,
+};
 
 export default CreatePost;

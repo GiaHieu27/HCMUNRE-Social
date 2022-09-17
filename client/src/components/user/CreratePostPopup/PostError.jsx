@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 function PostError({ error, setError }) {
   return (
     <div className="postError">
@@ -5,7 +7,7 @@ function PostError({ error, setError }) {
       <button
         className="green_btn"
         onClick={() => {
-          setError("");
+          setError('');
         }}
       >
         Try again
@@ -13,5 +15,10 @@ function PostError({ error, setError }) {
     </div>
   );
 }
+
+PostError.propTypes = {
+  error: PropTypes.bool,
+  setError: PropTypes.func,
+};
 
 export default PostError;

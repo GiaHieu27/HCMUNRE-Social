@@ -1,12 +1,13 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import Cookies from "js-cookie";
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import PropTypes from 'prop-types';
+import Cookies from 'js-cookie';
 
 // import SettingsPrivacy from "./SettingsPrivacy";
 // import HelpSupport from "./HelpSupport";
-import DisplayAccessibility from "./DisplayAccessibility";
-import userSlice from "../../../../redux/slices/userSlice";
+import DisplayAccessibility from './DisplayAccessibility';
+import userSlice from '../../../../redux/slices/userSlice';
 
 function UserMenu({ user }) {
   const dispatch = useDispatch();
@@ -15,10 +16,10 @@ function UserMenu({ user }) {
   const [visible, setVisible] = useState(0);
 
   const logOut = () => {
-    Cookies.set("user", "");
+    Cookies.set('user', '');
     dispatch(userSlice.actions.LOGOUT());
     setTimeout(() => {
-      navigate("/login");
+      navigate('/login');
     }, 2000);
   };
 
@@ -80,5 +81,9 @@ function UserMenu({ user }) {
     </div>
   );
 }
+
+UserMenu.propTypes = {
+  user: PropTypes.object,
+};
 
 export default UserMenu;

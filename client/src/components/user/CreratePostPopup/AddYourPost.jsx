@@ -1,4 +1,5 @@
-import { Photo } from "../../../svg";
+import PropTypes from 'prop-types';
+import { Photo } from '../../../svg';
 
 function AddYourPost(props) {
   return (
@@ -8,7 +9,7 @@ function AddYourPost(props) {
         <div
           className="post_header_right hover1"
           style={{
-            cursor: `${props.background ? "not-allowed" : "pointer"}`,
+            cursor: `${props.background ? 'not-allowed' : 'pointer'}`,
           }}
           onClick={() => {
             if (!props.background) {
@@ -17,7 +18,7 @@ function AddYourPost(props) {
             }
           }}
         >
-          <Photo color={`${props.background ? "#b0b3b8" : "#20a305"}`} />
+          <Photo color={`${props.background ? '#b0b3b8' : '#20a305'}`} />
         </div>
 
         <div
@@ -26,8 +27,8 @@ function AddYourPost(props) {
             cursor: `${
               (props.images && props.images.length) ||
               (props.videos && props.videos.length)
-                ? "not-allowed"
-                : "pointer"
+                ? 'not-allowed'
+                : 'pointer'
             }`,
           }}
         >
@@ -54,5 +55,20 @@ function AddYourPost(props) {
     </div>
   );
 }
+
+AddYourPost.propTypes = {
+  background: PropTypes.string,
+
+  showBg: PropTypes.bool,
+  picker: PropTypes.bool,
+  showPrev: PropTypes.bool,
+
+  setShowBg: PropTypes.func,
+  setShowPrev: PropTypes.func,
+  setPicker: PropTypes.func,
+
+  images: PropTypes.array,
+  videos: PropTypes.array,
+};
 
 export default AddYourPost;

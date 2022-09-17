@@ -1,38 +1,39 @@
-import { useRef } from "react";
-import EmojiPickerBackground from "./EmojiPickerBackground";
+import { useRef } from 'react';
+import PropTypes from 'prop-types';
+import EmojiPickerBackground from './EmojiPickerBackground';
 
 function ImageReview(props) {
   const imageInputRef = useRef(null);
   const drapRef = useRef(null);
 
-  const onDragEnter = () => drapRef.current.classList.add("dragover");
-  const onDragLeave = () => drapRef.current.classList.remove("dragover");
-  const onDrop = () => drapRef.current.classList.remove("dragover");
+  const onDragEnter = () => drapRef.current.classList.add('dragover');
+  const onDragLeave = () => drapRef.current.classList.remove('dragover');
+  const onDrop = () => drapRef.current.classList.remove('dragover');
 
   const handleImages = (e) => {
     let files = Array.from(e.target.files);
     files.forEach((file) => {
       if (
-        file.type !== "image/jpeg" &&
-        file.type !== "image/png" &&
-        file.type !== "image/webp" &&
-        file.type !== "image/gif" &&
-        file.type !== "video/mp4"
+        file.type !== 'image/jpeg' &&
+        file.type !== 'image/png' &&
+        file.type !== 'image/webp' &&
+        file.type !== 'image/gif' &&
+        file.type !== 'video/mp4'
       ) {
         props.setError(`${file.name} loại tệp tin không phù hợp`);
         files = files.filter((item) => item.name !== file.name);
         return;
-      } else if (file.type === "video/mp4" && file.size > 1024 * 1024 * 70) {
+      } else if (file.type === 'video/mp4' && file.size > 1024 * 1024 * 70) {
         props.setError(
           `${file.name} có kích thước video quá lớn, hãy chọn những video dưới 20MB`
         );
         files = files.filter((item) => item.name !== file.name);
         return;
       } else if (
-        (file.type === "image/jpeg" ||
-          file.type === "image/png" ||
-          file.type === "image/webp" ||
-          file.type === "image/gif") &&
+        (file.type === 'image/jpeg' ||
+          file.type === 'image/png' ||
+          file.type === 'image/webp' ||
+          file.type === 'image/gif') &&
         file.size > 1024 * 1024 * 9
       ) {
         props.setError(
@@ -41,7 +42,7 @@ function ImageReview(props) {
         files = files.filter((item) => item.name !== file.name);
         return;
       } else {
-        if (file.type === "video/mp4") {
+        if (file.type === 'video/mp4') {
           const reader = new FileReader();
           reader.readAsDataURL(file);
           reader.onload = (readerEvent) => {
@@ -110,40 +111,40 @@ function ImageReview(props) {
             <div
               className={
                 props.images.length === 1 && props.videos.length === 1
-                  ? "preview2"
+                  ? 'preview2'
                   : (props.images.length === 2 && props.videos.length === 1) ||
                     (props.images.length === 1 && props.videos.length === 2)
-                  ? "preview3"
+                  ? 'preview3'
                   : (props.images.length === 3 && props.videos.length === 1) ||
                     (props.images.length === 1 && props.videos.length === 3) ||
                     (props.images.length === 2 && props.videos.length === 2)
-                  ? "preview4"
+                  ? 'preview4'
                   : (props.images.length === 4 && props.videos.length === 1) ||
                     (props.images.length === 1 && props.videos.length === 4) ||
                     (props.images.length === 3 && props.videos.length === 2) ||
                     (props.images.length === 2 && props.videos.length === 3)
-                  ? "preview5"
+                  ? 'preview5'
                   : (props.images.length === 5 && props.videos.length === 1) ||
                     (props.images.length === 1 && props.videos.length === 5) ||
                     (props.images.length === 4 && props.videos.length === 2) ||
                     (props.images.length === 2 && props.videos.length === 4) ||
                     (props.images.length === 3 && props.videos.length === 3) ||
                     (props.images.length === 3 && props.videos.length === 3)
-                  ? "preview6"
+                  ? 'preview6'
                   : props.images.length === 1 || props.videos.length === 1
-                  ? "preview1"
+                  ? 'preview1'
                   : props.images.length === 2 || props.videos.length === 2
-                  ? "preview2"
+                  ? 'preview2'
                   : props.images.length === 3 || props.videos.length === 3
-                  ? "preview3"
+                  ? 'preview3'
                   : props.images.length === 4 || props.videos.length === 4
-                  ? "preview4 "
+                  ? 'preview4 '
                   : props.images.length === 5 || props.videos.length === 5
-                  ? "preview5"
+                  ? 'preview5'
                   : props.images.length % 2 === 0 ||
                     props.videos.length % 2 === 0
-                  ? "preview6"
-                  : "preview6 singular_grid"
+                  ? 'preview6'
+                  : 'preview6 singular_grid'
               }
             >
               {props.images.map((img, i) => (
@@ -189,5 +190,23 @@ function ImageReview(props) {
     </div>
   );
 }
+
+ImageReview.propTypes = {
+  text: PropTypes.string,
+
+  picker: PropTypes.bool,
+
+  setError: PropTypes.func,
+  setVideos: PropTypes.func,
+  setImages: PropTypes.func,
+  setShowPrev: PropTypes.func,
+  setText: PropTypes.func,
+  setPicker: PropTypes.func,
+
+  images: PropTypes.array,
+  videos: PropTypes.array,
+
+  user: PropTypes.object,
+};
 
 export default ImageReview;

@@ -1,16 +1,17 @@
-import { useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
-import useClickOutSide from "../../../hooks/useClickOutSide";
-import * as functions from "../../../functions/search";
-import { Return, Search } from "../../../svg";
+import useClickOutSide from '../../../hooks/useClickOutSide';
+import * as functions from '../../../functions/search';
+import { Return, Search } from '../../../svg';
 
 function SearchMenu({ color, setShowSearchMenu }) {
   const user = useSelector((state) => state.user);
 
   const [iconVisible, setIconVisible] = useState(true);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState('');
   const [results, setResults] = useState([]);
   const [searchHistory, setSearchHistory] = useState([]);
 
@@ -25,20 +26,20 @@ function SearchMenu({ color, setShowSearchMenu }) {
     inputRef.current.focus();
   }, []);
 
+  const getHistorySearch = useCallback(async () => {
+    const res = await functions.getSearchHistory(user.token);
+    setSearchHistory(res);
+  }, [user.token]);
+
   useEffect(() => {
     getHistorySearch();
     return () => {
       setSearchHistory([]);
     };
-  }, []);
-
-  const getHistorySearch = async () => {
-    const res = await functions.getSearchHistory(user.token);
-    setSearchHistory(res);
-  };
+  }, [getHistorySearch]);
 
   const handleSearch = async () => {
-    if (searchTerm === "") {
+    if (searchTerm === '') {
       setResults([]);
     } else {
       const res = await functions.search(searchTerm, user.token);
@@ -48,12 +49,12 @@ function SearchMenu({ color, setShowSearchMenu }) {
 
   const handleAddToHistorySearch = async (searchUser) => {
     const res = await functions.addToSearchHistory(searchUser, user.token);
-    if (res.status === "success") getHistorySearch();
+    if (res.status === 'success') getHistorySearch();
   };
 
   const handelRemoveSearchHistory = async (searchUser) => {
     const res = await functions.removeHistorySearch(searchUser, user.token);
-    if (res.status === "success") getHistorySearch();
+    if (res.status === 'success') getHistorySearch();
   };
 
   return (
@@ -92,7 +93,7 @@ function SearchMenu({ color, setShowSearchMenu }) {
           />
         </div>
       </div>
-      {results === "" && (
+      {results === '' && (
         <div className="search_history_header">
           <span>Tìm kiếm gần đây</span>
           <a href="/">Chỉnh sửa</a>
@@ -100,7 +101,7 @@ function SearchMenu({ color, setShowSearchMenu }) {
       )}
       <div className="search_history scrollbar">
         {searchHistory &&
-          results === "" &&
+          results === '' &&
           searchHistory
             .sort((a, b) => {
               return new Date(b.createAt) - new Date(a.createAt);
@@ -144,5 +145,10 @@ function SearchMenu({ color, setShowSearchMenu }) {
     </div>
   );
 }
+
+SearchMenu.propTypes = {
+  color: PropTypes.string,
+  setShowSearchMenu: PropTypes.func,
+};
 
 export default SearchMenu;

@@ -1,11 +1,12 @@
-import { useEffect, useState, useRef } from "react";
-import Picker from "emoji-picker-react";
-import { useMediaQuery } from "react-responsive";
+import { useEffect, useState, useRef } from 'react';
+import PropTypes from 'prop-types';
+import Picker from 'emoji-picker-react';
+import { useMediaQuery } from 'react-responsive';
 
 function EmojiPickerBackground(props) {
   const [cursorPosition, setCursorPosition] = useState();
 
-  const sm = useMediaQuery({ query: "(max-width: 550px)" });
+  const sm = useMediaQuery({ query: '(max-width: 550px)' });
 
   const bgRef = useRef(null);
   const textRef = useRef(null);
@@ -15,15 +16,15 @@ function EmojiPickerBackground(props) {
   }, [cursorPosition]);
 
   const postBackgrounds = [
-    "../../../images/postBackgrounds/1.jpg",
-    "../../../images/postBackgrounds/2.jpg",
-    "../../../images/postBackgrounds/3.jpg",
-    "../../../images/postBackgrounds/4.jpg",
-    "../../../images/postBackgrounds/5.jpg",
-    "../../../images/postBackgrounds/6.jpg",
-    "../../../images/postBackgrounds/7.jpg",
-    "../../../images/postBackgrounds/8.jpg",
-    "../../../images/postBackgrounds/9.jpg",
+    '../../../images/postBackgrounds/1.jpg',
+    '../../../images/postBackgrounds/2.jpg',
+    '../../../images/postBackgrounds/3.jpg',
+    '../../../images/postBackgrounds/4.jpg',
+    '../../../images/postBackgrounds/5.jpg',
+    '../../../images/postBackgrounds/6.jpg',
+    '../../../images/postBackgrounds/7.jpg',
+    '../../../images/postBackgrounds/8.jpg',
+    '../../../images/postBackgrounds/9.jpg',
   ];
 
   const handleEmojiClick = (e, { emoji }) => {
@@ -39,18 +40,18 @@ function EmojiPickerBackground(props) {
   const handleBackgroundClick = (i) => {
     bgRef.current.style.backgroundImage = `url(${postBackgrounds[i]})`;
     props.setBackground(postBackgrounds[i]);
-    bgRef.current.classList.add("bgHandler");
+    bgRef.current.classList.add('bgHandler');
   };
 
   const handleRemoveBackground = () => {
     bgRef.current.style.backgroundImage = ``;
     props.setBackground();
-    bgRef.current.classList.remove("bgHandler");
+    bgRef.current.classList.remove('bgHandler');
   };
 
   return (
-    <div className={!props.type2 ? "" : "images_input"}>
-      <div className={!props.type2 ? "flex_center" : ""} ref={bgRef}>
+    <div className={!props.type2 ? '' : 'images_input'}>
+      <div className={!props.type2 ? 'flex_center' : ''} ref={bgRef}>
         <textarea
           ref={textRef}
           maxLength="250"
@@ -58,23 +59,23 @@ function EmojiPickerBackground(props) {
           placeholder={`Bạn đang nghĩ gì thế ${props.user.last_name}`}
           onChange={(e) => props.setText(e.target.value)}
           onClick={() => props.setPicker(false)}
-          className={`post_input ${!props.type2 ? "" : "input2"} ${
-            sm && !props.background && "ww"
+          className={`post_input ${!props.type2 ? '' : 'input2'} ${
+            sm && !props.background && 'ww'
           }`}
           style={{
             paddingTop: `${
               props.background
                 ? Math.abs(textRef.current.value.length * 0.1 - 30)
-                : "0"
+                : '0'
             }%`,
           }}
         ></textarea>
       </div>
-      <div className={!props.type2 ? "post_emojis_wrap" : ""}>
+      <div className={!props.type2 ? 'post_emojis_wrap' : ''}>
         {props.picker && (
           <div
             className={`comment_emoji_picker ${
-              !props.type2 ? "rlmove" : "movepicker2"
+              !props.type2 ? 'rlmove' : 'movepicker2'
             }`}
           >
             <Picker onEmojiClick={handleEmojiClick} />
@@ -105,5 +106,19 @@ function EmojiPickerBackground(props) {
     </div>
   );
 }
+
+EmojiPickerBackground.propTypes = {
+  text: PropTypes.string,
+  background: PropTypes.string,
+
+  showBg: PropTypes.bool,
+  picker: PropTypes.bool,
+
+  setText: PropTypes.func,
+  setBackground: PropTypes.func,
+  setPicker: PropTypes.func,
+
+  user: PropTypes.object,
+};
 
 export default EmojiPickerBackground;

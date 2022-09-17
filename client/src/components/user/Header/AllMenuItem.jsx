@@ -1,10 +1,11 @@
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 function AllMenuItem({ name, description, icon }) {
   return (
     <Link
       to={`/${
-        name === "Bạn bè" ? "friends" : name === "Đã lưu" ? "saved" : ""
+        name === 'Bạn bè' ? 'friends' : name === 'Đã lưu' ? 'saved' : ''
       }`}
       className="all_menu_item hover1"
     >
@@ -16,5 +17,11 @@ function AllMenuItem({ name, description, icon }) {
     </Link>
   );
 }
+
+AllMenuItem.propTypes = {
+  description: PropTypes.string,
+  name: PropTypes.string,
+  icon: PropTypes.string,
+};
 
 export default AllMenuItem;

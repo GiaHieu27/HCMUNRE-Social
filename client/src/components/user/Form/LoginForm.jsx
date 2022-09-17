@@ -1,19 +1,20 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { Form, Formik } from "formik";
-import PropagateLoader from "react-spinners/PropagateLoader";
-import axios from "axios";
-import * as yup from "yup";
-import "boxicons";
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { Form, Formik } from 'formik';
+import PropTypes from 'prop-types';
+import PropagateLoader from 'react-spinners/PropagateLoader';
+import axios from 'axios';
+import * as yup from 'yup';
+import 'boxicons';
 
-import LoginInput from "../Inputs/LoginInput/LoginInput";
-import Cookies from "js-cookie";
-import userSlice from "../../../redux/slices/userSlice";
+import LoginInput from '../Inputs/LoginInput/LoginInput';
+import Cookies from 'js-cookie';
+import userSlice from '../../../redux/slices/userSlice';
 
 const loginInfo = {
-  email: "",
-  password: "",
+  email: '',
+  password: '',
 };
 
 function LoginForm({ containerRef }) {
@@ -21,8 +22,8 @@ function LoginForm({ containerRef }) {
   const navigate = useNavigate();
 
   const [login, setLogin] = useState(loginInfo);
-  const [error, setError] = useState("");
-  const [success, setSuccessse] = useState("");
+  const [error, setError] = useState('');
+  const [success, setSuccessse] = useState('');
   const [loading, setLoading] = useState(false);
 
   const { email, password } = login;
@@ -35,13 +36,13 @@ function LoginForm({ containerRef }) {
   const loginValidation = yup.object({
     email: yup
       .string()
-      .required("Vui lòng nhập email")
-      .email("Vui lòng nhập đúng định dạng email")
-      .max(100, "Tối đa 100 kí tự"),
+      .required('Vui lòng nhập email')
+      .email('Vui lòng nhập đúng định dạng email')
+      .max(100, 'Tối đa 100 kí tự'),
     password: yup
       .string()
-      .required("Vui lòng nhập mật khẩu")
-      .min(6, "Mật khẩu tối thiểu 6 kí tự"),
+      .required('Vui lòng nhập mật khẩu')
+      .min(6, 'Mật khẩu tối thiểu 6 kí tự'),
   });
 
   const handleLoginSubmit = async () => {
@@ -51,24 +52,24 @@ function LoginForm({ containerRef }) {
         `${process.env.REACT_APP_BACKEND_URL}/login`,
         { email, password }
       );
-      setError("");
+      setError('');
       setSuccessse(data.message);
 
       setTimeout(() => {
         dispatch(userSlice.actions.LOGIN(data));
-        Cookies.set("user", JSON.stringify(data));
-        navigate("/");
+        Cookies.set('user', JSON.stringify(data));
+        navigate('/');
       }, 2000);
     } catch (error) {
       setLoading(false);
-      setSuccessse("");
+      setSuccessse('');
       setError(error.response.data.message);
     }
   };
 
   const handleClick = () => {
-    containerRef.current.classList.toggle("sign-in");
-    containerRef.current.classList.toggle("sign-up");
+    containerRef.current.classList.toggle('sign-in');
+    containerRef.current.classList.toggle('sign-up');
   };
 
   return (
@@ -102,7 +103,7 @@ function LoginForm({ containerRef }) {
                   bottom
                 />
                 <button
-                  style={{ paddingBottom: `${loading ? "11px" : "0"}` }}
+                  style={{ paddingBottom: `${loading ? '11px' : '0'}` }}
                   type="submit"
                 >
                   {loading ? (
@@ -112,7 +113,7 @@ function LoginForm({ containerRef }) {
                       size={12}
                     />
                   ) : (
-                    "Đăng nhập"
+                    'Đăng nhập'
                   )}
                 </button>
                 {error && <div className="error_text">{error}</div>}
@@ -136,5 +137,9 @@ function LoginForm({ containerRef }) {
     </div>
   );
 }
+
+LoginForm.propTypes = {
+  containerRef: PropTypes.object,
+};
 
 export default LoginForm;
