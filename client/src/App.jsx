@@ -1,27 +1,30 @@
 // import lib
-import { useCallback, useEffect, useReducer, useState } from "react";
-import { Routes, Route } from "react-router-dom";
-import { useSelector } from "react-redux";
-import Cookies from "js-cookie";
-import axios from "axios";
+import { useCallback, useEffect, useReducer, useState } from 'react';
+import { Routes, Route } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import Cookies from 'js-cookie';
+import axios from 'axios';
 
 // User
-import LoggedInRoutes from "./routes/LoggedInRoutes";
-import NotLoggedInRoutes from "./routes/NotLoggedInRoutes";
-import Login from "./pages/user/login";
-import Home from "./pages/user/home";
-import Profile from "./pages/user/profile";
-import Saved from "./pages/user/save";
-import SavedPosstProfile from "./pages/user/profile/SavedPosstProfile";
-import Activate from "./pages/user/home/Activate";
-import ResetPassword from "./pages/user/reset";
-import CreratePostPopup from "./components/user/CreratePostPopup";
-import Friend from "./pages/user/friend";
-import { postsReducer } from "./functions/reducer";
+import LoggedInRoutes from './routes/user/LoggedInRoutes';
+import NotLoggedInRoutes from './routes/user/NotLoggedInRoutes';
+import Login from './pages/user/login';
+import Home from './pages/user/home';
+import Profile from './pages/user/profile';
+import Saved from './pages/user/save';
+import SavedPosstProfile from './pages/user/profile/SavedPosstProfile';
+import Activate from './pages/user/home/Activate';
+import ResetPassword from './pages/user/reset';
+import CreratePostPopup from './components/user/CreratePostPopup';
+import Friend from './pages/user/friend';
+import Messenger from './pages/user/messenger';
+import { postsReducer } from './functions/reducer';
 
 // Admin
-import LoginAdmin from "./pages/admin/login";
-import HomeAdmin from "./pages/admin/home";
+import AdminLoggedInRoutes from './routes/admin/AdminLoggedInRoutes';
+import AdminNotLoggedInRoutes from './routes/admin/AdminNotLoggedInRoutes';
+import LoginAdmin from './pages/admin/login';
+import HomeAdmin from './pages/admin/home';
 
 function App() {
   const [visible, setVisible] = useState(false);
@@ -30,40 +33,40 @@ function App() {
   const [{ loading, posts }, dispatch] = useReducer(postsReducer, {
     loading: false,
     posts: [],
-    error: "",
+    error: '',
   });
 
   const getPosts = useCallback(async () => {
     try {
       dispatch({
-        type: "POST_REQUEST",
+        type: 'POST_REQUEST',
       });
       const { data } = await axios.get(
         `${process.env.REACT_APP_BACKEND_URL}/getAllPosts`,
         {
           headers: {
-            Authorization: "Bearer " + user.token,
+            Authorization: 'Bearer ' + user.token,
           },
         }
       );
       dispatch({
-        type: "POST_SUCCESS",
+        type: 'POST_SUCCESS',
         payload: data,
       });
     } catch (error) {
       dispatch({
-        type: "POST_ERROR",
+        type: 'POST_ERROR',
         payload: error.response.data.message,
       });
     }
   }, [user?.token]);
 
   useEffect(() => {
-    if (Cookies.get("user")) getPosts();
+    if (Cookies.get('user')) getPosts();
   }, [getPosts]);
 
   return (
-    <div className={theme ? "dark" : ""}>
+    <div className={theme ? 'dark' : ''}>
       {visible && (
         <CreratePostPopup
           user={user}
@@ -96,7 +99,9 @@ function App() {
             path="/:username/posts/:idPost"
             element={<SavedPosstProfile />}
           />
+          <Route path="/messenger" element={<Messenger />} />
         </Route>
+
         <Route element={<NotLoggedInRoutes />}>
           <Route path="/login" element={<Login />} />
         </Route>
@@ -104,8 +109,13 @@ function App() {
         {/* ---------User--------- */}
 
         {/* ---------Admin--------- */}
-        <Route path="/admin/login" element={<LoginAdmin />} />
-        <Route path="/admin" element={<HomeAdmin />} />
+        <Route element={<AdminLoggedInRoutes />}>
+          <Route path="/admin" element={<HomeAdmin />} />
+        </Route>
+
+        <Route element={<AdminNotLoggedInRoutes />}>
+          <Route path="/admin/login" element={<LoginAdmin />} />
+        </Route>
 
         {/* ---------Admin--------- */}
       </Routes>

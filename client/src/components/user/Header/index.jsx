@@ -125,9 +125,9 @@ function Header({ page, getPosts }) {
           </div>
           {showAllMenu && <AllMenu />}
         </div>
-        <div className="circle_icon hover1">
+        <Link to="/messenger" className="circle_icon hover1">
           <Messenger />
-        </div>
+        </Link>
         <div className="circle_icon hover1">
           <Notifications />
           <div className="right_notification">5</div>

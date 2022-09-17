@@ -26,4 +26,41 @@
   --shadow-2: rgba(0, 0, 0, 0.1);
   --shadow-3: rgba(0, 0, 0, 0.3);
   --shadow-inset: rgba(255, 255, 255, 0.5);
+
+  --mes-text-white: #fff;
+  --mes-bg-color: #ffffff;
+  --mes-text-color: #050505;
+  --mes-icon-bg-color: #f5f5f5;
+  --mes-icon-color: #414141;
+  --mes-search-bg: #868e991a;
+  --mes-active-color: #0000000a;
+  --mes-border-color: #e5e5e5;
+  --mes-message-icon-color: #0099ff;
+  --mes-fd-message-bg: #e5e5e5;
+  --mes-my-message-bg: #0084ff;
+  --mes-my-message-color: #fff;
+  --mes-fd-message-color: #050505;
+  --mes-image-border-color: rgb(155, 153, 153);
+  --mes-active-icon-color: #5ad539;
+  --mes-hover-color: #bcbcc091;
+}
+
+.messenger.theme {
+  --mes-text-color: #fff;
+  --mes-bg-color: #141b2bf0;
+  --mes-border-color: #213156bf;
+  --mes-icon-bg-color: #0a0a1357;
+  --mes-active-color: #2b335591;
+  --mes-hover-color: #323a5c91;
+  --mes-fd-message-bg: #28324ed9;
+  --mes-my-message-bg: #28324ed9;
+  --mes-search-bg: #15162559;
+  --mes-text-white: #fff;
+  --mes-text-dark: #404040;
+  --mes-icon-color: #fff;
+  --mes-message-icon-color: #fff;
+  --mes-my-message-color: #fff;
+  --mes-fd-message-color: #fff;
+  --mes-active-icon-color: #5ad539;
+  --mes-image-border-color: #fff;
 }
