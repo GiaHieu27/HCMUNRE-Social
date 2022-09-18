@@ -5,6 +5,7 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 
 import Header from '../../../components/user/Header';
 import FriendMess from '../../../components/user/Messenger/FriendMess';
+import RightSide from '../../../components/user/Messenger/RightSide';
 
 function Messenger() {
   const { user } = useSelector((state) => ({ ...state }));
@@ -77,6 +78,8 @@ function Messenger() {
               </div>
             </div>
           </div>
+
+          <RightSide />
         </div>
       </div>
     </>

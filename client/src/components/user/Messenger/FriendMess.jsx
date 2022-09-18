@@ -3,7 +3,7 @@ import moment from 'moment';
 
 function FriendMess({ friend, userId, activeUser }) {
   return (
-    <div className="friend-mess">
+    <div className="friend-mess hover2">
       <div className="friend-image">
         <div className="image">
           {/* <img src={friend?.fndInfo.picture} alt="" /> */}

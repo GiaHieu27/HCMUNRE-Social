@@ -1,16 +1,20 @@
 .col-9 {
   .right-side {
     height: 100%;
+
     .row {
       height: 100%;
+
       .col-8 {
         transition: all 0.5s;
+
         .message-send-show {
           height: 100vh;
           border-right: 1px solid var(--mes-border-color);
           display: flex;
           flex-direction: column;
           justify-content: space-between;
+
           .header {
             display: flex;
             flex-direction: row;
@@ -18,6 +22,7 @@
             justify-content: space-between;
             padding: 12px 10px;
             border-bottom: 1px solid var(--mes-border-color);
+
             .image-name {
               display: flex;
               .image {
@@ -44,6 +49,7 @@
                 display: flex;
                 justify-content: center;
                 align-items: center;
+
                 h3 {
                   padding-left: 10px;
                   color: var(--mes-text-color);
@@ -52,6 +58,7 @@
             }
             .icons {
               display: flex;
+
               .icon {
                 height: 35px;
                 width: 35px;
@@ -64,6 +71,7 @@
                 display: flex;
                 justify-content: center;
                 align-items: center;
+
                 label {
                   display: flex;
                   margin-bottom: 0px;
