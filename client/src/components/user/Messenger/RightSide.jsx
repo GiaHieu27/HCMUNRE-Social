@@ -3,6 +3,7 @@ import ProsType from 'prop-types';
 
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import Message from './Message';
+import MessageSend from './MessageSend';
 // import FriendInfo from './FriendInfo';
 // import Message from './Message';
 // import MessageSend from './MessageSend';
@@ -66,14 +67,14 @@ function RightSide({
               </div>
 
               <Message />
-              {/* <MessageSend
-                imageMessage={imageMessage}
-                setImageMessage={setImageMessage}
-                handleSendMessage={handleSendMessage}
-                handleInputChange={handleInputChange}
-                newMessage={newMessage}
-                setNewMessage={setNewMessage}
-              /> */}
+              <MessageSend
+              // imageMessage={imageMessage}
+              // setImageMessage={setImageMessage}
+              // handleSendMessage={handleSendMessage}
+              // handleInputChange={handleInputChange}
+              // newMessage={newMessage}
+              // setNewMessage={setNewMessage}
+              />
             </div>
           </div>
           <div className="col-4">
