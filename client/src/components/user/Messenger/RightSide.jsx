@@ -1,9 +1,10 @@
 import React from 'react';
-import ProsType from 'prop-types';
+import PropTypes from 'prop-types';
 
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import Message from './Message';
 import MessageSend from './MessageSend';
+import FriendInfo from './FriendInfo';
 // import FriendInfo from './FriendInfo';
 // import Message from './Message';
 // import MessageSend from './MessageSend';
@@ -78,17 +79,20 @@ function RightSide({
             </div>
           </div>
           <div className="col-4">
-            <h1>Friend information</h1>
-            {/* <FriendInfo
-              message={message}
-              currentFriend={currentFriend}
-              activeUser={activeUser}
-            /> */}
+            <FriendInfo
+            // message={message}
+            // currentFriend={currentFriend}
+            // activeUser={activeUser}
+            />
           </div>
         </div>
       </div>
     </div>
   );
 }
+
+RightSide.prototype = {
+  currentFriend: PropTypes.object,
+};
 
 export default RightSide;

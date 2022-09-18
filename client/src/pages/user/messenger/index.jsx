@@ -1,14 +1,33 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import SearchIcon from '@mui/icons-material/Search';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 
 import Header from '../../../components/user/Header';
 import FriendMess from '../../../components/user/Messenger/FriendMess';
 import RightSide from '../../../components/user/Messenger/RightSide';
+import friendsSlice from '../../../redux/slices/friendsSlice';
+import { getFriend } from '../../../functions/friend';
 
 function Messenger() {
-  const { user } = useSelector((state) => ({ ...state }));
+  const dispatch = useDispatch();
+
+  const { user, friends: friendStore } = useSelector((state) => ({ ...state }));
+  const friends = friendStore.data.friends;
+  const actions = friendsSlice.actions;
+
+  React.useEffect(() => {
+    const getFriendPages = async () => {
+      dispatch(actions.FRIEND_REQUEST());
+      const res = await getFriend(user.token);
+      if (res.success === true) {
+        dispatch(actions.FRIEND_SUCCESS(res.data));
+      } else {
+        dispatch(actions.FRIEND_ERROR(res.data));
+      }
+    };
+    getFriendPages();
+  }, [actions, dispatch, user.token]);
 
   return (
     <>
@@ -73,7 +92,17 @@ function Messenger() {
 
               <div className="friends-mess">
                 <div className="hover-friend">
-                  <FriendMess />
+                  {friends && friends.length
+                    ? friends.map((friend) => (
+                        <div
+                          className={'hover-friend'}
+                          // onClick={() => setCurrentFriend(friend.fndInfo)}
+                          // key={friend.fndInfo._id}
+                        >
+                          <FriendMess friend={friend} userId={user.id} />
+                        </div>
+                      ))
+                    : 'No friends'}
                 </div>
               </div>
             </div>

@@ -1,11 +1,11 @@
-import { useCallback, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Link, useParams } from "react-router-dom";
+import { useCallback, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useParams } from 'react-router-dom';
 
-import Header from "../../../components/user/Header";
-import Card from "./Card";
-import friendsSlice from "../../../redux/slices/friendsSlice";
-import { getFriend } from "../../../functions/friend";
+import Header from '../../../components/user/Header';
+import Card from './Card';
+import friendsSlice from '../../../redux/slices/friendsSlice';
+import { getFriend } from '../../../functions/friend';
 
 function Friend() {
   const { user, friends } = useSelector((state) => ({ ...state }));
@@ -41,7 +41,7 @@ function Friend() {
             <Link
               to="/friends"
               className={`mmenu_item hover3 ${
-                type === undefined && "mmenu_item active_friends"
+                type === undefined && 'mmenu_item active_friends'
               }`}
             >
               <div className="small_circle">
@@ -53,7 +53,7 @@ function Friend() {
             <Link
               to="/friends/requests"
               className={`mmenu_item hover3 ${
-                type === "requests" && "mmenu_item active_friends"
+                type === 'requests' && 'mmenu_item active_friends'
               }`}
             >
               <div className="small_circle">
@@ -68,7 +68,7 @@ function Friend() {
             <Link
               to="/friends/sent"
               className={`mmenu_item hover3 ${
-                type === "sent" && "mmenu_item active_friends"
+                type === 'sent' && 'mmenu_item active_friends'
               }`}
             >
               <div className="small_circle">
@@ -93,7 +93,7 @@ function Friend() {
             <Link
               to="/friends/all"
               className={`mmenu_item hover3 ${
-                type === "all" && "mmenu_item active_friends"
+                type === 'all' && 'mmenu_item active_friends'
               }`}
             >
               <div className="small_circle">
@@ -108,7 +108,7 @@ function Friend() {
         </div>
 
         <div className="friends_right">
-          {(type === undefined || type === "requests") && (
+          {(type === undefined || type === 'requests') && (
             <div className="friends_right_wrap">
               <div className="friends_left_header">
                 <h3>Yêu cầu kết bạn</h3>
@@ -133,7 +133,7 @@ function Friend() {
             </div>
           )}
 
-          {(type === undefined || type === "sent") && (
+          {(type === undefined || type === 'sent') && (
             <div className="friends_right_wrap">
               <div className="friends_left_header">
                 <h3>Lời mời kết bạn</h3>
@@ -158,7 +158,7 @@ function Friend() {
             </div>
           )}
 
-          {(type === undefined || type === "all") && (
+          {(type === undefined || type === 'all') && (
             <div className="friends_right_wrap">
               <div className="friends_left_header">
                 <h3>Tất cả bạn bè</h3>

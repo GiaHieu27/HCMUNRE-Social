@@ -1,4 +1,5 @@
 import { useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import moment from 'moment';
 
@@ -46,9 +47,24 @@ function Message({ currentFriend, typingMessage, scrollRef }) {
           </div>
           <div className="time">vdvd</div>
         </div>
+        <div className="my-message">
+          <div className="image-message">
+            <div className="my-text">
+              <p className="message-text">
+                <img
+                  src="https://res.cloudinary.com/dxeclkxcd/image/upload/v1661770239/LuongHieu/post_contents/rjhcp94zfsawj90qqexm.jpg"
+                  alt=""
+                />
+              </p>
+            </div>
+          </div>
+          <div className="time">vdvd</div>
+        </div>
       </div>
     </>
   );
 }
+
+Message.prototype = {};
 
 export default Message;

@@ -1,22 +1,22 @@
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 import {
   acceptRequest,
   cancelRequest,
   deleteRequest,
-} from "../../../functions/friend";
+} from '../../../functions/friend';
 
 function Card({ userr, user, type, getFriendPages }) {
   const handleCancelRequest = async (userId) => {
     const res = await cancelRequest(userId, user.token);
-    if (res === "ok") getFriendPages();
+    if (res === 'ok') getFriendPages();
   };
   const handleAcceptRequest = async (userId) => {
     const res = await acceptRequest(userId, user.token);
-    if (res === "ok") getFriendPages();
+    if (res === 'ok') getFriendPages();
   };
   const handleDeleteRequest = async (userId) => {
     const res = await deleteRequest(userId, user.token);
-    if (res === "ok") getFriendPages();
+    if (res === 'ok') getFriendPages();
   };
 
   return (
@@ -27,30 +27,30 @@ function Card({ userr, user, type, getFriendPages }) {
       <div className="req_name">
         {userr.first_name} {userr.last_name}
       </div>
-      {type === "sent" ? (
+      {type === 'sent' ? (
         <button
           className="green_btn"
           onClick={() => handleCancelRequest(userr._id)}
         >
-          Cancel Requests
+          Huỷ yêu cầu
         </button>
-      ) : type === "request" ? (
+      ) : type === 'request' ? (
         <>
           <button
             className="green_btn"
             onClick={() => handleAcceptRequest(userr._id)}
           >
-            Confirm
+            Xác nhận
           </button>
           <button
             className="gray_btn"
             onClick={() => handleDeleteRequest(userr._id)}
           >
-            Delete
+            Xoá
           </button>
         </>
       ) : (
-        ""
+        ''
       )}
     </div>
   );

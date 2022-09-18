@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import PropTypes from 'prop-types';
 
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
@@ -118,5 +119,7 @@ const MessageSend = ({
     </div>
   );
 };
+
+MessageSend.prototype = {};
 
 export default MessageSend;

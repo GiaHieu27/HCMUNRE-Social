@@ -20,7 +20,7 @@ function CreatePost({ user, setVisible, profile }) {
 
 CreatePost.propTypes = {
   user: PropTypes.object,
-  setVisible: PropTypes.bool,
+  setVisible: PropTypes.func,
 };
 
 export default CreatePost;

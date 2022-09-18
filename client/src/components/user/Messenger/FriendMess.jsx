@@ -11,13 +11,13 @@ function FriendMess({ friend, userId, activeUser }) {
             src="https://res.cloudinary.com/dxeclkxcd/image/upload/v1659866114/LogoTNMT_ehw7vh.png"
             alt=""
           />
-          {activeUser &&
+          {/* {activeUser &&
           activeUser.length > 0 &&
           activeUser.some((u) => u.userId === friend?.fndInfo._id) ? (
             <div className="active_icon"></div>
           ) : (
             ''
-          )}
+          )} */}
         </div>
       </div>
 

@@ -1,7 +1,7 @@
-import { useState, useRef, useContext, useEffect } from "react";
-import useClickOutSide from "../../../hooks/useClickOutSide";
-import { ProfileContext } from "../../../profileContext/Context";
-import * as functions from "../../../functions/friend";
+import { useState, useRef, useContext, useEffect } from 'react';
+import useClickOutSide from '../../../hooks/useClickOutSide';
+import { ProfileContext } from '../../../profileContext/Context';
+import * as functions from '../../../functions/friend';
 
 function Friendship() {
   const { profile, user } = useContext(ProfileContext);
@@ -77,17 +77,17 @@ function Friendship() {
         <div className="friends_menu_wrap">
           <button className="gray_btn" onClick={() => setFriendMenu(true)}>
             <img src="../../../icons/friends.png" alt="" />
-            <span>Friends</span>
+            <span>Bạn bè</span>
           </button>
           {friendMenu && (
             <div className="open_cover_menu" ref={menuRef}>
               <div className="open_cover_menu_item hover1">
                 <img src="../../../icons/favoritesOutline.png" alt="" />
-                Favorites
+                Yêu thích
               </div>
               <div className="open_cover_menu_item hover1">
                 <img src="../../../icons/editFriends.png" alt="" />
-                Edit Friends List
+                Điều chỉnh danh sách bạn bè
               </div>
               {friendship?.following ? (
                 <div
@@ -95,7 +95,7 @@ function Friendship() {
                   onClick={() => handleUnFollow()}
                 >
                   <img src="../../../icons/unfollowOutlined.png" alt="" />
-                  Unfollow
+                  Huỷ theo dõi
                 </div>
               ) : (
                 <div
@@ -103,7 +103,7 @@ function Friendship() {
                   onClick={() => handleFollow()}
                 >
                   <img src="../../../icons/unfollowOutlined.png" alt="" />
-                  Follow
+                  Theo dõi
                 </div>
               )}
               <div
@@ -111,7 +111,7 @@ function Friendship() {
                 onClick={() => handleUnFriend()}
               >
                 <i className="unfriend_outlined_icon"></i>
-                Unfriend
+                Huỷ kết bạn
               </div>
             </div>
           )}
@@ -121,7 +121,7 @@ function Friendship() {
         !friendship?.requestReceived && (
           <button className="green_btn" onClick={() => handleAddFriend()}>
             <img src="../../../icons/addFriend.png" alt="" className="invert" />
-            <span>Add Friend</span>
+            <span>Kết bạn</span>
           </button>
         )
       )}
@@ -132,7 +132,7 @@ function Friendship() {
             alt=""
             className="invert"
           />
-          <span>Cancel request</span>
+          <span>Huỷ yêu cầu</span>
         </button>
       ) : (
         friendship?.requestReceived && (
@@ -177,11 +177,11 @@ function Friendship() {
           </button>
         )}
 
-        <button className={friendship?.friends ? "green_btn" : "gray_btn"}>
+        <button className={friendship?.friends ? 'green_btn' : 'gray_btn'}>
           <img
             src="../../../icons/message.png"
             alt=""
-            className={friendship?.friends ? "invert" : ""}
+            className={friendship?.friends ? 'invert' : ''}
           />
           <span>Nhắn tin</span>
         </button>
