@@ -2,6 +2,7 @@ import React from 'react';
 import ProsType from 'prop-types';
 
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import Message from './Message';
 // import FriendInfo from './FriendInfo';
 // import Message from './Message';
 // import MessageSend from './MessageSend';
@@ -23,7 +24,7 @@ function RightSide({
     <div className="col-9">
       <div className="right-side">
         <input type="checkbox" id="dot" />
-        <div className="row">
+        <div className="row-custom">
           <div className="col-8">
             <div className="message-send-show">
               <div className="header">
@@ -64,12 +65,8 @@ function RightSide({
                 </div>
               </div>
 
-              {/* <Message
-                currentFriend={currentFriend}
-                typingMessage={typingMessage}
-                scrollRef={scrollRef}
-              />
-              <MessageSend
+              <Message />
+              {/* <MessageSend
                 imageMessage={imageMessage}
                 setImageMessage={setImageMessage}
                 handleSendMessage={handleSendMessage}
@@ -80,7 +77,7 @@ function RightSide({
             </div>
           </div>
           <div className="col-4">
-            <h1>Friend ìnormation</h1>
+            <h1>Friend information</h1>
             {/* <FriendInfo
               message={message}
               currentFriend={currentFriend}

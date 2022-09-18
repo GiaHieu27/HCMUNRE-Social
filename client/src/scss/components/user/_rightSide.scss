@@ -2,7 +2,7 @@
   .right-side {
     height: 100%;
 
-    .row {
+    .row-custom {
       height: 100%;
 
       .col-8 {
@@ -87,16 +87,16 @@
     #dot {
       display: none;
     }
-    #dot:checked ~ .row .col-4 {
+    #dot:checked ~ .row-custom .col-4 {
       display: none;
     }
-    #dot:checked ~ .row .col-8 {
+    #dot:checked ~ .row-custom .col-8 {
       width: 100%;
     }
-    #dot:checked ~ .row .col-8 .message-show .my-message .my-text {
+    #dot:checked ~ .row-custom .col-8 .message-show .my-message .my-text {
       width: 500px;
     }
-    #dot:checked ~ .row .col-8 .message-show .fd-message .fd-text {
+    #dot:checked ~ .row-custom .col-8 .message-show .fd-message .fd-text {
       width: 500px;
     }
   }

@@ -14,7 +14,7 @@ function Messenger() {
     <>
       <Header />
       <div className={'messenger'}>
-        <div className="row">
+        <div className="row-custom">
           <div className="col-3">
             <div className="left-side">
               <div className="top">

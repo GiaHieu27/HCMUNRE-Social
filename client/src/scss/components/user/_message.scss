@@ -2,6 +2,7 @@
   height: 100%;
   padding: 10px;
   overflow-y: auto;
+
   &::-webkit-scrollbar {
     overflow: hidden;
   }
@@ -12,6 +13,7 @@
     align-items: center;
     margin-top: 10px;
     color: var(--mes-text-color);
+
     img {
       width: 100px;
       height: 100px;
@@ -22,13 +24,18 @@
     }
   }
   .my-message {
-    float: right;
+    // float: right;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+
     .my-text {
       display: flex;
       align-items: flex-end;
       justify-content: flex-end;
       width: 370px;
       flex-direction: column;
+
       img.img,
       span {
         width: 14px;
@@ -37,14 +44,17 @@
         margin: 3px 0px 0px 0px;
         color: var(--mes-text-color);
       }
+
       .my {
         background-color: var(--mes-my-message-bg);
         color: var(--mes-text-white);
       }
+
       .message-text {
         text-align: end;
         padding: 10px;
         border-radius: 10px;
+
         img {
           width: 220px;
           height: 270px;
@@ -62,19 +72,26 @@
     }
   }
   .fd-message {
-    float: left;
+    // float: left;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+
     .fd-text {
       display: flex;
       align-items: flex-end;
       justify-content: flex-start;
       width: 370px;
+
       .fd {
         background-color: var(--mes-fd-message-bg);
         color: var(--mes-text-color);
       }
+
       .message-text {
         text-align: start;
         border-radius: 10px;
+
         img {
           width: 220px;
           height: 270px;
