@@ -14,6 +14,7 @@ function RightSide({
   newMessage,
   handleInputChange,
   handleSendMessage,
+  handleSendMessageEnter,
   setNewMessage,
   imageMessage,
   setImageMessage,
@@ -32,11 +33,7 @@ function RightSide({
               <div className="header">
                 <div className="image-name">
                   <div className="image">
-                    {/* <img src={currentFriend.picture} alt="" /> */}
-                    <img
-                      src="https://res.cloudinary.com/dxeclkxcd/image/upload/v1659866114/LogoTNMT_ehw7vh.png"
-                      alt=""
-                    />
+                    <img src={currentFriend.picture} alt="" />
                     {activeUser &&
                     activeUser.length > 0 &&
                     activeUser.some((u) => u.userId === currentFriend._id) ? (
@@ -46,10 +43,9 @@ function RightSide({
                     )}
                   </div>
                   <div className="name">
-                    {/* <h3>
+                    <h3>
                       {currentFriend.first_name} {currentFriend.last_name}
-                    </h3> */}
-                    <h3>Hieu</h3>
+                    </h3>
                   </div>
                 </div>
                 <div className="icons">
@@ -69,20 +65,21 @@ function RightSide({
 
               <Message />
               <MessageSend
-              // imageMessage={imageMessage}
-              // setImageMessage={setImageMessage}
-              // handleSendMessage={handleSendMessage}
-              // handleInputChange={handleInputChange}
-              // newMessage={newMessage}
-              // setNewMessage={setNewMessage}
+                handleInputChange={handleInputChange}
+                handleSendMessage={handleSendMessage}
+                handleSendMessageEnter={handleSendMessageEnter}
+                newMessage={newMessage}
+                // imageMessage={imageMessage}
+                // setImageMessage={setImageMessage}
+                // setNewMessage={setNewMessage}
               />
             </div>
           </div>
           <div className="col-4">
             <FriendInfo
-            // message={message}
-            // currentFriend={currentFriend}
-            // activeUser={activeUser}
+              // message={message}
+              currentFriend={currentFriend}
+              // activeUser={activeUser}
             />
           </div>
         </div>
@@ -93,6 +90,11 @@ function RightSide({
 
 RightSide.prototype = {
   currentFriend: PropTypes.object,
+
+  handleInputChange: PropTypes.func,
+  handleSendMessage: PropTypes.func,
+
+  newMessage: PropTypes.string,
 };
 
 export default RightSide;

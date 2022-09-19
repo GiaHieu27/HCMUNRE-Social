@@ -1,16 +1,13 @@
 import PropTypes from 'prop-types';
-import moment from 'moment';
+// import moment from 'moment';
 
 function FriendMess({ friend, userId, activeUser }) {
   return (
-    <div className="friend-mess hover2">
+    <div className="friend-mess">
       <div className="friend-image">
         <div className="image">
           {/* <img src={friend?.fndInfo.picture} alt="" /> */}
-          <img
-            src="https://res.cloudinary.com/dxeclkxcd/image/upload/v1659866114/LogoTNMT_ehw7vh.png"
-            alt=""
-          />
+          <img src={friend?.picture} alt="" />
           {/* {activeUser &&
           activeUser.length > 0 &&
           activeUser.some((u) => u.userId === friend?.fndInfo._id) ? (
@@ -34,7 +31,9 @@ function FriendMess({ friend, userId, activeUser }) {
           >
             {friend?.fndInfo.first_name} {friend?.fndInfo.last_name}
           </h4> */}
-          <h4>Hieu</h4>
+          <h4>
+            {friend?.first_name} {friend?.last_name}
+          </h4>
           {/* <div className="msg-time">
             {friend?.msgInfo && friend?.msgInfo.senderId === userId ? (
               <span>Bạn </span>

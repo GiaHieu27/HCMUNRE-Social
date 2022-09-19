@@ -8,18 +8,21 @@ import friendsSlice from '../../../redux/slices/friendsSlice';
 import { getFriend } from '../../../functions/friend';
 
 function Friend() {
-  const { user, friends } = useSelector((state) => ({ ...state }));
-
   const dispatch = useDispatch();
   const { type } = useParams();
 
+  const { user, friends } = useSelector((state) => ({ ...state }));
+  const actions = friendsSlice.actions;
+
   const getFriendPages = useCallback(async () => {
-    dispatch(friendsSlice.actions.FRIEND_REQUEST());
+    dispatch(actions.FRIEND_REQUEST());
     const res = await getFriend(user.token);
-    if (res.success === true)
-      dispatch(friendsSlice.actions.FRIEND_SUCCESS(res.data));
-    else dispatch(friendsSlice.actions.FRIEND_ERROR(res.data));
-  }, [dispatch, user.token]);
+    if (res.success === true) {
+      dispatch(actions.FRIEND_SUCCESS(res.data));
+    } else {
+      dispatch(actions.FRIEND_ERROR(res.data));
+    }
+  }, [dispatch, user.token, actions]);
 
   useEffect(() => {
     getFriendPages();

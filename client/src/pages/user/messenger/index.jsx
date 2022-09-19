@@ -1,5 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import SearchIcon from '@mui/icons-material/Search';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 
@@ -8,13 +9,64 @@ import FriendMess from '../../../components/user/Messenger/FriendMess';
 import RightSide from '../../../components/user/Messenger/RightSide';
 import friendsSlice from '../../../redux/slices/friendsSlice';
 import { getFriend } from '../../../functions/friend';
+import { messageSend } from '../../../functions/messenger';
 
 function Messenger() {
-  const dispatch = useDispatch();
-
   const { user, friends: friendStore } = useSelector((state) => ({ ...state }));
+
+  const dispatch = useDispatch();
+  const { username } = useParams();
+  const userName = username === undefined ? user.username : username;
+
   const friends = friendStore.data.friends;
   const actions = friendsSlice.actions;
+
+  const [currentFriend, setCurrentFriend] = React.useState();
+  const [newMessage, setNewMessage] = React.useState('');
+
+  const handleInputChange = (e) => {
+    setNewMessage(e.target.value);
+  };
+
+  const handleSendMessage = async (e) => {
+    e.preventDefault();
+    console.log(newMessage);
+    // if (!imageMessage) {
+    const dataMessage = {
+      sender: userName,
+      reseverId: currentFriend._id,
+      message: newMessage ? newMessage : '❤️',
+    };
+
+    // socketRef.current.emit('typingMessage', {
+    //   senderId: user.id,
+    //   reseverId: currentFriend._id,
+    //   msg: '',
+    // });
+    await messageSend(dataMessage, user.token);
+    setNewMessage('');
+    // } else {
+    // const img = dataURItoBlob(imageMessage);
+    // const path = `${user.username}/message_images`;
+    // let formData = new FormData();
+    // formData.append('path', path);
+    // formData.append('file', img);
+    // const imgMes = await uploadImages(formData, path, user.token);
+    // await ImageMessageSend(
+    //   userName,
+    //   currentFriend._id,
+    //   imgMes[0].url,
+    //   user.token
+    // );
+    // setImageMessage('');
+    // }
+  };
+
+  const handleSendMessageEnter = (e) => {
+    if (e.key === 'Enter' && newMessage) {
+      console.log(newMessage);
+    }
+  };
 
   React.useEffect(() => {
     const getFriendPages = async () => {
@@ -28,6 +80,12 @@ function Messenger() {
     };
     getFriendPages();
   }, [actions, dispatch, user.token]);
+
+  React.useEffect(() => {
+    if (friends && friends.length > 0) {
+      setCurrentFriend(friends[0]);
+    }
+  }, [friends]);
 
   return (
     <>
@@ -91,24 +149,34 @@ function Messenger() {
               </div>
 
               <div className="friends-mess">
-                <div className="hover-friend">
-                  {friends && friends.length
-                    ? friends.map((friend) => (
-                        <div
-                          className={'hover-friend'}
-                          // onClick={() => setCurrentFriend(friend.fndInfo)}
-                          // key={friend.fndInfo._id}
-                        >
-                          <FriendMess friend={friend} userId={user.id} />
-                        </div>
-                      ))
-                    : 'No friends'}
-                </div>
+                {friends && friends.length
+                  ? friends.map((friend) => (
+                      <div
+                        className={
+                          currentFriend?._id === friend?._id
+                            ? 'hover-friend active1'
+                            : 'hover-friend hover1'
+                        }
+                        onClick={() => setCurrentFriend(friend)}
+                        key={friend._id}
+                      >
+                        <FriendMess friend={friend} userId={user.id} />
+                      </div>
+                    ))
+                  : 'No friends'}
               </div>
             </div>
           </div>
 
-          <RightSide />
+          {currentFriend && (
+            <RightSide
+              currentFriend={currentFriend}
+              handleInputChange={handleInputChange}
+              newMessage={newMessage}
+              handleSendMessage={handleSendMessage}
+              handleSendMessageEnter={handleSendMessageEnter}
+            />
+          )}
         </div>
       </div>
     </>

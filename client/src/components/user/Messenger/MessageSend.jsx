@@ -14,6 +14,7 @@ const MessageSend = ({
   handleInputChange,
   newMessage,
   handleSendMessage,
+  handleSendMessageEnter,
   setNewMessage,
   imageMessage,
   setImageMessage,
@@ -85,12 +86,13 @@ const MessageSend = ({
         }}
       >
         <input
+          value={newMessage}
           onChange={handleInputChange}
+          onKeyUp={handleSendMessageEnter}
           type="text"
           name="message"
           id="message"
           placeholder="Aa"
-          value={newMessage}
           className="form-control-custom"
           ref={textRef}
         />
@@ -120,6 +122,11 @@ const MessageSend = ({
   );
 };
 
-MessageSend.prototype = {};
+MessageSend.prototype = {
+  handleInputChange: PropTypes.func,
+  handleSendMessage: PropTypes.func,
+
+  newMessage: PropTypes.string,
+};
 
 export default MessageSend;

@@ -9,11 +9,16 @@
   }
 
   .hover-friend.active1 {
-    background-color: var(--mes-active-color);
+    background-color: var(--lighter-green-color);
+    border-radius: 10px;
   }
 
   .hover-friend {
     cursor: pointer;
+
+    &.hover1 {
+      border-radius: 10px;
+    }
 
     .friend-mess {
       display: flex;
@@ -21,10 +26,6 @@
       padding: 7px 15px;
       font-size: inherit;
       margin-bottom: 0;
-
-      &.hover2 {
-        border-radius: 10px;
-      }
 
       .friend-image {
         .image {
@@ -67,8 +68,9 @@
           }
           h4 {
             color: var(--mes-text-color);
-            font-size: 18.4px;
+            font-size: 16.2px;
             font-weight: 400;
+            margin-bottom: 0;
           }
           .msg-time {
             span.unseen_message {

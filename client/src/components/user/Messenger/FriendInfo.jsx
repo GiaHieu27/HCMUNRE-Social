@@ -8,11 +8,7 @@ function FriendInfo({ currentFriend, activeUser, message }) {
       <input type="checkbox" id="gallery" />
       <div className="image-name">
         <div className="image">
-          {/* <img src={currentFriend.picture} alt="" /> */}
-          <img
-            src="https://res.cloudinary.com/dxeclkxcd/image/upload/v1661770239/LuongHieu/post_contents/rjhcp94zfsawj90qqexm.jpg"
-            alt=""
-          />
+          <img src={currentFriend.picture} alt="" />
         </div>
         {/* {activeUser &&
         activeUser.length > 0 &&
@@ -23,11 +19,9 @@ function FriendInfo({ currentFriend, activeUser, message }) {
         )} */}
         <div className="active-user">Đang hoạt động</div>
         <div className="name">
-          {/* <h4>
+          <h4>
             {currentFriend.first_name} {currentFriend.last_name}
-          </h4> */}
-
-          <h4>Hieu</h4>
+          </h4>
         </div>
       </div>
       <div className="others">
@@ -68,6 +62,8 @@ function FriendInfo({ currentFriend, activeUser, message }) {
   );
 }
 
-FriendInfo.prototype = {};
+FriendInfo.prototype = {
+  currentFriend: PropTypes.object,
+};
 
 export default FriendInfo;
