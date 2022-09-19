@@ -1,4 +1,4 @@
-const Mesenger = require('../models/Messenger');
+const Mesenger = require('../../models/Messenger');
 
 exports.messageSend = async (req, res) => {
   try {

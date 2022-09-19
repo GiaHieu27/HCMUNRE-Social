@@ -14,7 +14,7 @@ const MessageSend = ({
   handleInputChange,
   newMessage,
   handleSendMessage,
-  handleSendMessageEnter,
+  handleSendMessagePressEnter,
   setNewMessage,
   imageMessage,
   setImageMessage,
@@ -88,7 +88,7 @@ const MessageSend = ({
         <input
           value={newMessage}
           onChange={handleInputChange}
-          onKeyUp={handleSendMessageEnter}
+          onKeyUp={handleSendMessagePressEnter}
           type="text"
           name="message"
           id="message"
@@ -125,6 +125,7 @@ const MessageSend = ({
 MessageSend.prototype = {
   handleInputChange: PropTypes.func,
   handleSendMessage: PropTypes.func,
+  handleSendMessagePressEnter: PropTypes.func,
 
   newMessage: PropTypes.string,
 };

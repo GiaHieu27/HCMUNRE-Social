@@ -10,21 +10,13 @@ const messengerSlice = createSlice({
   },
   reducers: {
     MESSAGE_SEND_SUCCESS: (state, action) => {
-      return {
-        ...state,
-        message: [...state.message, action.payload],
-        messageSendSuccess: true,
-      };
+      state.message.push(action.payload);
+      state.messageSendSuccess = true;
     },
-    // LOGOUT: (state, action) => {
-    //   return null;
-    // },
-    // UPDATEPICTURE: (state, action) => {
-    //   state.picture = action.payload;
-    // },
-    // VERIFY: (state, action) => {
-    //   state.verified = action.payload;
-    // },
+    MESSAGE_GET_SUCCESS: (state, action) => {
+      state.message_get_success = true;
+      state.message = action.payload;
+    },
   },
 });
 

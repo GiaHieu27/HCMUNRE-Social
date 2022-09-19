@@ -1,23 +1,30 @@
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-
 import moment from 'moment';
 
 function Message({ currentFriend, typingMessage, scrollRef }) {
-  const { user } = useSelector((state) => ({ ...state }));
-  // const { message } = useSelector((state) => state.massage);
+  const {
+    user,
+    messenger: { message },
+  } = useSelector((state) => ({ ...state }));
 
   return (
     <>
       <div className="message-show">
-        <div className="my-message">
-          <div className="image-message">
-            <div className="my-text">
-              <p className="message-text">How are you</p>
-            </div>
-          </div>
-          <div className="time">vdvd</div>
-        </div>
+        {message && message.length > 0
+          ? message.map((m, index) => {
+              m.senderId === user.id && (
+                <div className="my-message">
+                  <div className="image-message">
+                    <div className="my-text">
+                      <p className="message-text">How are you</p>
+                    </div>
+                  </div>
+                  <div className="time">vdvd</div>
+                </div>
+              );
+            })
+          : ''}
 
         <div className="fd-message">
           <div className="image-message-time">
@@ -32,33 +39,6 @@ function Message({ currentFriend, typingMessage, scrollRef }) {
               <div className="time">ff dsnl</div>
             </div>
           </div>
-        </div>
-
-        <div className="my-message">
-          <div className="image-message">
-            <div className="my-text">
-              <p className="message-text">
-                <img
-                  src="https://res.cloudinary.com/dxeclkxcd/image/upload/v1661770239/LuongHieu/post_contents/rjhcp94zfsawj90qqexm.jpg"
-                  alt=""
-                />
-              </p>
-            </div>
-          </div>
-          <div className="time">vdvd</div>
-        </div>
-        <div className="my-message">
-          <div className="image-message">
-            <div className="my-text">
-              <p className="message-text">
-                <img
-                  src="https://res.cloudinary.com/dxeclkxcd/image/upload/v1661770239/LuongHieu/post_contents/rjhcp94zfsawj90qqexm.jpg"
-                  alt=""
-                />
-              </p>
-            </div>
-          </div>
-          <div className="time">vdvd</div>
         </div>
       </div>
     </>

@@ -14,14 +14,13 @@ function RightSide({
   newMessage,
   handleInputChange,
   handleSendMessage,
-  handleSendMessageEnter,
+  handleSendMessagePressEnter,
   setNewMessage,
   imageMessage,
   setImageMessage,
   activeUser,
   typingMessage,
   scrollRef,
-  message,
 }) {
   return (
     <div className="col-9">
@@ -67,7 +66,7 @@ function RightSide({
               <MessageSend
                 handleInputChange={handleInputChange}
                 handleSendMessage={handleSendMessage}
-                handleSendMessageEnter={handleSendMessageEnter}
+                handleSendMessagePressEnter={handleSendMessagePressEnter}
                 newMessage={newMessage}
                 // imageMessage={imageMessage}
                 // setImageMessage={setImageMessage}
@@ -93,6 +92,7 @@ RightSide.prototype = {
 
   handleInputChange: PropTypes.func,
   handleSendMessage: PropTypes.func,
+  handleSendMessagePressEnter: PropTypes.func,
 
   newMessage: PropTypes.string,
 };
