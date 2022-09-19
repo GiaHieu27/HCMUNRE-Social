@@ -13,17 +13,24 @@ import messengerSlice from '../../../redux/slices/messengerSlice';
 import { getFriend } from '../../../functions/friend';
 
 function Messenger() {
-  const { user, friends: friendStore } = useSelector((state) => ({ ...state }));
+  const {
+    user,
+    friends: friendStore,
+    messenger,
+  } = useSelector((state) => ({ ...state }));
+  const friends = friendStore.data.friends;
 
   const dispatch = useDispatch();
   const { username } = useParams();
   const userName = username === undefined ? user.username : username;
 
-  const friends = friendStore.data.friends;
-  const actions = friendsSlice.actions;
+  const actionsFriend = friendsSlice.actions;
+  const actionsMessenger = messengerSlice.actions;
 
   const [currentFriend, setCurrentFriend] = React.useState();
   const [newMessage, setNewMessage] = React.useState('');
+
+  const scrollRef = React.useRef(null);
 
   // ham dung hook nen khong tach ra file khac duoc
   const messageSend = async (dataMessage, token) => {
@@ -37,27 +44,30 @@ function Messenger() {
           },
         }
       );
-      dispatch(messengerSlice.actions.MESSAGE_SEND_SUCCESS(data));
+      dispatch(actionsMessenger.MESSAGE_SEND_SUCCESS(data));
     } catch (error) {
       return error.response.data.message;
     }
   };
 
-  const getAllMessage = async (id, token) => {
-    try {
-      const { data } = await axios.get(
-        `${process.env.REACT_APP_BACKEND_URL}/getMessage/${id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      dispatch(messengerSlice.actions.MESSAGE_GET_SUCCESS(data));
-    } catch (error) {
-      return error.response.data.message;
-    }
-  };
+  const getAllMessage = React.useCallback(
+    async (id, token) => {
+      try {
+        const { data } = await axios.get(
+          `${process.env.REACT_APP_BACKEND_URL}/getMessage/${id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        dispatch(actionsMessenger.MESSAGE_GET_SUCCESS(data));
+      } catch (error) {
+        return error.response.data.message;
+      }
+    },
+    [dispatch, actionsMessenger]
+  );
 
   const handleInputChange = (e) => {
     setNewMessage(e.target.value);
@@ -111,16 +121,16 @@ function Messenger() {
 
   React.useEffect(() => {
     const getFriendPages = async () => {
-      dispatch(actions.FRIEND_REQUEST());
+      dispatch(actionsFriend.FRIEND_REQUEST());
       const res = await getFriend(user.token);
       if (res.success === true) {
-        dispatch(actions.FRIEND_SUCCESS(res.data));
+        dispatch(actionsFriend.FRIEND_SUCCESS(res.data));
       } else {
-        dispatch(actions.FRIEND_ERROR(res.data));
+        dispatch(actionsFriend.FRIEND_ERROR(res.data));
       }
     };
     getFriendPages();
-  }, [actions, dispatch, user.token]);
+  }, [actionsFriend, dispatch, user.token]);
 
   React.useEffect(() => {
     if (friends && friends.length > 0) {
@@ -130,7 +140,11 @@ function Messenger() {
 
   React.useEffect(() => {
     getAllMessage(currentFriend?._id, user.token);
-  }, [currentFriend?._id, user.token]);
+  }, [currentFriend?._id, user.token, getAllMessage]);
+
+  React.useEffect(() => {
+    scrollRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messenger]);
 
   return (
     <>
@@ -220,6 +234,7 @@ function Messenger() {
               newMessage={newMessage}
               handleSendMessage={handleSendMessage}
               handleSendMessagePressEnter={handleSendMessagePressEnter}
+              scrollRef={scrollRef}
             />
           )}
         </div>

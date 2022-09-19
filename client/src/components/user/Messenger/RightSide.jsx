@@ -62,7 +62,7 @@ function RightSide({
                 </div>
               </div>
 
-              <Message />
+              <Message currentFriend={currentFriend} scrollRef={scrollRef} />
               <MessageSend
                 handleInputChange={handleInputChange}
                 handleSendMessage={handleSendMessage}
@@ -95,6 +95,8 @@ RightSide.prototype = {
   handleSendMessagePressEnter: PropTypes.func,
 
   newMessage: PropTypes.string,
+
+  scrollRef: PropTypes.node,
 };
 
 export default RightSide;
