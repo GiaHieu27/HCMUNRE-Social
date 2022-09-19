@@ -33,14 +33,14 @@ function Messenger() {
     console.log(newMessage);
     // if (!imageMessage) {
     const dataMessage = {
-      sender: userName,
-      reseverId: currentFriend._id,
+      senderName: userName,
+      receiverId: currentFriend._id,
       message: newMessage ? newMessage : '❤️',
     };
 
     // socketRef.current.emit('typingMessage', {
     //   senderId: user.id,
-    //   reseverId: currentFriend._id,
+    //   receiverId: currentFriend._id,
     //   msg: '',
     // });
     await messageSend(dataMessage, user.token);

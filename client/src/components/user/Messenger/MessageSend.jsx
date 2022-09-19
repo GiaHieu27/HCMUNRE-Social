@@ -113,7 +113,7 @@ const MessageSend = ({
         </div>
       </div>
       <div onClick={handleSendMessage} className="file">
-        <SendIcon />
+        {newMessage ? <SendIcon /> : '❤️'}
       </div>
       <div className="comment_emoji_picker">
         {picker && <Picker onEmojiClick={handleEmoji} />}
