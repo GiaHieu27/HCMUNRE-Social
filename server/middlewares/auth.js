@@ -1,20 +1,20 @@
-const jwt = require("jsonwebtoken");
+const jwt = require('jsonwebtoken');
 
 exports.authUser = async (req, res, next) => {
   try {
-    let tmp = req.header("Authorization");
+    let tmp = req.header('Authorization');
 
-    const token = tmp ? tmp.slice(7, tmp.length) : "";
+    const token = tmp ? tmp.slice(7, tmp.length) : '';
     if (!token) {
       return res
         .status(400)
-        .json({ message: "Bạn không thể thực hiện thao tác này" });
+        .json({ message: 'Bạn không thể thực hiện thao tác này' });
     }
     jwt.verify(token, process.env.TOKEN_SECRET, (err, user) => {
       if (err) {
         return res
           .status(400)
-          .json({ message: "Bạn không thể thực hiện thao tác này" });
+          .json({ message: 'Bạn không thể thực hiện thao tác này' });
       }
       req.user = user;
       next();

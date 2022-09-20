@@ -68,9 +68,9 @@ function RightSide({
                 handleSendMessage={handleSendMessage}
                 handleSendMessagePressEnter={handleSendMessagePressEnter}
                 newMessage={newMessage}
-                // imageMessage={imageMessage}
-                // setImageMessage={setImageMessage}
-                // setNewMessage={setNewMessage}
+                setNewMessage={setNewMessage}
+                imageMessage={imageMessage}
+                setImageMessage={setImageMessage}
               />
             </div>
           </div>
@@ -92,9 +92,12 @@ RightSide.prototype = {
 
   handleInputChange: PropTypes.func,
   handleSendMessage: PropTypes.func,
+  setNewMessage: PropTypes.func,
   handleSendMessagePressEnter: PropTypes.func,
+  setImageMessage: PropTypes.func,
 
   newMessage: PropTypes.string,
+  imageMessage: PropTypes.string,
 
   scrollRef: PropTypes.node,
 };

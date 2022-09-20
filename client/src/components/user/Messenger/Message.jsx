@@ -30,7 +30,9 @@ function Message({ currentFriend, typingMessage, scrollRef }) {
                       </p>
                     </div>
                   </div>
-                  <div className="time">vdvd</div>
+                  <div className="time">
+                    {moment(m.createdAt).startOf('mini').fromNow()}
+                  </div>
                 </div>
               ) : (
                 <div key={index} className="fd-message" ref={scrollRef}>
@@ -46,7 +48,9 @@ function Message({ currentFriend, typingMessage, scrollRef }) {
                           )}
                         </p>
                       </div>
-                      <div className="time">ff dsnl</div>
+                      <div className="time">
+                        {moment(m.createdAt).startOf('mini').format('LT')}
+                      </div>
                     </div>
                   </div>
                 </div>

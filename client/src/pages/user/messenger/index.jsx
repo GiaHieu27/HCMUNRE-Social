@@ -11,6 +11,8 @@ import RightSide from '../../../components/user/Messenger/RightSide';
 import friendsSlice from '../../../redux/slices/friendsSlice';
 import messengerSlice from '../../../redux/slices/messengerSlice';
 import { getFriend } from '../../../functions/friend';
+import dataURLtoBlob from '../../../helpers/dataURLtoBlob';
+import uploadImages from '../../../functions/uploadImages';
 
 function Messenger() {
   const {
@@ -29,10 +31,12 @@ function Messenger() {
 
   const [currentFriend, setCurrentFriend] = React.useState();
   const [newMessage, setNewMessage] = React.useState('');
+  const [imageMessage, setImageMessage] = React.useState();
 
   const scrollRef = React.useRef(null);
 
   // ham dung hook nen khong tach ra file khac duoc
+  // Api
   const messageSend = async (dataMessage, token) => {
     try {
       const { data } = await axios.post(
@@ -69,41 +73,59 @@ function Messenger() {
     [dispatch, actionsMessenger]
   );
 
+  const ImageMessageSend = async (sender, receiverId, img, token) => {
+    try {
+      const { data } = await axios.post(
+        `${process.env.REACT_APP_BACKEND_URL}/messageSendImage`,
+        { sender, receiverId, img },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      dispatch(actionsMessenger.MESSAGE_SEND_SUCCESS(data));
+    } catch (error) {
+      return error.response.data.message;
+    }
+  };
+  // End api
+
   const handleInputChange = (e) => {
     setNewMessage(e.target.value);
   };
 
-  const handleSendMessage = async (e) => {
-    e.preventDefault();
-    // if (!imageMessage) {
-    const dataMessage = {
-      senderName: userName,
-      receiverId: currentFriend._id,
-      message: newMessage ? newMessage : '❤️',
-    };
+  const handleSendMessage = async () => {
+    // e.preventDefault();
+    if (!imageMessage) {
+      const dataMessage = {
+        senderName: userName,
+        receiverId: currentFriend._id,
+        message: newMessage ? newMessage : '❤️',
+      };
 
-    // socketRef.current.emit('typingMessage', {
-    //   senderId: user.id,
-    //   receiverId: currentFriend._id,
-    //   msg: '',
-    // });
-    await messageSend(dataMessage, user.token);
-    setNewMessage('');
-    // } else {
-    // const img = dataURItoBlob(imageMessage);
-    // const path = `${user.username}/message_images`;
-    // let formData = new FormData();
-    // formData.append('path', path);
-    // formData.append('file', img);
-    // const imgMes = await uploadImages(formData, path, user.token);
-    // await ImageMessageSend(
-    //   userName,
-    //   currentFriend._id,
-    //   imgMes[0].url,
-    //   user.token
-    // );
-    // setImageMessage('');
-    // }
+      // socketRef.current.emit('typingMessage', {
+      //   senderId: user.id,
+      //   receiverId: currentFriend._id,
+      //   msg: '',
+      // });
+      await messageSend(dataMessage, user.token);
+      setNewMessage('');
+    } else {
+      const img = dataURLtoBlob(imageMessage);
+      const path = `${user.username}/message_images`;
+      let formData = new FormData();
+      formData.append('path', path);
+      formData.append('file', img);
+      const imgMes = await uploadImages(formData, user.token);
+      await ImageMessageSend(
+        userName,
+        currentFriend._id,
+        imgMes.images[0].url,
+        user.token
+      );
+      setImageMessage('');
+    }
   };
 
   const handleSendMessagePressEnter = async (e) => {
@@ -234,6 +256,9 @@ function Messenger() {
               newMessage={newMessage}
               handleSendMessage={handleSendMessage}
               handleSendMessagePressEnter={handleSendMessagePressEnter}
+              setNewMessage={setNewMessage}
+              setImageMessage={setImageMessage}
+              imageMessage={imageMessage}
               scrollRef={scrollRef}
             />
           )}

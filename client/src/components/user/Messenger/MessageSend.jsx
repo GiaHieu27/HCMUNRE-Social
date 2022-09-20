@@ -5,6 +5,7 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
 import InsertPhotoIcon from '@mui/icons-material/InsertPhoto';
 import AttachFileIcon from '@mui/icons-material/AttachFile';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import RedeemIcon from '@mui/icons-material/Redeem';
 import SendIcon from '@mui/icons-material/Send';
 
@@ -26,6 +27,7 @@ const MessageSend = ({
   useEffect(() => {
     textRef.current.selectionEnd = cursorPosition;
   }, [cursorPosition]);
+
   const handleEmoji = (e, { emoji }) => {
     const ref = textRef.current;
     ref.focus();
@@ -38,12 +40,10 @@ const MessageSend = ({
 
   const handleImageSend = async (e) => {
     if (e.target.files.length !== 0) {
-      // sendingSPlay();
       let file = e.target.files[0];
       const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = (event) => {
-        console.log(event.target.result);
         setImageMessage(event.target.result);
       };
       // const imgMess = await comment(postId, text, imgMes[0].url, user.token);
@@ -56,7 +56,7 @@ const MessageSend = ({
       <input type="checkbox" id="emoji" />
       <div className="file hover-attachment">
         <div className="add-attachment">Đính kèm tệp</div>
-        <AddCircleOutlineIcon />
+        <AddCircleOutlineIcon color="success" />
       </div>
       <div className="file hover-image">
         <div className="add-image">Thêm hình ảnh</div>
@@ -68,15 +68,15 @@ const MessageSend = ({
           accept="image/jpeg,image/png,image/gif,image/webp"
         />
         <label htmlFor="pic">
-          <InsertPhotoIcon />
+          <InsertPhotoIcon color="success" />
         </label>
       </div>
       <div className="file">
-        <AttachFileIcon />
+        <AttachFileIcon color="success" />
       </div>
       <div className="file hover-gift">
         <div className="add-gift">Add gift</div>
-        <RedeemIcon />
+        <RedeemIcon color="success" />
       </div>
       <div
         className="message-type"
@@ -89,6 +89,7 @@ const MessageSend = ({
           value={newMessage}
           onChange={handleInputChange}
           onKeyUp={handleSendMessagePressEnter}
+          onClick={() => setPicker(false)}
           type="text"
           name="message"
           id="message"
@@ -97,23 +98,35 @@ const MessageSend = ({
           ref={textRef}
         />
         {imageMessage && (
-          <img
-            src={imageMessage}
-            alt=""
-            width="200"
-            height="100"
-            style={{ transform: 'translateX(-76px)' }}
-          />
+          <div className="messenger_img_preview comment_img_preview">
+            <img
+              src={imageMessage}
+              alt=""
+              width="200"
+              height="100"
+              style={{ transform: 'translateX(-76px)' }}
+            />
+            <div
+              className="small_white_circle"
+              onClick={() => setImageMessage('')}
+            >
+              <i className="exit_icon"></i>
+            </div>
+          </div>
         )}
         <div
           onClick={() => setPicker(!picker)}
           style={{ transform: 'translateX(-10px)', cursor: 'pointer' }}
         >
-          <EmojiEmotionsIcon />
+          <EmojiEmotionsIcon color="success" />
         </div>
       </div>
       <div onClick={handleSendMessage} className="file">
-        {newMessage ? <SendIcon /> : '❤️'}
+        {newMessage || imageMessage ? (
+          <SendIcon color="success" />
+        ) : (
+          <FavoriteIcon color="error" />
+        )}
       </div>
       <div className="comment_emoji_picker">
         {picker && <Picker onEmojiClick={handleEmoji} />}
@@ -125,9 +138,15 @@ const MessageSend = ({
 MessageSend.prototype = {
   handleInputChange: PropTypes.func,
   handleSendMessage: PropTypes.func,
+  setNewMessage: PropTypes.func,
   handleSendMessagePressEnter: PropTypes.func,
+  setImageMessage: PropTypes.func,
+  setPicker: PropTypes.func,
+
+  picker: PropTypes.bool,
 
   newMessage: PropTypes.string,
+  imageMessage: PropTypes.string,
 };
 
 export default MessageSend;

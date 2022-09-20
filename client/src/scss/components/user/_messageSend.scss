@@ -88,6 +88,14 @@
       margin-right: 5px;
       cursor: pointer;
     }
+
+    .messenger_img_preview {
+      .small_white_circle {
+        top: -12px;
+        right: 64px;
+        transform: scale(0.8);
+      }
+    }
   }
   .emoji-section {
     width: 200px;
