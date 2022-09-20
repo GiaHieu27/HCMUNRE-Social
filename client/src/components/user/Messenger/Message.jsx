@@ -1,5 +1,6 @@
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
+import SyncLoader from 'react-spinners/SyncLoader';
 import moment from 'moment';
 
 function Message({ currentFriend, typingMessage, scrollRef }) {
@@ -58,6 +59,23 @@ function Message({ currentFriend, typingMessage, scrollRef }) {
             )
           : ''}
       </div>
+
+      {typingMessage &&
+      typingMessage.msg &&
+      typingMessage.senderId === currentFriend._id ? (
+        <div className="typing-message">
+          <div className="fd-message">
+            <div className="image-message-time">
+              <img src={currentFriend.picture} alt="avatar-friend" />
+              <div className="message-time">
+                <SyncLoader color="#36d7b7" size={5} speedMultiplier={0.8} />
+              </div>
+            </div>
+          </div>
+        </div>
+      ) : (
+        ''
+      )}
     </>
   );
 }
@@ -65,6 +83,7 @@ function Message({ currentFriend, typingMessage, scrollRef }) {
 Message.prototype = {
   currentFriend: PropTypes.object,
   scrollRef: PropTypes.node,
+  typingMessage: PropTypes.string,
 };
 
 export default Message;

@@ -1,9 +1,10 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { io } from 'socket.io-client';
 import SearchIcon from '@mui/icons-material/Search';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import { io } from 'socket.io-client';
+import Snackbar from '@mui/material/Snackbar';
 import axios from 'axios';
 
 import Header from '../../../components/user/Header';
@@ -19,7 +20,7 @@ function Messenger() {
   const {
     user,
     friends: friendStore,
-    messenger,
+    messenger: { messageSendSuccess, message, message_get_success },
   } = useSelector((state) => ({ ...state }));
   const friends = friendStore.data.friends;
 
@@ -30,10 +31,13 @@ function Messenger() {
   const actionsFriend = friendsSlice.actions;
   const actionsMessenger = messengerSlice.actions;
 
-  const [currentFriend, setCurrentFriend] = React.useState();
+  const [typingMessage, setTypingMessage] = React.useState('');
   const [newMessage, setNewMessage] = React.useState('');
+  const [socketMessage, setSocketMessage] = React.useState('');
+  const [currentFriend, setCurrentFriend] = React.useState();
   const [imageMessage, setImageMessage] = React.useState();
   const [activeUser, setActiveUser] = React.useState([]);
+  const [showToast, setShowToast] = React.useState(false);
 
   const scrollRef = React.useRef(null);
   const socketRef = React.useRef(null);
@@ -41,6 +45,16 @@ function Messenger() {
   // start socket
   React.useEffect(() => {
     socketRef.current = io('ws://localhost:8000');
+
+    socketRef.current.on('getMessage', (data) => {
+      console.log(data);
+      setSocketMessage(data);
+    });
+
+    socketRef.current.on('typingMessageGet', (data) => {
+      console.log(data);
+      setTypingMessage(data);
+    });
   }, []);
 
   React.useEffect(() => {
@@ -55,6 +69,66 @@ function Messenger() {
       setActiveUser(filterUser);
     });
   }, []);
+
+  React.useEffect(() => {
+    if (messageSendSuccess) {
+      setTimeout(() => {
+        socketRef.current.emit('sendMessage', message[message.length - 1]);
+      }, 500);
+      // dispatch({
+      //   type: 'UPDATE_FRIEND_MESSAGE',
+      //   payload: {
+      //     msgInfo: message[message.length - 1],
+      //   },
+      // });
+      dispatch(actionsMessenger.MESSAGE_SEND_SUCCESS_CLEAR());
+    }
+  }, [messageSendSuccess]);
+
+  React.useEffect(() => {
+    if (socketMessage && currentFriend) {
+      if (
+        socketMessage.senderId === currentFriend._id &&
+        socketMessage.receiverId === user.id
+      ) {
+        dispatch(actionsMessenger.SOCKET_MESSAGE(socketMessage));
+        // seenMessage(socketMessage, user.token);
+        // socketRef.current.emit('messageSeen', socketMessage);
+        // dispatch({
+        //   type: 'UPDATE_FRIEND_MESSAGE',
+        //   payload: {
+        //     msgInfo: socketMessage,
+        //     status: 'seen',
+        //   },
+        // });
+      }
+    }
+    setSocketMessage('');
+  }, [socketMessage]);
+
+  console.log(socketMessage);
+
+  React.useEffect(() => {
+    if (
+      socketMessage &&
+      socketMessage.senderId !== currentFriend._id &&
+      socketMessage.receiverId === user.id
+    ) {
+      // notificationSPlay();
+      // toast.success(`${socketMessage.senderName} send a new message`);
+      console.log('object');
+      setShowToast(true);
+      // updateMessage(socketMessage, user.token);
+      // socketRef.current.emit('delivaredMessage', socketMessage);
+      // dispatch({
+      //   type: 'UPDATE_FRIEND_MESSAGE',
+      //   payload: {
+      //     msgInfo: socketMessage,
+      //     status: 'delivared',
+      //   },
+      // });
+    }
+  }, [socketMessage]);
 
   // end socket
 
@@ -116,6 +190,12 @@ function Messenger() {
 
   const handleInputChange = (e) => {
     setNewMessage(e.target.value);
+
+    socketRef.current.emit('typingMessage', {
+      senderId: user.id,
+      receiverId: currentFriend._id,
+      msg: e.target.value,
+    });
   };
 
   const handleSendMessage = async () => {
@@ -127,11 +207,12 @@ function Messenger() {
         message: newMessage ? newMessage : '❤️',
       };
 
-      // socketRef.current.emit('typingMessage', {
-      //   senderId: user.id,
-      //   receiverId: currentFriend._id,
-      //   msg: '',
-      // });
+      socketRef.current.emit('typingMessage', {
+        senderId: user.id,
+        receiverId: currentFriend._id,
+        msg: '',
+      });
+
       await messageSend(dataMessage, user.token);
       setNewMessage('');
     } else {
@@ -158,6 +239,12 @@ function Messenger() {
         receiverId: currentFriend._id,
         message: newMessage ? newMessage : '❤️',
       };
+
+      socketRef.current.emit('typingMessage', {
+        senderId: user.id,
+        receiverId: currentFriend._id,
+        msg: '',
+      });
 
       await messageSend(dataMessage, user.token);
       setNewMessage('');
@@ -192,11 +279,19 @@ function Messenger() {
       block: 'end',
       inline: 'nearest',
     });
-  }, [messenger]);
+  }, [message]);
 
   return (
     <>
       <Header />
+      <Snackbar
+        autoHideDuration={6000}
+        message={
+          showToast && `${socketMessage.senderName} đã gửi một tin nhắn mới`
+        }
+        open={showToast}
+        onClose={() => setShowToast(false)}
+      />
       <div className={'messenger'}>
         <div className="row-custom">
           <div className="col-3">
@@ -281,14 +376,15 @@ function Messenger() {
 
           {currentFriend && (
             <RightSide
-              currentFriend={currentFriend}
-              handleInputChange={handleInputChange}
-              newMessage={newMessage}
-              handleSendMessage={handleSendMessage}
               handleSendMessagePressEnter={handleSendMessagePressEnter}
-              setNewMessage={setNewMessage}
+              handleInputChange={handleInputChange}
+              handleSendMessage={handleSendMessage}
               setImageMessage={setImageMessage}
+              setNewMessage={setNewMessage}
+              typingMessage={typingMessage}
+              currentFriend={currentFriend}
               imageMessage={imageMessage}
+              newMessage={newMessage}
               activeUser={activeUser}
               scrollRef={scrollRef}
             />

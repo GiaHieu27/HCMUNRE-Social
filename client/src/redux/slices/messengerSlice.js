@@ -17,6 +17,12 @@ const messengerSlice = createSlice({
       state.message_get_success = true;
       state.message = action.payload;
     },
+    SOCKET_MESSAGE: (state, action) => {
+      state.message.push(action.payload);
+    },
+    MESSAGE_SEND_SUCCESS_CLEAR: (state, action) => {
+      state.messageSendSuccess = false;
+    },
   },
 });
 

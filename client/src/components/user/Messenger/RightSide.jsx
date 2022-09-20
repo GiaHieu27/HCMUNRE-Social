@@ -10,16 +10,16 @@ import FriendInfo from './FriendInfo';
 // import MessageSend from './MessageSend';
 
 function RightSide({
-  currentFriend,
-  newMessage,
-  handleInputChange,
-  handleSendMessage,
   handleSendMessagePressEnter,
+  handleSendMessage,
+  handleInputChange,
+  setImageMessage,
+  currentFriend,
+  typingMessage,
   setNewMessage,
   imageMessage,
-  setImageMessage,
+  newMessage,
   activeUser,
-  typingMessage,
   scrollRef,
 }) {
   return (
@@ -64,7 +64,11 @@ function RightSide({
                 </div>
               </div>
 
-              <Message currentFriend={currentFriend} scrollRef={scrollRef} />
+              <Message
+                currentFriend={currentFriend}
+                scrollRef={scrollRef}
+                typingMessage={typingMessage}
+              />
               <MessageSend
                 handleInputChange={handleInputChange}
                 handleSendMessage={handleSendMessage}
@@ -101,6 +105,7 @@ RightSide.prototype = {
 
   newMessage: PropTypes.string,
   imageMessage: PropTypes.string,
+  typingMessage: PropTypes.string,
 
   scrollRef: PropTypes.node,
 };
