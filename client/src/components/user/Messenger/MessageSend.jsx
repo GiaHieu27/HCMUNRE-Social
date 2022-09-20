@@ -141,9 +141,6 @@ MessageSend.prototype = {
   setNewMessage: PropTypes.func,
   handleSendMessagePressEnter: PropTypes.func,
   setImageMessage: PropTypes.func,
-  setPicker: PropTypes.func,
-
-  picker: PropTypes.bool,
 
   newMessage: PropTypes.string,
   imageMessage: PropTypes.string,

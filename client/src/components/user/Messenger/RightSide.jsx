@@ -32,10 +32,12 @@ function RightSide({
               <div className="header">
                 <div className="image-name">
                   <div className="image">
-                    <img src={currentFriend.picture} alt="" />
+                    <img src={currentFriend.picture} alt="avatar -friend" />
                     {activeUser &&
                     activeUser.length > 0 &&
-                    activeUser.some((u) => u.userId === currentFriend._id) ? (
+                    activeUser.some(
+                      (user) => user.userId === currentFriend._id
+                    ) ? (
                       <div className="active-icon"></div>
                     ) : (
                       ''
@@ -78,7 +80,7 @@ function RightSide({
             <FriendInfo
               // message={message}
               currentFriend={currentFriend}
-              // activeUser={activeUser}
+              activeUser={activeUser}
             />
           </div>
         </div>
@@ -89,6 +91,7 @@ function RightSide({
 
 RightSide.prototype = {
   currentFriend: PropTypes.object,
+  activeUser: PropTypes.array,
 
   handleInputChange: PropTypes.func,
   handleSendMessage: PropTypes.func,

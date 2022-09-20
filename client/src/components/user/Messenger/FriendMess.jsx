@@ -8,13 +8,13 @@ function FriendMess({ friend, userId, activeUser }) {
         <div className="image">
           {/* <img src={friend?.fndInfo.picture} alt="" /> */}
           <img src={friend?.picture} alt="" />
-          {/* {activeUser &&
+          {activeUser &&
           activeUser.length > 0 &&
-          activeUser.some((u) => u.userId === friend?.fndInfo._id) ? (
+          activeUser.some((user) => user.userId === friend?._id) ? (
             <div className="active_icon"></div>
           ) : (
             ''
-          )} */}
+          )}
         </div>
       </div>
 
@@ -103,8 +103,8 @@ function FriendMess({ friend, userId, activeUser }) {
 
 FriendMess.prototype = {
   friend: PropTypes.object,
-  userId: PropTypes.string,
   activeUser: PropTypes.array,
+  userId: PropTypes.string,
 };
 
 export default FriendMess;

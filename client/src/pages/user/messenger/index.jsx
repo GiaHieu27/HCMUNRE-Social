@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import SearchIcon from '@mui/icons-material/Search';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import { io } from 'socket.io-client';
 import axios from 'axios';
 
 import Header from '../../../components/user/Header';
@@ -32,8 +33,30 @@ function Messenger() {
   const [currentFriend, setCurrentFriend] = React.useState();
   const [newMessage, setNewMessage] = React.useState('');
   const [imageMessage, setImageMessage] = React.useState();
+  const [activeUser, setActiveUser] = React.useState([]);
 
   const scrollRef = React.useRef(null);
+  const socketRef = React.useRef(null);
+
+  // start socket
+  React.useEffect(() => {
+    socketRef.current = io('ws://localhost:8000');
+  }, []);
+
+  React.useEffect(() => {
+    socketRef.current.emit('addUser', user.id, user);
+  }, []);
+
+  React.useEffect(() => {
+    socketRef.current.on('getUser', (socketUsers) => {
+      const filterUser = socketUsers.filter(
+        (socketUser) => socketUser.userId !== user.id
+      );
+      setActiveUser(filterUser);
+    });
+  }, []);
+
+  // end socket
 
   // ham dung hook nen khong tach ra file khac duoc
   // Api
@@ -165,7 +188,10 @@ function Messenger() {
   }, [currentFriend?._id, user.token, getAllMessage]);
 
   React.useEffect(() => {
-    scrollRef.current?.scrollIntoView({ behavior: 'smooth' });
+    scrollRef.current?.scrollIntoView({
+      block: 'end',
+      inline: 'nearest',
+    });
   }, [messenger]);
 
   return (
@@ -241,7 +267,11 @@ function Messenger() {
                         onClick={() => setCurrentFriend(friend)}
                         key={friend._id}
                       >
-                        <FriendMess friend={friend} userId={user.id} />
+                        <FriendMess
+                          friend={friend}
+                          userId={user.id}
+                          activeUser={activeUser}
+                        />
                       </div>
                     ))
                   : 'No friends'}
@@ -259,6 +289,7 @@ function Messenger() {
               setNewMessage={setNewMessage}
               setImageMessage={setImageMessage}
               imageMessage={imageMessage}
+              activeUser={activeUser}
               scrollRef={scrollRef}
             />
           )}

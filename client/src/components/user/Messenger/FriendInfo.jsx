@@ -8,16 +8,15 @@ function FriendInfo({ currentFriend, activeUser, message }) {
       <input type="checkbox" id="gallery" />
       <div className="image-name">
         <div className="image">
-          <img src={currentFriend.picture} alt="" />
+          <img src={currentFriend.picture} alt="avatar-friend" />
         </div>
-        {/* {activeUser &&
+        {activeUser &&
         activeUser.length > 0 &&
-        activeUser.some((u) => u.userId === currentFriend._id) ? (
+        activeUser.some((user) => user.userId === currentFriend._id) ? (
           <div className="active-user">Đang hoạt động</div>
         ) : (
           ''
-        )} */}
-        <div className="active-user">Đang hoạt động</div>
+        )}
         <div className="name">
           <h4>
             {currentFriend.first_name} {currentFriend.last_name}
@@ -45,18 +44,6 @@ function FriendInfo({ currentFriend, activeUser, message }) {
           src="https://res.cloudinary.com/dxeclkxcd/image/upload/v1661770239/LuongHieu/post_contents/rjhcp94zfsawj90qqexm.jpg"
           alt=""
         />
-        <img
-          src="https://res.cloudinary.com/dxeclkxcd/image/upload/v1661770239/LuongHieu/post_contents/rjhcp94zfsawj90qqexm.jpg"
-          alt=""
-        />
-        <img
-          src="https://res.cloudinary.com/dxeclkxcd/image/upload/v1661770239/LuongHieu/post_contents/rjhcp94zfsawj90qqexm.jpg"
-          alt=""
-        />
-        <img
-          src="https://res.cloudinary.com/dxeclkxcd/image/upload/v1661770239/LuongHieu/post_contents/rjhcp94zfsawj90qqexm.jpg"
-          alt=""
-        />
       </div>
     </div>
   );
@@ -64,6 +51,7 @@ function FriendInfo({ currentFriend, activeUser, message }) {
 
 FriendInfo.prototype = {
   currentFriend: PropTypes.object,
+  activeUser: PropTypes.array,
 };
 
 export default FriendInfo;
