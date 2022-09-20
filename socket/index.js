@@ -27,24 +27,29 @@ const findFriend = (receiverId) => {
 io.on('connection', (socket) => {
   console.log('user connected');
   socket.on('addUser', (userId, userInfo) => {
+    // userId: string
+    // userInfo: obj
+    // socket.id: string
     addUser(userId, socket.id, userInfo);
     io.emit('getUser', friendsOfUser);
   });
 
   socket.on('sendMessage', (data) => {
+    // data: obj
     const friend = findFriend(data.receiverId);
 
     if (friend !== undefined) {
-      socket.to(friend.socketId).emit('getMessage', data);
+      socket.to(friend.socketId).emit('currentFriendReceiveMessage', data);
     }
   });
 
   socket.on('typingMessage', (data) => {
-    const user = findFriend(data.receiverId);
+    // data: obj
+    const friend = findFriend(data.receiverId);
     console.log(data);
 
-    if (user !== undefined) {
-      socket.to(user.socketId).emit('typingMessageGet', {
+    if (friend !== undefined) {
+      socket.to(friend.socketId).emit('currentFriendReceiveTypingMessage', {
         senderId: data.senderId,
         receiverId: data.receiverId,
         msg: data.msg,

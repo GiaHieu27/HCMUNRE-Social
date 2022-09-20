@@ -5,7 +5,6 @@ import { io } from 'socket.io-client';
 import SearchIcon from '@mui/icons-material/Search';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import Snackbar from '@mui/material/Snackbar';
-import axios from 'axios';
 
 import Header from '../../../components/user/Header';
 import FriendMess from '../../../components/user/Messenger/FriendMess';
@@ -13,6 +12,7 @@ import RightSide from '../../../components/user/Messenger/RightSide';
 import friendsSlice from '../../../redux/slices/friendsSlice';
 import messengerSlice from '../../../redux/slices/messengerSlice';
 import { getFriend } from '../../../functions/friend';
+import * as messengerFunctions from '../../../functions/messenger';
 import dataURLtoBlob from '../../../helpers/dataURLtoBlob';
 import uploadImages from '../../../functions/uploadImages';
 
@@ -31,9 +31,9 @@ function Messenger() {
   const actionsFriend = friendsSlice.actions;
   const actionsMessenger = messengerSlice.actions;
 
+  const [friendReceiveMessage, setFriendReceiveMessage] = React.useState('');
   const [typingMessage, setTypingMessage] = React.useState('');
   const [newMessage, setNewMessage] = React.useState('');
-  const [socketMessage, setSocketMessage] = React.useState('');
   const [currentFriend, setCurrentFriend] = React.useState();
   const [imageMessage, setImageMessage] = React.useState();
   const [activeUser, setActiveUser] = React.useState([]);
@@ -41,152 +41,6 @@ function Messenger() {
 
   const scrollRef = React.useRef(null);
   const socketRef = React.useRef(null);
-
-  // start socket
-  React.useEffect(() => {
-    socketRef.current = io('ws://localhost:8000');
-
-    socketRef.current.on('getMessage', (data) => {
-      console.log(data);
-      setSocketMessage(data);
-    });
-
-    socketRef.current.on('typingMessageGet', (data) => {
-      console.log(data);
-      setTypingMessage(data);
-    });
-  }, []);
-
-  React.useEffect(() => {
-    socketRef.current.emit('addUser', user.id, user);
-  }, []);
-
-  React.useEffect(() => {
-    socketRef.current.on('getUser', (socketUsers) => {
-      const filterUser = socketUsers.filter(
-        (socketUser) => socketUser.userId !== user.id
-      );
-      setActiveUser(filterUser);
-    });
-  }, []);
-
-  React.useEffect(() => {
-    if (messageSendSuccess) {
-      setTimeout(() => {
-        socketRef.current.emit('sendMessage', message[message.length - 1]);
-      }, 500);
-      // dispatch({
-      //   type: 'UPDATE_FRIEND_MESSAGE',
-      //   payload: {
-      //     msgInfo: message[message.length - 1],
-      //   },
-      // });
-      dispatch(actionsMessenger.MESSAGE_SEND_SUCCESS_CLEAR());
-    }
-  }, [messageSendSuccess]);
-
-  React.useEffect(() => {
-    if (socketMessage && currentFriend) {
-      if (
-        socketMessage.senderId === currentFriend._id &&
-        socketMessage.receiverId === user.id
-      ) {
-        dispatch(actionsMessenger.SOCKET_MESSAGE(socketMessage));
-        // seenMessage(socketMessage, user.token);
-        // socketRef.current.emit('messageSeen', socketMessage);
-        // dispatch({
-        //   type: 'UPDATE_FRIEND_MESSAGE',
-        //   payload: {
-        //     msgInfo: socketMessage,
-        //     status: 'seen',
-        //   },
-        // });
-      }
-    }
-    setSocketMessage('');
-  }, [socketMessage]);
-
-  console.log(socketMessage);
-
-  React.useEffect(() => {
-    if (
-      socketMessage &&
-      socketMessage.senderId !== currentFriend._id &&
-      socketMessage.receiverId === user.id
-    ) {
-      // notificationSPlay();
-      // toast.success(`${socketMessage.senderName} send a new message`);
-      console.log('object');
-      setShowToast(true);
-      // updateMessage(socketMessage, user.token);
-      // socketRef.current.emit('delivaredMessage', socketMessage);
-      // dispatch({
-      //   type: 'UPDATE_FRIEND_MESSAGE',
-      //   payload: {
-      //     msgInfo: socketMessage,
-      //     status: 'delivared',
-      //   },
-      // });
-    }
-  }, [socketMessage]);
-
-  // end socket
-
-  // ham dung hook nen khong tach ra file khac duoc
-  // Api
-  const messageSend = async (dataMessage, token) => {
-    try {
-      const { data } = await axios.post(
-        `${process.env.REACT_APP_BACKEND_URL}/messageSend`,
-        { dataMessage },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      dispatch(actionsMessenger.MESSAGE_SEND_SUCCESS(data));
-    } catch (error) {
-      return error.response.data.message;
-    }
-  };
-
-  const getAllMessage = React.useCallback(
-    async (id, token) => {
-      try {
-        const { data } = await axios.get(
-          `${process.env.REACT_APP_BACKEND_URL}/getMessage/${id}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        dispatch(actionsMessenger.MESSAGE_GET_SUCCESS(data));
-      } catch (error) {
-        return error.response.data.message;
-      }
-    },
-    [dispatch, actionsMessenger]
-  );
-
-  const ImageMessageSend = async (sender, receiverId, img, token) => {
-    try {
-      const { data } = await axios.post(
-        `${process.env.REACT_APP_BACKEND_URL}/messageSendImage`,
-        { sender, receiverId, img },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      dispatch(actionsMessenger.MESSAGE_SEND_SUCCESS(data));
-    } catch (error) {
-      return error.response.data.message;
-    }
-  };
-  // End api
 
   const handleInputChange = (e) => {
     setNewMessage(e.target.value);
@@ -199,7 +53,6 @@ function Messenger() {
   };
 
   const handleSendMessage = async () => {
-    // e.preventDefault();
     if (!imageMessage) {
       const dataMessage = {
         senderName: userName,
@@ -213,7 +66,7 @@ function Messenger() {
         msg: '',
       });
 
-      await messageSend(dataMessage, user.token);
+      await messengerFunctions.messageSend(dataMessage, user.token, dispatch);
       setNewMessage('');
     } else {
       const img = dataURLtoBlob(imageMessage);
@@ -222,11 +75,12 @@ function Messenger() {
       formData.append('path', path);
       formData.append('file', img);
       const imgMes = await uploadImages(formData, user.token);
-      await ImageMessageSend(
+      await messengerFunctions.imageMessageSend(
         userName,
         currentFriend._id,
         imgMes.images[0].url,
-        user.token
+        user.token,
+        dispatch
       );
       setImageMessage('');
     }
@@ -246,10 +100,97 @@ function Messenger() {
         msg: '',
       });
 
-      await messageSend(dataMessage, user.token);
+      await messengerFunctions.messageSend(dataMessage, user.token, dispatch);
       setNewMessage('');
     }
   };
+
+  // start socket
+  React.useEffect(() => {
+    socketRef.current = io('ws://localhost:8000');
+
+    socketRef.current.on('currentFriendReceiveMessage', (data) => {
+      setFriendReceiveMessage(data);
+    });
+
+    socketRef.current.on('currentFriendReceiveTypingMessage', (data) => {
+      setTypingMessage(data);
+    });
+  }, []);
+
+  React.useEffect(() => {
+    socketRef.current.emit('addUser', user.id, user);
+  }, []);
+
+  React.useEffect(() => {
+    socketRef.current.on('getUser', (socketUsers) => {
+      const filterFriends = socketUsers.filter(
+        (socketUser) => socketUser.userId !== user.id
+      );
+      setActiveUser(filterFriends);
+    });
+  }, []);
+
+  React.useEffect(() => {
+    if (messageSendSuccess) {
+      setTimeout(() => {
+        socketRef.current.emit('sendMessage', message[message.length - 1]);
+      }, 500);
+      // dispatch({
+      //   type: 'UPDATE_FRIEND_MESSAGE',
+      //   payload: {
+      //     msgInfo: message[message.length - 1],
+      //   },
+      // });
+      dispatch(actionsMessenger.MESSAGE_SEND_SUCCESS_CLEAR());
+    }
+  }, [messageSendSuccess]);
+
+  React.useEffect(() => {
+    if (friendReceiveMessage && currentFriend) {
+      if (
+        friendReceiveMessage.senderId === currentFriend._id &&
+        friendReceiveMessage.receiverId === user.id
+      ) {
+        // SOCKET_MESSAGE = FRIEND_REVEIVE_MESSAGE
+        dispatch(actionsMessenger.FRIEND_REVEIVE_MESSAGE(friendReceiveMessage));
+        // seenMessage(friendReceiveMessage, user.token);
+        // socketRef.current.emit('messageSeen', friendReceiveMessage);
+        // dispatch({
+        //   type: 'UPDATE_FRIEND_MESSAGE',
+        //   payload: {
+        //     msgInfo: friendReceiveMessage,
+        //     status: 'seen',
+        //   },
+        // });
+      }
+    }
+    // setFriendReceiveMessage('');
+  }, [friendReceiveMessage]);
+
+  // console.log(friendReceiveMessage);
+
+  React.useEffect(() => {
+    // friendReceiveMessage = socketMessage
+    if (
+      friendReceiveMessage &&
+      friendReceiveMessage.senderId === currentFriend._id &&
+      friendReceiveMessage.receiverId === user.id
+    ) {
+      // notificationSPlay();
+      // toast.success(`${friendReceiveMessage.senderName} send a new message`);
+      setShowToast(true);
+      // updateMessage(friendReceiveMessage, user.token);
+      // socketRef.current.emit('delivaredMessage', friendReceiveMessage);
+      // dispatch({
+      //   type: 'UPDATE_FRIEND_MESSAGE',
+      //   payload: {
+      //     msgInfo: friendReceiveMessage,
+      //     status: 'delivared',
+      //   },
+      // });
+    }
+  }, [friendReceiveMessage]);
 
   React.useEffect(() => {
     const getFriendPages = async () => {
@@ -271,8 +212,8 @@ function Messenger() {
   }, [friends]);
 
   React.useEffect(() => {
-    getAllMessage(currentFriend?._id, user.token);
-  }, [currentFriend?._id, user.token, getAllMessage]);
+    messengerFunctions.getAllMessage(currentFriend?._id, user.token, dispatch);
+  }, [currentFriend?._id, user.token]);
 
   React.useEffect(() => {
     scrollRef.current?.scrollIntoView({
@@ -287,7 +228,8 @@ function Messenger() {
       <Snackbar
         autoHideDuration={6000}
         message={
-          showToast && `${socketMessage.senderName} đã gửi một tin nhắn mới`
+          showToast &&
+          `${friendReceiveMessage.senderName} đã gửi một tin nhắn mới`
         }
         open={showToast}
         onClose={() => setShowToast(false)}
