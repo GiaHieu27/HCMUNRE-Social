@@ -12,11 +12,11 @@ import FriendMess from '../../../components/user/Messenger/FriendMess';
 import RightSide from '../../../components/user/Messenger/RightSide';
 import friendsSlice from '../../../redux/slices/friendsSlice';
 import messengerSlice from '../../../redux/slices/messengerSlice';
-import { getFriend } from '../../../functions/friend';
-import * as messengerFunctions from '../../../functions/messenger';
 import dataURLtoBlob from '../../../helpers/dataURLtoBlob';
 import uploadImages from '../../../functions/uploadImages';
 import notificationSound from '../../../audio/notification.mp3';
+import * as messengerApis from '../../../functions/messenger';
+import { getFriend } from '../../../functions/friend';
 
 function Messenger() {
   const {
@@ -24,7 +24,7 @@ function Messenger() {
     friends: friendStore,
     messenger: { messageSendSuccess, message, message_get_success },
   } = useSelector((state) => ({ ...state }));
-  const friends = friendStore.data.friends;
+  const friends = friendStore.data.friendMessenger;
 
   const dispatch = useDispatch();
   const { username } = useParams();
@@ -68,7 +68,7 @@ function Messenger() {
         msg: '',
       });
 
-      await messengerFunctions.messageSend(dataMessage, user.token, dispatch);
+      await messengerApis.messageSend(dataMessage, user.token, dispatch);
       setNewMessage('');
     } else {
       const img = dataURLtoBlob(imageMessage);
@@ -77,7 +77,7 @@ function Messenger() {
       formData.append('path', path);
       formData.append('file', img);
       const imgMes = await uploadImages(formData, user.token);
-      await messengerFunctions.imageMessageSend(
+      await messengerApis.imageMessageSend(
         userName,
         currentFriend._id,
         imgMes.images[0].url,
@@ -102,7 +102,7 @@ function Messenger() {
         msg: '',
       });
 
-      await messengerFunctions.messageSend(dataMessage, user.token, dispatch);
+      await messengerApis.messageSend(dataMessage, user.token, dispatch);
       setNewMessage('');
     }
   };
@@ -215,13 +215,13 @@ function Messenger() {
 
   React.useEffect(() => {
     if (friends && friends.length > 0) {
-      setCurrentFriend(friends[0]);
+      setCurrentFriend(friends[0].friendInfo);
     }
   }, [friends]);
 
   React.useEffect(() => {
-    messengerFunctions.getAllMessage(currentFriend?._id, user.token, dispatch);
-  }, [currentFriend?._id, user.token]);
+    messengerApis.getAllMessage(currentFriend?._id, user.token, dispatch);
+  }, [currentFriend?._id]);
 
   React.useEffect(() => {
     scrollRef.current?.scrollIntoView({
@@ -297,12 +297,12 @@ function Messenger() {
                   ? friends.map((friend) => (
                       <div
                         className={`hover-friend ${
-                          currentFriend?._id === friend?._id
+                          currentFriend?._id === friend.friendInfo._id
                             ? 'active1'
                             : 'hover1'
                         }`}
-                        onClick={() => setCurrentFriend(friend)}
-                        key={friend._id}
+                        onClick={() => setCurrentFriend(friend.friendInfo)}
+                        key={friend.friendInfo._id}
                       >
                         <FriendMess
                           friend={friend}

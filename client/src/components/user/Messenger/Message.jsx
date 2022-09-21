@@ -9,6 +9,8 @@ function Message({ currentFriend, typingMessage, scrollRef }) {
     messenger: { message },
   } = useSelector((state) => ({ ...state }));
 
+  console.log(message);
+
   return (
     <>
       <div className="message-show">

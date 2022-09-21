@@ -6,11 +6,11 @@ function FriendMess({ friend, userId, activeUser }) {
     <div className="friend-mess">
       <div className="friend-image">
         <div className="image">
-          {/* <img src={friend?.fndInfo.picture} alt="" /> */}
-          <img src={friend?.picture} alt="" />
+          <img src={friend?.friendInfo.picture} alt="" />
+
           {activeUser &&
           activeUser.length > 0 &&
-          activeUser.some((user) => user.userId === friend?._id) ? (
+          activeUser.some((user) => user.userId === friend.friendInfo._id) ? (
             <div className="active_icon"></div>
           ) : (
             ''
@@ -29,10 +29,10 @@ function FriendMess({ friend, userId, activeUser }) {
               : 'Fd_name'
           }
           >
-            {friend?.fndInfo.first_name} {friend?.fndInfo.last_name}
+            {friend?.friendInfo.first_name} {friend?.friendInfo.last_name}
           </h4> */}
           <h4>
-            {friend?.first_name} {friend?.last_name}
+            {friend.friendInfo.first_name} {friend.friendInfo.last_name}
           </h4>
           {/* <div className="msg-time">
             {friend?.msgInfo && friend?.msgInfo.senderId === userId ? (
@@ -47,7 +47,7 @@ function FriendMess({ friend, userId, activeUser }) {
                     : ''
                 }
               >
-                {`${friend?.fndInfo.first_name} ${friend?.fndInfo.last_name} `}
+                {`${friend?.friendInfo.first_name} ${friend?.friendInfo.last_name} `}
               </span>
             )}
 
@@ -72,14 +72,14 @@ function FriendMess({ friend, userId, activeUser }) {
             <span>
               {friend?.msgInfo
                 ? moment(friend?.msgInfo.createdAt).startOf('mini').fromNow()
-                : moment(friend?.fndInfo.createdAt).startOf('mini').fromNow()}
+                : moment(friend?.friendInfo.createdAt).startOf('mini').fromNow()}
             </span>
           </div> */}
         </div>
         {/* {userId === friend?.msgInfo?.senderId ? (
           <div className="seen-unseen-icon">
             {friend?.msgInfo.status === 'seen' ? (
-              <img src={friend?.fndInfo.picture} alt="seen-message" />
+              <img src={friend?.friendInfo.picture} alt="seen-message" />
             ) : friend?.msgInfo.status === 'delivared' ? (
               <div className="delivared"> <RiCheckboxCircleFill /></div>
             ) : (
