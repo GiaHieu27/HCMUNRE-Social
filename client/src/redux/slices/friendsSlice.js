@@ -1,8 +1,8 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const friendSlice = createSlice({
-  name: "friends",
-  initialState: { loading: false, data: {}, error: "" },
+  name: 'friends',
+  initialState: { loading: false, data: {}, error: '' },
   reducers: {
     FRIEND_REQUEST: (state, action) => {
       state.loading = true;
@@ -18,6 +18,15 @@ const friendSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       }
+    },
+    UPDATE_FRIEND_MESSAGE: (state, action) => {
+      const index = state.data.friendMessenger.findIndex(
+        (obj) =>
+          obj.friendInfo._id === action.payload.msgInfo.receiverId ||
+          obj.friendInfo._id === action.payload.msgInfo.senderId
+      );
+      state.data.friendMessenger[index].msgInfo = action.payload.msgInfo;
+      // state.data.friendMessenger[index].msgInfo.status = action.payload.status;
     },
   },
 });

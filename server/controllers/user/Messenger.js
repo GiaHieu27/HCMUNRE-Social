@@ -103,12 +103,12 @@ exports.seenMessage = async (req, res) => {
   }
 };
 
-exports.delivaredMessage = async (req, res) => {
+exports.sentMessage = async (req, res) => {
   try {
     const messageId = req.body.msg._id;
 
     await Messenger.findByIdAndUpdate(messageId, {
-      status: 'delivared',
+      status: 'sent',
     });
 
     res.status(200).json({ success: true });

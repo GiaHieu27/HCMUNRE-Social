@@ -2,6 +2,8 @@ import React from 'react';
 import moment from 'moment';
 import 'moment/locale/vi';
 import PropTypes from 'prop-types';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 
 function FriendMess({ friend, userId, onlineFriends }) {
   moment.locale('vi');
@@ -65,19 +67,20 @@ function FriendMess({ friend, userId, onlineFriends }) {
             </span>
           </div>
         </div>
-        {/* {userId === msgInfo?.senderId ? (
+
+        {userId === msgInfo?.senderId ? (
           <div className="seen-unseen-icon">
             {msgInfo.status === 'seen' ? (
-              <img src={friendInfo.picture} alt="seen-message" />
-            ) : msgInfo.status === 'delivared' ? (
+              <img src={friendInfo.picture} alt="friend-seen-message" />
+            ) : msgInfo.status === 'sent' ? (
               <div className="delivared">
-                {' '}
-                <RiCheckboxCircleFill />
+                <CheckCircleIcon sx={{ width: '0.75em', height: '0.75em' }} />
               </div>
             ) : (
               <div className="unseen">
-                {' '}
-                <HiOutlineCheckCircle />{' '}
+                <CheckCircleOutlineIcon
+                  sx={{ width: '0.75em', height: '0.75em' }}
+                />
               </div>
             )}
           </div>
@@ -89,7 +92,7 @@ function FriendMess({ friend, userId, onlineFriends }) {
               ''
             )}
           </div>
-        )} */}
+        )}
       </div>
     </div>
   );

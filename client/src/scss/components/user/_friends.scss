@@ -9,7 +9,7 @@
   }
 
   .hover-friend.active1 {
-    background-color: var(--lighter-green-color);
+    background-color: rgb(227, 253, 227);
     border-radius: 10px;
   }
 
@@ -102,7 +102,7 @@
             width: 15px;
             height: 15px;
             border-radius: 50%;
-            background-color: aquamarine;
+            background-color: var(--green-color);
           }
         }
       }

@@ -118,6 +118,15 @@ function Messenger() {
     socketRef.current.on('currentFriendReceiveTypingMessage', (data) => {
       setTypingMessage(data);
     });
+
+    socketRef.current.on('msgSeenResponse', (msg) => {
+      // dispatch({
+      //   type: 'SEEN_MESSAGE',
+      //   payload: {
+      //     msgInfo: msg,
+      //   },
+      // });
+    });
   }, []);
 
   React.useEffect(() => {
@@ -144,6 +153,11 @@ function Messenger() {
       //     msgInfo: message[message.length - 1],
       //   },
       // });
+      dispatch(
+        actionsFriend.UPDATE_FRIEND_MESSAGE({
+          msgInfo: message[message.length - 1],
+        })
+      );
       dispatch(actionsMessenger.MESSAGE_SEND_SUCCESS_CLEAR());
     }
   }, [messageSendSuccess]);
@@ -156,8 +170,8 @@ function Messenger() {
       ) {
         // SOCKET_MESSAGE = FRIEND_REVEIVE_MESSAGE
         dispatch(actionsMessenger.FRIEND_REVEIVE_MESSAGE(friendReceiveMessage));
-        // seenMessage(friendReceiveMessage, user.token);
-        // socketRef.current.emit('messageSeen', friendReceiveMessage);
+        messengerApis.seenMessage(friendReceiveMessage, user.token);
+        socketRef.current.emit('messageSeen', friendReceiveMessage);
         // dispatch({
         //   type: 'UPDATE_FRIEND_MESSAGE',
         //   payload: {
@@ -165,6 +179,12 @@ function Messenger() {
         //     status: 'seen',
         //   },
         // });
+        dispatch(
+          actionsFriend.UPDATE_FRIEND_MESSAGE({
+            msgInfo: friendReceiveMessage,
+            // status: 'seen',
+          })
+        );
       }
     }
     setFriendReceiveMessage('');
@@ -188,7 +208,7 @@ function Messenger() {
           fontSize: '18px',
         },
       });
-      // updateMessage(friendReceiveMessage, user.token);
+      messengerApis.updateMessage(friendReceiveMessage, user.token);
       // socketRef.current.emit('delivaredMessage', friendReceiveMessage);
       // dispatch({
       //   type: 'UPDATE_FRIEND_MESSAGE',

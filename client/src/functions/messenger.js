@@ -58,3 +58,36 @@ export const imageMessageSend = async (
     return error.response.data.message;
   }
 };
+
+export const seenMessage = async (msg, token) => {
+  try {
+    await axios.post(
+      `${process.env.REACT_APP_BACKEND_URL}/seen-message`,
+      { msg },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+  } catch (error) {
+    return error.response.data.message;
+  }
+};
+
+export const updateMessage = async (msg, token) => {
+  try {
+    const { data } = await axios.post(
+      `${process.env.REACT_APP_BACKEND_URL}/sent-message`,
+      { msg },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    console.log(data);
+  } catch (error) {
+    return error.response.data.message;
+  }
+};
