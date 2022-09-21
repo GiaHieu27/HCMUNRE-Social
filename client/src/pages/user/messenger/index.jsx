@@ -2,9 +2,10 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { io } from 'socket.io-client';
+import toast, { Toaster } from 'react-hot-toast';
+import useSound from 'use-sound';
 import SearchIcon from '@mui/icons-material/Search';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import Snackbar from '@mui/material/Snackbar';
 
 import Header from '../../../components/user/Header';
 import FriendMess from '../../../components/user/Messenger/FriendMess';
@@ -15,6 +16,7 @@ import { getFriend } from '../../../functions/friend';
 import * as messengerFunctions from '../../../functions/messenger';
 import dataURLtoBlob from '../../../helpers/dataURLtoBlob';
 import uploadImages from '../../../functions/uploadImages';
+import notificationSound from '../../../audio/notification.mp3';
 
 function Messenger() {
   const {
@@ -30,6 +32,7 @@ function Messenger() {
 
   const actionsFriend = friendsSlice.actions;
   const actionsMessenger = messengerSlice.actions;
+  const [notificationSPlay] = useSound(notificationSound);
 
   const [friendReceiveMessage, setFriendReceiveMessage] = React.useState('');
   const [typingMessage, setTypingMessage] = React.useState('');
@@ -37,7 +40,6 @@ function Messenger() {
   const [currentFriend, setCurrentFriend] = React.useState();
   const [imageMessage, setImageMessage] = React.useState();
   const [activeUser, setActiveUser] = React.useState([]);
-  const [showToast, setShowToast] = React.useState(false);
 
   const scrollRef = React.useRef(null);
   const socketRef = React.useRef(null);
@@ -165,7 +167,7 @@ function Messenger() {
         // });
       }
     }
-    // setFriendReceiveMessage('');
+    setFriendReceiveMessage('');
   }, [friendReceiveMessage]);
 
   // console.log(friendReceiveMessage);
@@ -177,9 +179,15 @@ function Messenger() {
       friendReceiveMessage.senderId === currentFriend._id &&
       friendReceiveMessage.receiverId === user.id
     ) {
-      // notificationSPlay();
-      // toast.success(`${friendReceiveMessage.senderName} send a new message`);
-      setShowToast(true);
+      notificationSPlay();
+      toast.success(`${friendReceiveMessage.senderName} đã gửi một tin nhắn`, {
+        duration: 5000,
+        style: {
+          background: '#333',
+          color: '#fff',
+          fontSize: '18px',
+        },
+      });
       // updateMessage(friendReceiveMessage, user.token);
       // socketRef.current.emit('delivaredMessage', friendReceiveMessage);
       // dispatch({
@@ -225,15 +233,7 @@ function Messenger() {
   return (
     <>
       <Header />
-      <Snackbar
-        autoHideDuration={6000}
-        message={
-          showToast &&
-          `${friendReceiveMessage.senderName} đã gửi một tin nhắn mới`
-        }
-        open={showToast}
-        onClose={() => setShowToast(false)}
-      />
+      <Toaster position={'top-center'} reverseOrder={false} />
       <div className={'messenger'}>
         <div className="row-custom">
           <div className="col-3">
@@ -296,11 +296,11 @@ function Messenger() {
                 {friends && friends.length
                   ? friends.map((friend) => (
                       <div
-                        className={
+                        className={`hover-friend ${
                           currentFriend?._id === friend?._id
-                            ? 'hover-friend active1'
-                            : 'hover-friend hover1'
-                        }
+                            ? 'active1'
+                            : 'hover1'
+                        }`}
                         onClick={() => setCurrentFriend(friend)}
                         key={friend._id}
                       >
