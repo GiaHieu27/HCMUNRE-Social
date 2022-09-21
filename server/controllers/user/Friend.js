@@ -1,5 +1,6 @@
-const User = require("../../models/User");
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
+const User = require('../../models/User');
+const Messenger = require('../../models/Messenger');
 
 exports.addFriend = async (req, res) => {
   try {
@@ -18,16 +19,16 @@ exports.addFriend = async (req, res) => {
         await sender.updateOne({
           $push: { following: receiver._id },
         });
-        res.json({ message: "Yêu cầu kết bạn thành công" });
+        res.json({ message: 'Yêu cầu kết bạn thành công' });
       } else {
         return res
           .status(400)
-          .json({ message: "Đã gửi yêu cầu kết bạn trước đó" });
+          .json({ message: 'Đã gửi yêu cầu kết bạn trước đó' });
       }
     } else {
       return res
         .status(400)
-        .json({ message: "Bạn không thể kết bạn với chính mình" });
+        .json({ message: 'Bạn không thể kết bạn với chính mình' });
     }
   } catch (error) {
     return res.status(500).json({ message: error.message });
@@ -51,12 +52,12 @@ exports.cancelRequest = async (req, res) => {
         await sender.updateOne({
           $pull: { following: receiver._id },
         });
-        res.json({ message: "Huỷ yêu cầu kết bạn thành công" });
+        res.json({ message: 'Huỷ yêu cầu kết bạn thành công' });
       } else {
-        return res.status(400).json({ message: "Đã huỷ yêu cầu trước đó" });
+        return res.status(400).json({ message: 'Đã huỷ yêu cầu trước đó' });
       }
     } else {
-      return res.status(400).json({ message: "Không thể huỷ kết bạn" });
+      return res.status(400).json({ message: 'Không thể huỷ kết bạn' });
     }
   } catch (error) {
     return res.status(500).json({ message: error.message });
@@ -82,14 +83,14 @@ exports.deleteRequest = async (req, res) => {
             following: receiver._id,
           },
         });
-        res.json({ message: "Xoá kết bạn thành công" });
+        res.json({ message: 'Xoá kết bạn thành công' });
       } else {
-        return res.status(400).json({ message: "Đã xoá" });
+        return res.status(400).json({ message: 'Đã xoá' });
       }
     } else {
       return res
         .status(400)
-        .json({ message: "Bạn không thể xoá kết bạn với chính mình" });
+        .json({ message: 'Bạn không thể xoá kết bạn với chính mình' });
     }
   } catch (error) {
     return res.status(500).json({ message: error.message });
@@ -113,14 +114,14 @@ exports.follow = async (req, res) => {
         await sender.updateOne({
           $push: { following: receiver._id },
         });
-        res.json({ message: "Theo dõi thành công" });
+        res.json({ message: 'Theo dõi thành công' });
       } else {
         return res
           .status(400)
-          .json({ message: "Đã theo dõi người này trước đó" });
+          .json({ message: 'Đã theo dõi người này trước đó' });
       }
     } else {
-      return res.status(400).json({ message: "Không thể theo dõi người này" });
+      return res.status(400).json({ message: 'Không thể theo dõi người này' });
     }
   } catch (error) {
     return res.status(500).json({ message: error.message });
@@ -144,12 +145,12 @@ exports.unfollow = async (req, res) => {
         await sender.updateOne({
           $pull: { following: receiver._id },
         });
-        res.json({ message: "Đã bỏ theo dõi" });
+        res.json({ message: 'Đã bỏ theo dõi' });
       } else {
-        return res.status(400).json({ message: "Bạn chưa theo dõi người này" });
+        return res.status(400).json({ message: 'Bạn chưa theo dõi người này' });
       }
     } else {
-      return res.status(400).json({ message: "Không thể bỏ theo dõi" });
+      return res.status(400).json({ message: 'Không thể bỏ theo dõi' });
     }
   } catch (error) {
     return res.status(500).json({ message: error.message });
@@ -174,16 +175,16 @@ exports.acceptRequest = async (req, res) => {
         await sender.updateOne({
           $push: { friends: receiver._id, followers: receiver._id },
         });
-        res.json({ message: "Hai bạn đã thành bạn bè" });
+        res.json({ message: 'Hai bạn đã thành bạn bè' });
       } else {
         return res
           .status(400)
-          .json({ message: "Bạn chưa gửi lời mời kết bạn" });
+          .json({ message: 'Bạn chưa gửi lời mời kết bạn' });
       }
     } else {
       return res
         .status(400)
-        .json({ message: "Không thể chấp nhận lời mời kết bạn" });
+        .json({ message: 'Không thể chấp nhận lời mời kết bạn' });
     }
   } catch (error) {
     return res.status(500).json({ message: error.message });
@@ -216,35 +217,88 @@ exports.unfriend = async (req, res) => {
           },
         });
 
-        res.json({ message: "Huỷ kết bạn thành công" });
+        res.json({ message: 'Huỷ kết bạn thành công' });
       } else {
-        return res.status(400).json({ message: "Hai người chưa là bạn" });
+        return res.status(400).json({ message: 'Hai người chưa là bạn' });
       }
     } else {
       return res
         .status(400)
-        .json({ message: "Bạn không thể huỷ kết bạn với chính mình" });
+        .json({ message: 'Bạn không thể huỷ kết bạn với chính mình' });
     }
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
 };
 
+const getLastMessage = async (myId, fdId) => {
+  const msg = await Messenger.findOne({
+    $or: [
+      {
+        $and: [
+          {
+            senderId: {
+              $eq: myId,
+            },
+          },
+          {
+            receiverId: {
+              $eq: fdId,
+            },
+          },
+        ],
+      },
+      {
+        $and: [
+          {
+            senderId: {
+              $eq: fdId,
+            },
+          },
+          {
+            receiverId: {
+              $eq: myId,
+            },
+          },
+        ],
+      },
+    ],
+  }).sort({
+    updatedAt: -1,
+  });
+
+  return msg;
+};
+
 exports.getFriend = async (req, res) => {
+  const userId = req.user.id;
   try {
-    const user = await User.findById(req.user.id)
-      .select("friends requests")
-      .populate("friends", "first_name last_name picture username")
-      .populate("requests", "first_name last_name picture username");
+    const user = await User.findById(userId)
+      .select('friends requests')
+      .populate('friends', 'first_name last_name picture username')
+      .populate('requests', 'first_name last_name picture username');
 
     const sentRequests = await User.find({
-      requests: mongoose.Types.ObjectId(req.user.id),
-    }).select("first_name last_name picture username");
+      requests: mongoose.Types.ObjectId(userId),
+    }).select('first_name last_name picture username');
+
+    let friendMessenger = [];
+    for (let i = 0; i < user.friends.length; i++) {
+      let lastMessage = await getLastMessage(userId, user.friends[i]._id);
+      friendMessenger = [
+        ...friendMessenger,
+        {
+          friendInfo: user.friends[i],
+          msgInfo: lastMessage,
+        },
+      ];
+    }
 
     res.json({
       friends: user.friends,
       requests: user.requests,
       sentRequests,
+      friendMessenger,
     });
   } catch (error) {
     return res.status(500).json({ message: error.message });

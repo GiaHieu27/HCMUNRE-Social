@@ -1,16 +1,21 @@
+import React from 'react';
+import moment from 'moment';
+import 'moment/locale/vi';
 import PropTypes from 'prop-types';
-// import moment from 'moment';
 
-function FriendMess({ friend, userId, activeUser }) {
+function FriendMess({ friend, userId, onlineFriends }) {
+  moment.locale('vi');
+  const { friendInfo, msgInfo } = friend;
+
   return (
     <div className="friend-mess">
       <div className="friend-image">
         <div className="image">
-          <img src={friend?.friendInfo.picture} alt="" />
+          <img src={friendInfo.picture} alt="" />
 
-          {activeUser &&
-          activeUser.length > 0 &&
-          activeUser.some((user) => user.userId === friend.friendInfo._id) ? (
+          {onlineFriends &&
+          onlineFriends.length > 0 &&
+          onlineFriends.some((friend) => friend.userId === friendInfo._id) ? (
             <div className="active_icon"></div>
           ) : (
             ''
@@ -20,76 +25,65 @@ function FriendMess({ friend, userId, activeUser }) {
 
       <div className="friend-name-seen">
         <div className="friend-name">
-          {/* <h4
-          className={
-            friend?.msgInfo?.senderId !== userId &&
-            friend?.msgInfo?.status !== undefined &&
-            friend?.msgInfo?.status !== 'seen'
-              ? 'unseen_message Fd_name'
-              : 'Fd_name'
-          }
+          <h4
+            className={
+              msgInfo?.senderId !== userId &&
+              msgInfo?.status !== undefined &&
+              msgInfo?.status !== 'seen'
+                ? 'unseen_message Fd_name'
+                : 'Fd_name'
+            }
           >
-            {friend?.friendInfo.first_name} {friend?.friendInfo.last_name}
-          </h4> */}
-          <h4>
-            {friend.friendInfo.first_name} {friend.friendInfo.last_name}
+            {friendInfo.first_name} {friendInfo.last_name}
           </h4>
-          {/* <div className="msg-time">
-            {friend?.msgInfo && friend?.msgInfo.senderId === userId ? (
-              <span>Bạn </span>
-            ) : (
-              <span
-                className={
-                  friend?.msgInfo?.senderId !== userId &&
-                  friend?.msgInfo?.status !== undefined &&
-                  friend?.msgInfo?.status !== 'seen'
-                    ? 'unseen_message'
-                    : ''
-                }
-              >
-                {`${friend?.friendInfo.first_name} ${friend?.friendInfo.last_name} `}
-              </span>
-            )}
 
-            {friend?.msgInfo && friend?.msgInfo.message.text ? (
+          <div className="msg-time">
+            {msgInfo && msgInfo.senderId === userId && <span>Bạn: </span>}
+
+            {msgInfo && msgInfo.message.text ? (
               <span
                 className={
-                  friend?.msgInfo?.senderId !== userId &&
-                  friend?.msgInfo?.status !== undefined &&
-                  friend?.msgInfo?.status !== 'seen'
+                  msgInfo?.senderId !== userId &&
+                  msgInfo?.status !== undefined &&
+                  msgInfo?.status !== 'seen'
                     ? 'unseen_message'
                     : ''
                 }
               >
-                {`${friend?.msgInfo.message.text.slice(0, 10)} `}
+                {`${msgInfo.message.text.slice(0, 10)} `}
               </span>
-            ) : friend?.msgInfo && friend?.msgInfo.message.image ? (
-              <span>send a image </span>
+            ) : msgInfo && msgInfo.message.image ? (
+              <span>đã gửi 1 hình ảnh </span>
             ) : (
-              <span>connect you </span>
+              <span>đã kết nối với bạn </span>
             )}
 
             <span>
-              {friend?.msgInfo
-                ? moment(friend?.msgInfo.createdAt).startOf('mini').fromNow()
-                : moment(friend?.friendInfo.createdAt).startOf('mini').fromNow()}
+              {msgInfo
+                ? moment(msgInfo.createdAt).startOf('mini').fromNow()
+                : moment(friendInfo.createdAt).startOf('mini').fromNow()}
             </span>
-          </div> */}
+          </div>
         </div>
-        {/* {userId === friend?.msgInfo?.senderId ? (
+        {/* {userId === msgInfo?.senderId ? (
           <div className="seen-unseen-icon">
-            {friend?.msgInfo.status === 'seen' ? (
-              <img src={friend?.friendInfo.picture} alt="seen-message" />
-            ) : friend?.msgInfo.status === 'delivared' ? (
-              <div className="delivared"> <RiCheckboxCircleFill /></div>
+            {msgInfo.status === 'seen' ? (
+              <img src={friendInfo.picture} alt="seen-message" />
+            ) : msgInfo.status === 'delivared' ? (
+              <div className="delivared">
+                {' '}
+                <RiCheckboxCircleFill />
+              </div>
             ) : (
-              <div className="unseen"> <HiOutlineCheckCircle /></div>
+              <div className="unseen">
+                {' '}
+                <HiOutlineCheckCircle />{' '}
+              </div>
             )}
           </div>
         ) : (
           <div className="seen-unseen-icon">
-            {friend?.msgInfo?.status !== undefined &&
-            friend?.msgInfo?.status !== 'seen' ? (
+            {msgInfo?.status !== undefined && msgInfo?.status !== 'seen' ? (
               <div className="seen-icon"></div>
             ) : (
               ''
@@ -103,7 +97,7 @@ function FriendMess({ friend, userId, activeUser }) {
 
 FriendMess.prototype = {
   friend: PropTypes.object,
-  activeUser: PropTypes.array,
+  onlineFriends: PropTypes.array,
   userId: PropTypes.string,
 };
 

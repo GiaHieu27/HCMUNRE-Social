@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
-function FriendInfo({ currentFriend, activeUser, message }) {
+function FriendInfo({ currentFriend, onlineFriends, message }) {
   return (
     <div className="friend-info">
       <input type="checkbox" id="gallery" />
@@ -10,9 +10,9 @@ function FriendInfo({ currentFriend, activeUser, message }) {
         <div className="image">
           <img src={currentFriend.picture} alt="avatar-friend" />
         </div>
-        {activeUser &&
-        activeUser.length > 0 &&
-        activeUser.some((user) => user.userId === currentFriend._id) ? (
+        {onlineFriends &&
+        onlineFriends.length > 0 &&
+        onlineFriends.some((user) => user.userId === currentFriend._id) ? (
           <div className="active-user">Đang hoạt động</div>
         ) : (
           ''
@@ -51,7 +51,7 @@ function FriendInfo({ currentFriend, activeUser, message }) {
 
 FriendInfo.prototype = {
   currentFriend: PropTypes.object,
-  activeUser: PropTypes.array,
+  onlineFriends: PropTypes.array,
 };
 
 export default FriendInfo;

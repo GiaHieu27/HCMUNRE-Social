@@ -1,10 +1,10 @@
-const Mesenger = require('../../models/Messenger');
+const Messenger = require('../../models/Messenger');
 
 exports.messageSend = async (req, res) => {
   try {
     const { dataMessage } = req.body;
     const senderId = req.user.id;
-    const messageInsert = await new Mesenger({
+    const messageInsert = await new Messenger({
       senderId,
       senderName: dataMessage.senderName,
       receiverId: dataMessage.receiverId,
@@ -24,7 +24,7 @@ exports.getMessage = async (req, res) => {
     const { id } = req.params;
     const userId = req.user.id;
 
-    let getAllMessages = await Mesenger.find({
+    let getAllMessages = await Messenger.find({
       $or: [
         {
           $and: [
@@ -73,7 +73,7 @@ exports.messageSendImage = async (req, res) => {
   try {
     const { sender, receiverId, img } = req.body;
     const senderId = req.user.id;
-    const messageInser = await new Mesenger({
+    const messageInser = await new Messenger({
       senderId,
       senderName: sender,
       receiverId: receiverId,
@@ -93,7 +93,7 @@ exports.seenMessage = async (req, res) => {
     const messageId = req.body.msg._id;
     console.log(req.body.msg);
 
-    await Mesenger.findByIdAndUpdate(messageId, {
+    await Messenger.findByIdAndUpdate(messageId, {
       status: 'seen',
     });
 
@@ -107,7 +107,7 @@ exports.delivaredMessage = async (req, res) => {
   try {
     const messageId = req.body.msg._id;
 
-    await Mesenger.findByIdAndUpdate(messageId, {
+    await Messenger.findByIdAndUpdate(messageId, {
       status: 'delivared',
     });
 

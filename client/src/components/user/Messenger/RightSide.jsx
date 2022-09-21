@@ -19,7 +19,7 @@ function RightSide({
   setNewMessage,
   imageMessage,
   newMessage,
-  activeUser,
+  onlineFriends,
   scrollRef,
 }) {
   return (
@@ -33,9 +33,9 @@ function RightSide({
                 <div className="image-name">
                   <div className="image">
                     <img src={currentFriend.picture} alt="avatar -friend" />
-                    {activeUser &&
-                    activeUser.length > 0 &&
-                    activeUser.some(
+                    {onlineFriends &&
+                    onlineFriends.length > 0 &&
+                    onlineFriends.some(
                       (user) => user.userId === currentFriend._id
                     ) ? (
                       <div className="active-icon"></div>
@@ -84,7 +84,7 @@ function RightSide({
             <FriendInfo
               // message={message}
               currentFriend={currentFriend}
-              activeUser={activeUser}
+              onlineFriends={onlineFriends}
             />
           </div>
         </div>
@@ -95,7 +95,7 @@ function RightSide({
 
 RightSide.prototype = {
   currentFriend: PropTypes.object,
-  activeUser: PropTypes.array,
+  onlineFriends: PropTypes.array,
 
   handleInputChange: PropTypes.func,
   handleSendMessage: PropTypes.func,

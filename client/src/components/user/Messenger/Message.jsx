@@ -9,8 +9,6 @@ function Message({ currentFriend, typingMessage, scrollRef }) {
     messenger: { message },
   } = useSelector((state) => ({ ...state }));
 
-  console.log(message);
-
   return (
     <>
       <div className="message-show">
@@ -52,7 +50,7 @@ function Message({ currentFriend, typingMessage, scrollRef }) {
                         </p>
                       </div>
                       <div className="time">
-                        {moment(m.createdAt).startOf('mini').format('LT')}
+                        {moment(m.createdAt).startOf('mini').fromNow()}
                       </div>
                     </div>
                   </div>

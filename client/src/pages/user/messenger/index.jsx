@@ -39,7 +39,7 @@ function Messenger() {
   const [newMessage, setNewMessage] = React.useState('');
   const [currentFriend, setCurrentFriend] = React.useState();
   const [imageMessage, setImageMessage] = React.useState();
-  const [activeUser, setActiveUser] = React.useState([]);
+  const [onlineFriends, setOnlineFriends] = React.useState([]);
 
   const scrollRef = React.useRef(null);
   const socketRef = React.useRef(null);
@@ -129,7 +129,7 @@ function Messenger() {
       const filterFriends = socketUsers.filter(
         (socketUser) => socketUser.userId !== user.id
       );
-      setActiveUser(filterFriends);
+      setOnlineFriends(filterFriends);
     });
   }, []);
 
@@ -307,7 +307,7 @@ function Messenger() {
                         <FriendMess
                           friend={friend}
                           userId={user.id}
-                          activeUser={activeUser}
+                          onlineFriends={onlineFriends}
                         />
                       </div>
                     ))
@@ -327,7 +327,7 @@ function Messenger() {
               currentFriend={currentFriend}
               imageMessage={imageMessage}
               newMessage={newMessage}
-              activeUser={activeUser}
+              onlineFriends={onlineFriends}
               scrollRef={scrollRef}
             />
           )}
