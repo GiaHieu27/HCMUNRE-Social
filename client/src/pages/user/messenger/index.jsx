@@ -34,9 +34,9 @@ function Messenger() {
   const actionsMessenger = messengerSlice.actions;
   const [notificationSPlay] = useSound(notificationSound);
 
-  const [friendReceiveMessage, setFriendReceiveMessage] = React.useState('');
   const [typingMessage, setTypingMessage] = React.useState('');
   const [newMessage, setNewMessage] = React.useState('');
+  const [friendReceiveMessage, setFriendReceiveMessage] = React.useState();
   const [currentFriend, setCurrentFriend] = React.useState();
   const [imageMessage, setImageMessage] = React.useState();
   const [onlineFriends, setOnlineFriends] = React.useState([]);
@@ -88,7 +88,7 @@ function Messenger() {
     }
   };
 
-  const handleSendMessagePressEnter = async (e) => {
+  const handleSendMessageByPressEnter = async (e) => {
     if (e.key === 'Enter' && newMessage) {
       const dataMessage = {
         senderName: userName,
@@ -107,16 +107,50 @@ function Messenger() {
     }
   };
 
+  // get friend
+  React.useEffect(() => {
+    const getAllFriend = async () => {
+      dispatch(actionsFriend.FRIEND_REQUEST());
+      const res = await getFriend(user.token);
+      if (res.success === true) {
+        dispatch(actionsFriend.FRIEND_SUCCESS(res.data));
+      } else {
+        dispatch(actionsFriend.FRIEND_ERROR(res.data));
+      }
+    };
+    getAllFriend();
+  }, []);
+
+  // set current friend
+  React.useEffect(() => {
+    if (friends && friends.length > 0) {
+      setCurrentFriend(friends[0].friendInfo);
+    }
+  }, [friends]);
+
+  // get all message
+  React.useEffect(() => {
+    messengerApis.getAllMessage(currentFriend?._id, user.token, dispatch);
+  }, [currentFriend?._id]);
+
+  // scroll to end page
+  React.useEffect(() => {
+    scrollRef.current?.scrollIntoView({
+      block: 'end',
+      inline: 'nearest',
+    });
+  }, [message]);
+
   // start socket
   React.useEffect(() => {
     socketRef.current = io('ws://localhost:8000');
 
-    socketRef.current.on('currentFriendReceiveMessage', (data) => {
-      setFriendReceiveMessage(data);
-    });
-
     socketRef.current.on('currentFriendReceiveTypingMessage', (data) => {
       setTypingMessage(data);
+    });
+
+    socketRef.current.on('currentFriendReceiveMessage', (data) => {
+      setFriendReceiveMessage(data);
     });
 
     socketRef.current.on('msgSeenResponse', (msg) => {
@@ -126,6 +160,16 @@ function Messenger() {
       //     msgInfo: msg,
       //   },
       // });
+      dispatch(actionsFriend.SEEN_MESSAGE({ msgInfo: msg }));
+    });
+
+    socketRef.current.on('msgSentResponse', (msg) => {
+      dispatch({
+        type: 'DELIVARED_MESSAGE',
+        payload: {
+          msgInfo: msg,
+        },
+      });
     });
   }, []);
 
@@ -147,12 +191,6 @@ function Messenger() {
       setTimeout(() => {
         socketRef.current.emit('sendMessage', message[message.length - 1]);
       }, 500);
-      // dispatch({
-      //   type: 'UPDATE_FRIEND_MESSAGE',
-      //   payload: {
-      //     msgInfo: message[message.length - 1],
-      //   },
-      // });
       dispatch(
         actionsFriend.UPDATE_FRIEND_MESSAGE({
           msgInfo: message[message.length - 1],
@@ -163,6 +201,7 @@ function Messenger() {
   }, [messageSendSuccess]);
 
   React.useEffect(() => {
+    // friendReceiveMessage = socketMessage
     if (friendReceiveMessage && currentFriend) {
       if (
         friendReceiveMessage.senderId === currentFriend._id &&
@@ -172,13 +211,6 @@ function Messenger() {
         dispatch(actionsMessenger.FRIEND_REVEIVE_MESSAGE(friendReceiveMessage));
         messengerApis.seenMessage(friendReceiveMessage, user.token);
         socketRef.current.emit('messageSeen', friendReceiveMessage);
-        // dispatch({
-        //   type: 'UPDATE_FRIEND_MESSAGE',
-        //   payload: {
-        //     msgInfo: friendReceiveMessage,
-        //     status: 'seen',
-        //   },
-        // });
         dispatch(
           actionsFriend.UPDATE_FRIEND_MESSAGE({
             msgInfo: friendReceiveMessage,
@@ -199,6 +231,7 @@ function Messenger() {
       friendReceiveMessage.senderId === currentFriend._id &&
       friendReceiveMessage.receiverId === user.id
     ) {
+      // friendReceiveMessage = socketMessage
       notificationSPlay();
       toast.success(`${friendReceiveMessage.senderName} đã gửi một tin nhắn`, {
         duration: 5000,
@@ -209,46 +242,17 @@ function Messenger() {
         },
       });
       messengerApis.updateMessage(friendReceiveMessage, user.token);
-      // socketRef.current.emit('delivaredMessage', friendReceiveMessage);
+      socketRef.current.emit('sentMessage', friendReceiveMessage);
       // dispatch({
       //   type: 'UPDATE_FRIEND_MESSAGE',
       //   payload: {
       //     msgInfo: friendReceiveMessage,
-      //     status: 'delivared',
+      //     status: 'sent',
       //   },
       // });
     }
   }, [friendReceiveMessage]);
-
-  React.useEffect(() => {
-    const getFriendPages = async () => {
-      dispatch(actionsFriend.FRIEND_REQUEST());
-      const res = await getFriend(user.token);
-      if (res.success === true) {
-        dispatch(actionsFriend.FRIEND_SUCCESS(res.data));
-      } else {
-        dispatch(actionsFriend.FRIEND_ERROR(res.data));
-      }
-    };
-    getFriendPages();
-  }, [actionsFriend, dispatch, user.token]);
-
-  React.useEffect(() => {
-    if (friends && friends.length > 0) {
-      setCurrentFriend(friends[0].friendInfo);
-    }
-  }, [friends]);
-
-  React.useEffect(() => {
-    messengerApis.getAllMessage(currentFriend?._id, user.token, dispatch);
-  }, [currentFriend?._id]);
-
-  React.useEffect(() => {
-    scrollRef.current?.scrollIntoView({
-      block: 'end',
-      inline: 'nearest',
-    });
-  }, [message]);
+  // end socket
 
   return (
     <>
@@ -338,7 +342,7 @@ function Messenger() {
 
           {currentFriend && (
             <RightSide
-              handleSendMessagePressEnter={handleSendMessagePressEnter}
+              handleSendMessageByPressEnter={handleSendMessageByPressEnter}
               handleInputChange={handleInputChange}
               handleSendMessage={handleSendMessage}
               setImageMessage={setImageMessage}

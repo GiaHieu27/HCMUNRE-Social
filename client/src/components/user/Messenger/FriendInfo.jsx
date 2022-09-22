@@ -1,8 +1,11 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
-function FriendInfo({ currentFriend, onlineFriends, message }) {
+function FriendInfo({ currentFriend, onlineFriends }) {
+  const { message } = useSelector((state) => state.messenger);
+
   return (
     <div className="friend-info">
       <input type="checkbox" id="gallery" />
@@ -39,11 +42,16 @@ function FriendInfo({ currentFriend, onlineFriends, message }) {
           </label>
         </div>
       </div>
+
       <div className="gallery">
-        <img
-          src="https://res.cloudinary.com/dxeclkxcd/image/upload/v1661770239/LuongHieu/post_contents/rjhcp94zfsawj90qqexm.jpg"
-          alt=""
-        />
+        {message && message.length > 0
+          ? message.map(
+              (m, index) =>
+                m.message.image && (
+                  <img key={index} src={m.message.image} alt="image_mes_sent" />
+                )
+            )
+          : ''}
       </div>
     </div>
   );

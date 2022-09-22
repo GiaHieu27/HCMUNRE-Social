@@ -7,18 +7,21 @@ const friendSlice = createSlice({
     FRIEND_REQUEST: (state, action) => {
       state.loading = true;
     },
+
     FRIEND_SUCCESS: (state, action) => {
       if (action.payload) {
         state.loading = false;
         state.data = action.payload;
       }
     },
+
     FRIEND_ERROR: (state, action) => {
       if (state.error) {
         state.loading = false;
         state.error = action.payload;
       }
     },
+
     UPDATE_FRIEND_MESSAGE: (state, action) => {
       const index = state.data.friendMessenger.findIndex(
         (obj) =>
@@ -27,6 +30,24 @@ const friendSlice = createSlice({
       );
       state.data.friendMessenger[index].msgInfo = action.payload.msgInfo;
       // state.data.friendMessenger[index].msgInfo.status = action.payload.status;
+    },
+
+    SEEN_MESSAGE: (state, action) => {
+      const index1 = state.data.friendMessenger.findIndex(
+        (obj) =>
+          obj.friendInfo._id === action.payload.msgInfo.receiverId ||
+          obj.friendInfo._id === action.payload.msgInfo.senderId
+      );
+      state.data.friendMessenger[index1].msgInfo.status = 'seen';
+    },
+
+    SENT_MESSAGE: (state, action) => {
+      const index2 = state.data.friendMessenger.findIndex(
+        (obj) =>
+          obj.friendInfo._id === action.payload.msgInfo.receiverId ||
+          obj.friendInfo._id === action.payload.msgInfo.senderId
+      );
+      state.data.friendMessenger[index2].msgInfo.status = 'sent';
     },
   },
 });

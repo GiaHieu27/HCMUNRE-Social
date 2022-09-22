@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -24,6 +24,7 @@ import {
 
 function Header({ page, getPosts }) {
   const { user } = useSelector((user) => ({ ...user }));
+  const { pathname } = useLocation();
   const color = '#20a305';
 
   const [showSearchMenu, setShowSearchMenu] = useState(false);
@@ -125,9 +126,11 @@ function Header({ page, getPosts }) {
           </div>
           {showAllMenu && <AllMenu />}
         </div>
-        <Link to="/messenger" className="circle_icon hover1">
-          <Messenger />
-        </Link>
+        {pathname !== '/messenger' && (
+          <Link to="/messenger" className="circle_icon hover1">
+            <Messenger />
+          </Link>
+        )}
         <div className="circle_icon hover1">
           <Notifications />
           <div className="right_notification">5</div>

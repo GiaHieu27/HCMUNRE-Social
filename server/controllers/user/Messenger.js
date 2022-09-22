@@ -88,13 +88,12 @@ exports.messageSendImage = async (req, res) => {
   }
 };
 
-exports.seenMessage = async (req, res) => {
+exports.sentMessage = async (req, res) => {
   try {
     const messageId = req.body.msg._id;
-    console.log(req.body.msg);
 
     await Messenger.findByIdAndUpdate(messageId, {
-      status: 'seen',
+      status: 'sent',
     });
 
     res.status(200).json({ success: true });
@@ -103,12 +102,12 @@ exports.seenMessage = async (req, res) => {
   }
 };
 
-exports.sentMessage = async (req, res) => {
+exports.seenMessage = async (req, res) => {
   try {
     const messageId = req.body.msg._id;
 
     await Messenger.findByIdAndUpdate(messageId, {
-      status: 'sent',
+      status: 'seen',
     });
 
     res.status(200).json({ success: true });

@@ -10,7 +10,7 @@ import FriendInfo from './FriendInfo';
 // import MessageSend from './MessageSend';
 
 function RightSide({
-  handleSendMessagePressEnter,
+  handleSendMessageByPressEnter,
   handleSendMessage,
   handleInputChange,
   setImageMessage,
@@ -72,7 +72,7 @@ function RightSide({
               <MessageSend
                 handleInputChange={handleInputChange}
                 handleSendMessage={handleSendMessage}
-                handleSendMessagePressEnter={handleSendMessagePressEnter}
+                handleSendMessageByPressEnter={handleSendMessageByPressEnter}
                 newMessage={newMessage}
                 setNewMessage={setNewMessage}
                 imageMessage={imageMessage}
@@ -100,7 +100,7 @@ RightSide.prototype = {
   handleInputChange: PropTypes.func,
   handleSendMessage: PropTypes.func,
   setNewMessage: PropTypes.func,
-  handleSendMessagePressEnter: PropTypes.func,
+  handleSendMessageByPressEnter: PropTypes.func,
   setImageMessage: PropTypes.func,
 
   newMessage: PropTypes.string,
