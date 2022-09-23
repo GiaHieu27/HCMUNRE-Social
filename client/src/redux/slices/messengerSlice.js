@@ -17,7 +17,7 @@ const messengerSlice = createSlice({
       state.message_get_success = true;
       state.message = action.payload;
     },
-    FRIEND_REVEIVE_MESSAGE: (state, action) => {
+    DISPLAY_MESSAGE_TO_FRIEND: (state, action) => {
       state.message.push(action.payload);
     },
     MESSAGE_SEND_SUCCESS_CLEAR: (state, action) => {

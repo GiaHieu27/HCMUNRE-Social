@@ -289,7 +289,7 @@ exports.getFriend = async (req, res) => {
         ...friendMessenger,
         {
           friendInfo: user.friends[i],
-          msgInfo: lastMessage,
+          lastMessage,
         },
       ];
     }

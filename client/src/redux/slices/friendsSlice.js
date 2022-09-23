@@ -9,45 +9,42 @@ const friendSlice = createSlice({
     },
 
     FRIEND_SUCCESS: (state, action) => {
-      if (action.payload) {
-        state.loading = false;
-        state.data = action.payload;
-      }
+      state.loading = false;
+      state.data = action.payload;
     },
 
     FRIEND_ERROR: (state, action) => {
-      if (state.error) {
-        state.loading = false;
-        state.error = action.payload;
-      }
+      state.loading = false;
+      state.error = action.payload;
     },
 
-    UPDATE_FRIEND_MESSAGE: (state, action) => {
+    UPDATE_LAST_MESSAGE: (state, action) => {
       const index = state.data.friendMessenger.findIndex(
         (obj) =>
-          obj.friendInfo._id === action.payload.msgInfo.receiverId ||
-          obj.friendInfo._id === action.payload.msgInfo.senderId
+          obj.friendInfo._id === action.payload.lastMessage.receiverId ||
+          obj.friendInfo._id === action.payload.lastMessage.senderId
       );
-      state.data.friendMessenger[index].msgInfo = action.payload.msgInfo;
-      // state.data.friendMessenger[index].msgInfo.status = action.payload.status;
+      state.data.friendMessenger[index].lastMessage =
+        action.payload.lastMessage;
+      // state.data.friendMessenger[index].lastMessage.status = action.payload.status;
     },
 
     SEEN_MESSAGE: (state, action) => {
       const index1 = state.data.friendMessenger.findIndex(
         (obj) =>
-          obj.friendInfo._id === action.payload.msgInfo.receiverId ||
-          obj.friendInfo._id === action.payload.msgInfo.senderId
+          obj.friendInfo._id === action.payload.lastMessage.receiverId ||
+          obj.friendInfo._id === action.payload.lastMessage.senderId
       );
-      state.data.friendMessenger[index1].msgInfo.status = 'seen';
+      state.data.friendMessenger[index1].lastMessage.status = 'seen';
     },
 
     SENT_MESSAGE: (state, action) => {
       const index2 = state.data.friendMessenger.findIndex(
         (obj) =>
-          obj.friendInfo._id === action.payload.msgInfo.receiverId ||
-          obj.friendInfo._id === action.payload.msgInfo.senderId
+          obj.friendInfo._id === action.payload.lastMessage.receiverId ||
+          obj.friendInfo._id === action.payload.lastMessage.senderId
       );
-      state.data.friendMessenger[index2].msgInfo.status = 'sent';
+      state.data.friendMessenger[index2].lastMessage.status = 'sent';
     },
   },
 });

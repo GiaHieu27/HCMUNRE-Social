@@ -21,8 +21,8 @@ const userRemove = (socketId) => {
   users = users.filter((user) => user.socketId !== socketId);
 };
 
-const findFriend = (receiverId) => {
-  return users.find((user) => user.userId === receiverId);
+const findFriend = (id) => {
+  return users.find((user) => user.userId === id);
   // return obj
 };
 
@@ -58,18 +58,28 @@ io.on('connection', (socket) => {
     }
   });
 
-  socket.on('messageSeen', (msg) => {
-    // msg = obj
-    const user = findFriend(msg.senderId);
+  socket.on('messageSeen', (messageInfo) => {
+    // messageInfo = obj
+    // sample messageInfo = {
+    //   senderId: '62fa3d9592476cd670686132',
+    //   senderName: 'LuongHieu',
+    //   receiverId: 62fde7d30e956c3d7b2fefa8',
+    //   message: { text: 'ha', image:'' },
+    //   status: 'unseen',
+    //   _id: '632d796b580d049c524e022b',120Z',
+    //   createdAt: '2022-09-23T09:16:27.120Z',
+    //   updatedAt: '2022-09-23T09:16:27. server120Z',
+    // }
+    const user = findFriend(messageInfo.senderId);
     if (user !== undefined) {
-      socket.to(user.socketId).emit('msgSeenResponse', msg);
+      socket.to(user.socketId).emit('messageSeenResponse', messageInfo);
     }
   });
 
-  socket.on('sentMessage', (msg) => {
-    const user = findFriend(msg.senderId);
+  socket.on('sentMessage', (messageInfo) => {
+    const user = findFriend(messageInfo.senderId);
     if (user !== undefined) {
-      socket.to(user.socketId).emit('msgSentResponse', msg);
+      socket.to(user.socketId).emit('messageSentResponse', messageInfo);
     }
   });
 

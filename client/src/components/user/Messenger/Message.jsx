@@ -73,9 +73,7 @@ function Message({ currentFriend, typingMessage, scrollRef }) {
             </div>
           </div>
         </div>
-      ) : (
-        ''
-      )}
+      ) : null}
     </>
   );
 }
@@ -83,7 +81,7 @@ function Message({ currentFriend, typingMessage, scrollRef }) {
 Message.prototype = {
   currentFriend: PropTypes.object,
   scrollRef: PropTypes.node,
-  typingMessage: PropTypes.string,
+  typingMessage: PropTypes.object,
 };
 
 export default Message;

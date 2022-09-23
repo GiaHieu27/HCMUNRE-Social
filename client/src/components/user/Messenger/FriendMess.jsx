@@ -7,7 +7,7 @@ import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 
 function FriendMess({ friend, userId, onlineFriends }) {
   moment.locale('vi');
-  const { friendInfo, msgInfo } = friend;
+  const { friendInfo, lastMessage } = friend;
 
   return (
     <div className="friend-mess">
@@ -29,9 +29,9 @@ function FriendMess({ friend, userId, onlineFriends }) {
         <div className="friend-name">
           <h4
             className={
-              msgInfo?.senderId !== userId &&
-              msgInfo?.status !== undefined &&
-              msgInfo?.status !== 'seen'
+              lastMessage?.senderId !== userId &&
+              lastMessage?.status !== undefined &&
+              lastMessage?.status !== 'seen'
                 ? 'unseen_message Fd_name'
                 : 'Fd_name'
             }
@@ -40,40 +40,42 @@ function FriendMess({ friend, userId, onlineFriends }) {
           </h4>
 
           <div className="msg-time">
-            {msgInfo && msgInfo.senderId === userId && <span>Bạn: </span>}
+            {lastMessage && lastMessage.senderId === userId && (
+              <span>Bạn: </span>
+            )}
 
-            {msgInfo && msgInfo.message.text ? (
+            {lastMessage && lastMessage.message.text ? (
               <span
                 className={
-                  msgInfo?.senderId !== userId &&
-                  msgInfo?.status !== undefined &&
-                  msgInfo?.status !== 'seen'
+                  lastMessage?.senderId !== userId &&
+                  lastMessage?.status !== undefined &&
+                  lastMessage?.status !== 'seen'
                     ? 'unseen_message'
                     : ''
                 }
               >
-                {`${msgInfo.message.text.slice(0, 10)} `}
+                {`${lastMessage.message.text.slice(0, 10)} `}
               </span>
-            ) : msgInfo && msgInfo.message.image ? (
+            ) : lastMessage && lastMessage.message.image ? (
               <span>đã gửi 1 hình ảnh </span>
             ) : (
               <span>đã kết nối với bạn </span>
             )}
 
             <span>
-              {msgInfo
-                ? moment(msgInfo.createdAt).startOf('mini').fromNow()
+              {lastMessage
+                ? moment(lastMessage.createdAt).startOf('mini').fromNow()
                 : moment(friendInfo.createdAt).startOf('mini').fromNow()}
             </span>
           </div>
         </div>
 
-        {userId === msgInfo?.senderId ? (
+        {userId === lastMessage?.senderId ? (
           <div className="seen-unseen-icon">
-            {msgInfo.status === 'seen' ? (
+            {lastMessage.status === 'seen' ? (
               <img src={friendInfo.picture} alt="friend-seen-message" />
-            ) : msgInfo.status === 'sent' ? (
-              <div className="delivared">
+            ) : lastMessage.status === 'sent' ? (
+              <div className="sent">
                 <CheckCircleIcon sx={{ width: '0.75em', height: '0.75em' }} />
               </div>
             ) : (
@@ -86,7 +88,8 @@ function FriendMess({ friend, userId, onlineFriends }) {
           </div>
         ) : (
           <div className="seen-unseen-icon">
-            {msgInfo?.status !== undefined && msgInfo?.status !== 'seen' ? (
+            {lastMessage?.status !== undefined &&
+            lastMessage?.status !== 'seen' ? (
               <div className="seen-icon"></div>
             ) : (
               ''

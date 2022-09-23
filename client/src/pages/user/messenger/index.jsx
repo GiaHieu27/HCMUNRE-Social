@@ -36,7 +36,7 @@ function Messenger() {
 
   const [typingMessage, setTypingMessage] = React.useState('');
   const [newMessage, setNewMessage] = React.useState('');
-  const [friendReceiveMessage, setFriendReceiveMessage] = React.useState();
+  const [displayMessageToFriend, setDisplayMessageToFriend] = React.useState();
   const [currentFriend, setCurrentFriend] = React.useState();
   const [imageMessage, setImageMessage] = React.useState();
   const [onlineFriends, setOnlineFriends] = React.useState([]);
@@ -144,39 +144,38 @@ function Messenger() {
   // start socket
   React.useEffect(() => {
     socketRef.current = io('ws://localhost:8000');
-
+    // start: nguoi nhan lang nghe su kien
     socketRef.current.on('currentFriendReceiveTypingMessage', (data) => {
       setTypingMessage(data);
     });
 
     socketRef.current.on('currentFriendReceiveMessage', (data) => {
-      setFriendReceiveMessage(data);
+      setDisplayMessageToFriend(data);
+    });
+    // end: nguoi nhan lang nghe su kien
+
+    // start: nguoi gui lang nghe su kien
+    socketRef.current.on('messageSeenResponse', (messageInfo) => {
+      // dispatch(actionsFriend.SEEN_MESSAGE({ lastMessage: messageInfo }));
     });
 
-    socketRef.current.on('msgSeenResponse', (msg) => {
+    socketRef.current.on('messageSentResponse', (messageInfo) => {
       // dispatch({
-      //   type: 'SEEN_MESSAGE',
+      //   type: 'DELIVARED_MESSAGE',
       //   payload: {
-      //     msgInfo: msg,
+      //     lastMessage: messageInfo,
       //   },
       // });
-      dispatch(actionsFriend.SEEN_MESSAGE({ msgInfo: msg }));
     });
-
-    socketRef.current.on('msgSentResponse', (msg) => {
-      dispatch({
-        type: 'DELIVARED_MESSAGE',
-        payload: {
-          msgInfo: msg,
-        },
-      });
-    });
+    // end: nguoi gui lang nghe su kien
   }, []);
 
+  // add user to socket
   React.useEffect(() => {
     socketRef.current.emit('addUser', user.id, user);
   }, []);
 
+  // get user from socket
   React.useEffect(() => {
     socketRef.current.on('getUser', (socketUsers) => {
       const filterFriends = socketUsers.filter(
@@ -191,9 +190,10 @@ function Messenger() {
       setTimeout(() => {
         socketRef.current.emit('sendMessage', message[message.length - 1]);
       }, 500);
+      // Hien thi tin nhan moi nhat ben phia nguoi gui phan sidebar
       dispatch(
-        actionsFriend.UPDATE_FRIEND_MESSAGE({
-          msgInfo: message[message.length - 1],
+        actionsFriend.UPDATE_LAST_MESSAGE({
+          lastMessage: message[message.length - 1],
         })
       );
       dispatch(actionsMessenger.MESSAGE_SEND_SUCCESS_CLEAR());
@@ -201,57 +201,66 @@ function Messenger() {
   }, [messageSendSuccess]);
 
   React.useEffect(() => {
-    // friendReceiveMessage = socketMessage
-    if (friendReceiveMessage && currentFriend) {
+    // displayMessageToFriend = socketMessage
+    if (displayMessageToFriend && currentFriend) {
       if (
-        friendReceiveMessage.senderId === currentFriend._id &&
-        friendReceiveMessage.receiverId === user.id
+        displayMessageToFriend.senderId === currentFriend._id &&
+        displayMessageToFriend.receiverId === user.id
       ) {
-        // SOCKET_MESSAGE = FRIEND_REVEIVE_MESSAGE
-        dispatch(actionsMessenger.FRIEND_REVEIVE_MESSAGE(friendReceiveMessage));
-        messengerApis.seenMessage(friendReceiveMessage, user.token);
-        socketRef.current.emit('messageSeen', friendReceiveMessage);
+        // SOCKET_MESSAGE = DISPLAY_MESSAGE_TO_FRIEND
+        // luu vao store nguoi nhan de hien tin nhan ben nguoi nhan
         dispatch(
-          actionsFriend.UPDATE_FRIEND_MESSAGE({
-            msgInfo: friendReceiveMessage,
+          actionsMessenger.DISPLAY_MESSAGE_TO_FRIEND(displayMessageToFriend)
+        );
+
+        // cap nhat status vao csdl ko tr ve gi het
+        messengerApis.seenMessage(displayMessageToFriend, user.token);
+        // hien thi tin nhan moi nhat ben phia sidebar nguoi nhan
+        dispatch(
+          actionsFriend.UPDATE_LAST_MESSAGE({
+            lastMessage: displayMessageToFriend,
             // status: 'seen',
           })
         );
+        // end hien thi tin nhan moi nhat ben phia sidebar nguoi nhan
+        // nguoi nhan phat su kien
+        socketRef.current.emit('messageSeen', displayMessageToFriend);
       }
     }
-    setFriendReceiveMessage('');
-  }, [friendReceiveMessage]);
-
-  // console.log(friendReceiveMessage);
+    setDisplayMessageToFriend('');
+  }, [displayMessageToFriend]);
 
   React.useEffect(() => {
-    // friendReceiveMessage = socketMessage
+    // displayMessageToFriend = socketMessage
     if (
-      friendReceiveMessage &&
-      friendReceiveMessage.senderId === currentFriend._id &&
-      friendReceiveMessage.receiverId === user.id
+      displayMessageToFriend &&
+      displayMessageToFriend.senderId === currentFriend._id &&
+      displayMessageToFriend.receiverId === user.id
     ) {
-      // friendReceiveMessage = socketMessage
+      // displayMessageToFriend = socketMessage
       notificationSPlay();
-      toast.success(`${friendReceiveMessage.senderName} đã gửi một tin nhắn`, {
-        duration: 5000,
-        style: {
-          background: '#333',
-          color: '#fff',
-          fontSize: '18px',
-        },
-      });
-      messengerApis.updateMessage(friendReceiveMessage, user.token);
-      socketRef.current.emit('sentMessage', friendReceiveMessage);
+      toast.success(
+        `${displayMessageToFriend.senderName} đã gửi một tin nhắn`,
+        {
+          duration: 5000,
+          style: {
+            background: '#333',
+            color: '#fff',
+            fontSize: '18px',
+          },
+        }
+      );
+      // messengerApis.updateMessage(displayMessageToFriend, user.token);
+      // socketRef.current.emit('sentMessage', displayMessageToFriend);
       // dispatch({
-      //   type: 'UPDATE_FRIEND_MESSAGE',
+      //   type: 'UPDATE_LAST_MESSAGE',
       //   payload: {
-      //     msgInfo: friendReceiveMessage,
+      //     lastMessage: displayMessageToFriend,
       //     status: 'sent',
       //   },
       // });
     }
-  }, [friendReceiveMessage]);
+  }, [displayMessageToFriend]);
   // end socket
 
   return (
