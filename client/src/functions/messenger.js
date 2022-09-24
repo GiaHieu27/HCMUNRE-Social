@@ -75,7 +75,7 @@ export const seenMessage = async (msg, token) => {
   }
 };
 
-export const updateMessage = async (msg, token) => {
+export const sentMessage = async (msg, token) => {
   try {
     const { data } = await axios.post(
       `${process.env.REACT_APP_BACKEND_URL}/sent-message`,

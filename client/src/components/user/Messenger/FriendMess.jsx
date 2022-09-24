@@ -90,7 +90,7 @@ function FriendMess({ friend, userId, onlineFriends }) {
           <div className="seen-unseen-icon">
             {lastMessage?.status !== undefined &&
             lastMessage?.status !== 'seen' ? (
-              <div className="seen-icon"></div>
+              <div className="unseen-icon"></div>
             ) : (
               ''
             )}

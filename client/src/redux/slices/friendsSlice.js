@@ -19,32 +19,33 @@ const friendSlice = createSlice({
     },
 
     UPDATE_LAST_MESSAGE: (state, action) => {
-      const index = state.data.friendMessenger.findIndex(
+      const friendState = state.data.friendMessenger;
+      const index = friendState.findIndex(
         (obj) =>
-          obj.friendInfo._id === action.payload.lastMessage.receiverId ||
-          obj.friendInfo._id === action.payload.lastMessage.senderId
+          obj.friendInfo._id === action.payload.receiverId ||
+          obj.friendInfo._id === action.payload.senderId
       );
-      state.data.friendMessenger[index].lastMessage =
-        action.payload.lastMessage;
-      // state.data.friendMessenger[index].lastMessage.status = action.payload.status;
+      friendState[index].lastMessage = action.payload;
     },
 
     SEEN_MESSAGE: (state, action) => {
-      const index1 = state.data.friendMessenger.findIndex(
+      const friendState = state.data.friendMessenger;
+      const index = friendState.findIndex(
         (obj) =>
-          obj.friendInfo._id === action.payload.lastMessage.receiverId ||
-          obj.friendInfo._id === action.payload.lastMessage.senderId
+          obj.friendInfo._id === action.payload.receiverId ||
+          obj.friendInfo._id === action.payload.senderId
       );
-      state.data.friendMessenger[index1].lastMessage.status = 'seen';
+      friendState[index].lastMessage.status = 'seen';
     },
 
     SENT_MESSAGE: (state, action) => {
-      const index2 = state.data.friendMessenger.findIndex(
+      const friendState = state.data.friendMessenger;
+      const index = friendState.findIndex(
         (obj) =>
-          obj.friendInfo._id === action.payload.lastMessage.receiverId ||
-          obj.friendInfo._id === action.payload.lastMessage.senderId
+          obj.friendInfo._id === action.payload.receiverId ||
+          obj.friendInfo._id === action.payload.senderId
       );
-      state.data.friendMessenger[index2].lastMessage.status = 'sent';
+      friendState[index].lastMessage.status = 'sent';
     },
   },
 });

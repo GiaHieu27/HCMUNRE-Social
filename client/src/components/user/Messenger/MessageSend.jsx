@@ -12,10 +12,10 @@ import SendIcon from '@mui/icons-material/Send';
 import Picker from 'emoji-picker-react';
 
 const MessageSend = ({
-  handleInputChange,
+  handleChangeInput,
   newMessage,
-  handleSendMessage,
-  handleSendMessageByPressEnter,
+  handleSendingMessage,
+  handleSendingMessageByPressingEnter,
   setNewMessage,
   imageMessage,
   setImageMessage,
@@ -87,8 +87,8 @@ const MessageSend = ({
       >
         <input
           value={newMessage}
-          onChange={handleInputChange}
-          onKeyUp={handleSendMessageByPressEnter}
+          onChange={handleChangeInput}
+          onKeyUp={handleSendingMessageByPressingEnter}
           onClick={() => setPicker(false)}
           type="text"
           name="message"
@@ -121,7 +121,7 @@ const MessageSend = ({
           <EmojiEmotionsIcon color="success" />
         </div>
       </div>
-      <div onClick={handleSendMessage} className="file">
+      <div onClick={handleSendingMessage} className="file">
         {newMessage || imageMessage ? (
           <SendIcon color="success" />
         ) : (
@@ -136,10 +136,10 @@ const MessageSend = ({
 };
 
 MessageSend.prototype = {
-  handleInputChange: PropTypes.func,
-  handleSendMessage: PropTypes.func,
+  handleChangeInput: PropTypes.func,
+  handleSendingMessage: PropTypes.func,
   setNewMessage: PropTypes.func,
-  handleSendMessageByPressEnter: PropTypes.func,
+  handleSendingMessageByPressingEnter: PropTypes.func,
   setImageMessage: PropTypes.func,
 
   newMessage: PropTypes.string,

@@ -44,7 +44,7 @@ function Messenger() {
   const scrollRef = React.useRef(null);
   const socketRef = React.useRef(null);
 
-  const handleInputChange = (e) => {
+  const handleChangeInput = (e) => {
     setNewMessage(e.target.value);
 
     socketRef.current.emit('typingMessage', {
@@ -54,7 +54,7 @@ function Messenger() {
     });
   };
 
-  const handleSendMessage = async () => {
+  const handleSendingMessage = async () => {
     if (!imageMessage) {
       const dataMessage = {
         senderName: userName,
@@ -73,9 +73,11 @@ function Messenger() {
     } else {
       const img = dataURLtoBlob(imageMessage);
       const path = `${user.username}/message_images`;
+
       let formData = new FormData();
       formData.append('path', path);
       formData.append('file', img);
+
       const imgMes = await uploadImages(formData, user.token);
       await messengerApis.imageMessageSend(
         userName,
@@ -88,20 +90,18 @@ function Messenger() {
     }
   };
 
-  const handleSendMessageByPressEnter = async (e) => {
+  const handleSendingMessageByPressingEnter = async (e) => {
     if (e.key === 'Enter' && newMessage) {
       const dataMessage = {
         senderName: userName,
         receiverId: currentFriend._id,
         message: newMessage ? newMessage : '❤️',
       };
-
       socketRef.current.emit('typingMessage', {
         senderId: user.id,
         receiverId: currentFriend._id,
         msg: '',
       });
-
       await messengerApis.messageSend(dataMessage, user.token, dispatch);
       setNewMessage('');
     }
@@ -123,7 +123,7 @@ function Messenger() {
 
   // set current friend
   React.useEffect(() => {
-    if (friends && friends.length > 0) {
+    if (friends && friends.length > 0 && !currentFriend) {
       setCurrentFriend(friends[0].friendInfo);
     }
   }, [friends]);
@@ -155,17 +155,21 @@ function Messenger() {
     // end: nguoi nhan lang nghe su kien
 
     // start: nguoi gui lang nghe su kien
+    // cap nhat status tin nhan
     socketRef.current.on('messageSeenResponse', (messageInfo) => {
-      // dispatch(actionsFriend.SEEN_MESSAGE({ lastMessage: messageInfo }));
+      dispatch(
+        actionsFriend.SEEN_MESSAGE({
+          ...messageInfo,
+        })
+      );
     });
-
+    // cap nhat status tin nhan
     socketRef.current.on('messageSentResponse', (messageInfo) => {
-      // dispatch({
-      //   type: 'DELIVARED_MESSAGE',
-      //   payload: {
-      //     lastMessage: messageInfo,
-      //   },
-      // });
+      dispatch(
+        actionsFriend.SENT_MESSAGE({
+          ...messageInfo,
+        })
+      );
     });
     // end: nguoi gui lang nghe su kien
   }, []);
@@ -187,15 +191,17 @@ function Messenger() {
 
   React.useEffect(() => {
     if (messageSendSuccess) {
+      // gui tin nhan den nguoi nhan
       setTimeout(() => {
         socketRef.current.emit('sendMessage', message[message.length - 1]);
       }, 500);
-      // Hien thi tin nhan moi nhat ben phia nguoi gui phan sidebar
+      // Hien thi tin nhan moi nhat ben phia nguoi gui phan sidebar ben trai
       dispatch(
         actionsFriend.UPDATE_LAST_MESSAGE({
-          lastMessage: message[message.length - 1],
+          ...message[message.length - 1],
         })
       );
+      // gan messageSendSuccess = false
       dispatch(actionsMessenger.MESSAGE_SEND_SUCCESS_CLEAR());
     }
   }, [messageSendSuccess]);
@@ -213,16 +219,15 @@ function Messenger() {
           actionsMessenger.DISPLAY_MESSAGE_TO_FRIEND(displayMessageToFriend)
         );
 
-        // cap nhat status vao csdl ko tr ve gi het
+        // cap nhat status = seen vao csdl ko tr ve gi het
         messengerApis.seenMessage(displayMessageToFriend, user.token);
-        // hien thi tin nhan moi nhat ben phia sidebar nguoi nhan
+        // hien thi tin nhan moi nhat va status tin nhan ben phia sidebar nguoi nhan
         dispatch(
           actionsFriend.UPDATE_LAST_MESSAGE({
-            lastMessage: displayMessageToFriend,
-            // status: 'seen',
+            ...displayMessageToFriend,
+            status: 'seen',
           })
         );
-        // end hien thi tin nhan moi nhat ben phia sidebar nguoi nhan
         // nguoi nhan phat su kien
         socketRef.current.emit('messageSeen', displayMessageToFriend);
       }
@@ -234,7 +239,7 @@ function Messenger() {
     // displayMessageToFriend = socketMessage
     if (
       displayMessageToFriend &&
-      displayMessageToFriend.senderId === currentFriend._id &&
+      displayMessageToFriend.senderId !== currentFriend._id &&
       displayMessageToFriend.receiverId === user.id
     ) {
       // displayMessageToFriend = socketMessage
@@ -250,15 +255,17 @@ function Messenger() {
           },
         }
       );
-      // messengerApis.updateMessage(displayMessageToFriend, user.token);
-      // socketRef.current.emit('sentMessage', displayMessageToFriend);
-      // dispatch({
-      //   type: 'UPDATE_LAST_MESSAGE',
-      //   payload: {
-      //     lastMessage: displayMessageToFriend,
-      //     status: 'sent',
-      //   },
-      // });
+      // cap nhat status = sent vao csdl ko tr ve gi het
+      messengerApis.sentMessage(displayMessageToFriend, user.token);
+      // hien thi tin nhan moi nhat va trang thai tin nhan ben phia sidebar nguoi nhan
+      dispatch(
+        actionsFriend.UPDATE_LAST_MESSAGE({
+          ...displayMessageToFriend,
+          status: 'sent',
+        })
+      );
+      // nguoi nhan phat su kien
+      socketRef.current.emit('sentMessage', displayMessageToFriend);
     }
   }, [displayMessageToFriend]);
   // end socket
@@ -351,9 +358,11 @@ function Messenger() {
 
           {currentFriend && (
             <RightSide
-              handleSendMessageByPressEnter={handleSendMessageByPressEnter}
-              handleInputChange={handleInputChange}
-              handleSendMessage={handleSendMessage}
+              handleSendingMessageByPressingEnter={
+                handleSendingMessageByPressingEnter
+              }
+              handleChangeInput={handleChangeInput}
+              handleSendingMessage={handleSendingMessage}
               setImageMessage={setImageMessage}
               setNewMessage={setNewMessage}
               typingMessage={typingMessage}
