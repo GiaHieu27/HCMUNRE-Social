@@ -32,6 +32,7 @@ function Messenger() {
 
   const actionsFriend = friendsSlice.actions;
   const actionsMessenger = messengerSlice.actions;
+  const token = user.token;
   const [notificationSPlay] = useSound(notificationSound);
 
   const [typingMessage, setTypingMessage] = React.useState('');
@@ -68,7 +69,7 @@ function Messenger() {
         msg: '',
       });
 
-      await messengerApis.messageSend(dataMessage, user.token, dispatch);
+      await messengerApis.messageSend(dataMessage, token, dispatch);
       setNewMessage('');
     } else {
       const img = dataURLtoBlob(imageMessage);
@@ -78,12 +79,12 @@ function Messenger() {
       formData.append('path', path);
       formData.append('file', img);
 
-      const imgMes = await uploadImages(formData, user.token);
+      const imgMes = await uploadImages(formData, token);
       await messengerApis.imageMessageSend(
         userName,
         currentFriend._id,
         imgMes.images[0].url,
-        user.token,
+        token,
         dispatch
       );
       setImageMessage('');
@@ -102,7 +103,7 @@ function Messenger() {
         receiverId: currentFriend._id,
         msg: '',
       });
-      await messengerApis.messageSend(dataMessage, user.token, dispatch);
+      await messengerApis.messageSend(dataMessage, token, dispatch);
       setNewMessage('');
     }
   };
@@ -111,7 +112,7 @@ function Messenger() {
   React.useEffect(() => {
     const getAllFriend = async () => {
       dispatch(actionsFriend.FRIEND_REQUEST());
-      const res = await getFriend(user.token);
+      const res = await getFriend(token);
       if (res.success === true) {
         dispatch(actionsFriend.FRIEND_SUCCESS(res.data));
       } else {
@@ -130,8 +131,43 @@ function Messenger() {
 
   // get all message
   React.useEffect(() => {
-    messengerApis.getAllMessage(currentFriend?._id, user.token, dispatch);
+    messengerApis.getAllMessage(currentFriend?._id, token, dispatch);
+
+    // friend seen tin nhan khi click vao sidebar
+    // if (friends.length > 0) {
+    //   dispatch(
+    //     actionsFriend.UPDATE_SEEN_MESSAGE({
+    //       id: currentFriend._id,
+    //     })
+    //   );
+    // }
   }, [currentFriend?._id]);
+
+  React.useEffect(() => {
+    if (message.length > 0) {
+      if (
+        message[message.length - 1].senderId !== user.id &&
+        message[message.length - 1].status !== 'seen'
+      ) {
+        // dispatch(
+        //   actionsFriend.UPDATE({
+        //     id: currentFriend._id,
+        //   })
+        // );
+        socketRef.current.emit('seen', {
+          senderId: currentFriend._id,
+          receiverId: user.id,
+        });
+        messengerApis.seenMessage(
+          { _id: message[message.length - 1]._id },
+          token
+        );
+      }
+    }
+    // dispatchh({
+    //   type: 'MESSAGE_GET_SUCCESS_CLEAR',
+    // });
+  }, [message_get_success]);
 
   // scroll to end page
   React.useEffect(() => {
@@ -141,7 +177,6 @@ function Messenger() {
     });
   }, [message]);
 
-  // start socket
   React.useEffect(() => {
     socketRef.current = io('ws://localhost:8000');
     // start: nguoi nhan lang nghe su kien
@@ -220,7 +255,7 @@ function Messenger() {
         );
 
         // cap nhat status = seen vao csdl ko tr ve gi het
-        messengerApis.seenMessage(displayMessageToFriend, user.token);
+        messengerApis.seenMessage(displayMessageToFriend, token);
         // hien thi tin nhan moi nhat va status tin nhan ben phia sidebar nguoi nhan
         dispatch(
           actionsFriend.UPDATE_LAST_MESSAGE({
@@ -256,7 +291,7 @@ function Messenger() {
         }
       );
       // cap nhat status = sent vao csdl ko tr ve gi het
-      messengerApis.sentMessage(displayMessageToFriend, user.token);
+      messengerApis.sentMessage(displayMessageToFriend, token);
       // hien thi tin nhan moi nhat va trang thai tin nhan ben phia sidebar nguoi nhan
       dispatch(
         actionsFriend.UPDATE_LAST_MESSAGE({
@@ -268,7 +303,6 @@ function Messenger() {
       socketRef.current.emit('sentMessage', displayMessageToFriend);
     }
   }, [displayMessageToFriend]);
-  // end socket
 
   return (
     <>

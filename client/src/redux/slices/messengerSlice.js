@@ -23,6 +23,9 @@ const messengerSlice = createSlice({
     MESSAGE_SEND_SUCCESS_CLEAR: (state, action) => {
       state.messageSendSuccess = false;
     },
+    MESSAGE_GET_SUCCESS_CLEAR: (state, action) => {
+      state.message_get_success = false;
+    },
   },
 });
 

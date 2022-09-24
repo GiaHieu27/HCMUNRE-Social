@@ -34,7 +34,6 @@ io.on('connection', (socket) => {
     // socket.id: string
     // userInfo: obj
     addUser(userId, socket.id, userInfo);
-    console.log(users.length);
     io.emit('getUser', users);
   });
 

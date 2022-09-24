@@ -47,6 +47,16 @@ const friendSlice = createSlice({
       );
       friendState[index].lastMessage.status = 'sent';
     },
+
+    UPDATE_SEEN_MESSAGE: (state, action) => {
+      const friendState = state.data.friendMessenger;
+      const index = friendState.findIndex(
+        (obj) => obj.friendInfo._id === action.payload.id
+      );
+      if (friendState[index].lastMessage) {
+        friendState[index].lastMessage.status = 'seen';
+      }
+    },
   },
 });
 
