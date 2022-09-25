@@ -16,12 +16,10 @@ function FriendMess({ friend, userId, onlineFriends }) {
           <img src={friendInfo.picture} alt="" />
 
           {onlineFriends &&
-          onlineFriends.length > 0 &&
-          onlineFriends.some((friend) => friend.userId === friendInfo._id) ? (
-            <div className="active_icon"></div>
-          ) : (
-            ''
-          )}
+            onlineFriends.length > 0 &&
+            onlineFriends.some(
+              (friend) => friend.userId === friendInfo._id
+            ) && <div className="active_icon"></div>}
         </div>
       </div>
 
@@ -89,11 +87,9 @@ function FriendMess({ friend, userId, onlineFriends }) {
         ) : (
           <div className="seen-unseen-icon">
             {lastMessage?.status !== undefined &&
-            lastMessage?.status !== 'seen' ? (
-              <div className="unseen-icon"></div>
-            ) : (
-              ''
-            )}
+              lastMessage?.status !== 'seen' && (
+                <div className="unseen-icon"></div>
+              )}
           </div>
         )}
       </div>

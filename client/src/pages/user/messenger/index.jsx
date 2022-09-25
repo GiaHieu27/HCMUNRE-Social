@@ -132,15 +132,6 @@ function Messenger() {
   // get all message
   React.useEffect(() => {
     messengerApis.getAllMessage(currentFriend?._id, token, dispatch);
-
-    // friend seen tin nhan khi click vao sidebar
-    if (friends?.length > 0) {
-      dispatch(
-        actionsFriend.UPDATE_SEEN_MESSAGE({
-          id: currentFriend._id,
-        })
-      );
-    }
   }, [currentFriend?._id]);
 
   React.useEffect(() => {
@@ -150,15 +141,17 @@ function Messenger() {
         message[message.length - 1].status !== 'seen'
       ) {
         // UPDATE = UPDATE_SEEN_MESSAGE
-        // dispatch(
-        //   actionsFriend.UPDATE({
-        //     id: currentFriend._id,
-        //   })
-        // );
+        // friend seen tin nhan khi click vao sidebar
+        dispatch(
+          actionsFriend.UPDATE_SEEN_MESSAGE({
+            id: currentFriend._id,
+          })
+        );
         socketRef.current.emit('seen', {
           senderId: currentFriend._id,
           receiverId: user.id,
         });
+        // cap nhat status = seen vao csdl ko tr ve gi het
         messengerApis.seenMessage(
           { _id: message[message.length - 1]._id },
           token
