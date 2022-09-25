@@ -82,6 +82,13 @@ io.on('connection', (socket) => {
     }
   });
 
+  socket.on('seen', (data) => {
+    const user = findFriend(data.senderId);
+    if (user !== undefined) {
+      socket.to(user.socketId).emit('seenSuccess', data);
+    }
+  });
+
   socket.on('disconnect', () => {
     console.log('user disconnected');
     userRemove(socket.id);

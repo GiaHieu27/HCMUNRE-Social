@@ -134,13 +134,13 @@ function Messenger() {
     messengerApis.getAllMessage(currentFriend?._id, token, dispatch);
 
     // friend seen tin nhan khi click vao sidebar
-    // if (friends.length > 0) {
-    //   dispatch(
-    //     actionsFriend.UPDATE_SEEN_MESSAGE({
-    //       id: currentFriend._id,
-    //     })
-    //   );
-    // }
+    if (friends?.length > 0) {
+      dispatch(
+        actionsFriend.UPDATE_SEEN_MESSAGE({
+          id: currentFriend._id,
+        })
+      );
+    }
   }, [currentFriend?._id]);
 
   React.useEffect(() => {
@@ -149,6 +149,7 @@ function Messenger() {
         message[message.length - 1].senderId !== user.id &&
         message[message.length - 1].status !== 'seen'
       ) {
+        // UPDATE = UPDATE_SEEN_MESSAGE
         // dispatch(
         //   actionsFriend.UPDATE({
         //     id: currentFriend._id,
@@ -164,9 +165,7 @@ function Messenger() {
         );
       }
     }
-    // dispatchh({
-    //   type: 'MESSAGE_GET_SUCCESS_CLEAR',
-    // });
+    dispatch(actionsMessenger.MESSAGE_GET_SUCCESS_CLEAR());
   }, [message_get_success]);
 
   // scroll to end page
@@ -207,6 +206,9 @@ function Messenger() {
       );
     });
     // end: nguoi gui lang nghe su kien
+    socketRef.current.on('seenSuccess', (data) => {
+      dispatch(actionsFriend.SEEN_ALL(data));
+    });
   }, []);
 
   // add user to socket
