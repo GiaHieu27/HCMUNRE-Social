@@ -1,7 +1,7 @@
 import axios from 'axios';
 import messengerSlice from '../redux/slices/messengerSlice';
 
-const actionsMessenger = messengerSlice.actions;
+const messengerActions = messengerSlice.actions;
 
 export const messageSend = async (dataMessage, token, dispatch) => {
   try {
@@ -14,7 +14,7 @@ export const messageSend = async (dataMessage, token, dispatch) => {
         },
       }
     );
-    dispatch(actionsMessenger.MESSAGE_SEND_SUCCESS(data));
+    dispatch(messengerActions.MESSAGE_SEND_SUCCESS(data));
   } catch (error) {
     return error.response.data.message;
   }
@@ -30,7 +30,7 @@ export const getAllMessage = async (id, token, dispatch) => {
         },
       }
     );
-    dispatch(actionsMessenger.MESSAGE_GET_SUCCESS(data));
+    dispatch(messengerActions.MESSAGE_GET_SUCCESS(data));
   } catch (error) {
     return error.response.data.message;
   }
@@ -53,7 +53,7 @@ export const imageMessageSend = async (
         },
       }
     );
-    dispatch(actionsMessenger.MESSAGE_SEND_SUCCESS(data));
+    dispatch(messengerActions.MESSAGE_SEND_SUCCESS(data));
   } catch (error) {
     return error.response.data.message;
   }
@@ -77,7 +77,7 @@ export const seenMessage = async (msg, token) => {
 
 export const sentMessage = async (msg, token) => {
   try {
-    const { data } = await axios.post(
+    await axios.post(
       `${process.env.REACT_APP_BACKEND_URL}/sent-message`,
       { msg },
       {
@@ -86,7 +86,6 @@ export const sentMessage = async (msg, token) => {
         },
       }
     );
-    console.log(data);
   } catch (error) {
     return error.response.data.message;
   }

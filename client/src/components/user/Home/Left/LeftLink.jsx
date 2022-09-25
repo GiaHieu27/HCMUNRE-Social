@@ -1,10 +1,18 @@
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 
 function LeftLink({ img, text, notification }) {
   return (
     <>
       <Link
-        to={text === "Đã lưu" ? "/saved" : text === "Bạn bè" ? "/friends" : ""}
+        to={
+          text === 'Đã lưu'
+            ? '/saved'
+            : text === 'Bạn bè'
+            ? '/friends'
+            : text === 'Nhắn tin'
+            ? '/messenger'
+            : ''
+        }
       >
         <div className="left_link hover2">
           <img src={`../../left/${img}.png`} alt="" />

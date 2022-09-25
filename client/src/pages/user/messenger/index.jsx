@@ -30,8 +30,8 @@ function Messenger() {
   const { username } = useParams();
   const userName = username === undefined ? user.username : username;
 
-  const actionsFriend = friendsSlice.actions;
-  const actionsMessenger = messengerSlice.actions;
+  const friendActions = friendsSlice.actions;
+  const messengerActions = messengerSlice.actions;
   const token = user.token;
   const [notificationSPlay] = useSound(notificationSound);
 
@@ -111,12 +111,12 @@ function Messenger() {
   // get friend
   React.useEffect(() => {
     const getAllFriend = async () => {
-      dispatch(actionsFriend.FRIEND_REQUEST());
+      dispatch(friendActions.FRIEND_REQUEST());
       const res = await getFriend(token);
       if (res.success === true) {
-        dispatch(actionsFriend.FRIEND_SUCCESS(res.data));
+        dispatch(friendActions.FRIEND_SUCCESS(res.data));
       } else {
-        dispatch(actionsFriend.FRIEND_ERROR(res.data));
+        dispatch(friendActions.FRIEND_ERROR(res.data));
       }
     };
     getAllFriend();
@@ -135,18 +135,21 @@ function Messenger() {
   }, [currentFriend?._id]);
 
   React.useEffect(() => {
+    console.log('run');
     if (message.length > 0) {
       if (
         message[message.length - 1].senderId !== user.id &&
         message[message.length - 1].status !== 'seen'
       ) {
         // UPDATE = UPDATE_SEEN_MESSAGE
-        // friend seen tin nhan khi click vao sidebar
+        // nguoi nhan seen tin nhan khi click vao sidebar
         dispatch(
-          actionsFriend.UPDATE_SEEN_MESSAGE({
+          friendActions.UPDATE_SEEN_MESSAGE({
             id: currentFriend._id,
           })
         );
+        // nguoi gui hien thi seen tin nhan ben phia sidebar
+        // khi nguoi nhan xem tin nhan
         socketRef.current.emit('seen', {
           senderId: currentFriend._id,
           receiverId: user.id,
@@ -158,7 +161,7 @@ function Messenger() {
         );
       }
     }
-    dispatch(actionsMessenger.MESSAGE_GET_SUCCESS_CLEAR());
+    dispatch(messengerActions.MESSAGE_GET_SUCCESS_CLEAR());
   }, [message_get_success]);
 
   // scroll to end page
@@ -169,6 +172,7 @@ function Messenger() {
     });
   }, [message]);
 
+  // lang nghe su kien tu socket
   React.useEffect(() => {
     socketRef.current = io('ws://localhost:8000');
     // start: nguoi nhan lang nghe su kien
@@ -185,7 +189,7 @@ function Messenger() {
     // cap nhat status tin nhan
     socketRef.current.on('messageSeenResponse', (messageInfo) => {
       dispatch(
-        actionsFriend.SEEN_MESSAGE({
+        friendActions.SEEN_MESSAGE({
           ...messageInfo,
         })
       );
@@ -193,14 +197,14 @@ function Messenger() {
     // cap nhat status tin nhan
     socketRef.current.on('messageSentResponse', (messageInfo) => {
       dispatch(
-        actionsFriend.SENT_MESSAGE({
+        friendActions.SENT_MESSAGE({
           ...messageInfo,
         })
       );
     });
     // end: nguoi gui lang nghe su kien
     socketRef.current.on('seenSuccess', (data) => {
-      dispatch(actionsFriend.SEEN_ALL(data));
+      dispatch(friendActions.SEEN_ALL(data));
     });
   }, []);
 
@@ -219,6 +223,7 @@ function Messenger() {
     });
   }, []);
 
+  // hien thi tin nhan khi nguoi nhan dang trong cuoc tro chuyen
   React.useEffect(() => {
     if (messageSendSuccess) {
       // gui tin nhan den nguoi nhan
@@ -227,12 +232,12 @@ function Messenger() {
       }, 500);
       // Hien thi tin nhan moi nhat ben phia nguoi gui phan sidebar ben trai
       dispatch(
-        actionsFriend.UPDATE_LAST_MESSAGE({
+        friendActions.UPDATE_LAST_MESSAGE({
           ...message[message.length - 1],
         })
       );
       // gan messageSendSuccess = false
-      dispatch(actionsMessenger.MESSAGE_SEND_SUCCESS_CLEAR());
+      dispatch(messengerActions.MESSAGE_SEND_SUCCESS_CLEAR());
     }
   }, [messageSendSuccess]);
 
@@ -246,14 +251,14 @@ function Messenger() {
         // SOCKET_MESSAGE = DISPLAY_MESSAGE_TO_FRIEND
         // luu vao store nguoi nhan de hien tin nhan ben nguoi nhan
         dispatch(
-          actionsMessenger.DISPLAY_MESSAGE_TO_FRIEND(displayMessageToFriend)
+          messengerActions.DISPLAY_MESSAGE_TO_FRIEND(displayMessageToFriend)
         );
 
         // cap nhat status = seen vao csdl ko tr ve gi het
         messengerApis.seenMessage(displayMessageToFriend, token);
         // hien thi tin nhan moi nhat va status tin nhan ben phia sidebar nguoi nhan
         dispatch(
-          actionsFriend.UPDATE_LAST_MESSAGE({
+          friendActions.UPDATE_LAST_MESSAGE({
             ...displayMessageToFriend,
             status: 'seen',
           })
@@ -265,6 +270,7 @@ function Messenger() {
     setDisplayMessageToFriend('');
   }, [displayMessageToFriend]);
 
+  // hien thi tin nhan khi nguoi nhan chua xem tin nhan
   React.useEffect(() => {
     // displayMessageToFriend = socketMessage
     if (
@@ -289,7 +295,7 @@ function Messenger() {
       messengerApis.sentMessage(displayMessageToFriend, token);
       // hien thi tin nhan moi nhat va trang thai tin nhan ben phia sidebar nguoi nhan
       dispatch(
-        actionsFriend.UPDATE_LAST_MESSAGE({
+        friendActions.UPDATE_LAST_MESSAGE({
           ...displayMessageToFriend,
           status: 'sent',
         })
@@ -390,15 +396,15 @@ function Messenger() {
               handleSendingMessageByPressingEnter={
                 handleSendingMessageByPressingEnter
               }
-              handleChangeInput={handleChangeInput}
               handleSendingMessage={handleSendingMessage}
+              handleChangeInput={handleChangeInput}
               setImageMessage={setImageMessage}
               setNewMessage={setNewMessage}
+              onlineFriends={onlineFriends}
               typingMessage={typingMessage}
               currentFriend={currentFriend}
               imageMessage={imageMessage}
               newMessage={newMessage}
-              onlineFriends={onlineFriends}
               scrollRef={scrollRef}
             />
           )}

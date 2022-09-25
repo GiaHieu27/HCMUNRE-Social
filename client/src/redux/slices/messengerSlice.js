@@ -14,8 +14,8 @@ const messengerSlice = createSlice({
       state.messageSendSuccess = true;
     },
     MESSAGE_GET_SUCCESS: (state, action) => {
-      state.message_get_success = true;
       state.message = action.payload;
+      state.message_get_success = true;
     },
     DISPLAY_MESSAGE_TO_FRIEND: (state, action) => {
       state.message.push(action.payload);

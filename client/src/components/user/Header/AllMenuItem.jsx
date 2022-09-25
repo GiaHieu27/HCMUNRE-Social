@@ -5,7 +5,13 @@ function AllMenuItem({ name, description, icon }) {
   return (
     <Link
       to={`/${
-        name === 'Bạn bè' ? 'friends' : name === 'Đã lưu' ? 'saved' : ''
+        name === 'Bạn bè'
+          ? 'friends'
+          : name === 'Đã lưu'
+          ? 'saved'
+          : name === 'Nhắn tin'
+          ? 'messenger'
+          : ''
       }`}
       className="all_menu_item hover1"
     >
