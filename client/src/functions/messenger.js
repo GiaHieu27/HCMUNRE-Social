@@ -30,7 +30,7 @@ export const getAllMessage = async (id, token, dispatch) => {
         },
       }
     );
-    dispatch(messengerActions.MESSAGE_GET_SUCCESS(data));
+    dispatch(messengerActions.messageGetSuccess(data));
   } catch (error) {
     return error.response.data.message;
   }

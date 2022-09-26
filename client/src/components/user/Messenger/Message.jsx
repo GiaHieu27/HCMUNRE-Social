@@ -11,8 +11,6 @@ function Message({ currentFriend, typingMessage, scrollRef }) {
     messenger: { message },
   } = useSelector((state) => ({ ...state }));
 
-  console.log(message);
-
   return (
     <>
       <div className="message-show">
@@ -22,41 +20,18 @@ function Message({ currentFriend, typingMessage, scrollRef }) {
               <div key={index} className="my-message" ref={scrollRef}>
                 <div className="image-message">
                   <div className="my-text">
-                    <p className="message-text my">
-                      {m.message.text === '' ? (
-                        <img
-                          src={m.message.image}
-                          alt="avatar"
-                          style={{ background: 'none' }}
-                        />
-                      ) : (
-                        m.message.text
-                      )}
-                    </p>
-                    {index === message.length - 1 && m.senderId === user.id ? (
-                      m.status === 'seen' ? (
-                        <img
-                          className="img"
-                          src={currentFriend.picture}
-                          alt=""
-                        />
-                      ) : m.status === 'sent' ? (
-                        <span>
-                          <CheckCircleIcon
-                            sx={{ width: '0.75em', height: '0.75em' }}
-                          />
-                        </span>
-                      ) : (
-                        <span>
-                          <CheckCircleOutlineIcon
-                            sx={{ width: '0.75em', height: '0.75em' }}
-                          />
-                        </span>
-                      )
+                    {m.message.text === '' ? (
+                      <div
+                        className="message-text my"
+                        style={{ background: 'none' }}
+                      >
+                        <img src={m.message.image} alt="" />
+                      </div>
                     ) : (
-                      ''
+                      <p className="message-text my">{m.message.text}</p>
                     )}
-                    {/* {index === message.length - 1 &&
+
+                    {index === message.length - 1 &&
                       m.senderId === user.id &&
                       (m.status === 'seen' ? (
                         <img
@@ -65,18 +40,14 @@ function Message({ currentFriend, typingMessage, scrollRef }) {
                           alt=""
                         />
                       ) : m.status === 'sent' ? (
-                        <span>
-                          <CheckCircleIcon
-                            sx={{ width: '0.75em', height: '0.75em' }}
-                          />
-                        </span>
+                        <CheckCircleIcon
+                          sx={{ width: '0.75em', height: '0.75em' }}
+                        />
                       ) : (
-                        <span>
-                          <CheckCircleOutlineIcon
-                            sx={{ width: '0.75em', height: '0.75em' }}
-                          />
-                        </span>
-                      ))} */}
+                        <CheckCircleOutlineIcon
+                          sx={{ width: '0.75em', height: '0.75em' }}
+                        />
+                      ))}
                   </div>
                 </div>
                 <div className="time">
@@ -89,13 +60,13 @@ function Message({ currentFriend, typingMessage, scrollRef }) {
                   <img src={currentFriend.picture} alt="avatar_friend" />
                   <div className="message-time">
                     <div className="fd-text">
-                      <p className="message-text fd">
-                        {m.message.text === '' ? (
+                      {m.message.text === '' ? (
+                        <div className="message-text fd">
                           <img src={m.message.image} alt="" />
-                        ) : (
-                          m.message.text
-                        )}
-                      </p>
+                        </div>
+                      ) : (
+                        <p className="message-text fd">{m.message.text}</p>
+                      )}
                     </div>
                     <div className="time">
                       {moment(m.createdAt).startOf('mini').fromNow()}

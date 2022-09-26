@@ -35,6 +35,12 @@ io.on('connection', (socket) => {
     // userInfo: obj
     addUser(userId, socket.id, userInfo);
     io.emit('getUser', users);
+
+    const newUsers = users.filter((user) => user.userId !== userId);
+    const con = 'add_new_user';
+    for (let i = 0; i < newUsers.length; i++) {
+      socket.to(newUsers[i].socketId).emit('addNewUser', con);
+    }
   });
 
   socket.on('typingMessage', (data) => {

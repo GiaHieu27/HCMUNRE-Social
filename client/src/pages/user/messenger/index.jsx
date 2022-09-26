@@ -22,7 +22,7 @@ function Messenger() {
   const {
     user,
     friends: friendStore,
-    messenger: { messageSendSuccess, message, message_get_success },
+    messenger: { messageSendSuccess, message, messageGetSuccess, addNewUser },
   } = useSelector((state) => ({ ...state }));
   const friends = friendStore.data.friendMessenger;
 
@@ -120,7 +120,8 @@ function Messenger() {
       }
     };
     getAllFriend();
-  }, []);
+    dispatch(messengerActions.CLEAR_NEW_USER());
+  }, [addNewUser]);
 
   // set current friend
   React.useEffect(() => {
@@ -161,8 +162,8 @@ function Messenger() {
         );
       }
     }
-    dispatch(messengerActions.MESSAGE_GET_SUCCESS_CLEAR());
-  }, [message_get_success]);
+    dispatch(messengerActions.messageGetSuccess_CLEAR());
+  }, [messageGetSuccess]);
 
   // scroll to end page
   React.useEffect(() => {
@@ -224,6 +225,10 @@ function Messenger() {
         (socketUser) => socketUser.userId !== user.id
       );
       setOnlineFriends(filterFriends);
+    });
+
+    socketRef.current.on('addNewUser', (data) => {
+      dispatch(messengerActions.ADD_NEW_USER(data));
     });
   }, []);
 

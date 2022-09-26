@@ -5,17 +5,17 @@ const messengerSlice = createSlice({
   initialState: {
     message: [],
     messageSendSuccess: false,
-    message_get_success: false,
-    new_user_add: '',
+    messageGetSuccess: false,
+    addNewUser: '',
   },
   reducers: {
     MESSAGE_SEND_SUCCESS: (state, action) => {
       state.message.push(action.payload);
       state.messageSendSuccess = true;
     },
-    MESSAGE_GET_SUCCESS: (state, action) => {
+    messageGetSuccess: (state, action) => {
       state.message = action.payload;
-      state.message_get_success = true;
+      state.messageGetSuccess = true;
     },
     DISPLAY_MESSAGE_TO_FRIEND: (state, action) => {
       state.message.push(action.payload);
@@ -23,14 +23,19 @@ const messengerSlice = createSlice({
     MESSAGE_SEND_SUCCESS_CLEAR: (state, action) => {
       state.messageSendSuccess = false;
     },
-    MESSAGE_GET_SUCCESS_CLEAR: (state, action) => {
-      state.message_get_success = false;
+    messageGetSuccess_CLEAR: (state, action) => {
+      state.messageGetSuccess = false;
     },
     UPDAT_STATUS_MESSAGE: (state, action) => {
-      console.log(action.payload);
       const messState = state.message;
       const index = messState.length - 1;
       messState[index].status = action.payload;
+    },
+    ADD_NEW_USER: (state, action) => {
+      state.addNewUser = action.payload;
+    },
+    CLEAR_NEW_USER: (state, action) => {
+      state.addNewUser = '';
     },
   },
 });

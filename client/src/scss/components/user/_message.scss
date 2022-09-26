@@ -39,17 +39,18 @@
       flex-direction: column;
 
       img.img,
-      span {
-        width: 14px;
-        height: 14px;
+      svg {
+        $length: 15px;
+        width: $length;
+        height: $length;
         border-radius: 50%;
         margin: 3px 0px 0px 0px;
         color: var(--mes-text-color);
       }
 
       .my {
-        background-color: var(--mes-my-message-bg);
-        color: var(--mes-text-white);
+        background-color: var(--green-color);
+        color: var(--bs-white);
       }
 
       .message-text {
@@ -58,12 +59,11 @@
         border-radius: 10px;
 
         img {
-          width: 220px;
-          height: 270px;
+          width: 160px;
+          height: 222px;
           margin-right: 0px;
-          border-radius: 5px;
+          border-radius: 15px;
           overflow: hidden;
-          object-fit: cover;
         }
       }
     }
@@ -100,7 +100,6 @@
           margin-right: 0px;
           border-radius: 5px;
           overflow: hidden;
-          object-fit: cover;
         }
       }
     }
@@ -120,8 +119,7 @@
     padding: 8px;
     color: #fff;
     background-color: #28324ed9;
-    font-size: 14px;
-    font-weight: 400;
+    font-size: 15px;
   }
   .time {
     padding: 5px 0px;
