@@ -7,8 +7,8 @@ const io = new Server(8000, {
   },
 });
 
-let users = [];
 // array chứa tất cả user khi đăng nhập vào hệ thống
+let users = [];
 
 const addUser = (userId, socketId, userInfo) => {
   const checkUser = users.some((user) => user.userId === userId);

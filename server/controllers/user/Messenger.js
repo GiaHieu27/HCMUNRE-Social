@@ -76,7 +76,7 @@ exports.messageSendImage = async (req, res) => {
     const messageInser = await new Messenger({
       senderId,
       senderName: sender,
-      receiverId: receiverId,
+      receiverId,
       message: {
         image: img,
       },

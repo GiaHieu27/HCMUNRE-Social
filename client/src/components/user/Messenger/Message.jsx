@@ -11,6 +11,8 @@ function Message({ currentFriend, typingMessage, scrollRef }) {
     messenger: { message },
   } = useSelector((state) => ({ ...state }));
 
+  console.log(message);
+
   return (
     <>
       <div className="message-show">
@@ -31,8 +33,30 @@ function Message({ currentFriend, typingMessage, scrollRef }) {
                         m.message.text
                       )}
                     </p>
-
-                    {index === message.length - 1 &&
+                    {index === message.length - 1 && m.senderId === user.id ? (
+                      m.status === 'seen' ? (
+                        <img
+                          className="img"
+                          src={currentFriend.picture}
+                          alt=""
+                        />
+                      ) : m.status === 'sent' ? (
+                        <span>
+                          <CheckCircleIcon
+                            sx={{ width: '0.75em', height: '0.75em' }}
+                          />
+                        </span>
+                      ) : (
+                        <span>
+                          <CheckCircleOutlineIcon
+                            sx={{ width: '0.75em', height: '0.75em' }}
+                          />
+                        </span>
+                      )
+                    ) : (
+                      ''
+                    )}
+                    {/* {index === message.length - 1 &&
                       m.senderId === user.id &&
                       (m.status === 'seen' ? (
                         <img
@@ -52,7 +76,7 @@ function Message({ currentFriend, typingMessage, scrollRef }) {
                             sx={{ width: '0.75em', height: '0.75em' }}
                           />
                         </span>
-                      ))}
+                      ))} */}
                   </div>
                 </div>
                 <div className="time">

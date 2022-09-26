@@ -134,15 +134,15 @@ function Messenger() {
     messengerApis.getAllMessage(currentFriend?._id, token, dispatch);
   }, [currentFriend?._id]);
 
+  // cap nhat seen tin nhan khi nguoi nhan xem tin nhan
   React.useEffect(() => {
-    console.log('run');
     if (message.length > 0) {
       if (
         message[message.length - 1].senderId !== user.id &&
         message[message.length - 1].status !== 'seen'
       ) {
         // UPDATE = UPDATE_SEEN_MESSAGE
-        // nguoi nhan seen tin nhan khi click vao sidebar
+        // nguoi nhan seen tin nhan khi xem tin nha
         dispatch(
           friendActions.UPDATE_SEEN_MESSAGE({
             id: currentFriend._id,
@@ -193,6 +193,7 @@ function Messenger() {
           ...messageInfo,
         })
       );
+      dispatch(messengerActions.UPDAT_STATUS_MESSAGE('seen'));
     });
     // cap nhat status tin nhan
     socketRef.current.on('messageSentResponse', (messageInfo) => {
@@ -201,11 +202,14 @@ function Messenger() {
           ...messageInfo,
         })
       );
+      dispatch(messengerActions.UPDAT_STATUS_MESSAGE('sent'));
     });
-    // end: nguoi gui lang nghe su kien
+    // cap nhat status tin nhan khi nguoi nhan seen tin nhan
     socketRef.current.on('seenSuccess', (data) => {
       dispatch(friendActions.SEEN_ALL(data));
+      dispatch(messengerActions.UPDAT_STATUS_MESSAGE('seen'));
     });
+    // end: nguoi gui lang nghe su kien
   }, []);
 
   // add user to socket
@@ -223,7 +227,7 @@ function Messenger() {
     });
   }, []);
 
-  // hien thi tin nhan khi nguoi nhan dang trong cuoc tro chuyen
+  // gui tin nhan den nguoi nhan va hien thi tin nhan ben nguoi gui
   React.useEffect(() => {
     if (messageSendSuccess) {
       // gui tin nhan den nguoi nhan
@@ -241,6 +245,7 @@ function Messenger() {
     }
   }, [messageSendSuccess]);
 
+  // hien thi tin nhan khi nguoi nhan dang trong cuoc tro chuyen
   React.useEffect(() => {
     // displayMessageToFriend = socketMessage
     if (displayMessageToFriend && currentFriend) {
@@ -256,6 +261,8 @@ function Messenger() {
 
         // cap nhat status = seen vao csdl ko tr ve gi het
         messengerApis.seenMessage(displayMessageToFriend, token);
+        // nguoi nhan phat su kien seen
+        socketRef.current.emit('messageSeen', displayMessageToFriend);
         // hien thi tin nhan moi nhat va status tin nhan ben phia sidebar nguoi nhan
         dispatch(
           friendActions.UPDATE_LAST_MESSAGE({
@@ -263,8 +270,6 @@ function Messenger() {
             status: 'seen',
           })
         );
-        // nguoi nhan phat su kien
-        socketRef.current.emit('messageSeen', displayMessageToFriend);
       }
     }
     setDisplayMessageToFriend('');
@@ -293,6 +298,8 @@ function Messenger() {
       );
       // cap nhat status = sent vao csdl ko tr ve gi het
       messengerApis.sentMessage(displayMessageToFriend, token);
+      // nguoi nhan phat su kien sent
+      socketRef.current.emit('sentMessage', displayMessageToFriend);
       // hien thi tin nhan moi nhat va trang thai tin nhan ben phia sidebar nguoi nhan
       dispatch(
         friendActions.UPDATE_LAST_MESSAGE({
@@ -300,8 +307,6 @@ function Messenger() {
           status: 'sent',
         })
       );
-      // nguoi nhan phat su kien
-      socketRef.current.emit('sentMessage', displayMessageToFriend);
     }
   }, [displayMessageToFriend]);
 

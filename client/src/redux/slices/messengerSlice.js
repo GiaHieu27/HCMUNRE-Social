@@ -26,6 +26,12 @@ const messengerSlice = createSlice({
     MESSAGE_GET_SUCCESS_CLEAR: (state, action) => {
       state.message_get_success = false;
     },
+    UPDAT_STATUS_MESSAGE: (state, action) => {
+      console.log(action.payload);
+      const messState = state.message;
+      const index = messState.length - 1;
+      messState[index].status = action.payload;
+    },
   },
 });
 
