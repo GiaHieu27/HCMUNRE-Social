@@ -74,12 +74,16 @@ function FriendMess({ friend, userId, onlineFriends }) {
               <img src={friendInfo.picture} alt="friend-seen-message" />
             ) : lastMessage.status === 'sent' ? (
               <div className="sent">
-                <CheckCircleIcon sx={{ width: '0.75em', height: '0.75em' }} />
+                <CheckCircleIcon
+                  sx={{ width: '0.75em', height: '0.75em' }}
+                  color="greyCustom"
+                />
               </div>
             ) : (
               <div className="unseen">
                 <CheckCircleOutlineIcon
                   sx={{ width: '0.75em', height: '0.75em' }}
+                  color="greyCustom"
                 />
               </div>
             )}

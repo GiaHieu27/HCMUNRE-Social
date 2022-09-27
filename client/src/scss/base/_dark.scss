@@ -16,8 +16,11 @@
     background: var(--bg-third);
   }
 
-  a:hover {
-    color: var(--light-green-color);
+  a {
+    color: #fff;
+    &:hover {
+      color: var(--light-green-color);
+    }
   }
 
   .header_right svg {
@@ -40,7 +43,13 @@
     background: var(--bg-fifth);
   }
 
-  input[type="text"] {
+  .header_right .profile_link {
+    &:hover {
+      color: #000;
+    }
+  }
+
+  input[type='text'] {
     color: var(--color-primary);
   }
 
@@ -81,9 +90,16 @@
   .add_pics_wrap i {
     filter: invert(100%);
   }
+  .meeting_btn span {
+    color: #fff;
+  }
   /*----profile---*/
-  .active_link:hover {
-    background: var(--light-green-color);
+  .active_link {
+    color: #000;
+    &:hover {
+      background: var(--light-green-color);
+      color: #000;
+    }
   }
   .open_cover_menu i,
   .open_cover_menu img {
@@ -116,5 +132,68 @@
   }
   .flex_p_t i {
     filter: invert(100%);
+  }
+
+  // messenger
+  .messenger {
+    background: var(--bg-primary);
+    color: var(--color-primary);
+
+    .row-custom .col-3 .left-side .top .image-name .name h3 {
+      color: var(--color-primary);
+    }
+
+    .row-custom .col-3 .left-side .friend-search .search .form-control-cus {
+      color: var(--color-primary);
+
+      &::placeholder {
+        color: var(--color-primary);
+      }
+    }
+  }
+
+  .friends-mess {
+    .hover-friend {
+      &.active1 {
+        background: #324335;
+      }
+
+      .friend-mess .friend-name-seen .friend-name h4 {
+        color: var(--color-primary);
+      }
+
+      .friend-mess .friend-name-seen .friend-name .msg-time span {
+        color: var(--color-primary);
+      }
+    }
+  }
+
+  .col-9 .right-side .row-custom .col-8 .message-send-show .header {
+    border: none;
+    box-shadow: hsl(0, 0%, 100%) 0px 8px 20px -20px;
+
+    .image-name .name h3 {
+      color: var(--color-primary);
+    }
+  }
+
+  .friend-info {
+    .image-name .name h4 {
+      color: var(--color-primary);
+    }
+
+    .others .media {
+      color: var(--color-primary);
+
+      label {
+        color: var(--color-primary);
+      }
+    }
+  }
+
+  .message-send-section .message-type .form-control-custom {
+    &::placeholder {
+      color: var(--color-primary);
+    }
   }
 }

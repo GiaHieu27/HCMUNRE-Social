@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
 import InsertPhotoIcon from '@mui/icons-material/InsertPhoto';
 import AttachFileIcon from '@mui/icons-material/AttachFile';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import RedeemIcon from '@mui/icons-material/Redeem';
 import SendIcon from '@mui/icons-material/Send';
@@ -38,7 +38,7 @@ const MessageSend = ({
     setCursorPosition(start.length + emoji.length);
   };
 
-  const handleImageSend = async (e) => {
+  const handleSendingImage = async (e) => {
     if (e.target.files.length !== 0) {
       let file = e.target.files[0];
       const reader = new FileReader();
@@ -46,8 +46,6 @@ const MessageSend = ({
       reader.onload = (event) => {
         setImageMessage(event.target.result);
       };
-      // const imgMess = await comment(postId, text, imgMes[0].url, user.token);
-      // ImageMessageSend(formData, user.token);
     }
   };
 
@@ -56,27 +54,27 @@ const MessageSend = ({
       <input type="checkbox" id="emoji" />
       <div className="file hover-attachment">
         <div className="add-attachment">Đính kèm tệp</div>
-        <AddCircleOutlineIcon color="success" />
+        <AddCircleIcon color="successCustom" />
       </div>
       <div className="file hover-image">
         <div className="add-image">Thêm hình ảnh</div>
         <input
-          onChange={handleImageSend}
+          onChange={handleSendingImage}
           type="file"
           id="pic"
           className="form-control"
           accept="image/jpeg,image/png,image/gif,image/webp"
         />
         <label htmlFor="pic">
-          <InsertPhotoIcon color="success" />
+          <InsertPhotoIcon color="successCustom" />
         </label>
       </div>
       <div className="file">
-        <AttachFileIcon color="success" />
+        <AttachFileIcon color="successCustom" />
       </div>
       <div className="file hover-gift">
         <div className="add-gift">Add gift</div>
-        <RedeemIcon color="success" />
+        <RedeemIcon color="successCustom" />
       </div>
       <div
         className="message-type"
@@ -118,12 +116,12 @@ const MessageSend = ({
           onClick={() => setPicker(!picker)}
           style={{ transform: 'translateX(-10px)', cursor: 'pointer' }}
         >
-          <EmojiEmotionsIcon color="success" />
+          <EmojiEmotionsIcon color="successCustom" />
         </div>
       </div>
       <div onClick={handleSendingMessage} className="file">
         {newMessage || imageMessage ? (
-          <SendIcon color="success" />
+          <SendIcon color="successCustom" />
         ) : (
           <FavoriteIcon color="error" />
         )}

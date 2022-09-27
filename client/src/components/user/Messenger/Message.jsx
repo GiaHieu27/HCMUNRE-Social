@@ -16,6 +16,7 @@ function Message({ currentFriend, typingMessage, scrollRef }) {
       <div className="message-show">
         {message && message.length > 0 ? (
           message.map((m, index) =>
+            // hien thi tin nhan ben nguoi gui
             m.senderId === user.id ? (
               <div key={index} className="my-message" ref={scrollRef}>
                 <div className="image-message">
@@ -30,7 +31,7 @@ function Message({ currentFriend, typingMessage, scrollRef }) {
                     ) : (
                       <p className="message-text my">{m.message.text}</p>
                     )}
-
+                    {/*start: Hien thi trang thai tin nhan khi gui */}
                     {index === message.length - 1 &&
                       m.senderId === user.id &&
                       (m.status === 'seen' ? (
@@ -42,19 +43,25 @@ function Message({ currentFriend, typingMessage, scrollRef }) {
                       ) : m.status === 'sent' ? (
                         <CheckCircleIcon
                           sx={{ width: '0.75em', height: '0.75em' }}
+                          color="greyCustom"
                         />
                       ) : (
                         <CheckCircleOutlineIcon
                           sx={{ width: '0.75em', height: '0.75em' }}
+                          color="greyCustom"
                         />
                       ))}
+                    {/*end Hien thi trang thai tin nhan khi gui */}
                   </div>
                 </div>
-                <div className="time">
-                  {moment(m.createdAt).startOf('mini').fromNow()}
-                </div>
+                {index === message.length - 1 && (
+                  <div className="time">
+                    {moment(m.createdAt).startOf('mini').fromNow()}
+                  </div>
+                )}
               </div>
             ) : (
+              // hien thi tin nhan ben nguoi nhan
               <div key={index} className="fd-message" ref={scrollRef}>
                 <div className="image-message-time">
                   <img src={currentFriend.picture} alt="avatar_friend" />
@@ -68,15 +75,18 @@ function Message({ currentFriend, typingMessage, scrollRef }) {
                         <p className="message-text fd">{m.message.text}</p>
                       )}
                     </div>
-                    <div className="time">
-                      {moment(m.createdAt).startOf('mini').fromNow()}
-                    </div>
+                    {index === message.length - 1 && (
+                      <div className="time">
+                        {moment(m.createdAt).startOf('mini').fromNow()}
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
             )
           )
         ) : (
+          // hien thi khi hai ben chua nhan tin voi nhau
           <div className="friend_connect">
             <img src={currentFriend.picture} alt="" />
             <h3>
@@ -89,7 +99,7 @@ function Message({ currentFriend, typingMessage, scrollRef }) {
           </div>
         )}
       </div>
-
+      {/* Hien thi khi nguoi gui dang nhap tin nhan */}
       {typingMessage &&
         typingMessage.msg &&
         typingMessage.senderId === currentFriend._id && (

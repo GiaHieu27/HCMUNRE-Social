@@ -226,7 +226,7 @@ function Messenger() {
       );
       setOnlineFriends(filterFriends);
     });
-
+    // thong bao khi co ban be online
     socketRef.current.on('addNewUser', (data) => {
       dispatch(messengerActions.ADD_NEW_USER(data));
     });
