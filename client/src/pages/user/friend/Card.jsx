@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import {
   acceptRequest,
   cancelRequest,
@@ -55,5 +56,12 @@ function Card({ userr, user, type, getFriendPages }) {
     </div>
   );
 }
+
+Card.propTypes = {
+  userr: PropTypes.object,
+  user: PropTypes.object,
+  type: PropTypes.string,
+  getFriendPages: PropTypes.func,
+};
 
 export default Card;

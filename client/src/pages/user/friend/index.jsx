@@ -11,9 +11,26 @@ function Friend() {
   const dispatch = useDispatch();
   const { type } = useParams();
 
-  const { user, friends } = useSelector((state) => ({ ...state }));
-  const actions = friendsSlice.actions;
+  const { user, friends: friendData } = useSelector((state) => ({ ...state }));
 
+  const friends = friendData.data;
+  const allFriends = friendData.data.friends;
+
+  if (allFriends && allFriends.length) {
+    allFriends.reduce((previousValue, currentValue) => {
+      const newArr = currentValue.friends.filter((friend) => {
+        return friend._id !== user.id;
+      });
+      if (newArr.length) {
+        previousValue.push(newArr);
+      }
+      return previousValue.flat();
+    }, []);
+  }
+
+  console.log(allFriends);
+
+  const actions = friendsSlice.actions;
   const getFriendPages = useCallback(async () => {
     dispatch(actions.FRIEND_REQUEST());
     const res = await getFriend(user.token);
@@ -83,15 +100,20 @@ function Friend() {
               </div>
             </Link>
 
-            <div className="mmenu_item hover3">
+            <Link
+              to="/friends/suggest"
+              className={`mmenu_item hover3 ${
+                type === 'suggest' && 'mmenu_item active_friends'
+              }`}
+            >
               <div className="small_circle">
-                <i className="friends_suggestions_icon"></i>
+                <i className="friends_requests_icon"></i>
               </div>
-              <span>Gợi ý</span>
+              <span>Gợi ý kết bạn</span>
               <div className="rArrow">
                 <i className="right_icon"></i>
               </div>
-            </div>
+            </Link>
 
             <Link
               to="/friends/all"
@@ -122,8 +144,8 @@ function Friend() {
                 )}
               </div>
               <div className="flex_wrap">
-                {friends.data.requests &&
-                  friends.data.requests.map((userr) => (
+                {friends.requests &&
+                  friends.requests.map((userr) => (
                     <Card
                       key={userr._id}
                       userr={userr}
@@ -147,14 +169,39 @@ function Friend() {
                 )}
               </div>
               <div className="flex_wrap">
-                {friends.data.sentRequests &&
-                  friends.data.sentRequests.map((userr) => (
+                {friends.sentRequests &&
+                  friends.sentRequests.map((userr) => (
                     <Card
                       key={userr._id}
                       userr={userr}
                       user={user}
                       getFriendPages={getFriendPages}
                       type="sent"
+                    />
+                  ))}
+              </div>
+            </div>
+          )}
+
+          {(type === undefined || type === 'suggest') && (
+            <div className="friends_right_wrap">
+              <div className="friends_left_header">
+                <h3>Gợi ý kết bạn</h3>
+                {type === undefined && (
+                  <Link to="/friends/suggest" className="see_link hover3">
+                    Xem tất cả
+                  </Link>
+                )}
+              </div>
+              <div className="flex_wrap">
+                {allFriends &&
+                  allFriends.map((userr) => (
+                    <Card
+                      key={userr._id}
+                      userr={userr}
+                      user={user}
+                      getFriendPages={getFriendPages}
+                      type="suggest"
                     />
                   ))}
               </div>
@@ -172,8 +219,8 @@ function Friend() {
                 )}
               </div>
               <div className="flex_wrap">
-                {friends.data.friends &&
-                  friends.data.friends.map((userr) => (
+                {allFriends &&
+                  allFriends.map((userr) => (
                     <Card
                       key={userr._id}
                       userr={userr}

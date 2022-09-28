@@ -275,8 +275,15 @@ exports.getFriend = async (req, res) => {
   try {
     const user = await User.findById(userId)
       .select('friends requests')
-      .populate('friends', 'first_name last_name picture username')
-      .populate('requests', 'first_name last_name picture username');
+      .populate('requests', 'first_name last_name picture username')
+      .populate({
+        path: 'friends',
+        select: 'first_name last_name picture username friends',
+        populate: {
+          path: 'friends',
+          select: 'first_name last_name picture username',
+        },
+      });
 
     const sentRequests = await User.find({
       requests: mongoose.Types.ObjectId(userId),
