@@ -229,7 +229,6 @@ function Post({ post, user, profile, saved }) {
                     key={i}
                     className={`gallery-item a-${i}`}
                     data-video={`{"source": [{"src": "${video.url}", "type":"video/mp4"}], "attributes": {"preload": false, "playsinline": true, "controls": true}}`}
-                    href
                   >
                     <video
                       src={video.url}

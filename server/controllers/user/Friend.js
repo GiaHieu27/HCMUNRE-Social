@@ -281,13 +281,21 @@ exports.getFriend = async (req, res) => {
         select: 'first_name last_name picture username friends',
         populate: {
           path: 'friends',
+          match: { _id: { $ne: mongoose.Types.ObjectId(userId) } },
           select: 'first_name last_name picture username',
+          options: { limit: 5 },
         },
       });
 
     const sentRequests = await User.find({
       requests: mongoose.Types.ObjectId(userId),
     }).select('first_name last_name picture username');
+
+    const { friends, requests } = user;
+    const suggestFriends = friends.reduce((previousValue, currentValue) => {
+      previousValue.push(currentValue.friends);
+      return previousValue.flat();
+    }, []);
 
     let friendMessenger = [];
     for (let i = 0; i < user.friends.length; i++) {
@@ -302,9 +310,10 @@ exports.getFriend = async (req, res) => {
     }
 
     res.json({
-      friends: user.friends,
-      requests: user.requests,
+      friends,
+      requests,
       sentRequests,
+      suggestFriends,
       friendMessenger,
     });
   } catch (error) {

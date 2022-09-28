@@ -16,20 +16,6 @@ function Friend() {
   const friends = friendData.data;
   const allFriends = friendData.data.friends;
 
-  if (allFriends && allFriends.length) {
-    allFriends.reduce((previousValue, currentValue) => {
-      const newArr = currentValue.friends.filter((friend) => {
-        return friend._id !== user.id;
-      });
-      if (newArr.length) {
-        previousValue.push(newArr);
-      }
-      return previousValue.flat();
-    }, []);
-  }
-
-  console.log(allFriends);
-
   const actions = friendsSlice.actions;
   const getFriendPages = useCallback(async () => {
     dispatch(actions.FRIEND_REQUEST());
@@ -194,8 +180,8 @@ function Friend() {
                 )}
               </div>
               <div className="flex_wrap">
-                {allFriends &&
-                  allFriends.map((userr) => (
+                {friends.suggestFriends &&
+                  friends.suggestFriends.map((userr) => (
                     <Card
                       key={userr._id}
                       userr={userr}
