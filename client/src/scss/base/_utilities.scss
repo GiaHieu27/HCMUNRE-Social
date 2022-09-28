@@ -32,6 +32,24 @@
   border-radius: 10px;
 }
 
+.scrollbar_mess {
+  &::-webkit-scrollbar {
+    width: 14px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: var(--bg-secondary);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: var(--dark-color-secondary);
+
+    &:hover {
+      background: var(--mes-image-border-color);
+    }
+  }
+}
+
 .small_circle {
   position: relative;
   height: 36px;

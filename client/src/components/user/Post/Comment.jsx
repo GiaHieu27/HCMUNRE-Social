@@ -1,5 +1,5 @@
-import React from "react";
-import Moment from "react-moment";
+import React from 'react';
+import Moment from 'react-moment';
 
 function Comment({ comment }) {
   return (
@@ -20,8 +20,8 @@ function Comment({ comment }) {
           <img src={comment.images} alt="" className="comment_image" />
         )}
         <div className="comment_actions">
-          <span>Like</span>
-          <span>Reply</span>
+          <span>Thích</span>
+          <span>Trả lời</span>
           <span>
             <Moment fromNow interval={30}>
               {comment.commentAt}

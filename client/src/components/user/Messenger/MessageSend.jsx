@@ -8,10 +8,9 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import RedeemIcon from '@mui/icons-material/Redeem';
 import SendIcon from '@mui/icons-material/Send';
-import IconButton from '@mui/material/IconButton';
-import Tooltip from '@mui/material/Tooltip';
 
 import Picker from 'emoji-picker-react';
+import TooltipCustom from '../TooltipCustom';
 
 function MessageSend({
   handleChangeInput,
@@ -26,8 +25,6 @@ function MessageSend({
   const imgRef = useRef(null);
   const [cursorPosition, setCursorPosition] = useState();
   const [picker, setPicker] = useState(false);
-
-  
 
   useEffect(() => {
     textRef.current.selectionEnd = cursorPosition;
@@ -58,8 +55,9 @@ function MessageSend({
     <div className="message-send-section">
       <input type="checkbox" id="emoji" />
       <div className="file hover-attachment">
-        <div className="add-attachment">Đính kèm tệp</div>
-        <AddCircleIcon color="successCustom" />
+        <TooltipCustom title="Thêm hành động">
+          <AddCircleIcon color="successCustom" />
+        </TooltipCustom>
       </div>
       <div className="file hover-image">
         {/* <div className="add-image">Thêm hình ảnh</div> */}
@@ -71,20 +69,22 @@ function MessageSend({
           accept="image/jpeg,image/png,image/gif,image/webp"
           ref={imgRef}
         />
-        {/* <label htmlFor="pic"> */}
-        {/* </label> */}
-        <Tooltip title="Thêm hình ảnh" onClick={() => imgRef.current.click()}>
-          <IconButton sx={{ p: '5px' }}>
-            <InsertPhotoIcon color="successCustom" />
-          </IconButton>
-        </Tooltip>
+        <TooltipCustom
+          title="Thêm hình ảnh"
+          onClick={() => imgRef.current.click()}
+        >
+          <InsertPhotoIcon color="successCustom" />
+        </TooltipCustom>
       </div>
       <div className="file">
-        <AttachFileIcon color="successCustom" />
+        <TooltipCustom title="Đính kèm tệp">
+          <AttachFileIcon color="successCustom" />
+        </TooltipCustom>
       </div>
       <div className="file hover-gift">
-        <div className="add-gift">Add gift</div>
-        <RedeemIcon color="successCustom" />
+        <TooltipCustom title="Thêm hình động">
+          <RedeemIcon color="successCustom" />
+        </TooltipCustom>
       </div>
       <div
         className="message-type"
@@ -126,14 +126,20 @@ function MessageSend({
           onClick={() => setPicker(!picker)}
           style={{ transform: 'translateX(-10px)', cursor: 'pointer' }}
         >
-          <EmojiEmotionsIcon color="successCustom" />
+          <TooltipCustom title="Chọn biểu tượng cảm xúc">
+            <EmojiEmotionsIcon color="successCustom" />
+          </TooltipCustom>
         </div>
       </div>
       <div onClick={handleSendingMessage} className="file">
         {newMessage || imageMessage ? (
-          <SendIcon color="successCustom" />
+          <TooltipCustom title="Nhấn Enter để gửi tin nhắn">
+            <SendIcon color="successCustom" />
+          </TooltipCustom>
         ) : (
-          <FavoriteIcon color="error" />
+          <TooltipCustom title="Gửi yêu thương">
+            <FavoriteIcon color="error" />
+          </TooltipCustom>
         )}
       </div>
       <div className="comment_emoji_picker">

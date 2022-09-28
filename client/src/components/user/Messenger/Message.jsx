@@ -16,7 +16,7 @@ function Message({ currentFriend, typingMessage, scrollRef }) {
 
   return (
     <>
-      <div className="message-show">
+      <div className="message-show scrollbar_mess">
         {message && message.length > 0 ? (
           message.map((m, index) =>
             // hien thi tin nhan ben nguoi gui

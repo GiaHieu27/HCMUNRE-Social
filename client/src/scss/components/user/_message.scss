@@ -1,11 +1,8 @@
 .message-show {
   height: 100%;
   padding: 10px;
-  overflow-y: auto;
+  overflow-y: scroll;
 
-  &::-webkit-scrollbar {
-    overflow: hidden;
-  }
   .friend_connect {
     display: flex;
     flex-direction: column;
