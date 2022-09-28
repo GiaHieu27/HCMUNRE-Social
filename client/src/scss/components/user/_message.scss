@@ -53,6 +53,12 @@
         color: var(--bs-white);
       }
 
+      .message-img {
+        background: none;
+        cursor: pointer;
+        padding: 0 !important;
+      }
+
       .message-text {
         text-align: end;
         padding: 10px;
@@ -62,7 +68,7 @@
           width: 160px;
           height: 222px;
           margin-right: 0px;
-          border-radius: 15px;
+          border-radius: 20px;
           overflow: hidden;
         }
       }
@@ -91,15 +97,21 @@
         color: var(--mes-text-color);
       }
 
+      .message-img {
+        background: none;
+        cursor: pointer;
+        padding: 0;
+      }
+
       .message-text {
         text-align: start;
         border-radius: 10px;
 
         img {
-          width: 220px;
-          height: 270px;
+          width: 160px;
+          height: 222px;
           margin-right: 0px;
-          border-radius: 5px;
+          border-radius: 20px;
           overflow: hidden;
         }
       }

@@ -2,6 +2,9 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import LightGallery from 'lightgallery/react';
+import lgZoom from 'lightgallery/plugins/zoom';
+import lgVideo from 'lightgallery/plugins/video';
 
 function FriendInfo({ currentFriend, onlineFriends }) {
   const { message } = useSelector((state) => state.messenger);
@@ -43,16 +46,21 @@ function FriendInfo({ currentFriend, onlineFriends }) {
         </div>
       </div>
 
-      <div className="gallery">
-        {message && message.length > 0
-          ? message.map(
-              (m, index) =>
-                m.message.image && (
-                  <img key={index} src={m.message.image} alt="image_mes_sent" />
-                )
-            )
-          : ''}
-      </div>
+      <LightGallery
+        licenseKey="`0000-0000-000-0000"
+        plugins={[lgZoom]}
+        mode="lg-fade"
+        elementClassNames="gallery"
+      >
+        {message &&
+          message.length > 0 &&
+          message.map(
+            (m, index) =>
+              m.message.image && (
+                <img key={index} src={m.message.image} alt="image_mes_sent" />
+              )
+          )}
+      </LightGallery>
     </div>
   );
 }

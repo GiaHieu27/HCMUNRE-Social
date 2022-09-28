@@ -6,7 +6,7 @@ const theme = createTheme({
       main: '#29c031',
     },
     greyCustom: {
-      main: '#bcc0c4',
+      main: '#a6a9ad',
     },
   },
 });

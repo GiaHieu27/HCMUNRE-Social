@@ -8,10 +8,12 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import RedeemIcon from '@mui/icons-material/Redeem';
 import SendIcon from '@mui/icons-material/Send';
+import IconButton from '@mui/material/IconButton';
+import Tooltip from '@mui/material/Tooltip';
 
 import Picker from 'emoji-picker-react';
 
-const MessageSend = ({
+function MessageSend({
   handleChangeInput,
   newMessage,
   handleSendingMessage,
@@ -19,10 +21,13 @@ const MessageSend = ({
   setNewMessage,
   imageMessage,
   setImageMessage,
-}) => {
+}) {
   const textRef = useRef(null);
+  const imgRef = useRef(null);
   const [cursorPosition, setCursorPosition] = useState();
   const [picker, setPicker] = useState(false);
+
+  
 
   useEffect(() => {
     textRef.current.selectionEnd = cursorPosition;
@@ -57,17 +62,22 @@ const MessageSend = ({
         <AddCircleIcon color="successCustom" />
       </div>
       <div className="file hover-image">
-        <div className="add-image">Thêm hình ảnh</div>
+        {/* <div className="add-image">Thêm hình ảnh</div> */}
         <input
           onChange={handleSendingImage}
           type="file"
           id="pic"
           className="form-control"
           accept="image/jpeg,image/png,image/gif,image/webp"
+          ref={imgRef}
         />
-        <label htmlFor="pic">
-          <InsertPhotoIcon color="successCustom" />
-        </label>
+        {/* <label htmlFor="pic"> */}
+        {/* </label> */}
+        <Tooltip title="Thêm hình ảnh" onClick={() => imgRef.current.click()}>
+          <IconButton sx={{ p: '5px' }}>
+            <InsertPhotoIcon color="successCustom" />
+          </IconButton>
+        </Tooltip>
       </div>
       <div className="file">
         <AttachFileIcon color="successCustom" />
@@ -131,7 +141,7 @@ const MessageSend = ({
       </div>
     </div>
   );
-};
+}
 
 MessageSend.prototype = {
   handleChangeInput: PropTypes.func,

@@ -4,6 +4,9 @@ import SyncLoader from 'react-spinners/SyncLoader';
 import moment from 'moment';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import LightGallery from 'lightgallery/react';
+import lgZoom from 'lightgallery/plugins/zoom';
+import lgVideo from 'lightgallery/plugins/video';
 
 function Message({ currentFriend, typingMessage, scrollRef }) {
   const {
@@ -22,12 +25,14 @@ function Message({ currentFriend, typingMessage, scrollRef }) {
                 <div className="image-message">
                   <div className="my-text">
                     {m.message.text === '' ? (
-                      <div
-                        className="message-text my"
-                        style={{ background: 'none' }}
+                      <LightGallery
+                        licenseKey="`0000-0000-000-0000"
+                        plugins={[lgZoom]}
+                        mode="lg-fade"
+                        elementClassNames="message-text message-img"
                       >
                         <img src={m.message.image} alt="" />
-                      </div>
+                      </LightGallery>
                     ) : (
                       <p className="message-text my">{m.message.text}</p>
                     )}
@@ -68,9 +73,14 @@ function Message({ currentFriend, typingMessage, scrollRef }) {
                   <div className="message-time">
                     <div className="fd-text">
                       {m.message.text === '' ? (
-                        <div className="message-text fd">
+                        <LightGallery
+                          licenseKey="`0000-0000-000-0000"
+                          plugins={[lgZoom]}
+                          mode="lg-fade"
+                          elementClassNames="message-text message-img"
+                        >
                           <img src={m.message.image} alt="" />
-                        </div>
+                        </LightGallery>
                       ) : (
                         <p className="message-text fd">{m.message.text}</p>
                       )}

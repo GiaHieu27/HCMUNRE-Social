@@ -14,7 +14,7 @@ function FriendMess({ friend, userId, onlineFriends }) {
       <div className="friend-image">
         <div className="image">
           <img src={friendInfo.picture} alt="" />
-
+          {/* Hien thi dau cham xanh khi ban be online */}
           {onlineFriends &&
             onlineFriends.length > 0 &&
             onlineFriends.some(
@@ -67,7 +67,7 @@ function FriendMess({ friend, userId, onlineFriends }) {
             </span>
           </div>
         </div>
-
+        {/* start: hien thi trang thai tin nhan */}
         {userId === lastMessage?.senderId ? (
           <div className="seen-unseen-icon">
             {lastMessage.status === 'seen' ? (
@@ -96,6 +96,7 @@ function FriendMess({ friend, userId, onlineFriends }) {
               )}
           </div>
         )}
+        {/* end: hien thi trang thai tin nhan */}
       </div>
     </div>
   );

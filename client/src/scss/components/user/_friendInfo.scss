@@ -63,7 +63,7 @@
   }
   .gallery {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     grid-gap: 5px;
     overflow-y: auto;
     display: none;
@@ -72,8 +72,9 @@
       display: none;
     }
     img {
-      width: 100%;
-      height: 100%;
+      width: 99px;
+      height: 99px;
+      cursor: pointer;
     }
   }
   #gallery {
