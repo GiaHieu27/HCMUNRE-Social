@@ -2,8 +2,11 @@ import PropTypes from 'prop-types';
 import { Dots } from '../../../svg';
 import AddFriendSmallCard from './AddFriendSmallCard';
 
-function PpYouMayKnow({ friends }) {
-  const friendsOfFriends = friends.map((item) => item.friends).flat();
+function PpYouMayKnow({ friends, userParam }) {
+  const friendsOfFriends = friends
+    .map((item) => item.friends)
+    .flat()
+    .filter((item) => item.username !== userParam);
 
   return (
     <div className="pplumayknow">
@@ -14,9 +17,11 @@ function PpYouMayKnow({ friends }) {
         </div>
       </div>
       <div className="pplumayknow_list">
-        {friendsOfFriends.map((item, index) => (
-          <AddFriendSmallCard item={item} key={index} />
-        ))}
+        {friendsOfFriends &&
+          friendsOfFriends.length &&
+          friendsOfFriends.map((item, index) => (
+            <AddFriendSmallCard item={item} key={index} userParam={userParam} />
+          ))}
       </div>
     </div>
   );
@@ -24,6 +29,7 @@ function PpYouMayKnow({ friends }) {
 
 PpYouMayKnow.propTypes = {
   friends: PropTypes.array,
+  userParam: PropTypes.string,
 };
 
 export default PpYouMayKnow;

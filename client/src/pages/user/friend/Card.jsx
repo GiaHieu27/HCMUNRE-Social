@@ -8,43 +8,54 @@ import {
   addFriend,
 } from '../../../functions/friend';
 
-function Card({ user, userStore, type, getFriendPages }) {
-  const [suggest, setSuggest] = React.useState();
-
+function Card({
+  friend,
+  userStore,
+  type,
+  getFriendPages,
+  setSuggestFriends,
+  sentRequest,
+  suggestFriends,
+  setSentRequest,
+}) {
   const token = userStore.token;
 
-  const handleCancelRequest = async (userId) => {
-    const res = await cancelRequest(userId, token);
+  const handleCancelRequest = async (friendId) => {
+    const res = await cancelRequest(friendId, token);
     if (res === 'ok') getFriendPages();
   };
-  const handleAcceptRequest = async (userId) => {
-    const res = await acceptRequest(userId, token);
+  const handleAcceptRequest = async (friendId) => {
+    const res = await acceptRequest(friendId, token);
     if (res === 'ok') getFriendPages();
   };
-  const handleDeleteRequest = async (userId) => {
-    const res = await deleteRequest(userId, token);
+  const handleDeleteRequest = async (friendId) => {
+    const res = await deleteRequest(friendId, token);
     if (res === 'ok') getFriendPages();
   };
 
-  const handleAddingFriend = async (userId) => {
-    const res = await addFriend(userId, token);
+  const handleAddingFriend = async (friendId) => {
+    const res = await addFriend(friendId, token);
     if (res === 'ok') {
+      // const newSuggestFriends = suggestFriends.filter(
+      //   (friend) => friend._id !== friendId
+      // );
+      // setSuggestFriends(newSuggestFriends);
       getFriendPages();
     }
   };
 
   return (
     <div className="req_card">
-      <Link to={`/profile/${user.username}`}>
-        <img src={user.picture} alt="" />
+      <Link to={`/profile/${friend.username}`}>
+        <img src={friend.picture} alt="" />
       </Link>
       <div className="req_name">
-        {user.first_name} {user.last_name}
+        {friend.first_name} {friend.last_name}
       </div>
       {type === 'sent' ? (
         <button
           className="green_btn"
-          onClick={() => handleCancelRequest(user._id)}
+          onClick={() => handleCancelRequest(friend._id)}
         >
           Huỷ yêu cầu
         </button>
@@ -52,13 +63,13 @@ function Card({ user, userStore, type, getFriendPages }) {
         <>
           <button
             className="green_btn"
-            onClick={() => handleAcceptRequest(user._id)}
+            onClick={() => handleAcceptRequest(friend._id)}
           >
             Xác nhận
           </button>
           <button
             className="gray_btn"
-            onClick={() => handleDeleteRequest(user._id)}
+            onClick={() => handleDeleteRequest(friend._id)}
           >
             Xoá
           </button>
@@ -66,7 +77,7 @@ function Card({ user, userStore, type, getFriendPages }) {
       ) : type === 'suggest' ? (
         <button
           className="green_btn"
-          onClick={() => handleAddingFriend(user._id)}
+          onClick={() => handleAddingFriend(friend._id)}
         >
           Kết bạn
         </button>
@@ -78,10 +89,17 @@ function Card({ user, userStore, type, getFriendPages }) {
 }
 
 Card.propTypes = {
-  user: PropTypes.object,
-  userStore: PropTypes.object,
   type: PropTypes.string,
+
+  friend: PropTypes.object,
+  userStore: PropTypes.object,
+
+  sentRequest: PropTypes.array,
+  suggestFriends: PropTypes.array,
+
   getFriendPages: PropTypes.func,
+  setSuggestFriends: PropTypes.func,
+  setSentRequest: PropTypes.func,
 };
 
 export default Card;

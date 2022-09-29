@@ -285,17 +285,28 @@ exports.getFriend = async (req, res) => {
           select: 'first_name last_name picture username',
           options: { limit: 5 },
         },
-      });
+      })
+      .lean();
 
     const sentRequests = await User.find({
       requests: mongoose.Types.ObjectId(userId),
-    }).select('first_name last_name picture username');
+    })
+      .select('first_name last_name picture username')
+      .lean();
 
     const { friends, requests } = user;
     const suggestFriends = friends.reduce((previousValue, currentValue) => {
       previousValue.push(currentValue.friends);
       return previousValue.flat();
     }, []);
+
+    if (sentRequests.length > 0) {
+      suggestFriends.filter((friend) => {
+        return sentRequests.some((item) => {
+          return item._id.toString() !== friend._id.toString();
+        });
+      });
+    }
 
     let friendMessenger = [];
     for (let i = 0; i < user.friends.length; i++) {

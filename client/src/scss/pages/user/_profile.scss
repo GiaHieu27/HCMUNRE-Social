@@ -283,7 +283,7 @@
 
   &_list {
     display: flex;
-    gap: 5px;
+    gap: 10px;
     align-items: center;
     height: 240px;
 
@@ -331,6 +331,7 @@
   border-radius: 10px;
   overflow: hidden;
   background: var(--bg-primary);
+  cursor: pointer;
 }
 
 .invert {
@@ -356,7 +357,7 @@
 }
 
 .bottom_container {
-  padding: 10px 2.2rem;
+  padding: 0 2.2rem;
 }
 
 .light_green_btn img {
