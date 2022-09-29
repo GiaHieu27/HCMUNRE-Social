@@ -1,8 +1,10 @@
-import { Dots } from "../../../svg";
-import { stories } from "../../../data/home";
-import AddFriendSmallCard from "./AddFriendSmallCard";
+import PropTypes from 'prop-types';
+import { Dots } from '../../../svg';
+import AddFriendSmallCard from './AddFriendSmallCard';
 
-function PpYouMayKnow() {
+function PpYouMayKnow({ friends }) {
+  const friendsOfFriends = friends.map((item) => item.friends).flat();
+
   return (
     <div className="pplumayknow">
       <div className="pplumayknow_header">
@@ -12,12 +14,16 @@ function PpYouMayKnow() {
         </div>
       </div>
       <div className="pplumayknow_list">
-        {stories.map((item, index) => (
+        {friendsOfFriends.map((item, index) => (
           <AddFriendSmallCard item={item} key={index} />
         ))}
       </div>
     </div>
   );
 }
+
+PpYouMayKnow.propTypes = {
+  friends: PropTypes.array,
+};
 
 export default PpYouMayKnow;

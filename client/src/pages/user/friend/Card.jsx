@@ -1,37 +1,50 @@
+import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {
   acceptRequest,
   cancelRequest,
   deleteRequest,
+  addFriend,
 } from '../../../functions/friend';
 
-function Card({ userr, user, type, getFriendPages }) {
+function Card({ user, userStore, type, getFriendPages }) {
+  const [suggest, setSuggest] = React.useState();
+
+  const token = userStore.token;
+
   const handleCancelRequest = async (userId) => {
-    const res = await cancelRequest(userId, user.token);
+    const res = await cancelRequest(userId, token);
     if (res === 'ok') getFriendPages();
   };
   const handleAcceptRequest = async (userId) => {
-    const res = await acceptRequest(userId, user.token);
+    const res = await acceptRequest(userId, token);
     if (res === 'ok') getFriendPages();
   };
   const handleDeleteRequest = async (userId) => {
-    const res = await deleteRequest(userId, user.token);
+    const res = await deleteRequest(userId, token);
     if (res === 'ok') getFriendPages();
+  };
+
+  const handleAddingFriend = async (userId) => {
+    const res = await addFriend(userId, token);
+    if (res === 'ok') {
+      getFriendPages();
+    }
   };
 
   return (
     <div className="req_card">
-      <Link to={`/profile/${userr.username}`}>
-        <img src={userr.picture} alt="" />
+      <Link to={`/profile/${user.username}`}>
+        <img src={user.picture} alt="" />
       </Link>
       <div className="req_name">
-        {userr.first_name} {userr.last_name}
+        {user.first_name} {user.last_name}
       </div>
       {type === 'sent' ? (
         <button
           className="green_btn"
-          onClick={() => handleCancelRequest(userr._id)}
+          onClick={() => handleCancelRequest(user._id)}
         >
           Huỷ yêu cầu
         </button>
@@ -39,17 +52,24 @@ function Card({ userr, user, type, getFriendPages }) {
         <>
           <button
             className="green_btn"
-            onClick={() => handleAcceptRequest(userr._id)}
+            onClick={() => handleAcceptRequest(user._id)}
           >
             Xác nhận
           </button>
           <button
             className="gray_btn"
-            onClick={() => handleDeleteRequest(userr._id)}
+            onClick={() => handleDeleteRequest(user._id)}
           >
             Xoá
           </button>
         </>
+      ) : type === 'suggest' ? (
+        <button
+          className="green_btn"
+          onClick={() => handleAddingFriend(user._id)}
+        >
+          Kết bạn
+        </button>
       ) : (
         ''
       )}
@@ -58,8 +78,8 @@ function Card({ userr, user, type, getFriendPages }) {
 }
 
 Card.propTypes = {
-  userr: PropTypes.object,
   user: PropTypes.object,
+  userStore: PropTypes.object,
   type: PropTypes.string,
   getFriendPages: PropTypes.func,
 };

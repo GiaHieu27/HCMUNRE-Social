@@ -1,10 +1,12 @@
+const mongoose = require('mongoose');
 const User = require('../../models/User');
 const Post = require('../../models/Post');
 
 exports.getProfile = async (req, res) => {
   try {
     const { username } = req.params;
-    const user = await User.findById(req.user.id);
+    const userId = req.user.id;
+    const user = await User.findById(userId);
     const profile = await User.findOne({ username }).select('-password');
     const posts = await Post.find({ user: profile._id })
       .populate('user', '-password')
@@ -37,7 +39,17 @@ exports.getProfile = async (req, res) => {
       friendship.requestReceived = true;
     }
 
-    await profile.populate('friends', 'first_name last_name username picture');
+    await profile.populate({
+      path: 'friends',
+      select: 'first_name last_name picture username friends',
+      populate: {
+        path: 'friends',
+        match: { _id: { $ne: mongoose.Types.ObjectId(userId) } },
+        select: 'first_name last_name picture username',
+        options: { limit: 5 },
+      },
+    });
+
     res.json({ ...profile.toObject(), posts, friendship });
   } catch (error) {
     res.status(500).json({ message: error.message });

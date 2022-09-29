@@ -210,7 +210,7 @@ function Profile({ getPosts }) {
       <div className="profile_bottom">
         <div className="profile_container">
           <div className="bottom_container">
-            <PpYouMayKnow />
+            {profile.friends && <PpYouMayKnow friends={profile.friends} />}
             <div className={`profile_grid`}>
               <div className="profile_left">
                 {loading ? (

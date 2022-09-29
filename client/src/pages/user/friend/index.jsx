@@ -11,7 +11,9 @@ function Friend() {
   const dispatch = useDispatch();
   const { type } = useParams();
 
-  const { user, friends: friendData } = useSelector((state) => ({ ...state }));
+  const { user: userStore, friends: friendData } = useSelector((state) => ({
+    ...state,
+  }));
 
   const friends = friendData.data;
   const allFriends = friendData.data.friends;
@@ -19,13 +21,13 @@ function Friend() {
   const actions = friendsSlice.actions;
   const getFriendPages = useCallback(async () => {
     dispatch(actions.FRIEND_REQUEST());
-    const res = await getFriend(user.token);
+    const res = await getFriend(userStore.token);
     if (res.success === true) {
       dispatch(actions.FRIEND_SUCCESS(res.data));
     } else {
       dispatch(actions.FRIEND_ERROR(res.data));
     }
-  }, [dispatch, user.token, actions]);
+  }, [dispatch, actions, userStore.token]);
 
   useEffect(() => {
     getFriendPages();
@@ -131,11 +133,11 @@ function Friend() {
               </div>
               <div className="flex_wrap">
                 {friends.requests &&
-                  friends.requests.map((userr) => (
+                  friends.requests.map((user) => (
                     <Card
-                      key={userr._id}
-                      userr={userr}
+                      key={user._id}
                       user={user}
+                      userStore={userStore}
                       getFriendPages={getFriendPages}
                       type="request"
                     />
@@ -156,11 +158,11 @@ function Friend() {
               </div>
               <div className="flex_wrap">
                 {friends.sentRequests &&
-                  friends.sentRequests.map((userr) => (
+                  friends.sentRequests.map((user) => (
                     <Card
-                      key={userr._id}
-                      userr={userr}
+                      key={user._id}
                       user={user}
+                      userStore={userStore}
                       getFriendPages={getFriendPages}
                       type="sent"
                     />
@@ -181,11 +183,11 @@ function Friend() {
               </div>
               <div className="flex_wrap">
                 {friends.suggestFriends &&
-                  friends.suggestFriends.map((userr) => (
+                  friends.suggestFriends.map((user) => (
                     <Card
-                      key={userr._id}
-                      userr={userr}
+                      key={user._id}
                       user={user}
+                      userStore={userStore}
                       getFriendPages={getFriendPages}
                       type="suggest"
                     />
@@ -206,11 +208,11 @@ function Friend() {
               </div>
               <div className="flex_wrap">
                 {allFriends &&
-                  allFriends.map((userr) => (
+                  allFriends.map((user) => (
                     <Card
-                      key={userr._id}
-                      userr={userr}
+                      key={user._id}
                       user={user}
+                      userStore={userStore}
                       getFriendPages={getFriendPages}
                       type="friend"
                     />

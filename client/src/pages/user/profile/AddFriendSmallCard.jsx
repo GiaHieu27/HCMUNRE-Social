@@ -1,14 +1,13 @@
+import PropTypes from 'prop-types';
+
 function AddFriendSmallCard({ item }) {
+  const name = `${item.first_name} ${item.last_name}`;
   return (
     <div className="addfriendCard">
       <div className="addfriend_imgsmall">
-        <img src={item.profile_picture} alt="" />
+        <img src={item.picture} alt="avatar" />
         <div className="addfriend_infos">
-          <div className="addfriend_name">
-            {item.profile_name.length > 11
-              ? `${item.profile_name.substring(0, 10)}...`
-              : item.profile_name}
-          </div>
+          <div className="addfriend_name">{name}</div>
           <div className="light_green_btn">
             <img
               src="../../../icons/addFriend.png"
@@ -22,5 +21,9 @@ function AddFriendSmallCard({ item }) {
     </div>
   );
 }
+
+AddFriendSmallCard.propTypes = {
+  item: PropTypes.object,
+};
 
 export default AddFriendSmallCard;
