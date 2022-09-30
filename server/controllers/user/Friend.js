@@ -288,22 +288,23 @@ exports.getFriend = async (req, res) => {
       })
       .lean();
 
-    const sentRequests = await User.find({
+    let sentRequests = await User.find({
       requests: mongoose.Types.ObjectId(userId),
     })
       .select('first_name last_name picture username')
       .lean();
 
     const { friends, requests } = user;
-    const suggestFriends = friends.reduce((previousValue, currentValue) => {
+    let suggestFriends = friends.reduce((previousValue, currentValue) => {
       previousValue.push(currentValue.friends);
       return previousValue.flat();
     }, []);
 
+    // loc goi y ket ban neu da gui loi moi ket ban
     if (sentRequests.length > 0) {
-      suggestFriends.filter((friend) => {
-        return sentRequests.some((item) => {
-          return item._id.toString() !== friend._id.toString();
+      suggestFriends = suggestFriends.filter((friendSuggest) => {
+        return !sentRequests.find((friendSent) => {
+          return friendSuggest._id.toString() === friendSent._id.toString();
         });
       });
     }

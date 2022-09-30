@@ -1,5 +1,7 @@
 import React from 'react';
 import Moment from 'react-moment';
+import LightGallery from 'lightgallery/react';
+import lgZoom from 'lightgallery/plugins/zoom';
 
 function Comment({ comment }) {
   return (
@@ -17,7 +19,13 @@ function Comment({ comment }) {
           <div className="comment_text">{comment.comment}</div>
         </div>
         {comment.images && (
-          <img src={comment.images} alt="" className="comment_image" />
+          <LightGallery
+            licenseKey="`0000-0000-000-0000"
+            plugins={[lgZoom]}
+            mode="lg-fade"
+          >
+            <img src={comment.images} alt="" className="comment_image" />
+          </LightGallery>
         )}
         <div className="comment_actions">
           <span>Thích</span>
