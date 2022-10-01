@@ -10,7 +10,7 @@ function FriendMess({ friend, userId, onlineFriends }) {
   const { friendInfo, lastMessage } = friend;
 
   return (
-    <div className="friend-mess scrollbar_mess">
+    <div className="friend-mess">
       <div className="friend-image">
         <div className="image">
           <img src={friendInfo.picture} alt="" />

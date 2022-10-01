@@ -2,7 +2,7 @@ import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
 import { styled } from '@mui/material/styles';
 import Zoom from '@mui/material/Zoom';
 
-const TooltipCustom = styled(({ className, ...props }) => (
+const TooltipMUI = styled(({ className, ...props }) => (
   <Tooltip
     {...props}
     arrow
@@ -16,4 +16,4 @@ const TooltipCustom = styled(({ className, ...props }) => (
   },
 }));
 
-export default TooltipCustom;
+export default TooltipMUI;

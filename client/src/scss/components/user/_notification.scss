@@ -1,0 +1,36 @@
+.notification {
+  right: -1rem;
+  width: 361px;
+  height: 88vh;
+  background: var(--bg-primary);
+  overflow-y: auto;
+
+  &_item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 21px;
+
+    img {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+    }
+
+    p {
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 1.25;
+      color: var(--color-secondary);
+
+      span {
+        color: var(--color-primary);
+      }
+    }
+
+    span {
+      font-size: 14px;
+      line-height: 1.25;
+    }
+  }
+}

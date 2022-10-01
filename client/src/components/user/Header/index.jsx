@@ -14,13 +14,15 @@ import {
   Market,
   Menu,
   Search,
+  Notifications,
   Watch,
   Messenger,
-  Notifications,
   ArrowDown,
   Home,
   FriendsActive,
 } from '../../../svg';
+import { Badge } from '@mui/material';
+import Notification from './Notification';
 
 function Header({ page, getPosts }) {
   const { user } = useSelector((user) => ({ ...user }));
@@ -29,15 +31,22 @@ function Header({ page, getPosts }) {
 
   const [showSearchMenu, setShowSearchMenu] = useState(false);
   const [showAllMenu, setShowAllMenu] = useState(false);
+  const [showUserMenu, setShowUserMenu] = useState(false);
+  const [showNotification, setShowNotification] = useState(false);
+
   const allMenu = useRef(null);
   useClickOutSide(allMenu, () => {
     setShowAllMenu(false);
   });
 
-  const [showUserMenu, setShowUserMenu] = useState(false);
   const userMenu = useRef(null);
   useClickOutSide(userMenu, () => {
     setShowUserMenu(false);
+  });
+
+  const notification = useRef(null);
+  useClickOutSide(notification, () => {
+    setShowNotification(false);
   });
 
   return (
@@ -111,38 +120,51 @@ function Header({ page, getPosts }) {
           <img src={user?.picture} alt="" />
           <span>{user?.last_name}</span>
         </Link>
+
+        {/* All menu */}
         <div
-          className={`circle_icon hover1 ${showAllMenu && 'active_header'}`}
+          className={`circle_icon ${showAllMenu ? 'active_header' : 'hover1'}`}
           ref={allMenu}
+          onClick={() => {
+            setShowAllMenu(!showAllMenu);
+          }}
         >
-          <div
-            onClick={() => {
-              setShowAllMenu(!showAllMenu);
-            }}
-          >
-            <div style={{ transform: 'translateY(-2px)' }}>
-              <Menu />
-            </div>
+          <div style={{ transform: 'translateY(-2px)' }}>
+            <Menu />
           </div>
           {showAllMenu && <AllMenu />}
         </div>
+
+        {/* Messenger */}
         {pathname !== '/messenger' && (
           <Link to="/messenger" className="circle_icon hover1">
             <Messenger />
           </Link>
         )}
-        <div className="circle_icon hover1">
-          <Notifications />
-          <div className="right_notification">5</div>
-        </div>
+
+        {/* Notification */}
         <div
-          className={`circle_icon hover1 ${showUserMenu && 'active_header'}`}
-          ref={userMenu}
+          className={`circle_icon ${
+            showNotification ? 'active_header' : 'hover1'
+          }`}
+          ref={notification}
+          onClick={() => setShowNotification(!showNotification)}
         >
-          <div onClick={() => setShowUserMenu(!showUserMenu)}>
-            <div style={{ transform: 'translateY(-1px)' }}>
-              <ArrowDown />
-            </div>
+          <Badge badgeContent={4} color="error">
+            {/* <NotificationsIcon /> */}
+            <Notifications />
+          </Badge>
+          {showNotification && <Notification user={user} />}
+        </div>
+
+        {/* User menu */}
+        <div
+          className={`circle_icon ${showUserMenu ? 'active_header' : 'hover1'}`}
+          ref={userMenu}
+          onClick={() => setShowUserMenu(!showUserMenu)}
+        >
+          <div style={{ transform: 'translateY(-1px)' }}>
+            <ArrowDown />
           </div>
           {showUserMenu && <UserMenu user={user} />}
         </div>

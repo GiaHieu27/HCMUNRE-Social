@@ -377,7 +377,7 @@ function Messenger() {
                 </div>
               </div>
 
-              <div className="friends-mess">
+              <div className="friends-mess scrollbar_mess">
                 {friends && friends.length
                   ? friends.map((friend) => (
                       <div

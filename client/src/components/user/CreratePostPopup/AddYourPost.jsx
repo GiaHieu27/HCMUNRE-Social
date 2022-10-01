@@ -1,5 +1,9 @@
 import PropTypes from 'prop-types';
 import { Photo } from '../../../svg';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Tooltip from 'react-bootstrap/Tooltip';
+import Button from 'react-bootstrap/Button';
+import TooltipBs from '../TooltipBs';
 
 function AddYourPost(props) {
   return (
@@ -18,7 +22,9 @@ function AddYourPost(props) {
             }
           }}
         >
-          <Photo color={`${props.background ? '#b0b3b8' : '#20a305'}`} />
+          <TooltipBs title="Hình ảnh/video">
+            <Photo color={`${props.background ? '#b0b3b8' : '#20a305'}`} />
+          </TooltipBs>
         </div>
 
         <div
@@ -32,25 +38,29 @@ function AddYourPost(props) {
             }`,
           }}
         >
-          <img
-            src="/icons/colorful.png"
-            alt="pick-background-color"
-            width={35}
-            onClick={() => {
-              if (!props.images.length && !props.videos.length) {
-                props.setShowBg(!props.showBg);
-              }
-            }}
-          />
+          <TooltipBs title="Hình nền">
+            <img
+              src="/icons/colorful.png"
+              alt="pick-background-color"
+              width={35}
+              onClick={() => {
+                if (!props.images.length && !props.videos.length) {
+                  props.setShowBg(!props.showBg);
+                }
+              }}
+            />
+          </TooltipBs>
         </div>
-        <div className="post_header_right">
-          <i
-            className={`emoji_icon_large`}
-            onClick={() => {
-              props.setPicker(!props.picker);
-            }}
-          ></i>
-        </div>
+        <TooltipBs title={'Biểu tượng cảm xúc'}>
+          <div className="post_header_right">
+            <i
+              className={`emoji_icon_large`}
+              onClick={() => {
+                props.setPicker(!props.picker);
+              }}
+            ></i>
+          </div>
+        </TooltipBs>
       </div>
     </div>
   );

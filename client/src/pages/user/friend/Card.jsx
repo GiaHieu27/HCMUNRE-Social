@@ -36,10 +36,6 @@ function Card({
   const handleAddingFriend = async (friendId) => {
     const res = await addFriend(friendId, token);
     if (res === 'ok') {
-      // const newSuggestFriends = suggestFriends.filter(
-      //   (friend) => friend._id !== friendId
-      // );
-      // setSuggestFriends(newSuggestFriends);
       getFriendPages();
     }
   };

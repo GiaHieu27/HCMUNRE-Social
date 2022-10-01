@@ -10,7 +10,7 @@ import RedeemIcon from '@mui/icons-material/Redeem';
 import SendIcon from '@mui/icons-material/Send';
 
 import Picker from 'emoji-picker-react';
-import TooltipCustom from '../TooltipCustom';
+import TooltipMUI from '../TooltipMUI';
 
 function MessageSend({
   handleChangeInput,
@@ -55,12 +55,11 @@ function MessageSend({
     <div className="message-send-section">
       <input type="checkbox" id="emoji" />
       <div className="file hover-attachment">
-        <TooltipCustom title="Thêm hành động">
+        <TooltipMUI title="Thêm hành động">
           <AddCircleIcon color="successCustom" />
-        </TooltipCustom>
+        </TooltipMUI>
       </div>
       <div className="file hover-image">
-        {/* <div className="add-image">Thêm hình ảnh</div> */}
         <input
           onChange={handleSendingImage}
           type="file"
@@ -69,22 +68,22 @@ function MessageSend({
           accept="image/jpeg,image/png,image/gif,image/webp"
           ref={imgRef}
         />
-        <TooltipCustom
+        <TooltipMUI
           title="Thêm hình ảnh"
           onClick={() => imgRef.current.click()}
         >
           <InsertPhotoIcon color="successCustom" />
-        </TooltipCustom>
+        </TooltipMUI>
       </div>
       <div className="file">
-        <TooltipCustom title="Đính kèm tệp">
+        <TooltipMUI title="Đính kèm tệp">
           <AttachFileIcon color="successCustom" />
-        </TooltipCustom>
+        </TooltipMUI>
       </div>
       <div className="file hover-gift">
-        <TooltipCustom title="Thêm hình động">
+        <TooltipMUI title="Thêm hình động">
           <RedeemIcon color="successCustom" />
-        </TooltipCustom>
+        </TooltipMUI>
       </div>
       <div
         className="message-type"
@@ -126,20 +125,20 @@ function MessageSend({
           onClick={() => setPicker(!picker)}
           style={{ transform: 'translateX(-10px)', cursor: 'pointer' }}
         >
-          <TooltipCustom title="Chọn biểu tượng cảm xúc">
+          <TooltipMUI title="Chọn biểu tượng cảm xúc">
             <EmojiEmotionsIcon color="successCustom" />
-          </TooltipCustom>
+          </TooltipMUI>
         </div>
       </div>
       <div onClick={handleSendingMessage} className="file">
         {newMessage || imageMessage ? (
-          <TooltipCustom title="Nhấn Enter để gửi tin nhắn">
+          <TooltipMUI title="Nhấn Enter để gửi tin nhắn">
             <SendIcon color="successCustom" />
-          </TooltipCustom>
+          </TooltipMUI>
         ) : (
-          <TooltipCustom title="Gửi yêu thương">
+          <TooltipMUI title="Gửi yêu thương">
             <FavoriteIcon color="error" />
-          </TooltipCustom>
+          </TooltipMUI>
         )}
       </div>
       <div className="comment_emoji_picker">
