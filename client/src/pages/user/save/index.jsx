@@ -1,33 +1,39 @@
-import { useEffect, useState, useCallback } from "react";
-import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
-import Header from "../../../components/user/Header";
-import axios from "axios";
-import ItemSaved from "./ItemSaved";
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { Grid } from '@mui/material';
+import Skeleton from '@mui/material/Skeleton';
+import axios from 'axios';
+
+import Header from '../../../components/user/Header';
+import ItemSaved from './ItemSaved';
 
 function Saved() {
   const user = useSelector((state) => state.user);
   const [allSavedPosts, setAllSavedPosts] = useState([]);
-
-  const getAllSavedPosts = useCallback(async () => {
-    try {
-      const { data } = await axios.get(
-        `${process.env.REACT_APP_BACKEND_URL}/getAllSavedPosts`,
-        {
-          headers: {
-            Authorization: "Bearer " + user.token,
-          },
-        }
-      );
-      setAllSavedPosts(data);
-    } catch (error) {
-      return error.response.data.message;
-    }
-  }, [user.token]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    const getAllSavedPosts = async () => {
+      try {
+        setLoading(true);
+        const { data } = await axios.get(
+          `${process.env.REACT_APP_BACKEND_URL}/getAllSavedPosts`,
+          {
+            headers: {
+              Authorization: 'Bearer ' + user.token,
+            },
+          }
+        );
+        setAllSavedPosts(data);
+        setLoading(false);
+      } catch (error) {
+        setLoading(false);
+        return error.response.data.message;
+      }
+    };
     getAllSavedPosts();
-  }, [getAllSavedPosts]);
+  }, [user.token]);
 
   return (
     <>
@@ -53,7 +59,27 @@ function Saved() {
 
         <div className="friends_right">
           <h4 className="fw-bold fs-5 mt-2">Tất cả</h4>
-          {allSavedPosts && allSavedPosts.length ? (
+          {loading && !allSavedPosts.length ? (
+            <div className="createPost saved-card mt-3">
+              <Grid container spacing={5}>
+                <Grid item xs={2}>
+                  <Skeleton
+                    variant="rounded"
+                    width={144}
+                    height={144}
+                    sx={{ borderRadius: '10px' }}
+                  />
+                </Grid>
+                <Grid item xs={8}>
+                  <Skeleton height={30} width={740} />
+                  <Skeleton height={30} width={740} />
+                  <Skeleton height={30} width={190} />
+                  <Skeleton height={30} width={190} />
+                  <Skeleton height={30} width={90} />
+                </Grid>
+              </Grid>
+            </div>
+          ) : allSavedPosts && allSavedPosts.length ? (
             allSavedPosts.map((item) => (
               <ItemSaved key={item._id} item={item} />
             ))

@@ -1,10 +1,10 @@
-import { useRef, useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
-import { BsDot } from "react-icons/bs";
-import PropTypes from "prop-types";
+import { useRef, useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { BsDot } from 'react-icons/bs';
+import PropTypes from 'prop-types';
 
-import { savePost } from "../../../functions/post";
+import { savePost } from '../../../functions/post';
 
 function ItemSaved({ item }) {
   const user = useSelector((state) => state.user);
@@ -19,12 +19,11 @@ function ItemSaved({ item }) {
 
   const handleUnSavedPost = async () => {
     const result = await savePost(post._id, postBy._id, user.token);
-    if (result.status === "ok") postRef.current.remove();
+    if (result.status === 'ok') postRef.current.remove();
   };
 
   return (
     <div className="createPost saved-card mt-3" ref={postRef}>
-      {/* <Link to={`/${postBy?.username}/posts/${post?._id}`}> */}
       {post?.images && post?.images.length ? (
         <img src={post?.images[0].url} alt="saved" />
       ) : post?.videos && post?.videos.length ? (
@@ -32,7 +31,6 @@ function ItemSaved({ item }) {
       ) : (
         <img src={postBy?.picture} alt="saved" />
       )}
-      {/* </Link> */}
 
       <div className="saved-card_content">
         <div className="saved-card_header">
@@ -41,8 +39,8 @@ function ItemSaved({ item }) {
               {post?.text
                 ? post.text
                 : post?.images && post?.images.length
-                ? post?.images.length + " ảnh"
-                : post?.videos.length + " video"}
+                ? post?.images.length + ' ảnh'
+                : post?.videos.length + ' video'}
             </Link>
           </div>
           <div className="saved-card_subtitle">
@@ -56,7 +54,7 @@ function ItemSaved({ item }) {
           <img src={postBy?.picture} alt="avatar" />
 
           <p>
-            Đã lưu từ{" "}
+            Đã lưu từ{' '}
             <Link to={`/${postBy?.username}/posts/${post?._id}`}>
               bài viết của {postBy?.first_name} {postBy?.last_name}
             </Link>
