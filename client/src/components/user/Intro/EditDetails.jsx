@@ -1,13 +1,15 @@
-import { useRef } from "react";
-import { useContext } from "react";
-import { ProfileContext } from "../../../profileContext/Context";
-import Detail from "./Detail";
-import useClickOutside from "../../../hooks/useClickOutSide";
+import { useRef } from 'react';
+import { useContext } from 'react';
+import { ProfileContext } from '../../../profileContext/Context';
+import Detail from './Detail';
+import useClickOutside from '../../../hooks/useClickOutSide';
+import useBodyScrollLock from '../../../hooks/useBodyScrollLock';
 
 function EditDetails({ setVisible }) {
   const { details } = useContext(ProfileContext);
   const modalRef = useRef(null);
   useClickOutside(modalRef, () => setVisible(false));
+  useBodyScrollLock();
 
   return (
     <div className="blur">

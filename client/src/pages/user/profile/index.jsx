@@ -209,9 +209,6 @@ function Profile({ getPosts }) {
       <div className="profile_bottom">
         <div className="profile_container">
           <div className="bottom_container">
-            {/* {profile.friends && (
-              <PpYouMayKnow friends={profile.friends} userParam={userParam} />
-            )} */}
             <div className={`profile_grid`}>
               <div className="profile_left">
                 {loading ? (

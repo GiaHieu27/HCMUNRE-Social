@@ -1,14 +1,14 @@
-import React from "react";
+import React from 'react';
 
 function GridPost() {
   return (
     <div className="createPost mt-3">
       <div
         className="createPost_header"
-        style={{ justifyContent: "space-between" }}
+        style={{ justifyContent: 'space-between' }}
       >
         <div className="left_header_grid">Posts</div>
-        <div className="flex">
+        {/* <div className="flex">
           <div className="gray_btn">
             <i className="equalize_icon"></i>
           </div>
@@ -16,7 +16,7 @@ function GridPost() {
             <i className="manage_icon"></i>
             Manage Posts
           </div>
-        </div>
+        </div> */}
       </div>
 
       <div className="create_splitter"></div>

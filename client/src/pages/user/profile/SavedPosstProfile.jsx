@@ -1,10 +1,10 @@
-import { useCallback, useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-import axios from "axios";
+import { useEffect, useRef, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
 
-import Header from "../../../components/user/Header";
-import Post from "../../../components/user/Post";
+import Header from '../../../components/user/Header';
+import Post from '../../../components/user/Post';
 
 function SavedPosstProfile() {
   const { idPost } = useParams();
@@ -14,26 +14,25 @@ function SavedPosstProfile() {
   const [height, setHeight] = useState();
   const savedPostRef = useRef(null);
 
-  const getOneSavedPost = useCallback(async () => {
-    try {
-      const { data } = await axios.get(
-        `${process.env.REACT_APP_BACKEND_URL}/getOneSavedPost/${idPost}`,
-        {
-          headers: {
-            Authorization: "Bearer " + user.token,
-          },
-        }
-      );
-      setPost(data);
-    } catch (error) {
-      return error.response.data.message;
-    }
-  }, [idPost, user.token]);
-
   useEffect(() => {
+    const getOneSavedPost = async () => {
+      try {
+        const { data } = await axios.get(
+          `${process.env.REACT_APP_BACKEND_URL}/getOneSavedPost/${idPost}`,
+          {
+            headers: {
+              Authorization: 'Bearer ' + user.token,
+            },
+          }
+        );
+        setPost(data);
+      } catch (error) {
+        return error.response.data.message;
+      }
+    };
     getOneSavedPost();
-  }, [getOneSavedPost]);
-
+  }, [user.token, idPost]);
+  // set color bg
   useEffect(() => {
     const a = setInterval(() => {
       setHeight(savedPostRef.current.clientHeight);
@@ -48,9 +47,7 @@ function SavedPosstProfile() {
       <Header />
       <div className="home" style={{ height: `${height + 140}px` }}>
         <div className="saved_post" ref={savedPostRef}>
-          {post.hasOwnProperty("background") && (
-            <Post post={post} user={user} saved />
-          )}
+          {post.background && <Post post={post} user={user} saved />}
         </div>
       </div>
     </>

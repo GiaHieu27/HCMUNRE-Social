@@ -150,8 +150,16 @@ function Header({ page, getPosts }) {
           ref={notification}
           onClick={() => setShowNotification(!showNotification)}
         >
-          <Badge badgeContent={4} color="error">
-            {/* <NotificationsIcon /> */}
+          <Badge
+            badgeContent={4}
+            color="error"
+            sx={{
+              '& .MuiBadge-badge': {
+                top: '-4px',
+                right: '-1px',
+              },
+            }}
+          >
             <Notifications />
           </Badge>
           {showNotification && <Notification user={user} />}
