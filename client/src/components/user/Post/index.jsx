@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, useCallback } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import LightGallery from 'lightgallery/react';
@@ -13,8 +13,11 @@ import Comment from './Comment';
 import ImgAndVid from './ImgAndVid';
 import { Dots, Public } from '../../../svg';
 import { getReacts, reactPost } from '../../../functions/post';
+import { SocketContext } from '../../../context/socketContext';
 
 function Post({ post, user, profile, saved }) {
+  const { socket } = React.useContext(SocketContext);
+
   const [visible, setVisible] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
   const [reacts, setReacts] = useState([]);
@@ -25,6 +28,7 @@ function Post({ post, user, profile, saved }) {
   const [checkSavedPost, setCheckSavedPost] = useState();
 
   const postRef = useRef(null);
+  const name = user.first_name + user.last_name;
 
   const showMore = () => {
     setCount((prev) => prev + 3);
@@ -61,7 +65,14 @@ function Post({ post, user, profile, saved }) {
         setTotal((prev) => --prev);
       }
     }
+    socket.emit('sendNotification', {
+      sender: user,
+      recieverId: post.user._id,
+      type: 1,
+    });
   };
+
+  // console.log(post);
 
   const onInit = () => {
     if (!document) return;

@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { Badge } from '@mui/material';
@@ -23,31 +23,41 @@ import {
   FriendsActive,
 } from '../../../svg';
 import Notification from './Notification';
+import { SocketContext } from '../../../context/socketContext';
 
 function Header({ page, getPosts }) {
   const { user } = useSelector((user) => ({ ...user }));
+  const { socket } = React.useContext(SocketContext);
   const { pathname } = useLocation();
   const color = '#20a305';
 
-  const [showSearchMenu, setShowSearchMenu] = useState(false);
-  const [showAllMenu, setShowAllMenu] = useState(false);
-  const [showUserMenu, setShowUserMenu] = useState(false);
-  const [showNotification, setShowNotification] = useState(false);
+  const [showSearchMenu, setShowSearchMenu] = React.useState(false);
+  const [showAllMenu, setShowAllMenu] = React.useState(false);
+  const [showUserMenu, setShowUserMenu] = React.useState(false);
+  const [showNotification, setShowNotification] = React.useState(false);
+  const [notifications, setNotifications] = React.useState([]);
 
-  const allMenu = useRef(null);
+  const allMenu = React.useRef(null);
   useClickOutSide(allMenu, () => {
     setShowAllMenu(false);
   });
 
-  const userMenu = useRef(null);
+  const userMenu = React.useRef(null);
   useClickOutSide(userMenu, () => {
     setShowUserMenu(false);
   });
 
-  const notification = useRef(null);
-  useClickOutSide(notification, () => {
+  const notificationRef = React.useRef(null);
+  useClickOutSide(notificationRef, () => {
     setShowNotification(false);
   });
+
+  React.useEffect(() => {
+    socket.on('getNotification', (data) => {
+      console.log(data);
+      setNotifications((prev) => [...prev, data]);
+    });
+  }, [socket]);
 
   return (
     <header>
@@ -147,11 +157,11 @@ function Header({ page, getPosts }) {
           className={`circle_icon ${
             showNotification ? 'active_header' : 'hover1'
           }`}
-          ref={notification}
+          ref={notificationRef}
           onClick={() => setShowNotification(!showNotification)}
         >
           <Badge
-            badgeContent={4}
+            badgeContent={notifications.length}
             color="error"
             sx={{
               '& .MuiBadge-badge': {
@@ -162,7 +172,7 @@ function Header({ page, getPosts }) {
           >
             <Notifications />
           </Badge>
-          {showNotification && <Notification user={user} />}
+          {showNotification && <Notification notifications={notifications} />}
         </div>
 
         {/* User menu */}

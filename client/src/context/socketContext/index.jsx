@@ -6,11 +6,7 @@ const SocketContext = React.createContext();
 
 function SocketProvider({ children }) {
   const user = useSelector((state) => state.user);
-  const [socket, setSocket] = React.useState(null);
-
-  React.useEffect(() => {
-    setSocket(io('ws://localhost:8000'));
-  }, []);
+  const socket = io('ws://localhost:8000');
 
   return (
     <SocketContext.Provider value={{ user, socket }}>

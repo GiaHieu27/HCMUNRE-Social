@@ -1,5 +1,5 @@
 // import lib
-import { useCallback, useEffect, useReducer, useState } from 'react';
+import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import Cookies from 'js-cookie';
@@ -19,6 +19,7 @@ import CreratePostPopup from './components/user/CreratePostPopup';
 import Friend from './pages/user/friend';
 import Messenger from './pages/user/messenger';
 import { postsReducer } from './functions/reducer';
+import { SocketContext } from './context/socketContext';
 
 // Admin
 import AdminLoggedInRoutes from './routes/admin/AdminLoggedInRoutes';
@@ -28,16 +29,17 @@ import HomeAdmin from './pages/admin/home';
 
 function App() {
   const { user, theme } = useSelector((sate) => ({ ...sate }));
+  const { socket } = React.useContext(SocketContext);
 
-  const [visible, setVisible] = useState(false);
+  const [visible, setVisible] = React.useState(false);
 
-  const [{ loading, posts }, dispatch] = useReducer(postsReducer, {
+  const [{ loading, posts }, dispatch] = React.useReducer(postsReducer, {
     loading: false,
     posts: [],
     error: '',
   });
 
-  const getPosts = useCallback(async () => {
+  const getPosts = React.useCallback(async () => {
     try {
       dispatch({
         type: 'POST_REQUEST',
@@ -62,12 +64,17 @@ function App() {
     }
   }, [user?.token]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (Cookies.get('user')) getPosts();
   }, [getPosts]);
 
+  React.useEffect(() => {
+    socket.emit('addUser', user?.id, user);
+  }, [socket, user]);
+
   return (
     <div className={theme ? 'dark' : ''}>
+      {/* create post popup */}
       {visible && (
         <CreratePostPopup
           user={user}

@@ -27,12 +27,13 @@ const findFriend = (id) => {
 };
 
 io.on('connection', (socket) => {
-  console.log('someone connected');
+  console.log('user connected');
 
+  // start messenger
   socket.on('addUser', (userId, userInfo) => {
     // userId: string
     // socket.id: string
-    // userInfo: obj
+    // userInfo: obj = user trong store
     addUser(userId, socket.id, userInfo);
     io.emit('getUser', users);
 
@@ -94,6 +95,19 @@ io.on('connection', (socket) => {
       socket.to(user.socketId).emit('seenSuccess', data);
     }
   });
+  // end messenger
+
+  // start notification
+  socket.on('sendNotification', (data) => {
+    // data: obj = {
+    // senderId: string, recieverId: string, type: number
+    // }
+    const friend = findFriend(data.recieverId);
+    if (friend !== undefined) {
+      socket.to(friend.socketId).emit('getNotification', data);
+    }
+  });
+  // start notification
 
   socket.on('disconnect', () => {
     console.log('user disconnected');
