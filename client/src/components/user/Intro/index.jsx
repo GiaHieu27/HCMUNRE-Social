@@ -1,8 +1,8 @@
-import { useState, useContext } from "react";
+import { useState, useContext } from 'react';
 
-import Bio from "./Bio";
-import EditDetails from "./EditDetails";
-import { ProfileContext } from "../../../profileContext/Context";
+import Bio from './Bio';
+import EditDetails from './EditDetails';
+import { ProfileContext } from '../../../context/profileContext';
 
 function Intro({ visitor }) {
   const { details, setShowBio, showBio } = useContext(ProfileContext);

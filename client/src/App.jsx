@@ -27,8 +27,9 @@ import LoginAdmin from './pages/admin/login';
 import HomeAdmin from './pages/admin/home';
 
 function App() {
-  const [visible, setVisible] = useState(false);
   const { user, theme } = useSelector((sate) => ({ ...sate }));
+
+  const [visible, setVisible] = useState(false);
 
   const [{ loading, posts }, dispatch] = useReducer(postsReducer, {
     loading: false,

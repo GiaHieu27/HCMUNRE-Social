@@ -27,7 +27,7 @@ const findFriend = (id) => {
 };
 
 io.on('connection', (socket) => {
-  console.log('user connected');
+  console.log('someone connected');
 
   socket.on('addUser', (userId, userInfo) => {
     // userId: string

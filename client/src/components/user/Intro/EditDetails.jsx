@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import { useContext } from 'react';
-import { ProfileContext } from '../../../profileContext/Context';
+import { ProfileContext } from '../../../context/profileContext';
 import Detail from './Detail';
 import useClickOutside from '../../../hooks/useClickOutSide';
 import useBodyScrollLock from '../../../hooks/useBodyScrollLock';

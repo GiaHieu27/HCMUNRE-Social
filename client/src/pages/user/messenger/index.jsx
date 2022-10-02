@@ -1,8 +1,8 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { io } from 'socket.io-client';
 import toast, { Toaster } from 'react-hot-toast';
+import { io } from 'socket.io-client';
 import useSound from 'use-sound';
 import SearchIcon from '@mui/icons-material/Search';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
@@ -43,12 +43,12 @@ function Messenger() {
   const [onlineFriends, setOnlineFriends] = React.useState([]);
 
   const scrollRef = React.useRef(null);
-  const socketRef = React.useRef(null);
+  const socket = io('ws://localhost:8000');
 
   const handleChangeInput = (e) => {
     setNewMessage(e.target.value);
 
-    socketRef.current.emit('typingMessage', {
+    socket.emit('typingMessage', {
       senderId: user.id,
       receiverId: currentFriend._id,
       msg: e.target.value,
@@ -63,7 +63,7 @@ function Messenger() {
         message: newMessage ? newMessage : '❤️',
       };
 
-      socketRef.current.emit('typingMessage', {
+      socket.emit('typingMessage', {
         senderId: user.id,
         receiverId: currentFriend._id,
         msg: '',
@@ -98,7 +98,7 @@ function Messenger() {
         receiverId: currentFriend._id,
         message: newMessage ? newMessage : '❤️',
       };
-      socketRef.current.emit('typingMessage', {
+      socket.emit('typingMessage', {
         senderId: user.id,
         receiverId: currentFriend._id,
         msg: '',
@@ -151,7 +151,7 @@ function Messenger() {
         );
         // nguoi gui hien thi seen tin nhan ben phia sidebar
         // khi nguoi nhan xem tin nhan
-        socketRef.current.emit('seen', {
+        socket.emit('seen', {
           senderId: currentFriend._id,
           receiverId: user.id,
         });
@@ -175,20 +175,19 @@ function Messenger() {
 
   // lang nghe su kien tu socket
   React.useEffect(() => {
-    socketRef.current = io('ws://localhost:8000');
     // start: nguoi nhan lang nghe su kien
-    socketRef.current.on('currentFriendReceiveTypingMessage', (data) => {
+    socket.on('currentFriendReceiveTypingMessage', (data) => {
       setTypingMessage(data);
     });
 
-    socketRef.current.on('currentFriendReceiveMessage', (data) => {
+    socket.on('currentFriendReceiveMessage', (data) => {
       setDisplayMessageToFriend(data);
     });
     // end: nguoi nhan lang nghe su kien
 
     // start: nguoi gui lang nghe su kien
     // cap nhat status tin nhan
-    socketRef.current.on('messageSeenResponse', (messageInfo) => {
+    socket.on('messageSeenResponse', (messageInfo) => {
       dispatch(
         friendActions.SEEN_MESSAGE({
           ...messageInfo,
@@ -197,7 +196,7 @@ function Messenger() {
       dispatch(messengerActions.UPDAT_STATUS_MESSAGE('seen'));
     });
     // cap nhat status tin nhan
-    socketRef.current.on('messageSentResponse', (messageInfo) => {
+    socket.on('messageSentResponse', (messageInfo) => {
       dispatch(
         friendActions.SENT_MESSAGE({
           ...messageInfo,
@@ -206,7 +205,7 @@ function Messenger() {
       dispatch(messengerActions.UPDAT_STATUS_MESSAGE('sent'));
     });
     // cap nhat status tin nhan khi nguoi nhan seen tin nhan
-    socketRef.current.on('seenSuccess', (data) => {
+    socket.on('seenSuccess', (data) => {
       dispatch(friendActions.SEEN_ALL(data));
       dispatch(messengerActions.UPDAT_STATUS_MESSAGE('seen'));
     });
@@ -215,19 +214,19 @@ function Messenger() {
 
   // add user to socket
   React.useEffect(() => {
-    socketRef.current.emit('addUser', user.id, user);
+    socket.emit('addUser', user.id, user);
   }, []);
 
   // get user from socket
   React.useEffect(() => {
-    socketRef.current.on('getUser', (socketUsers) => {
+    socket.on('getUser', (socketUsers) => {
       const filterFriends = socketUsers.filter(
         (socketUser) => socketUser.userId !== user.id
       );
       setOnlineFriends(filterFriends);
     });
     // thong bao khi co ban be online
-    socketRef.current.on('addNewUser', (data) => {
+    socket.on('addNewUser', (data) => {
       dispatch(messengerActions.ADD_NEW_USER(data));
     });
   }, []);
@@ -237,7 +236,7 @@ function Messenger() {
     if (messageSendSuccess) {
       // gui tin nhan den nguoi nhan
       setTimeout(() => {
-        socketRef.current.emit('sendMessage', message[message.length - 1]);
+        socket.emit('sendMessage', message[message.length - 1]);
       }, 500);
       // Hien thi tin nhan moi nhat ben phia nguoi gui phan sidebar ben trai
       dispatch(
@@ -267,7 +266,7 @@ function Messenger() {
         // cap nhat status = seen vao csdl ko tr ve gi het
         messengerApis.seenMessage(displayMessageToFriend, token);
         // nguoi nhan phat su kien seen
-        socketRef.current.emit('messageSeen', displayMessageToFriend);
+        socket.emit('messageSeen', displayMessageToFriend);
         // hien thi tin nhan moi nhat va status tin nhan ben phia sidebar nguoi nhan
         dispatch(
           friendActions.UPDATE_LAST_MESSAGE({
@@ -304,7 +303,7 @@ function Messenger() {
       // cap nhat status = sent vao csdl ko tr ve gi het
       messengerApis.sentMessage(displayMessageToFriend, token);
       // nguoi nhan phat su kien sent
-      socketRef.current.emit('sentMessage', displayMessageToFriend);
+      socket.emit('sentMessage', displayMessageToFriend);
       // hien thi tin nhan moi nhat va trang thai tin nhan ben phia sidebar nguoi nhan
       dispatch(
         friendActions.UPDATE_LAST_MESSAGE({

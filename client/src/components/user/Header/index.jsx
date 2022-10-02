@@ -1,6 +1,7 @@
 import { useState, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { Badge } from '@mui/material';
 import PropTypes from 'prop-types';
 
 import SearchMenu from './SearchMenu';
@@ -21,7 +22,6 @@ import {
   Home,
   FriendsActive,
 } from '../../../svg';
-import { Badge } from '@mui/material';
 import Notification from './Notification';
 
 function Header({ page, getPosts }) {

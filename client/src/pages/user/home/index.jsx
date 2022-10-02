@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 import ScaleLoader from 'react-spinners/ScaleLoader';
 
 import Header from '../../../components/user/Header';
@@ -53,5 +54,12 @@ function Home({ setVisible, posts, loading, getPosts }) {
     </div>
   );
 }
+
+Home.propTypes = {
+  loading: PropTypes.bool,
+  setVisible: PropTypes.func,
+  getPosts: PropTypes.func,
+  posts: PropTypes.array,
+};
 
 export default Home;

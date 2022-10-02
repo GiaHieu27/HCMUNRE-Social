@@ -20,7 +20,7 @@ import Photos from './Photos';
 import Friends from './Friends';
 import Intro from '../../../components/user/Intro';
 import CreratePostPopup from '../../../components/user/CreratePostPopup';
-import { ProfileContext } from '../../../profileContext/Context';
+import { ProfileContext } from '../../../context/profileContext';
 
 function Profile({ getPosts }) {
   const navigate = useNavigate();

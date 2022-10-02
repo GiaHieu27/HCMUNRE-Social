@@ -1,5 +1,5 @@
-import { useContext } from "react";
-import { ProfileContext } from "../../../profileContext/Context";
+import { useContext } from 'react';
+import { ProfileContext } from '../../../context/profileContext';
 
 function Bio({ placeholder, name, detail, setShow, rel }) {
   const { infos, handleChange, max, setShowBio, updateDetails } =

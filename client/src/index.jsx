@@ -1,3 +1,4 @@
+import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
@@ -10,17 +11,20 @@ import './scss/main.scss';
 import './styles/icons/icons.scss';
 import App from './App';
 import store from './redux/store';
-import { ProfileProvider } from './profileContext/Context';
 import theme from './themes';
+import { ProfileProvider } from './context/profileContext';
+import { SocketProvider } from './context/socketContext';
 
 ReactDOM.render(
   <Provider store={store}>
     <ThemeProvider theme={theme}>
-      <ProfileProvider>
-        <Router>
-          <App />
-        </Router>
-      </ProfileProvider>
+      <SocketProvider>
+        <ProfileProvider>
+          <Router>
+            <App />
+          </Router>
+        </ProfileProvider>
+      </SocketProvider>
     </ThemeProvider>
   </Provider>,
   document.getElementById('root')

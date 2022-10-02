@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import LightGallery from 'lightgallery/react';
 import lgZoom from 'lightgallery/plugins/zoom';
 import lgVideo from 'lightgallery/plugins/video';
@@ -386,5 +387,12 @@ function Post({ post, user, profile, saved }) {
     </div>
   );
 }
+
+Post.propTypes = {
+  post: PropTypes.object,
+  user: PropTypes.object,
+  saved: PropTypes.any,
+  profile: PropTypes.any,
+};
 
 export default Post;

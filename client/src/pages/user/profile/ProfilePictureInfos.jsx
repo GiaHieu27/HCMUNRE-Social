@@ -1,9 +1,9 @@
-import { useRef, useState, useContext } from "react";
-import { Link } from "react-router-dom";
+import { useRef, useState, useContext } from 'react';
+import { Link } from 'react-router-dom';
 
-import ProfilePicture from "../../../components/user/ProfilePicture";
-import Friendship from "./Friendship";
-import { ProfileContext } from "../../../profileContext/Context";
+import ProfilePicture from '../../../components/user/ProfilePicture';
+import Friendship from './Friendship';
+import { ProfileContext } from '../../../context/profileContext';
 
 function ProfilePictureInfos({ profile, visitor, photos }) {
   const { othername } = useContext(ProfileContext);
@@ -19,7 +19,7 @@ function ProfilePictureInfos({ profile, visitor, photos }) {
             className="profile_w_bg"
             ref={pRef}
             style={{
-              backgroundSize: "cover",
+              backgroundSize: 'cover',
               backgroundImage: `url(${profile.picture})`,
             }}
           ></div>
@@ -33,14 +33,14 @@ function ProfilePictureInfos({ profile, visitor, photos }) {
         <div className="profile_w_col">
           <div className="profile_name">
             {profile.first_name} {profile.last_name}
-            <div className="othername">{othername ? `(${othername})` : ""}</div>
+            <div className="othername">{othername ? `(${othername})` : ''}</div>
           </div>
           {profile?.friends && (
             <div className="profile_friend_count">
               {profile?.friends.length === 0
-                ? ""
+                ? ''
                 : profile?.friends.length === 1
-                ? "1 bạn bè"
+                ? '1 bạn bè'
                 : `${profile?.friends.length} bạn bè`}
             </div>
           )}
@@ -62,7 +62,7 @@ function ProfilePictureInfos({ profile, visitor, photos }) {
         </div>
       </div>
 
-      {!visitor ? "" : <Friendship />}
+      {!visitor ? '' : <Friendship />}
     </div>
   );
 }
