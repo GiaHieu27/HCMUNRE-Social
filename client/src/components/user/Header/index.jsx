@@ -54,7 +54,6 @@ function Header({ page, getPosts }) {
 
   React.useEffect(() => {
     socket.on('getNotification', (data) => {
-      console.log(data);
       setNotifications((prev) => [...prev, data]);
     });
   }, [socket]);
@@ -135,12 +134,15 @@ function Header({ page, getPosts }) {
         <div
           className={`circle_icon ${showAllMenu ? 'active_header' : 'hover1'}`}
           ref={allMenu}
-          onClick={() => {
-            setShowAllMenu(!showAllMenu);
-          }}
         >
-          <div style={{ transform: 'translateY(-2px)' }}>
-            <Menu />
+          <div
+            onClick={() => {
+              setShowAllMenu(!showAllMenu);
+            }}
+          >
+            <div style={{ transform: 'translateY(-2px)' }}>
+              <Menu />
+            </div>
           </div>
           {showAllMenu && <AllMenu />}
         </div>
@@ -158,20 +160,21 @@ function Header({ page, getPosts }) {
             showNotification ? 'active_header' : 'hover1'
           }`}
           ref={notificationRef}
-          onClick={() => setShowNotification(!showNotification)}
         >
-          <Badge
-            badgeContent={notifications.length}
-            color="error"
-            sx={{
-              '& .MuiBadge-badge': {
-                top: '-4px',
-                right: '-1px',
-              },
-            }}
-          >
-            <Notifications />
-          </Badge>
+          <div onClick={() => setShowNotification(!showNotification)}>
+            <Badge
+              badgeContent={notifications.length}
+              color="error"
+              sx={{
+                '& .MuiBadge-badge': {
+                  top: '-4px',
+                  right: '-1px',
+                },
+              }}
+            >
+              <Notifications />
+            </Badge>
+          </div>
           {showNotification && <Notification notifications={notifications} />}
         </div>
 
@@ -179,10 +182,11 @@ function Header({ page, getPosts }) {
         <div
           className={`circle_icon ${showUserMenu ? 'active_header' : 'hover1'}`}
           ref={userMenu}
-          onClick={() => setShowUserMenu(!showUserMenu)}
         >
-          <div style={{ transform: 'translateY(-1px)' }}>
-            <ArrowDown />
+          <div onClick={() => setShowUserMenu(!showUserMenu)}>
+            <div style={{ transform: 'translateY(-1px)' }}>
+              <ArrowDown />
+            </div>
           </div>
           {showUserMenu && <UserMenu user={user} />}
         </div>

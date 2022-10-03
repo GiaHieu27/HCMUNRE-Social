@@ -47,7 +47,9 @@ function SavedPosstProfile() {
       <Header />
       <div className="home" style={{ height: `${height + 140}px` }}>
         <div className="saved_post" ref={savedPostRef}>
-          {post.background && <Post post={post} user={user} saved />}
+          {post.hasOwnProperty('background') && (
+            <Post post={post} user={user} saved />
+          )}
         </div>
       </div>
     </>

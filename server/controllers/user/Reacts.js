@@ -1,6 +1,6 @@
-const mongoose = require("mongoose");
-const React = require("../../models/React");
-const User = require("../../models/User");
+const mongoose = require('mongoose');
+const React = require('../../models/React');
+const User = require('../../models/User');
 
 exports.reactPost = async (req, res) => {
   try {
@@ -37,22 +37,22 @@ exports.getReacts = async (req, res) => {
     const reactArr = await React.find({ postRef: id });
 
     const newReact = reactArr.reduce((group, react) => {
-      let key = react["react"];
+      let key = react['react'];
       group[key] = group[key] || [];
       group[key].push(react);
       return group;
     }, {});
 
     const reacts = [
-      { react: "like", count: newReact.like ? newReact.like.length : 0 },
-      { react: "love", count: newReact.love ? newReact.love.length : 0 },
-      { react: "haha", count: newReact.haha ? newReact.haha.length : 0 },
-      { react: "wow", count: newReact.wow ? newReact.wow.length : 0 },
-      { react: "sad", count: newReact.sad ? newReact.sad.length : 0 },
-      { react: "angry", count: newReact.angry ? newReact.angry.length : 0 },
+      { react: 'like', count: newReact.like ? newReact.like.length : 0 },
+      { react: 'love', count: newReact.love ? newReact.love.length : 0 },
+      { react: 'haha', count: newReact.haha ? newReact.haha.length : 0 },
+      { react: 'wow', count: newReact.wow ? newReact.wow.length : 0 },
+      { react: 'sad', count: newReact.sad ? newReact.sad.length : 0 },
+      { react: 'angry', count: newReact.angry ? newReact.angry.length : 0 },
     ];
 
-    const check = reactArr.find(
+    const checkUserReact = reactArr.find(
       (x) => x.reactBy.toString() === req.user.id
     )?.react;
 
@@ -63,7 +63,7 @@ exports.getReacts = async (req, res) => {
 
     res.json({
       reacts,
-      check,
+      checkUserReact,
       total: reactArr.length,
       checkPostSaved: checkPostSaved ? true : false,
     });

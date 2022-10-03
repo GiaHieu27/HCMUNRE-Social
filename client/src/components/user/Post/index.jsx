@@ -24,7 +24,7 @@ function Post({ post, user, profile, saved }) {
   const [comments, setComments] = useState([]);
   const [total, setTotal] = useState(0);
   const [count, setCount] = useState(1);
-  const [check, setCheck] = useState('');
+  const [checkUserReact, setCheckUserReact] = useState('');
   const [checkSavedPost, setCheckSavedPost] = useState();
 
   const postRef = useRef(null);
@@ -37,24 +37,28 @@ function Post({ post, user, profile, saved }) {
   const getReactPosts = useCallback(async () => {
     const res = await getReacts(post._id, user.token);
     setReacts(res.reacts);
-    setCheck(res.check);
+    setCheckUserReact(res.checkUserReact);
     setTotal(res.total);
     setCheckSavedPost(res.checkPostSaved);
   }, [post._id, user.token]);
 
   const handleReact = async (reactName) => {
     reactPost(post._id, reactName, user.token);
-    if (check === reactName) {
-      setCheck();
-      let index = reacts.findIndex((x) => x.react === check);
+    if (checkUserReact === reactName) {
+      setCheckUserReact();
+
+      let index = reacts.findIndex((x) => x.react === checkUserReact);
+
       if (index !== -1) {
         setReacts([...reacts, (reacts[index].count = --reacts[index].count)]);
         setTotal((prev) => --prev);
       }
     } else {
-      setCheck(reactName);
+      setCheckUserReact(reactName);
+      // tim react giong react name de cong len
       let index = reacts.findIndex((x) => x.react === reactName);
-      let index1 = reacts.findIndex((x) => x.react === check);
+      // tim react giong react trc do de tru di
+      let index1 = reacts.findIndex((x) => x.react === checkUserReact);
 
       if (index !== -1) {
         setReacts([...reacts, (reacts[index].count = ++reacts[index].count)]);
@@ -64,12 +68,14 @@ function Post({ post, user, profile, saved }) {
         setReacts([...reacts, (reacts[index1].count = --reacts[index1].count)]);
         setTotal((prev) => --prev);
       }
+
+      socket.emit('sendNotification', {
+        sender: user,
+        postRef: post._id,
+        recieverId: post.user._id,
+        notify: 'đã bày tỏ cảm xúc về một bài viết',
+      });
     }
-    socket.emit('sendNotification', {
-      sender: user,
-      recieverId: post.user._id,
-      type: 1,
-    });
   };
 
   // console.log(post);
@@ -332,11 +338,11 @@ function Post({ post, user, profile, saved }) {
               setVisible(false);
             }, 500);
           }}
-          onClick={() => handleReact(check ? check : 'like')}
+          onClick={() => handleReact(checkUserReact ? checkUserReact : 'like')}
         >
-          {check ? (
+          {checkUserReact ? (
             <img
-              src={`../../../reacts/${check}.svg`}
+              src={`../../../reacts/${checkUserReact}.svg`}
               alt="react_icon"
               className="small_react"
               width="20"
@@ -347,23 +353,23 @@ function Post({ post, user, profile, saved }) {
           <span
             style={{
               color: `${
-                check === 'like'
+                checkUserReact === 'like'
                   ? '#4267b2'
-                  : check === 'love'
+                  : checkUserReact === 'love'
                   ? '#f63459'
-                  : check === 'haha'
+                  : checkUserReact === 'haha'
                   ? '#f7b125'
-                  : check === 'sad'
+                  : checkUserReact === 'sad'
                   ? '#f7b152'
-                  : check === 'wow'
+                  : checkUserReact === 'wow'
                   ? '#f7b152'
-                  : check === 'angry'
+                  : checkUserReact === 'angry'
                   ? 'rgb(233, 113, 15)'
                   : '#65676b'
               }`,
             }}
           >
-            {check ? check : 'like'}
+            {checkUserReact ? checkUserReact : 'like'}
           </span>
         </div>
         <div className="post_action hover1">
