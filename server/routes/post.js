@@ -1,7 +1,7 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
 
-const { authUser } = require("../middlewares/auth");
+const { authUser } = require('../middlewares/auth');
 const {
   createPost,
   getAllPosts,
@@ -10,17 +10,20 @@ const {
   deletePost,
   getAllSavedPosts,
   getOneSavedPost,
-} = require(".././controllers/user/Post");
+} = require('.././controllers/user/Post');
+const { createNotify, getAllNotify } = require('../controllers/user/Notify');
 
-router.post("/createPost", authUser, createPost);
+router.post('/createPost', authUser, createPost);
 
-router.get("/getAllPosts", authUser, getAllPosts);
-router.get("/getAllSavedPosts", authUser, getAllSavedPosts);
-router.get("/getOneSavedPost/:postId", authUser, getOneSavedPost);
+router.get('/getAllPosts', authUser, getAllPosts);
+router.get('/getAllSavedPosts', authUser, getAllSavedPosts);
+router.get('/getOneSavedPost/:postId', authUser, getOneSavedPost);
 
-router.put("/comment", authUser, comment);
-router.put("/savePost/:id", authUser, savePost);
+router.put('/comment', authUser, comment);
+router.put('/savePost/:id', authUser, savePost);
 
-router.delete("/deletePost/:id", authUser, deletePost);
+router.delete('/deletePost/:id', authUser, deletePost);
 
+router.post('/createNotify', authUser, createNotify);
+router.get('/getAllNotify/:id', authUser, getAllNotify);
 module.exports = router;

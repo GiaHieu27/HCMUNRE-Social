@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { BsDot } from 'react-icons/bs';
 import PropTypes from 'prop-types';
 
-import { savePost } from '../../../functions/post';
+import { savePost } from '../../../apis/post';
 
 function ItemSaved({ item }) {
   const user = useSelector((state) => state.user);

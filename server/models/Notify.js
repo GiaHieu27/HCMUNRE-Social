@@ -15,6 +15,13 @@ const NotifySchema = mongoose.Schema({
     type: ObjectId,
     ref: 'User',
   },
+  status: {
+    type: String,
+    default: 'sent',
+  },
+  react: {
+    type: String,
+  },
   notify: {
     type: String,
     require: true,

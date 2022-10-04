@@ -5,10 +5,10 @@ import Cropper from 'react-easy-crop';
 import PulseLoader from 'react-spinners/PulseLoader';
 
 import getCroppedImg from '../../../helpers/getCroppedImg';
-import uploadImages from '../../../functions/uploadImages';
+import uploadImages from '../../../apis/uploadImages';
 import userSlice from '../../../redux/slices/userSlice';
-import { updateProfilePicture } from '../../../functions/profile';
-import { createPost } from '../../../functions/post';
+import { updateProfilePicture } from '../../../apis/profile';
+import { createPost } from '../../../apis/post';
 import useBodyScrollLock from '../../../hooks/useBodyScrollLock';
 
 function UpdateProfileImage({ image, setImage, setError, setShow, pRef }) {

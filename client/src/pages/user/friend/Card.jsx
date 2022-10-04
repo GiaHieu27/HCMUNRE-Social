@@ -6,18 +6,9 @@ import {
   cancelRequest,
   deleteRequest,
   addFriend,
-} from '../../../functions/friend';
+} from '../../../apis/friend';
 
-function Card({
-  friend,
-  userStore,
-  type,
-  getFriendPages,
-  setSuggestFriends,
-  sentRequest,
-  suggestFriends,
-  setSentRequest,
-}) {
+function Card({ friend, userStore, type, getFriendPages }) {
   const token = userStore.token;
 
   const handleCancelRequest = async (friendId) => {
@@ -86,16 +77,9 @@ function Card({
 
 Card.propTypes = {
   type: PropTypes.string,
-
   friend: PropTypes.object,
   userStore: PropTypes.object,
-
-  sentRequest: PropTypes.array,
-  suggestFriends: PropTypes.array,
-
   getFriendPages: PropTypes.func,
-  setSuggestFriends: PropTypes.func,
-  setSentRequest: PropTypes.func,
 };
 
 export default Card;

@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getFriend } from '../../../../functions/friend';
+import { getFriend } from '../../../../apis/friend';
 import friendSlice from '../../../../redux/slices/friendsSlice';
 
 function Contact() {

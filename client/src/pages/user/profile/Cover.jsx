@@ -4,11 +4,11 @@ import Cropper from 'react-easy-crop';
 import PulseLoader from 'react-spinners/PulseLoader';
 
 import useClickOutSide from '../../../hooks/useClickOutSide';
-import uploadImages from '../../../functions/uploadImages';
+import uploadImages from '../../../apis/uploadImages';
 import getCroppedImg from '../../../helpers/getCroppedImg';
 import OldCover from './OldCover';
-import { createPost } from '../../../functions/post';
-import { updateCover } from '../../../functions/profile';
+import { createPost } from '../../../apis/post';
+import { updateCover } from '../../../apis/profile';
 
 function Cover({ cover, visitor, photos }) {
   const { user } = useSelector((state) => ({ ...state }));

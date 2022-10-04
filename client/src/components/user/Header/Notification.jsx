@@ -2,15 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Box, Typography } from '@mui/material';
 
-function Notification({ notifications }) {
+function Notification({ socketNotifications }) {
   return (
     <div className="all_menu notification scrollbar">
       <div className="all_menu_header">Thông báo</div>
       <div className="scrollbar">
         <ul className="notification_list">
-          {notifications && notifications.length ? (
-            notifications.map((notification) => (
-              <li className="notification_item">
+          {socketNotifications && socketNotifications.length ? (
+            socketNotifications.map((notification, i) => (
+              <li className="notification_item" key={i}>
                 <img src={notification.sender.picture} alt="avarta" />
                 <div>
                   <p className="box-wrap">

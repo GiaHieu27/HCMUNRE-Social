@@ -5,7 +5,7 @@ import { Link, useParams } from 'react-router-dom';
 import Header from '../../../components/user/Header';
 import Card from './Card';
 import friendsSlice from '../../../redux/slices/friendsSlice';
-import { getFriend } from '../../../functions/friend';
+import { getFriend } from '../../../apis/friend';
 
 function Friend() {
   const dispatch = useDispatch();

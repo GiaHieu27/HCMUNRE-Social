@@ -1,23 +1,60 @@
+const mongoose = require('mongoose');
 const Notify = require('../../models/Notify');
 
 exports.createNotify = async (req, res) => {
+  const senderId = req.user.id;
+  const { postId, recieverId, notify, react } = req.body;
+
   try {
-    const newNotify = await new Notify(req.body).save();
-    res.json(newNotify);
+    const check = await Notify.findOne({
+      postRef: mongoose.Types.ObjectId(postId),
+    });
+
+    if (check == null) {
+      await Notify({
+        recieverId,
+        postRef: postId,
+        senderId,
+        notify,
+        react,
+      }).save();
+    } else {
+      if (check.senderId !== senderId) {
+        await Notify.findByIdAndUpdate(
+          check._id,
+          {
+            senderId,
+          },
+          {
+            new: true,
+          }
+        );
+      } else {
+        if (check.react !== react) {
+          await Notify.findByIdAndUpdate(
+            check._id,
+            {
+              react,
+            },
+            {
+              new: true,
+            }
+          );
+        } else {
+          await Notify.findByIdAndRemove(check._id);
+        }
+      }
+    }
+    res.status(200).json();
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
 };
 
-exports.getAllSavedPosts = async (req, res) => {
+exports.getAllNotify = async (req, res) => {
   try {
-    const savedPosts = await User.findById(req.user.id)
-      .select('savedPosts')
-      .populate('savedPosts.post', 'text images videos background')
-      .populate('savedPosts.postBy', 'first_name last_name picture username')
-      .lean();
-
-    res.json(savedPosts.savedPosts);
+    const allNotify = await Notify.find({ recieverId: req.params.id });
+    res.json(allNotify);
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }

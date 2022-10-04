@@ -24,6 +24,8 @@ import {
 } from '../../../svg';
 import Notification from './Notification';
 import { SocketContext } from '../../../context/socketContext';
+import { createNotify, getAllNotify } from '../../../apis/post';
+import axios from 'axios';
 
 function Header({ page, getPosts }) {
   const { user } = useSelector((user) => ({ ...user }));
@@ -35,6 +37,8 @@ function Header({ page, getPosts }) {
   const [showAllMenu, setShowAllMenu] = React.useState(false);
   const [showUserMenu, setShowUserMenu] = React.useState(false);
   const [showNotification, setShowNotification] = React.useState(false);
+
+  // const [notifications, setSocketNotifications] = React.useState([]);
   const [notifications, setNotifications] = React.useState([]);
 
   const allMenu = React.useRef(null);
@@ -52,11 +56,48 @@ function Header({ page, getPosts }) {
     setShowNotification(false);
   });
 
+  const handleGetNotification = async (id, token) => {
+    try {
+      const { data } = await axios.get(
+        `${process.env.REACT_APP_BACKEND_URL}/getAllNotify/${id}`,
+        {
+          headers: {
+            Authorization: 'Bearer ' + token,
+          },
+        }
+      );
+      setNotifications(data);
+    } catch (error) {
+      return error.response.data.message;
+    }
+  };
+
+  // get notify from sender
   React.useEffect(() => {
     socket.on('getNotification', (data) => {
       setNotifications((prev) => [...prev, data]);
     });
   }, [socket]);
+
+  // React.useEffect(() => {
+  //   const getAllNotify = async (id, token) => {};
+  //   getAllNotify(user.id, user.token);
+  // }, [user.id, user.token]);
+
+  // save notify into db
+  React.useEffect(() => {
+    if (notifications.length === 0) return;
+
+    const a = createNotify(
+      notifications[notifications.length - 1].postRef,
+      notifications[notifications.length - 1].recieverId,
+      notifications[notifications.length - 1].notify,
+      notifications[notifications.length - 1].react,
+      user.token
+    );
+  }, [notifications, user.token]);
+
+  // let count = notifications.filter();
 
   return (
     <header>
@@ -161,7 +202,12 @@ function Header({ page, getPosts }) {
           }`}
           ref={notificationRef}
         >
-          <div onClick={() => setShowNotification(!showNotification)}>
+          <div
+            onClick={() => {
+              handleGetNotification(user.id, user.token);
+              setShowNotification(!showNotification);
+            }}
+          >
             <Badge
               badgeContent={notifications.length}
               color="error"

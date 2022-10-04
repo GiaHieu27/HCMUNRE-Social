@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import useClickOutSide from '../../../hooks/useClickOutSide';
-import * as functions from '../../../functions/search';
+import * as functions from '../../../apis/search';
 import { Return, Search } from '../../../svg';
 
 function SearchMenu({ color, setShowSearchMenu }) {

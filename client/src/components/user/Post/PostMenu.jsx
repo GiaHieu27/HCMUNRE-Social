@@ -1,8 +1,8 @@
-import { useRef, useState } from "react";
-import { saveAs } from "file-saver";
-import MenuItem from "./MenuItem";
-import useClickOutside from "../../../hooks/useClickOutSide";
-import { deletePost, savePost } from "../../../functions/post";
+import { useRef, useState } from 'react';
+import { saveAs } from 'file-saver';
+import MenuItem from './MenuItem';
+import useClickOutside from '../../../hooks/useClickOutSide';
+import { deletePost, savePost } from '../../../apis/post';
 
 function PostMenu(props) {
   const [compare] = useState(props.user.id === props.postUserId ? true : false);
@@ -19,12 +19,12 @@ function PostMenu(props) {
   };
 
   const handleDownloadImg = async () => {
-    props.images.map((image) => saveAs(image.url, "image.jpg"));
+    props.images.map((image) => saveAs(image.url, 'image.jpg'));
   };
 
   const handleDelPost = async () => {
     const res = await deletePost(props.postId, props.user.token);
-    if (res.status === "ok") {
+    if (res.status === 'ok') {
       props.postRef.current.remove();
       // postRef.current.style.display = "none";
     }

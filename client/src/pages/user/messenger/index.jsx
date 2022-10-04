@@ -13,10 +13,10 @@ import RightSide from '../../../components/user/Messenger/RightSide';
 import friendsSlice from '../../../redux/slices/friendsSlice';
 import messengerSlice from '../../../redux/slices/messengerSlice';
 import dataURLtoBlob from '../../../helpers/dataURLtoBlob';
-import uploadImages from '../../../functions/uploadImages';
+import uploadImages from '../../../apis/uploadImages';
 import notificationSound from '../../../audio/notification.mp3';
-import * as messengerApis from '../../../functions/messenger';
-import { getFriend } from '../../../functions/friend';
+import * as messengerApis from '../../../apis/messenger';
+import { getFriend } from '../../../apis/friend';
 
 function Messenger() {
   const {

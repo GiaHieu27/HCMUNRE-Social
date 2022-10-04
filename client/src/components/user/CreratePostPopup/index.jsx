@@ -10,9 +10,9 @@ import useClickOutSide from '../../../hooks/useClickOutSide';
 import useBodyScrollLock from '../../../hooks/useBodyScrollLock';
 import PostError from './PostError';
 import dataURLtoBlob from '../../../helpers/dataURLtoBlob';
-import uploadImages from '../../../functions/uploadImages';
 import profileSlice from '../../../redux/slices/profileSlice';
-import { createPost } from '../../../functions/post';
+import uploadImages from '../../../apis/uploadImages';
+import { createPost } from '../../../apis/post';
 
 function CreratePostPopup({ user, setVisible, posts, dispatch, profile }) {
   const dispatchh = useDispatch();

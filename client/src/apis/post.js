@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 
 export const createPost = async (
   type,
@@ -15,11 +15,11 @@ export const createPost = async (
       { type, background, text, images, videos, user },
       {
         headers: {
-          Authorization: "Bearer " + token,
+          Authorization: 'Bearer ' + token,
         },
       }
     );
-    return { status: "ok", data };
+    return { status: 'ok', data };
   } catch (error) {
     return error.response.data.message;
   }
@@ -32,7 +32,7 @@ export const reactPost = async (postId, react, token) => {
       { postId, react },
       {
         headers: {
-          Authorization: "Bearer " + token,
+          Authorization: 'Bearer ' + token,
         },
       }
     );
@@ -47,7 +47,7 @@ export const getReacts = async (postId, token) => {
       `${process.env.REACT_APP_BACKEND_URL}/getReacts/${postId}`,
       {
         headers: {
-          Authorization: "Bearer " + token,
+          Authorization: 'Bearer ' + token,
         },
       }
     );
@@ -64,7 +64,7 @@ export const comment = async (postId, comment, image, token) => {
       { postId, comment, image },
       {
         headers: {
-          Authorization: "Bearer " + token,
+          Authorization: 'Bearer ' + token,
         },
       }
     );
@@ -81,7 +81,7 @@ export const savePost = async (postId, postUserId, token) => {
       { postUserId },
       {
         headers: {
-          Authorization: "Bearer " + token,
+          Authorization: 'Bearer ' + token,
         },
       }
     );
@@ -97,7 +97,46 @@ export const deletePost = async (postId, token) => {
       `${process.env.REACT_APP_BACKEND_URL}/deletePost/${postId}`,
       {
         headers: {
-          Authorization: "Bearer " + token,
+          Authorization: 'Bearer ' + token,
+        },
+      }
+    );
+    return data;
+  } catch (error) {
+    return error.response.data.message;
+  }
+};
+
+export const createNotify = async (
+  postId,
+  recieverId,
+  notify,
+  react,
+  token
+) => {
+  try {
+    const { data } = await axios.post(
+      `${process.env.REACT_APP_BACKEND_URL}/createNotify`,
+      { postId, recieverId, notify, react },
+      {
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
+      }
+    );
+    return data;
+  } catch (error) {
+    return error.response.data.message;
+  }
+};
+
+export const getAllNotify = async (id, token) => {
+  try {
+    const { data } = await axios.get(
+      `${process.env.REACT_APP_BACKEND_URL}/getAllNotify/${id}`,
+      {
+        headers: {
+          Authorization: 'Bearer ' + token,
         },
       }
     );

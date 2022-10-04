@@ -1,7 +1,7 @@
 import { useState, useRef, useContext, useEffect } from 'react';
 import useClickOutSide from '../../../hooks/useClickOutSide';
 import { ProfileContext } from '../../../context/profileContext';
-import * as functions from '../../../functions/friend';
+import * as functions from '../../../apis/friend';
 
 function Friendship() {
   const { profile, user } = useContext(ProfileContext);

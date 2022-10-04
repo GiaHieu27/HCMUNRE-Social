@@ -11,12 +11,11 @@ exports.reactPost = async (req, res) => {
     });
 
     if (check == null) {
-      const newReact = await React({
+      await React({
         react: react,
         postRef: postId,
         reactBy: req.user.id,
-      });
-      await newReact.save();
+      }).save();
     } else {
       if (check.react === react) {
         await React.findByIdAndRemove(check._id);
@@ -26,6 +25,7 @@ exports.reactPost = async (req, res) => {
         });
       }
     }
+    res.status(200).json({ success: true });
   } catch (e) {
     res.status(500).json({ message: e.message });
   }
@@ -61,7 +61,7 @@ exports.getReacts = async (req, res) => {
       (x) => x.post.toString() === req.params.id
     );
 
-    res.json({
+    res.status(200).json({
       reacts,
       checkUserReact,
       total: reactArr.length,

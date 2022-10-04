@@ -12,10 +12,13 @@ import PostMenu from './PostMenu';
 import Comment from './Comment';
 import ImgAndVid from './ImgAndVid';
 import { Dots, Public } from '../../../svg';
-import { getReacts, reactPost } from '../../../functions/post';
+import { createNotify, getReacts, reactPost } from '../../../apis/post';
 import { SocketContext } from '../../../context/socketContext';
+import { useDispatch } from 'react-redux';
+import { fetchNotify } from '../../../redux/slices/notifySlice';
 
 function Post({ post, user, profile, saved }) {
+  const dispacth = useDispatch();
   const { socket } = React.useContext(SocketContext);
 
   const [visible, setVisible] = useState(false);
@@ -28,7 +31,7 @@ function Post({ post, user, profile, saved }) {
   const [checkSavedPost, setCheckSavedPost] = useState();
 
   const postRef = useRef(null);
-  const name = user.first_name + user.last_name;
+  // const name = user.first_name + user.last_name;
 
   const showMore = () => {
     setCount((prev) => prev + 3);
@@ -46,7 +49,6 @@ function Post({ post, user, profile, saved }) {
     reactPost(post._id, reactName, user.token);
     if (checkUserReact === reactName) {
       setCheckUserReact();
-
       let index = reacts.findIndex((x) => x.react === checkUserReact);
 
       if (index !== -1) {
@@ -69,12 +71,31 @@ function Post({ post, user, profile, saved }) {
         setTotal((prev) => --prev);
       }
 
-      socket.emit('sendNotification', {
-        sender: user,
-        postRef: post._id,
-        recieverId: post.user._id,
-        notify: 'đã bày tỏ cảm xúc về một bài viết',
-      });
+      await createNotify(
+        post._id,
+        post.user._id,
+        'đã bày tỏ cảm xúc về một bài viết của bạn',
+        reactName,
+        user.token
+      );
+
+      // socket.emit('sendNotification', {
+      //   sender: user,
+      //   postRef: post._id,
+      //   recieverId: post.user._id,
+      //   react: reactName,
+      //   notify: 'đã bày tỏ cảm xúc về một bài viết',
+      // });
+
+      // dispacth(
+      //   fetchNotify({
+      //     postId: post._id,
+      //     recieverId: post.user._id,
+      //     react: reactName,
+      //     notify: 'đã bày tỏ cảm xúc về một bài viết',
+      //     token: user.token,
+      //   })
+      // );
     }
   };
 
