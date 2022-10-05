@@ -64,7 +64,6 @@ exports.getAllNotify = async (req, res) => {
       .sort({
         createdAt: -1,
       });
-    console.log(allNotify);
     res.status(200).json(allNotify);
   } catch (error) {
     return res.status(500).json({ message: error.message });
@@ -73,11 +72,26 @@ exports.getAllNotify = async (req, res) => {
 
 exports.updateStatusNotify = async (req, res) => {
   try {
-    const { status, id } = req.body;
+    const { id } = req.body;
     await Notify.updateMany(
-      { recieverId: mongoose.Types.ObjectId(id) },
+      { recieverId: mongoose.Types.ObjectId(id), status: 'sent' },
       {
-        status,
+        status: 'unseen',
+      }
+    );
+    res.status(200).json({ status: true });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+exports.updateStatusNotifySeen = async (req, res) => {
+  try {
+    const { postId } = req.body;
+    await Notify.findOneAndUpdate(
+      { postRef: mongoose.Types.ObjectId(postId) },
+      {
+        status: 'seen',
       }
     );
     res.status(200).json({ status: true });

@@ -146,11 +146,11 @@ export const getAllNotify = async (token) => {
   }
 };
 
-export const updateStatusNotify = async (id, status, token) => {
+export const updateStatusNotify = async (id, token) => {
   try {
     const { data } = await axios.put(
       `${process.env.REACT_APP_BACKEND_URL}/updateStatusNotify`,
-      { status, id },
+      { id },
       {
         headers: {
           Authorization: 'Bearer ' + token,
@@ -163,11 +163,11 @@ export const updateStatusNotify = async (id, status, token) => {
   }
 };
 
-export const updateStatusNotifySeen = async (id, status, token) => {
+export const updateStatusNotifySeen = async (postId, token) => {
   try {
     const { data } = await axios.put(
       `${process.env.REACT_APP_BACKEND_URL}/updateStatusNotifySeen`,
-      { status, id },
+      { postId },
       {
         headers: {
           Authorization: 'Bearer ' + token,

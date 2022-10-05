@@ -15,6 +15,7 @@ const {
   createNotify,
   getAllNotify,
   updateStatusNotify,
+  updateStatusNotifySeen,
 } = require('../controllers/user/Notify');
 
 router.post('/createPost', authUser, createPost);
@@ -32,4 +33,5 @@ router.delete('/deletePost/:id', authUser, deletePost);
 router.post('/createNotify', authUser, createNotify);
 router.get('/getAllNotify', authUser, getAllNotify);
 router.put('/updateStatusNotify', authUser, updateStatusNotify);
+router.put('/updateStatusNotifySeen', authUser, updateStatusNotifySeen);
 module.exports = router;

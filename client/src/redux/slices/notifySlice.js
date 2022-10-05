@@ -22,7 +22,12 @@ const notifySlice = createSlice({
       }
     },
     UPDATE_STATUS: (state, action) => {
-      state.notifies.map((item) => (item.status = action.payload));
+      state.notifies.map((item) => {
+        if (item.status === 'sent') {
+          return (item.status = action.payload);
+        }
+        return item;
+      });
     },
     UPDATE_STATUS_SEEN: (state, action) => {
       const { payload } = action;
@@ -32,7 +37,7 @@ const notifySlice = createSlice({
         (notify) => notify.postRef === payload.postRef
       );
       if (index !== -1) {
-        notifyState[index].react = payload.status;
+        notifyState[index].react = 'seen';
       }
     },
   },

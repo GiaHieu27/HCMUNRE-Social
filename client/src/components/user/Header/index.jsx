@@ -59,7 +59,7 @@ function Header({ page, getPosts }) {
 
   const handleGetNotification = () => {
     dispatch(notifySlice.actions.UPDATE_STATUS('unseen'));
-    updateStatusNotify(user.id, 'unseen', user.token);
+    updateStatusNotify(user.id, user.token);
   };
 
   const countNotifySent = notifies.filter(
@@ -75,7 +75,7 @@ function Header({ page, getPosts }) {
   // get all notifies
   React.useEffect(() => {
     dispatch(fetchNotify(user.token));
-  }, []);
+  }, [dispatch]);
 
   return (
     <header>
@@ -199,7 +199,7 @@ function Header({ page, getPosts }) {
               <Notifications />
             </Badge>
           </div>
-          {showNotification && <Notification notifies={notifies} user={user} />}
+          {showNotification && <Notification />}
         </div>
 
         {/* User menu */}
