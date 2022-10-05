@@ -1,5 +1,5 @@
-import { menu, create } from "../../../data/allMenu";
-import AllMenuItem from "./AllMenuItem";
+import { menu, create } from '../../../data/headers';
+import AllMenuItem from './AllMenuItem';
 
 function AllMenu() {
   return (

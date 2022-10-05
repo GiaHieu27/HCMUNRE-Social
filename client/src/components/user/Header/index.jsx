@@ -56,48 +56,35 @@ function Header({ page, getPosts }) {
     setShowNotification(false);
   });
 
-  const handleGetNotification = async (id, token) => {
-    try {
-      const { data } = await axios.get(
-        `${process.env.REACT_APP_BACKEND_URL}/getAllNotify/${id}`,
-        {
-          headers: {
-            Authorization: 'Bearer ' + token,
-          },
-        }
-      );
-      setNotifications(data);
-    } catch (error) {
-      return error.response.data.message;
-    }
-  };
+  const handleGetNotification = async (id, token) => {};
 
   // get notify from sender
-  React.useEffect(() => {
-    socket.on('getNotification', (data) => {
-      setNotifications((prev) => [...prev, data]);
-    });
-  }, [socket]);
-
   // React.useEffect(() => {
-  //   const getAllNotify = async (id, token) => {};
-  //   getAllNotify(user.id, user.token);
-  // }, [user.id, user.token]);
-
-  // save notify into db
+  //   socket.on('getNotification', (data) => {
+  //     setNotifications((prev) => [...prev, data]);
+  //   });
+  // }, [socket]);
+  // get all notify
   React.useEffect(() => {
-    if (notifications.length === 0) return;
+    const getAllNotify = async (token) => {
+      try {
+        const { data } = await axios.get(
+          `${process.env.REACT_APP_BACKEND_URL}/getAllNotify`,
+          {
+            headers: {
+              Authorization: 'Bearer ' + token,
+            },
+          }
+        );
+        setNotifications(data);
+      } catch (error) {
+        return error.response.data.message;
+      }
+    };
+    getAllNotify(user.token);
+  }, [user.token]);
 
-    const a = createNotify(
-      notifications[notifications.length - 1].postRef,
-      notifications[notifications.length - 1].recieverId,
-      notifications[notifications.length - 1].notify,
-      notifications[notifications.length - 1].react,
-      user.token
-    );
-  }, [notifications, user.token]);
-
-  // let count = notifications.filter();
+  console.log(notifications);
 
   return (
     <header>

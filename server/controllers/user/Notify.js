@@ -19,7 +19,7 @@ exports.createNotify = async (req, res) => {
         react,
       }).save();
     } else {
-      if (check.senderId !== senderId) {
+      if (check.senderId.toString() !== senderId) {
         await Notify.findByIdAndUpdate(
           check._id,
           {
@@ -45,7 +45,7 @@ exports.createNotify = async (req, res) => {
         }
       }
     }
-    res.status(200).json();
+    res.status(200).json({ success: true });
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
@@ -53,8 +53,11 @@ exports.createNotify = async (req, res) => {
 
 exports.getAllNotify = async (req, res) => {
   try {
-    const allNotify = await Notify.find({ recieverId: req.params.id });
-    res.json(allNotify);
+    const allNotify = await Notify.find({
+      recieverId: mongoose.Types.ObjectId(req.user.id),
+    }).populate('senderId', 'first_name last_name username picture');
+    console.log(allNotify);
+    res.status(200).json(allNotify);
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }

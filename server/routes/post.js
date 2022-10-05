@@ -24,6 +24,7 @@ router.put('/savePost/:id', authUser, savePost);
 
 router.delete('/deletePost/:id', authUser, deletePost);
 
+// thong bao
 router.post('/createNotify', authUser, createNotify);
-router.get('/getAllNotify/:id', authUser, getAllNotify);
+router.get('/getAllNotify', authUser, getAllNotify);
 module.exports = router;

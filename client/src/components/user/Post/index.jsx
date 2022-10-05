@@ -15,7 +15,6 @@ import { Dots, Public } from '../../../svg';
 import { createNotify, getReacts, reactPost } from '../../../apis/post';
 import { SocketContext } from '../../../context/socketContext';
 import { useDispatch } from 'react-redux';
-import { fetchNotify } from '../../../redux/slices/notifySlice';
 
 function Post({ post, user, profile, saved }) {
   const dispacth = useDispatch();
@@ -55,6 +54,14 @@ function Post({ post, user, profile, saved }) {
         setReacts([...reacts, (reacts[index].count = --reacts[index].count)]);
         setTotal((prev) => --prev);
       }
+
+      await createNotify(
+        post._id,
+        post.user._id,
+        'đã bày tỏ cảm xúc về một bài viết của bạn',
+        reactName,
+        user.token
+      );
     } else {
       setCheckUserReact(reactName);
       // tim react giong react name de cong len
@@ -78,6 +85,8 @@ function Post({ post, user, profile, saved }) {
         reactName,
         user.token
       );
+
+      console.log('run');
 
       // socket.emit('sendNotification', {
       //   sender: user,
