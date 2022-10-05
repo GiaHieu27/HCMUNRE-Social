@@ -99,9 +99,7 @@ io.on('connection', (socket) => {
 
   // start notification
   socket.on('sendNotification', (data) => {
-    // data: obj = {
-    // senderId: string, recieverId: string, react: string
-    // }
+    // data: obj
     const friend = findFriend(data.recieverId);
     if (friend !== undefined) {
       socket.to(friend.socketId).emit('getNotification', data);

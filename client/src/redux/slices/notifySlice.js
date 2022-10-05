@@ -1,20 +1,52 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { createNotify } from '../../apis/post';
+import { getAllNotify } from '../../apis/post';
 
 const notifySlice = createSlice({
   name: 'notify',
   initialState: {
-    notify: [],
+    notifies: [],
     loading: false,
   },
-  reducers: {},
+  reducers: {
+    UPDATE_REACT: (state, action) => {
+      const { payload } = action;
+      const notifyState = state.notifies;
+
+      const index = notifyState.findIndex(
+        (notify) => notify.postRef === payload.postRef
+      );
+      if (index !== -1) {
+        notifyState[index].react = payload.react;
+      } else {
+        notifyState.unshift(payload);
+      }
+    },
+    UPDATE_STATUS: (state, action) => {
+      state.notifies.map((item) => (item.status = action.payload));
+    },
+    UPDATE_STATUS_SEEN: (state, action) => {
+      const { payload } = action;
+      const notifyState = state.notifies;
+
+      const index = notifyState.findIndex(
+        (notify) => notify.postRef === payload.postRef
+      );
+      if (index !== -1) {
+        notifyState[index].react = payload.status;
+      }
+    },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(fetchNotify.fulfilled, (state, action) => {
+      state.notifies = action.payload;
+    });
+  },
 });
 
 export const fetchNotify = createAsyncThunk(
   'notify/fetchNotify',
-  async ({ postId, recieverId, notify, react, token }) => {
-    const data = await createNotify(postId, recieverId, notify, react, token);
-    console.log(data);
+  async (token) => {
+    const data = await getAllNotify(token);
     return data;
   }
 );

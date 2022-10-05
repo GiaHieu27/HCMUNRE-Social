@@ -78,7 +78,7 @@ function Post({ post, user, profile, saved }) {
         setTotal((prev) => --prev);
       }
 
-      await createNotify(
+      const newNotify = await createNotify(
         post._id,
         post.user._id,
         'đã bày tỏ cảm xúc về một bài viết của bạn',
@@ -86,25 +86,7 @@ function Post({ post, user, profile, saved }) {
         user.token
       );
 
-      console.log('run');
-
-      // socket.emit('sendNotification', {
-      //   sender: user,
-      //   postRef: post._id,
-      //   recieverId: post.user._id,
-      //   react: reactName,
-      //   notify: 'đã bày tỏ cảm xúc về một bài viết',
-      // });
-
-      // dispacth(
-      //   fetchNotify({
-      //     postId: post._id,
-      //     recieverId: post.user._id,
-      //     react: reactName,
-      //     notify: 'đã bày tỏ cảm xúc về một bài viết',
-      //     token: user.token,
-      //   })
-      // );
+      socket.emit('sendNotification', newNotify);
     }
   };
 

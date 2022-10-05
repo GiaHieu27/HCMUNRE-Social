@@ -130,10 +130,44 @@ export const createNotify = async (
   }
 };
 
-export const getAllNotify = async (id, token) => {
+export const getAllNotify = async (token) => {
   try {
     const { data } = await axios.get(
-      `${process.env.REACT_APP_BACKEND_URL}/getAllNotify/${id}`,
+      `${process.env.REACT_APP_BACKEND_URL}/getAllNotify`,
+      {
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
+      }
+    );
+    return data;
+  } catch (error) {
+    return error.response.data.message;
+  }
+};
+
+export const updateStatusNotify = async (id, status, token) => {
+  try {
+    const { data } = await axios.put(
+      `${process.env.REACT_APP_BACKEND_URL}/updateStatusNotify`,
+      { status, id },
+      {
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
+      }
+    );
+    return data;
+  } catch (error) {
+    return error.response.data.message;
+  }
+};
+
+export const updateStatusNotifySeen = async (id, status, token) => {
+  try {
+    const { data } = await axios.put(
+      `${process.env.REACT_APP_BACKEND_URL}/updateStatusNotifySeen`,
+      { status, id },
       {
         headers: {
           Authorization: 'Bearer ' + token,

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Badge } from '@mui/material';
 import PropTypes from 'prop-types';
 
@@ -24,11 +24,15 @@ import {
 } from '../../../svg';
 import Notification from './Notification';
 import { SocketContext } from '../../../context/socketContext';
-import { createNotify, getAllNotify } from '../../../apis/post';
-import axios from 'axios';
+import notifySlice, { fetchNotify } from '../../../redux/slices/notifySlice';
+import { updateStatusNotify } from '../../../apis/post';
 
 function Header({ page, getPosts }) {
-  const { user } = useSelector((user) => ({ ...user }));
+  const {
+    user,
+    notification: { notifies },
+  } = useSelector((user) => ({ ...user }));
+  const dispatch = useDispatch();
   const { socket } = React.useContext(SocketContext);
   const { pathname } = useLocation();
   const color = '#20a305';
@@ -37,9 +41,6 @@ function Header({ page, getPosts }) {
   const [showAllMenu, setShowAllMenu] = React.useState(false);
   const [showUserMenu, setShowUserMenu] = React.useState(false);
   const [showNotification, setShowNotification] = React.useState(false);
-
-  // const [notifications, setSocketNotifications] = React.useState([]);
-  const [notifications, setNotifications] = React.useState([]);
 
   const allMenu = React.useRef(null);
   useClickOutSide(allMenu, () => {
@@ -56,35 +57,25 @@ function Header({ page, getPosts }) {
     setShowNotification(false);
   });
 
-  const handleGetNotification = async (id, token) => {};
+  const handleGetNotification = () => {
+    dispatch(notifySlice.actions.UPDATE_STATUS('unseen'));
+    updateStatusNotify(user.id, 'unseen', user.token);
+  };
 
-  // get notify from sender
-  // React.useEffect(() => {
-  //   socket.on('getNotification', (data) => {
-  //     setNotifications((prev) => [...prev, data]);
-  //   });
-  // }, [socket]);
-  // get all notify
+  const countNotifySent = notifies.filter(
+    (notify) => notify.status === 'sent'
+  ).length;
+
+  // get notifies from sender
   React.useEffect(() => {
-    const getAllNotify = async (token) => {
-      try {
-        const { data } = await axios.get(
-          `${process.env.REACT_APP_BACKEND_URL}/getAllNotify`,
-          {
-            headers: {
-              Authorization: 'Bearer ' + token,
-            },
-          }
-        );
-        setNotifications(data);
-      } catch (error) {
-        return error.response.data.message;
-      }
-    };
-    getAllNotify(user.token);
-  }, [user.token]);
-
-  console.log(notifications);
+    socket.on('getNotification', (dataObj) => {
+      dispatch(notifySlice.actions.UPDATE_REACT(dataObj));
+    });
+  }, [socket]);
+  // get all notifies
+  React.useEffect(() => {
+    dispatch(fetchNotify(user.token));
+  }, []);
 
   return (
     <header>
@@ -191,12 +182,12 @@ function Header({ page, getPosts }) {
         >
           <div
             onClick={() => {
-              handleGetNotification(user.id, user.token);
+              handleGetNotification();
               setShowNotification(!showNotification);
             }}
           >
             <Badge
-              badgeContent={notifications.length}
+              badgeContent={countNotifySent}
               color="error"
               sx={{
                 '& .MuiBadge-badge': {
@@ -208,7 +199,7 @@ function Header({ page, getPosts }) {
               <Notifications />
             </Badge>
           </div>
-          {showNotification && <Notification notifications={notifications} />}
+          {showNotification && <Notification notifies={notifies} user={user} />}
         </div>
 
         {/* User menu */}

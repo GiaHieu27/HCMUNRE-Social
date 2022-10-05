@@ -4,23 +4,27 @@ const Notify = require('../../models/Notify');
 exports.createNotify = async (req, res) => {
   const senderId = req.user.id;
   const { postId, recieverId, notify, react } = req.body;
-
+  let newNotify;
   try {
     const check = await Notify.findOne({
       postRef: mongoose.Types.ObjectId(postId),
     });
 
     if (check == null) {
-      await Notify({
+      newNotify = await Notify({
         recieverId,
         postRef: postId,
         senderId,
         notify,
         react,
       }).save();
+      await newNotify.populate(
+        'senderId',
+        'first_name last_name username picture'
+      );
     } else {
       if (check.senderId.toString() !== senderId) {
-        await Notify.findByIdAndUpdate(
+        newNotify = await Notify.findByIdAndUpdate(
           check._id,
           {
             senderId,
@@ -28,10 +32,10 @@ exports.createNotify = async (req, res) => {
           {
             new: true,
           }
-        );
+        ).populate('senderId', 'first_name last_name username picture');
       } else {
         if (check.react !== react) {
-          await Notify.findByIdAndUpdate(
+          newNotify = await Notify.findByIdAndUpdate(
             check._id,
             {
               react,
@@ -39,13 +43,13 @@ exports.createNotify = async (req, res) => {
             {
               new: true,
             }
-          );
+          ).populate('senderId', 'first_name last_name username picture');
         } else {
           await Notify.findByIdAndRemove(check._id);
         }
       }
     }
-    res.status(200).json({ success: true });
+    res.status(200).json(newNotify);
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
@@ -55,7 +59,11 @@ exports.getAllNotify = async (req, res) => {
   try {
     const allNotify = await Notify.find({
       recieverId: mongoose.Types.ObjectId(req.user.id),
-    }).populate('senderId', 'first_name last_name username picture');
+    })
+      .populate('senderId', 'first_name last_name username picture')
+      .sort({
+        createdAt: -1,
+      });
     console.log(allNotify);
     res.status(200).json(allNotify);
   } catch (error) {
@@ -63,13 +71,16 @@ exports.getAllNotify = async (req, res) => {
   }
 };
 
-exports.getOneSavedPost = async (req, res) => {
+exports.updateStatusNotify = async (req, res) => {
   try {
-    const { postId } = req.params;
-    const post = await Post.findById(postId)
-      .populate('user', 'first_name last_name username picture')
-      .populate('comments.commentBy', 'first_name last_name username picture');
-    res.json(post);
+    const { status, id } = req.body;
+    await Notify.updateMany(
+      { recieverId: mongoose.Types.ObjectId(id) },
+      {
+        status,
+      }
+    );
+    res.status(200).json({ status: true });
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }

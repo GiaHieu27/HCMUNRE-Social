@@ -6,6 +6,7 @@ import messengerSlice from '../slices/messengerSlice';
 import profileSlice from '../slices/profileSlice';
 import themeSlice from '../slices/themeSlice';
 import userSlice from '../slices/userSlice';
+import notifySlice from '../slices/notifySlice';
 
 const store = configureStore({
   reducer: {
@@ -15,6 +16,7 @@ const store = configureStore({
     friends: friendSlice.reducer,
     theme: themeSlice.reducer,
     messenger: messengerSlice.reducer,
+    notification: notifySlice.reducer,
   },
 });
 
