@@ -107,8 +107,22 @@ io.on('connection', (socket) => {
   });
   // start notification
 
+  // callingggggggg
+  socket.on('callUser', (data) => {
+    io.to(data.userToCall).emit('callUser', {
+      signal: data.signalData,
+      from: data.from,
+      name: data.name,
+    });
+  });
+
+  socket.on('answerCall', (data) => {
+    io.to(data.to).emit('callAccepted', data.signal);
+  });
+  // callingggggggg
+
   socket.on('disconnect', () => {
-    console.log('user disconnected');
+    socket.broadcast.emit('callEnded');
     userRemove(socket.id);
     io.emit('getUser', users);
   });

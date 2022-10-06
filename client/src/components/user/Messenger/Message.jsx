@@ -6,7 +6,7 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import LightGallery from 'lightgallery/react';
 import lgZoom from 'lightgallery/plugins/zoom';
-import lgVideo from 'lightgallery/plugins/video';
+// import lgVideo from 'lightgallery/plugins/video';
 
 function Message({ currentFriend, typingMessage, scrollRef }) {
   const {

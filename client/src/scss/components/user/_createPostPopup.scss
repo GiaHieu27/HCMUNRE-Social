@@ -130,6 +130,16 @@
     cursor: pointer;
     border-radius: 50%;
     margin-left: 18px;
+
+    .btn_icon {
+      border: none;
+      background: none;
+    }
+  }
+  &_header_right:last-of-type {
+    .btn_icon {
+      height: 24px;
+    }
   }
 
   &_submit {

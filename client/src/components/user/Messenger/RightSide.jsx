@@ -2,26 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import PhoneIcon from '@mui/icons-material/Phone';
 import Message from './Message';
 import MessageSend from './MessageSend';
 import FriendInfo from './FriendInfo';
-// import FriendInfo from './FriendInfo';
-// import Message from './Message';
-// import MessageSend from './MessageSend';
+import TooltipMUI from '../TooltipMUI';
 
-function RightSide({
-  handleSendingMessageByPressingEnter,
-  handleSendingMessage,
-  handleChangeInput,
-  setImageMessage,
-  currentFriend,
-  typingMessage,
-  setNewMessage,
-  imageMessage,
-  newMessage,
-  onlineFriends,
-  scrollRef,
-}) {
+function RightSide(props) {
   return (
     <div className="col-9">
       <div className="right-side">
@@ -32,11 +19,14 @@ function RightSide({
               <div className="header">
                 <div className="image-name">
                   <div className="image">
-                    <img src={currentFriend.picture} alt="avatar -friend" />
-                    {onlineFriends &&
-                    onlineFriends.length > 0 &&
-                    onlineFriends.some(
-                      (user) => user.userId === currentFriend._id
+                    <img
+                      src={props.currentFriend.picture}
+                      alt="avatar -friend"
+                    />
+                    {props.onlineFriends &&
+                    props.onlineFriends.length > 0 &&
+                    props.onlineFriends.some(
+                      (user) => user.userId === props.currentFriend._id
                     ) ? (
                       <div className="active-icon"></div>
                     ) : (
@@ -45,48 +35,50 @@ function RightSide({
                   </div>
                   <div className="name">
                     <h3>
-                      {currentFriend.first_name} {currentFriend.last_name}
+                      {props.currentFriend.first_name}{' '}
+                      {props.currentFriend.last_name}
                     </h3>
                   </div>
                 </div>
                 <div className="icons">
-                  {/* <div className="icon">
-                    <IoCall />
+                  <div className="icon">
+                    <TooltipMUI title="Bắt đầu gọi điện">
+                      <PhoneIcon color="success" />
+                    </TooltipMUI>
                   </div>
                   <div className="icon">
-                    <BsCameraVideoFill />
-                  </div> */}
-                  <div className="icon">
                     <label htmlFor="dot">
-                      <MoreHorizIcon color="success" />
+                      <TooltipMUI title="Thông tin về cuộc trò chuyện">
+                        <MoreHorizIcon color="success" />
+                      </TooltipMUI>
                     </label>
                   </div>
                 </div>
               </div>
 
               <Message
-                currentFriend={currentFriend}
-                scrollRef={scrollRef}
-                typingMessage={typingMessage}
+                currentFriend={props.currentFriend}
+                scrollRef={props.scrollRef}
+                typingMessage={props.typingMessage}
               />
               <MessageSend
-                handleChangeInput={handleChangeInput}
-                handleSendingMessage={handleSendingMessage}
+                handleChangeInput={props.handleChangeInput}
+                handleSendingMessage={props.handleSendingMessage}
                 handleSendingMessageByPressingEnter={
-                  handleSendingMessageByPressingEnter
+                  props.handleSendingMessageByPressingEnter
                 }
-                newMessage={newMessage}
-                setNewMessage={setNewMessage}
-                imageMessage={imageMessage}
-                setImageMessage={setImageMessage}
+                newMessage={props.newMessage}
+                setNewMessage={props.setNewMessage}
+                imageMessage={props.imageMessage}
+                setImageMessage={props.setImageMessage}
               />
             </div>
           </div>
           <div className="col-4">
             <FriendInfo
               // message={message}
-              currentFriend={currentFriend}
-              onlineFriends={onlineFriends}
+              currentFriend={props.currentFriend}
+              onlineFriends={props.onlineFriends}
             />
           </div>
         </div>

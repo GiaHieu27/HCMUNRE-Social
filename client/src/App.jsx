@@ -18,6 +18,7 @@ import ResetPassword from './pages/user/reset';
 import CreratePostPopup from './components/user/CreratePostPopup';
 import Friend from './pages/user/friend';
 import Messenger from './pages/user/messenger';
+import Call from './pages/user/call';
 import { postsReducer } from './helpers/reducer';
 import { SocketContext } from './context/socketContext';
 
@@ -108,6 +109,8 @@ function App() {
             element={<SavedPosstProfile />}
           />
           <Route path="/messenger" element={<Messenger />} />
+          <Route path="/messenger" element={<Messenger />} />
+          <Route path="/call" element={<Call />} />
         </Route>
 
         <Route element={<NotLoggedInRoutes />}>

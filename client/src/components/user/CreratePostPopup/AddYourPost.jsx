@@ -1,10 +1,6 @@
 import PropTypes from 'prop-types';
 import { Photo } from '../../../svg';
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
-import Tooltip from 'react-bootstrap/Tooltip';
-import Button from 'react-bootstrap/Button';
 import TooltipBs from '../TooltipBs';
-
 function AddYourPost(props) {
   return (
     <div className="addtoyourpost">
@@ -42,7 +38,7 @@ function AddYourPost(props) {
             <img
               src="/icons/colorful.png"
               alt="pick-background-color"
-              width={35}
+              width={24}
               onClick={() => {
                 if (!props.images.length && !props.videos.length) {
                   props.setShowBg(!props.showBg);
@@ -51,16 +47,16 @@ function AddYourPost(props) {
             />
           </TooltipBs>
         </div>
-        <TooltipBs title={'Biểu tượng cảm xúc'}>
-          <div className="post_header_right">
+        <div className="post_header_right">
+          <TooltipBs title={'Biểu tượng cảm xúc'}>
             <i
               className={`emoji_icon_large`}
               onClick={() => {
                 props.setPicker(!props.picker);
               }}
             ></i>
-          </div>
-        </TooltipBs>
+          </TooltipBs>
+        </div>
       </div>
     </div>
   );

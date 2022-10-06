@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import LightGallery from 'lightgallery/react';
 import lgZoom from 'lightgallery/plugins/zoom';
-import lgVideo from 'lightgallery/plugins/video';
+// import lgVideo from 'lightgallery/plugins/video';
 
 function FriendInfo({ currentFriend, onlineFriends }) {
   const { message } = useSelector((state) => state.messenger);

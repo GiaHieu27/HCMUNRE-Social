@@ -75,7 +75,7 @@ function Header({ page, getPosts }) {
   // get all notifies
   React.useEffect(() => {
     dispatch(fetchNotify(user.token));
-  }, [dispatch]);
+  }, [dispatch, user.token]);
 
   return (
     <header>

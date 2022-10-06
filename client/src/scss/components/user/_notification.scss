@@ -40,7 +40,7 @@
     }
   }
 
-  &_time {
+  &_time.unseen {
     color: var(--green-dark-color);
   }
 }

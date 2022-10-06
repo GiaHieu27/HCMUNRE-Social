@@ -9,18 +9,18 @@ import moment from 'moment';
 import { updateStatusNotifySeen } from '../../../apis/post';
 import notifySlice from '../../../redux/slices/notifySlice';
 
-const SmallAvatar = styled(Avatar)(({ theme }) => ({
+const SmallReact = styled(Avatar)(({ theme }) => ({
   width: 22,
   height: 22,
   border: `2px solid ${theme.palette.background.paper}`,
 }));
 
 function Notification() {
+  const dispatch = useDispatch();
   const {
     user,
     notification: { notifies },
   } = useSelector((state) => ({ ...state }));
-  const dispatch = useDispatch();
 
   const handleSeenNotify = async (postRef) => {
     dispatch(notifySlice.actions.UPDATE_STATUS_SEEN(postRef));
@@ -34,7 +34,6 @@ function Notification() {
         <ul className="notification_list">
           {notifies && notifies.length ? (
             notifies.map((notify) => {
-              console.log(notify);
               return (
                 <Link
                   to={`/${user.username}/posts/${notify?.postRef}`}
@@ -46,7 +45,7 @@ function Notification() {
                       overlap="circular"
                       anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
                       badgeContent={
-                        <SmallAvatar
+                        <SmallReact
                           alt="Remy Sharp"
                           src={`${
                             notify.react === 'haha'
@@ -78,13 +77,16 @@ function Notification() {
                         </span>{' '}
                         {notify.notify}
                       </p>
-                      <span className="notification_time">
+                      <span
+                        className={`notification_time ${
+                          notify.status === 'unseen' ? 'unseen' : ''
+                        }`}
+                      >
                         {moment(notify.createdAt).startOf('mini').fromNow()}
                       </span>
                     </div>
                     {notify.status === 'sent' || notify.status === 'unseen' ? (
                       <>
-                        <p>{notify.status}</p>
                         <FiberManualRecordIcon />
                       </>
                     ) : (

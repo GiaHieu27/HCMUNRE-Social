@@ -11,7 +11,7 @@ function TooltipBs({ children, title, placement }) {
       placement={placement ? placement : 'top'}
       overlay={<Tooltip id={`tooltip-${placement}`}>{title}</Tooltip>}
     >
-      <Button variant="outline-light link" className="p-0">
+      <Button variant="outline-light link" className="p-0 btn_icon">
         {children}
       </Button>
     </OverlayTrigger>
