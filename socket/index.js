@@ -108,12 +108,18 @@ io.on('connection', (socket) => {
   // start notification
 
   // callingggggggg
+  socket.emit('me', socket.id);
+
   socket.on('callUser', (data) => {
-    io.to(data.userToCall).emit('callUser', {
-      signal: data.signalData,
-      from: data.from,
-      name: data.name,
-    });
+    const friend = findFriend(data.receiverId);
+    // friend = obj | undefined
+    if (friend !== undefined) {
+      io.to(friend.socketId).emit('userReceiveCall', {
+        signal: data.signalData,
+        from: data.from,
+        name: data.name,
+      });
+    }
   });
 
   socket.on('answerCall', (data) => {

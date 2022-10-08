@@ -27,6 +27,7 @@ import AdminLoggedInRoutes from './routes/admin/AdminLoggedInRoutes';
 import AdminNotLoggedInRoutes from './routes/admin/AdminNotLoggedInRoutes';
 import LoginAdmin from './pages/admin/login';
 import HomeAdmin from './pages/admin/home';
+import CallMess from './components/user/Messenger/CallMess';
 
 function App() {
   const { user, theme } = useSelector((sate) => ({ ...sate }));
@@ -110,7 +111,7 @@ function App() {
           />
           <Route path="/messenger" element={<Messenger />} />
           <Route path="/messenger" element={<Messenger />} />
-          <Route path="/call" element={<Call />} />
+          <Route path="/call" element={<CallMess />} />
         </Route>
 
         <Route element={<NotLoggedInRoutes />}>

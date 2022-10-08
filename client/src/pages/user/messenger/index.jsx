@@ -415,6 +415,7 @@ function Messenger() {
               imageMessage={imageMessage}
               newMessage={newMessage}
               scrollRef={scrollRef}
+              socket={socket}
             />
           )}
         </div>
