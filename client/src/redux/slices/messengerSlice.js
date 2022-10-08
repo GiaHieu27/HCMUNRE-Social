@@ -14,7 +14,7 @@ const messengerSlice = createSlice({
       caller: '',
       callerSignal: '',
       stream: null,
-      name: '',
+      sender: {},
     },
   },
   reducers: {

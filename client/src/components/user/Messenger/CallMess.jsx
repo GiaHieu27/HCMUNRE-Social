@@ -37,24 +37,6 @@ function CallMess() {
         dispatch(messengerSlice.actions.SET_STREAM(stream));
         myVideoRef.current.srcObject = stream;
       });
-
-    // socket.on('me', (id) => {
-    //   // set socket id
-    //   setMySocketId(id);
-    // });
-
-    // socket.on('userReceiveCall', (data) => {
-    //   const { from, signal, name } = data;
-    //   dispatch(
-    //     messengerSlice.actions.UPDATE_CALL_RECEVIER({
-    //       receivingCall: true,
-    //       caller: from,
-    //       callerSignal: signal,
-    //       name,
-    //     })
-    //   );
-    //   setOpenModal(true);
-    // });
   }, []);
 
   const answerCall = () => {

@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import PhoneIcon from '@mui/icons-material/Phone';
 import Message from './Message';
 import MessageSend from './MessageSend';
 import FriendInfo from './FriendInfo';
@@ -12,7 +11,9 @@ import { SocketContext } from '../../../context/socketContext';
 import { useDispatch, useSelector } from 'react-redux';
 import messengerSlice from '../../../redux/slices/messengerSlice';
 import CustomDialog from '../CustomDialog';
-import { Box, Button } from '@mui/material';
+import { Avatar, Box, Button, Typography } from '@mui/material';
+import VideocamIcon from '@mui/icons-material/Videocam';
+import CloseIcon from '@mui/icons-material/Close';
 
 function RightSide(props) {
   const { socket, user } = React.useContext(SocketContext);
@@ -23,6 +24,7 @@ function RightSide(props) {
     caller,
     callerSignal,
     stream,
+    sender,
   } = useSelector((state) => state.messenger.call);
   const dispatch = useDispatch();
 
@@ -39,14 +41,14 @@ function RightSide(props) {
     });
 
     socket.on('userReceiveCall', (data) => {
-      const { from, signal, name } = data;
+      const { from, signal, sender } = data;
       console.log(data);
       dispatch(
         messengerSlice.actions.UPDATE_CALL_RECEVIER({
           receivingCall: true,
           caller: from,
           callerSignal: signal,
-          name,
+          sender,
         })
       );
       setOpenModal(true);
@@ -74,7 +76,7 @@ function RightSide(props) {
         receiverId: receiverId,
         signalData: data,
         from: mySocketId,
-        name: user.username,
+        sender: user,
       });
     });
 
@@ -128,8 +130,8 @@ function RightSide(props) {
                     className="icon"
                     onClick={() => handleCallUser(props.currentFriend._id)}
                   >
-                    <TooltipMUI title="Bắt đầu gọi điện">
-                      <PhoneIcon color="success" />
+                    <TooltipMUI title="Gọi điện">
+                      <VideocamIcon color="success" />
                     </TooltipMUI>
                   </div>
                   <div className="icon">
@@ -173,27 +175,88 @@ function RightSide(props) {
       <CustomDialog
         open={openModal}
         handleClose={() => setOpenModal(false)}
-        title={'Cuộc gọi đến'}
-        content={<Box sx={{ p: '10px' }}></Box>}
+        content={
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: ' center',
+            }}
+          >
+            <Avatar
+              alt="avatar-sender"
+              src={sender?.picture}
+              sx={{ width: '75px', height: '75px', mb: '18px' }}
+            />
+            <Typography
+              variant="h6"
+              fontWeight={700}
+              textAlign="center"
+              lineHeight={1}
+              fontFamily="inherit"
+              fontSize={27.2}
+            >
+              {sender.first_name} {sender.last_name}
+            </Typography>
+            <Typography
+              variant="h6"
+              fontWeight={700}
+              textAlign="center"
+              fontFamily="inherit"
+              fontSize={27.2}
+            >
+              đang gọi cho bạn
+            </Typography>
+            <Typography
+              variant="body1"
+              fontWeight={500}
+              textAlign="center"
+              fontSize={14.5}
+            >
+              Cuộc gọi sẽ bắt đầu ngay sau khi bạn chấp nhận
+            </Typography>
+          </Box>
+        }
         actions={
           <Box
             sx={{
               display: 'flex',
-              justifyContent: 'flex-end',
+              justifyContent: 'center',
+              alignItems: ' center',
+              marginTop: '20px',
             }}
             width="100%"
           >
-            <Button
-              sx={{ mr: '8px' }}
-              variant="text"
-              // onClick={() => {
-              //   setSelectedVaccine(null);
-              //   setShowAddDialog(false);
-              // }}
-              // disabled={addLoading}
-            >
-              Cancel
-            </Button>
+            <TooltipMUI title="Từ chối cuộc gọi" placement="top">
+              <Button
+                variant="contained"
+                size="large"
+                color="error"
+                sx={{
+                  borderRadius: '50%',
+                  width: '50px',
+                  height: '63px',
+                }}
+              >
+                <CloseIcon sx={{ fontSize: '1.7rem' }} />
+              </Button>
+            </TooltipMUI>
+            <TooltipMUI title="Chấp nhận cuộc gọi" placement="top">
+              <Button
+                variant="contained"
+                size="large"
+                color="successCustom"
+                sx={{
+                  borderRadius: '50%',
+                  width: '50px',
+                  height: '63px',
+                  marginLeft: '43px',
+                }}
+              >
+                <VideocamIcon sx={{ fontSize: '1.7rem' }} />
+              </Button>
+            </TooltipMUI>
           </Box>
         }
       />

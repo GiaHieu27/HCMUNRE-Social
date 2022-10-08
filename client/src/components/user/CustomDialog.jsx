@@ -14,34 +14,46 @@ function CustomDialog(props) {
     <Dialog
       open={props.open}
       onClose={props.handleClose}
-      PaperProps={{ style: { padding: '15px' } }}
+      PaperProps={{
+        style: { padding: '15px', maxWidth: '315px', borderRadius: '15px' },
+      }}
       maxWidth={props.maxWidth ? props.maxWidth : 'xs'}
       fullWidth={props.fullWidth ? props.fullWidth : true}
       sx={{
+        '& 	.MuiDialog-paper': {
+          boxShadow:
+            'rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px',
+        },
         '& .MuiDialogContent-root': {
           paddingBottom: '7px',
         },
       }}
     >
-      <DialogTitle>
-        {props.title}
-        {props.showIcon && (
-          <Box textAlign={'center'}>
-            {props.type === 'success' && (
-              <CheckCircleOutlinedIcon
-                color="success"
-                sx={{ fontSize: '3.5rem' }}
-              />
-            )}
-            {props.type === 'error' && (
-              <ErrorOutlineOutlinedIcon
-                color="error"
-                sx={{ fontSize: '3.5rem' }}
-              />
-            )}
-          </Box>
-        )}
-      </DialogTitle>
+      {props.title && (
+        <DialogTitle
+          sx={{
+            textAlign: 'center',
+          }}
+        >
+          {props.title}
+          {props.showIcon && (
+            <Box textAlign={'center'}>
+              {props.type === 'success' && (
+                <CheckCircleOutlinedIcon
+                  color="success"
+                  sx={{ fontSize: '3.5rem' }}
+                />
+              )}
+              {props.type === 'error' && (
+                <ErrorOutlineOutlinedIcon
+                  color="error"
+                  sx={{ fontSize: '3.5rem' }}
+                />
+              )}
+            </Box>
+          )}
+        </DialogTitle>
+      )}
       <DialogContent>{props.content}</DialogContent>
       <DialogActions>{props.actions}</DialogActions>
     </Dialog>

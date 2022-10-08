@@ -117,7 +117,7 @@ io.on('connection', (socket) => {
       io.to(friend.socketId).emit('userReceiveCall', {
         signal: data.signalData,
         from: data.from,
-        name: data.name,
+        sender: data.sender,
       });
     }
   });
