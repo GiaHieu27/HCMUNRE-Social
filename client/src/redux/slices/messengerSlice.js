@@ -9,8 +9,8 @@ const messengerSlice = createSlice({
     addNewUser: '',
     call: {
       receivingCall: false,
-      callAccepted: false,
-      callEnded: false,
+      // callAccepted: false,
+      // callEnded: false,
       caller: '',
       callerSignal: '',
       stream: null,
@@ -46,18 +46,20 @@ const messengerSlice = createSlice({
     CLEAR_NEW_USER: (state, action) => {
       state.addNewUser = '';
     },
+
     SET_STREAM: (state, action) => {
       state.call.stream = action.payload;
     },
-    SET_CALL_ACCEPTED: (state, action) => {
-      state.call.callAccepted = action.payload;
-    },
+    // SET_CALL_ACCEPTED: (state, action) => {
+    //   state.call.callAccepted = action.payload;
+    // },
     UPDATE_CALL_RECEVIER: (state, action) => {
-      const { receivingCall, caller, callerSignal, name } = action.payload;
-      state.call.receivingCall = receivingCall;
-      state.call.caller = caller;
-      state.call.callerSignal = callerSignal;
-      state.call.name = name;
+      const { receivingCall, caller, callerSignal, sender } = action.payload;
+      const stateCall = state.call;
+      stateCall.receivingCall = receivingCall;
+      stateCall.caller = caller;
+      stateCall.callerSignal = callerSignal;
+      stateCall.sender = sender;
     },
   },
 });

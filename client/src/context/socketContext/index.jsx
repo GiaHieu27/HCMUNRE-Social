@@ -9,7 +9,12 @@ function SocketProvider({ children }) {
   const socket = io('ws://localhost:8000');
 
   return (
-    <SocketContext.Provider value={{ user, socket }}>
+    <SocketContext.Provider
+      value={{
+        user,
+        socket,
+      }}
+    >
       {children}
     </SocketContext.Provider>
   );

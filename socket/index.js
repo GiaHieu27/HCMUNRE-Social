@@ -105,14 +105,20 @@ io.on('connection', (socket) => {
       socket.to(friend.socketId).emit('getNotification', data);
     }
   });
-  // start notification
+  // end notification
 
-  // callingggggggg
-  socket.emit('me', socket.id);
+  // start callingggggggg
+  socket.on('callFriend', (user, receiverId) => {
+    const friend = findFriend(receiverId);
+    // friend = obj
+    if (friend !== undefined) {
+      io.to(friend.socketId).emit('friendReceiveCall', user);
+    }
+  });
 
   socket.on('callUser', (data) => {
     const friend = findFriend(data.receiverId);
-    // friend = obj | undefined
+    // friend = obj
     if (friend !== undefined) {
       io.to(friend.socketId).emit('userReceiveCall', {
         signal: data.signalData,
@@ -123,9 +129,11 @@ io.on('connection', (socket) => {
   });
 
   socket.on('answerCall', (data) => {
-    io.to(data.to).emit('callAccepted', data.signal);
+    // data = obj;
+    console.log(data);
+    socket.to(data.to).emit('callAccepted', data.signal);
   });
-  // callingggggggg
+  // end callingggggggg
 
   socket.on('disconnect', () => {
     socket.broadcast.emit('callEnded');

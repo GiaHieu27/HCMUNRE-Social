@@ -17,8 +17,10 @@ import uploadImages from '../../../apis/uploadImages';
 import notificationSound from '../../../audio/notification.mp3';
 import * as messengerApis from '../../../apis/messenger';
 import { getFriend } from '../../../apis/friend';
+import { SocketContext } from '../../../context/socketContext';
 
 function Messenger() {
+  const { socket } = React.useContext(SocketContext);
   const {
     user,
     friends: friendStore,
@@ -43,7 +45,6 @@ function Messenger() {
   const [onlineFriends, setOnlineFriends] = React.useState([]);
 
   const scrollRef = React.useRef(null);
-  const socket = io('ws://localhost:8000');
 
   const handleChangeInput = (e) => {
     setNewMessage(e.target.value);

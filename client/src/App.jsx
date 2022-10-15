@@ -18,7 +18,7 @@ import ResetPassword from './pages/user/reset';
 import CreratePostPopup from './components/user/CreratePostPopup';
 import Friend from './pages/user/friend';
 import Messenger from './pages/user/messenger';
-import Call from './pages/user/call';
+import CallMess from './components/user/Messenger/CallMess';
 import { postsReducer } from './helpers/reducer';
 import { SocketContext } from './context/socketContext';
 
@@ -27,7 +27,6 @@ import AdminLoggedInRoutes from './routes/admin/AdminLoggedInRoutes';
 import AdminNotLoggedInRoutes from './routes/admin/AdminNotLoggedInRoutes';
 import LoginAdmin from './pages/admin/login';
 import HomeAdmin from './pages/admin/home';
-import CallMess from './components/user/Messenger/CallMess';
 
 function App() {
   const { user, theme } = useSelector((sate) => ({ ...sate }));
@@ -109,7 +108,6 @@ function App() {
             path="/:username/posts/:idPost"
             element={<SavedPosstProfile />}
           />
-          <Route path="/messenger" element={<Messenger />} />
           <Route path="/messenger" element={<Messenger />} />
           <Route path="/call" element={<CallMess />} />
         </Route>

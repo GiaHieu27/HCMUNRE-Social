@@ -1,98 +1,48 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
+import { Avatar, Box, Button, Typography } from '@mui/material';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import VideocamIcon from '@mui/icons-material/Videocam';
+import CloseIcon from '@mui/icons-material/Close';
+
 import Message from './Message';
 import MessageSend from './MessageSend';
 import FriendInfo from './FriendInfo';
 import TooltipMUI from '../TooltipMUI';
-import Peer from 'simple-peer';
-import { SocketContext } from '../../../context/socketContext';
-import { useDispatch, useSelector } from 'react-redux';
-import messengerSlice from '../../../redux/slices/messengerSlice';
 import CustomDialog from '../CustomDialog';
-import { Avatar, Box, Button, Typography } from '@mui/material';
-import VideocamIcon from '@mui/icons-material/Videocam';
-import CloseIcon from '@mui/icons-material/Close';
-
+import { SocketContext } from '../../../context/socketContext';
 function RightSide(props) {
   const { socket, user } = React.useContext(SocketContext);
-  const {
-    receivingCall,
-    callAccepted,
-    callEnded,
-    caller,
-    callerSignal,
-    stream,
-    sender,
-  } = useSelector((state) => state.messenger.call);
-  const dispatch = useDispatch();
 
-  const [mySocketId, setMySocketId] = useState('');
-  const [openModal, setOpenModal] = useState(false);
+  const [openModal, setOpenModal] = React.useState(false);
+  const [sender, setSender] = React.useState({});
 
-  const userVideoRef = useRef();
-  const connectionRef = useRef();
-
-  useEffect(() => {
-    socket.on('me', (id) => {
-      // set socket id
-      setMySocketId(id);
-    });
-
-    socket.on('userReceiveCall', (data) => {
-      const { from, signal, sender } = data;
-      console.log(data);
-      dispatch(
-        messengerSlice.actions.UPDATE_CALL_RECEVIER({
-          receivingCall: true,
-          caller: from,
-          callerSignal: signal,
-          sender,
-        })
-      );
-      setOpenModal(true);
-    });
-  }, []);
-
-  const handleCallUser = (receiverId) => {
+  const hanldeCall = (receiverId) => {
     window.open(
       'http://localhost:3000/call',
       '_blank',
       'menubar=yes,toolbar=yes,scrollbars=yes,resizable=yes,top=40,left=200,width=950,height=600'
     );
-
-    const peer = new Peer({
-      initiator: true,
-      trickle: false,
-      stream: stream,
-    });
-
-    // console.log(peer);
-    // goi dien bang socket ud
-    peer.on('signal', (data) => {
-      // console.log(data);
-      socket.emit('callUser', {
-        receiverId: receiverId,
-        signalData: data,
-        from: mySocketId,
-        sender: user,
-      });
-    });
-
-    peer.on('stream', (stream) => {
-      console.log(stream);
-      userVideoRef.current.srcObject = stream;
-    });
-
-    socket.on('callAccepted', (signal) => {
-      console.log(signal);
-      dispatch(messengerSlice.actions.SET_CALL_ACCEPTED(true));
-      peer.signal(signal);
-    });
-
-    connectionRef.current = peer;
+    socket.emit('callFriend', user, receiverId);
   };
+
+  const hanldeReceiveCall = () => {
+    window.open(
+      'http://localhost:3000/call',
+      '_blank',
+      'menubar=yes,toolbar=yes,scrollbars=yes,resizable=yes,top=40,left=200,width=950,height=600'
+    );
+    setOpenModal(false);
+    // socket.emit('callFriend', user, receiverId);
+  };
+
+  React.useEffect(() => {
+    socket.on('friendReceiveCall', (user) => {
+      setOpenModal(true);
+      setSender(user);
+    });
+  }, []);
 
   return (
     <div className="col-9">
@@ -128,7 +78,7 @@ function RightSide(props) {
                 <div className="icons">
                   <div
                     className="icon"
-                    onClick={() => handleCallUser(props.currentFriend._id)}
+                    onClick={() => hanldeCall(props.currentFriend._id)}
                   >
                     <TooltipMUI title="Gọi điện">
                       <VideocamIcon color="success" />
@@ -242,6 +192,7 @@ function RightSide(props) {
                 <CloseIcon sx={{ fontSize: '1.7rem' }} />
               </Button>
             </TooltipMUI>
+
             <TooltipMUI title="Chấp nhận cuộc gọi" placement="top">
               <Button
                 variant="contained"
@@ -253,6 +204,7 @@ function RightSide(props) {
                   height: '63px',
                   marginLeft: '43px',
                 }}
+                onClick={() => hanldeReceiveCall()}
               >
                 <VideocamIcon sx={{ fontSize: '1.7rem' }} />
               </Button>
