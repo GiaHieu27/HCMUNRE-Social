@@ -15,7 +15,7 @@ function CallMess() {
   const [mySocketId, setMySocketId] = React.useState('');
   const [callerSignal, setCallerSignal] = React.useState();
   const [caller, setCaller] = React.useState();
-  const [sender, setSender] = React.useState({});
+  // const [sender, setSender] = React.useState({});
   const [receivingCall, setReceivingCall] = React.useState(false);
 
   const myVideoRef = React.useRef();
@@ -62,7 +62,7 @@ function CallMess() {
       setReceivingCall(true);
       setCaller(from);
       setCallerSignal(signal);
-      setSender(sender);
+      // setSender(sender);
       // setOpenModal(true);
     });
   }, []);

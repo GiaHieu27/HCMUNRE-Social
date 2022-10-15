@@ -5,6 +5,7 @@ import { Avatar, Box, Button, Typography } from '@mui/material';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import VideocamIcon from '@mui/icons-material/Videocam';
 import CloseIcon from '@mui/icons-material/Close';
+import CallEndIcon from '@mui/icons-material/CallEnd';
 
 import Message from './Message';
 import MessageSend from './MessageSend';
@@ -12,35 +13,67 @@ import FriendInfo from './FriendInfo';
 import TooltipMUI from '../TooltipMUI';
 import CustomDialog from '../CustomDialog';
 import { SocketContext } from '../../../context/socketContext';
+
 function RightSide(props) {
   const { socket, user } = React.useContext(SocketContext);
 
-  const [openModal, setOpenModal] = React.useState(false);
+  const [openModalReceive, setOpenModalReceive] = React.useState(false);
+  const [openModalCall, setOpenModalCall] = React.useState(false);
+  const [openModalReject, setOpenModalReject] = React.useState(false);
   const [sender, setSender] = React.useState({});
 
-  const hanldeCall = (receiverId) => {
-    window.open(
-      'http://localhost:3000/call',
-      '_blank',
-      'menubar=yes,toolbar=yes,scrollbars=yes,resizable=yes,top=40,left=200,width=950,height=600'
-    );
+  const handleCall = (receiverId) => {
+    setOpenModalCall(true);
     socket.emit('callFriend', user, receiverId);
   };
 
-  const hanldeReceiveCall = () => {
+  const handleReceiveCall = (senderId) => {
+    setOpenModalReceive(false);
+    socket.emit('receiveCallSuccess', senderId);
     window.open(
       'http://localhost:3000/call',
       '_blank',
       'menubar=yes,toolbar=yes,scrollbars=yes,resizable=yes,top=40,left=200,width=950,height=600'
     );
-    setOpenModal(false);
-    // socket.emit('callFriend', user, receiverId);
+  };
+
+  const handleRejectCall = (senderId) => {
+    setOpenModalReceive(false);
+    socket.emit('rejectCall', senderId);
+  };
+
+  const handleCancelCall = (receiverId) => {
+    setOpenModalCall(false);
+    socket.emit('cancelCall', receiverId);
   };
 
   React.useEffect(() => {
     socket.on('friendReceiveCall', (user) => {
-      setOpenModal(true);
+      setOpenModalReceive(true);
       setSender(user);
+    });
+
+    socket.on('receiveCallSuccess', () => {
+      setOpenModalCall(false);
+      window.open(
+        'http://localhost:3000/call',
+        '_blank',
+        'menubar=yes,toolbar=yes,scrollbars=yes,resizable=yes,top=40,left=200,width=950,height=600'
+      );
+    });
+
+    socket.on('rejectCall', () => {
+      setOpenModalReject(true);
+      setTimeout(() => {
+        setOpenModalCall(false);
+      }, 2000);
+      setTimeout(() => {
+        setOpenModalReject(false);
+      }, 3000);
+    });
+
+    socket.on('cancelCall', () => {
+      setOpenModalReceive(false);
     });
   }, []);
 
@@ -78,7 +111,7 @@ function RightSide(props) {
                 <div className="icons">
                   <div
                     className="icon"
-                    onClick={() => hanldeCall(props.currentFriend._id)}
+                    onClick={() => handleCall(props.currentFriend._id)}
                   >
                     <TooltipMUI title="Gọi điện">
                       <VideocamIcon color="success" />
@@ -122,9 +155,10 @@ function RightSide(props) {
         </div>
       </div>
 
+      {/* modal receiver */}
       <CustomDialog
-        open={openModal}
-        handleClose={() => setOpenModal(false)}
+        open={openModalReceive}
+        handleClose={() => setOpenModalReceive(false)}
         content={
           <Box
             sx={{
@@ -188,6 +222,7 @@ function RightSide(props) {
                   width: '50px',
                   height: '63px',
                 }}
+                onClick={() => handleRejectCall(sender.id)}
               >
                 <CloseIcon sx={{ fontSize: '1.7rem' }} />
               </Button>
@@ -204,12 +239,111 @@ function RightSide(props) {
                   height: '63px',
                   marginLeft: '43px',
                 }}
-                onClick={() => hanldeReceiveCall()}
+                onClick={() => handleReceiveCall(sender.id)}
               >
                 <VideocamIcon sx={{ fontSize: '1.7rem' }} />
               </Button>
             </TooltipMUI>
           </Box>
+        }
+      />
+      {/* modal caller */}
+      <CustomDialog
+        open={openModalCall}
+        handleClose={() => setOpenModalCall(false)}
+        content={
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: ' center',
+            }}
+          >
+            <Avatar
+              alt="avatar-sender"
+              src={props.currentFriend.picture}
+              sx={{ width: '75px', height: '75px', mb: '18px' }}
+            />
+            {!openModalReject ? (
+              <>
+                <Typography
+                  variant="h6"
+                  fontWeight={700}
+                  textAlign="center"
+                  lineHeight={1}
+                  fontFamily="inherit"
+                  fontSize={25.2}
+                >
+                  {props.currentFriend.first_name}{' '}
+                  {props.currentFriend.last_name}
+                </Typography>
+                <Typography
+                  variant="body1"
+                  fontWeight={500}
+                  textAlign="center"
+                  fontSize={15.5}
+                  sx={{ mt: '10px' }}
+                >
+                  đang gọi ...
+                </Typography>
+              </>
+            ) : (
+              <>
+                <Typography
+                  variant="h6"
+                  fontWeight={700}
+                  textAlign="center"
+                  lineHeight={1}
+                  fontFamily="inherit"
+                  fontSize={25.2}
+                >
+                  {props.currentFriend.first_name}{' '}
+                  {props.currentFriend.last_name}
+                </Typography>
+                <Typography
+                  variant="body1"
+                  fontWeight={500}
+                  textAlign="center"
+                  fontSize={15.5}
+                  sx={{ mt: '10px' }}
+                >
+                  đã từ chối cuộc gọi
+                </Typography>
+              </>
+            )}
+          </Box>
+        }
+        actions={
+          !openModalReject ? (
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: ' center',
+                marginTop: '20px',
+              }}
+              width="100%"
+            >
+              <TooltipMUI title="Huỷ cuộc gọi" placement="top">
+                <Button
+                  variant="contained"
+                  size="large"
+                  color="error"
+                  sx={{
+                    borderRadius: '50%',
+                    width: '50px',
+                    height: '63px',
+                  }}
+                  onClick={() => handleCancelCall(props.currentFriend._id)}
+                >
+                  <CallEndIcon sx={{ fontSize: '1.7rem' }} />
+                </Button>
+              </TooltipMUI>
+            </Box>
+          ) : (
+            ''
+          )
         }
       />
     </div>

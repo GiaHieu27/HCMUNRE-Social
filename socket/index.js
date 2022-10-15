@@ -116,6 +116,30 @@ io.on('connection', (socket) => {
     }
   });
 
+  socket.on('receiveCallSuccess', (senderId) => {
+    const user = findFriend(senderId);
+    // friend = obj
+    if (user !== undefined) {
+      io.to(user.socketId).emit('receiveCallSuccess');
+    }
+  });
+
+  socket.on('rejectCall', (senderId) => {
+    const user = findFriend(senderId);
+    // friend = obj
+    if (user !== undefined) {
+      io.to(user.socketId).emit('rejectCall');
+    }
+  });
+
+  socket.on('cancelCall', (receiverId) => {
+    const friend = findFriend(receiverId);
+    // friend = obj
+    if (friend !== undefined) {
+      io.to(friend.socketId).emit('cancelCall');
+    }
+  });
+
   socket.on('callUser', (data) => {
     const friend = findFriend(data.receiverId);
     // friend = obj
