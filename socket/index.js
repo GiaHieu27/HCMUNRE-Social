@@ -26,9 +26,18 @@ const findFriend = (id) => {
   // return obj
 };
 
-io.on('connection', (socket) => {
-  console.log('user connected');
+// const findFriendConnect = (socketId) => {
+//   return users.filter((user) => user.socketId === socketId);
+//   // return obj
+// };
 
+// const findFriendDisconnect = (socketId) => {
+//   return users.filter((user) => user.socketId === socketId);
+//   // return obj
+// };
+
+io.on('connection', (socket) => {
+  console.log('connected');
   // start messenger
   socket.on('addUser', (userId, userInfo) => {
     // userId: string
@@ -36,6 +45,11 @@ io.on('connection', (socket) => {
     // userInfo: obj = user trong store
     addUser(userId, socket.id, userInfo);
     io.emit('getUser', users);
+
+    // const user = findFriendConnect(socket.id);
+    // if (user !== undefined) {
+    //   console.log('Connected:', user[0]?.userInfo.username);
+    // }
 
     const newUsers = users.filter((user) => user.userId !== userId);
     const con = 'add_new_user';
@@ -112,7 +126,7 @@ io.on('connection', (socket) => {
     const friend = findFriend(receiverId);
     // friend = obj
     if (friend !== undefined) {
-      io.to(friend.socketId).emit('friendReceiveCall', user);
+      io.to(friend.socketId).emit('friendReceiveCall', user, friend.socketId);
     }
   });
 
@@ -120,7 +134,7 @@ io.on('connection', (socket) => {
     const user = findFriend(senderId);
     // friend = obj
     if (user !== undefined) {
-      io.to(user.socketId).emit('receiveCallSuccess');
+      io.to(user.socketId).emit('receiveCallSuccess', user.socketId);
     }
   });
 
@@ -140,28 +154,16 @@ io.on('connection', (socket) => {
     }
   });
 
-  socket.on('callUser', (data) => {
-    const friend = findFriend(data.receiverId);
-    // friend = obj
-    if (friend !== undefined) {
-      io.to(friend.socketId).emit('userReceiveCall', {
-        signal: data.signalData,
-        from: data.from,
-        sender: data.sender,
-      });
-    }
-  });
-
-  socket.on('answerCall', (data) => {
-    // data = obj;
-    console.log(data);
-    socket.to(data.to).emit('callAccepted', data.signal);
-  });
   // end callingggggggg
 
   socket.on('disconnect', () => {
+    // const user = findFriendDisconnect(socket.id);
+    // if (user !== undefined) {
+    //   console.log('disconnected:', user[0]?.userInfo.username);
+    // }
+
     socket.broadcast.emit('callEnded');
     userRemove(socket.id);
-    io.emit('getUser', users);
+    // io.emit('getUser', users);
   });
 });

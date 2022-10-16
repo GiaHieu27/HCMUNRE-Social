@@ -1,32 +1,34 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { io } from 'socket.io-client';
 import { Button } from '@mui/material';
-import { useDispatch, useSelector } from 'react-redux';
-import messengerSlice from '../../../redux/slices/messengerSlice';
-import { SocketContext } from '../../../context/socketContext';
 import Peer from 'simple-peer';
+import VideocamIcon from '@mui/icons-material/Videocam';
+
+const socket = io.connect('http://localhost:5000');
 
 function CallMess() {
-  const { socket, user } = React.useContext(SocketContext);
+  const { user } = useSelector((state) => state.user);
+  const { receiverId } = useParams();
 
-  // const [idToCall, setIdToCall] = React.useState(''); // id nguoi nhan cuoc goi
   const [callAccepted, setCallAccepted] = React.useState(false);
-  const [myStream, setMyStream] = React.useState();
   const [callEnded, setCallEnded] = React.useState(false);
-  const [mySocketId, setMySocketId] = React.useState('');
+  const [receivingCall, setReceivingCall] = React.useState(false);
+
+  const [myStream, setMyStream] = React.useState();
   const [callerSignal, setCallerSignal] = React.useState();
   const [caller, setCaller] = React.useState();
-  // const [sender, setSender] = React.useState({});
-  const [receivingCall, setReceivingCall] = React.useState(false);
+
+  const [mySocketId, setMySocketId] = React.useState('');
 
   const myVideoRef = React.useRef();
   const userVideoRef = React.useRef();
   const connectionRef = React.useRef();
 
-  const dispatch = useDispatch();
-
   React.useEffect(() => {
     navigator.mediaDevices
-      .getUserMedia({ video: { width: '100%', height: '100%' }, audio: true })
+      .getUserMedia({ video: true, audio: true })
       // return MediaStream
       .then((stream) => {
         setMyStream(stream);
@@ -40,30 +42,14 @@ function CallMess() {
 
   // get my socket id from socket
   React.useEffect(() => {
-    socket.on('getUser', (socketUsers) => {
-      const filterFriends = socketUsers.filter(
-        (socketUser) => socketUser.userId === user.id
-      );
-      setMySocketId(filterFriends[0].socketId);
+    socket.on('me', (id) => {
+      setMySocketId(id);
     });
-  }, []);
-
-  React.useEffect(() => {
     socket.on('userReceiveCall', (data) => {
-      const { from, signal, sender } = data;
-      // dispatch(
-      //   messengerSlice.actions.UPDATE_CALL_RECEVIER({
-      //     receivingCall: true,
-      //     caller: from, // socket id nguoi goi
-      //     callerSignal: signal,
-      //     sender,
-      //   })
-      // );
+      const { from, signal } = data;
       setReceivingCall(true);
       setCaller(from);
       setCallerSignal(signal);
-      // setSender(sender);
-      // setOpenModal(true);
     });
   }, []);
 
@@ -80,13 +66,11 @@ function CallMess() {
         receiverId: receiverId,
         signalData: data,
         from: mySocketId,
-        sender: user,
       });
     });
 
     peer1.on('stream', (stream) => {
       console.log(stream);
-
       userVideoRef.current.srcObject = stream;
     });
 
@@ -96,7 +80,6 @@ function CallMess() {
     });
 
     connectionRef.current = peer1;
-    console.log(myStream);
   };
 
   const handleAnswerCall = () => {
@@ -114,14 +97,11 @@ function CallMess() {
 
     peer2.on('stream', (stream) => {
       console.log(stream);
-
       userVideoRef.current.srcObject = stream;
     });
 
     peer2.signal(callerSignal);
     connectionRef.current = peer2;
-
-    console.log(myStream);
   };
 
   const leaveCall = () => {
@@ -144,57 +124,46 @@ function CallMess() {
             )}
           </div>
           <div className="video">
-            <video
-              playsInline
-              ref={userVideoRef}
-              autoPlay
-              style={{ width: '300px' }}
-            />
+            {callAccepted && !callEnded ? (
+              <video
+                playsInline
+                ref={userVideoRef}
+                autoPlay
+                style={{ width: '300px' }}
+              />
+            ) : null}
           </div>
         </div>
         <div className="myId">
-          {/* <TextField
-            id="filled-basic"
-            label="Name"
-            variant="filled"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            style={{ marginBottom: '20px' }}
-          /> */}
-          {/* <CopyToClipboard text={me} style={{ marginBottom: '2rem' }}>
-            <Button
-              variant="contained"
-              color="primary"
-              startIcon={<AssignmentIcon fontSize="large" />}
-            >
-              Copy ID
-            </Button>
-          </CopyToClipboard> */}
-
-          {/* <TextField
-            id="filled-basic"
-            label="ID to call"
-            variant="filled"
-            value={idToCall}
-            onChange={(e) => setIdToCall(e.target.value)}
-          /> */}
           <div className="call-button">
-            {callAccepted && !callEnded && (
+            {callAccepted && !callEnded ? (
               <Button variant="contained" color="secondary" onClick={leaveCall}>
                 End Call
+              </Button>
+            ) : (
+              <Button
+                color="primary"
+                aria-label="call"
+                onClick={() => handleCallUser(receiverId)}
+              >
+                <VideocamIcon fontSize="large" />
               </Button>
             )}
           </div>
         </div>
         <div>
-          {/* {receivingCall && !callAccepted ? (
+          {receivingCall && !callAccepted ? (
             <div className="caller">
-              <h1>{name} is calling...</h1>
-              <Button variant="contained" color="primary" onClick={answerCall}>
+              <h1> is calling...</h1>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => handleAnswerCall()}
+              >
                 Answer
               </Button>
             </div>
-          ) : null} */}
+          ) : null}
         </div>
       </div>
     </>

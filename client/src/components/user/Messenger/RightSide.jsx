@@ -31,7 +31,7 @@ function RightSide(props) {
     setOpenModalReceive(false);
     socket.emit('receiveCallSuccess', senderId);
     window.open(
-      'http://localhost:3000/call',
+      `http://localhost:3000/call/${null}`,
       '_blank',
       'menubar=yes,toolbar=yes,scrollbars=yes,resizable=yes,top=40,left=200,width=950,height=600'
     );
@@ -46,17 +46,19 @@ function RightSide(props) {
     setOpenModalCall(false);
     socket.emit('cancelCall', receiverId);
   };
-
+  // listen event from socket
   React.useEffect(() => {
-    socket.on('friendReceiveCall', (user) => {
+    socket.on('friendReceiveCall', (user, soketIdFriend) => {
       setOpenModalReceive(true);
       setSender(user);
+      console.log('receiver:', soketIdFriend);
     });
 
-    socket.on('receiveCallSuccess', () => {
+    socket.on('receiveCallSuccess', (socketIdCaller) => {
+      console.log('caller:', socketIdCaller);
       setOpenModalCall(false);
       window.open(
-        'http://localhost:3000/call',
+        `http://localhost:3000/call/${props.currentFriend._id}`,
         '_blank',
         'menubar=yes,toolbar=yes,scrollbars=yes,resizable=yes,top=40,left=200,width=950,height=600'
       );

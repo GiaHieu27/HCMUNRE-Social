@@ -2,7 +2,6 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
-import { io } from 'socket.io-client';
 import useSound from 'use-sound';
 import SearchIcon from '@mui/icons-material/Search';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
@@ -337,33 +336,6 @@ function Messenger() {
                   <div className="icon">
                     <MoreHorizIcon />
                   </div>
-
-                  {/* {visible && (
-                    <div className="theme_logout">
-                      <h3>Dark Mode</h3>
-                      <div className="on">
-                        <label htmlFor="dark">ON</label>
-                        <input
-                          onChange={(e) => themeSet(e.target.value)}
-                          value="dark"
-                          type="radio"
-                          name="theme"
-                          id="dark"
-                        />
-                      </div>
-  
-                      <div className="of">
-                        <label htmlFor="white">OFF</label>
-                        <input
-                          onChange={(e) => themeSet(e.target.value)}
-                          value="white"
-                          type="radio"
-                          name="theme"
-                          id="white"
-                        />
-                      </div>
-                    </div>
-                  )} */}
                 </div>
               </div>
               <div className="friend-search">

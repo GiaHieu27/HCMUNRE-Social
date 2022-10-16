@@ -109,7 +109,7 @@ function App() {
             element={<SavedPosstProfile />}
           />
           <Route path="/messenger" element={<Messenger />} />
-          <Route path="/call" element={<CallMess />} />
+          <Route path="/call/:receiverId" element={<CallMess />} />
         </Route>
 
         <Route element={<NotLoggedInRoutes />}>
