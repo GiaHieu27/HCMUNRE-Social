@@ -1,20 +1,28 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { io } from 'socket.io-client';
-import { Button } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import Peer from 'simple-peer';
 import VideocamIcon from '@mui/icons-material/Videocam';
+import CallEndIcon from '@mui/icons-material/CallEnd';
+import { SocketContext } from '../../../context/socketContext';
+import TooltipMUI from '../TooltipMUI';
+import MicIcon from '@mui/icons-material/Mic';
+import MicOffIcon from '@mui/icons-material/MicOff';
+import VideocamOffIcon from '@mui/icons-material/VideocamOff';
+import { grey } from '@mui/material/colors';
 
 const socket = io.connect('http://localhost:5000');
 
 function CallMess() {
-  const { user } = useSelector((state) => state.user);
+  const { user } = React.useContext(SocketContext);
   const { receiverId } = useParams();
 
   const [callAccepted, setCallAccepted] = React.useState(false);
   const [callEnded, setCallEnded] = React.useState(false);
   const [receivingCall, setReceivingCall] = React.useState(false);
+  const [visibleCam, setVisibleCam] = React.useState(true);
+  const [onMic, setOnMic] = React.useState(true);
 
   const [myStream, setMyStream] = React.useState();
   const [callerSignal, setCallerSignal] = React.useState();
@@ -26,6 +34,7 @@ function CallMess() {
   const userVideoRef = React.useRef();
   const connectionRef = React.useRef();
 
+  // set up call
   React.useEffect(() => {
     navigator.mediaDevices
       .getUserMedia({ video: true, audio: true })
@@ -34,9 +43,7 @@ function CallMess() {
         setMyStream(stream);
         myVideoRef.current.srcObject = stream;
       });
-  }, []);
 
-  React.useEffect(() => {
     socket.emit('addUser', user.id, user);
   }, []);
 
@@ -109,59 +116,124 @@ function CallMess() {
     connectionRef.current.destroy();
   };
 
+  const handleOnOffCam = () => {
+    setVisibleCam(!visibleCam);
+  };
+  const handleOnOffMic = () => {
+    setOnMic(!onMic);
+  };
+
   return (
     <>
-      <div className="container">
+      <div className="container-fluid p-0" style={{ height: '98.99vh' }}>
         <div className="video-container">
           <div className="video">
-            {myStream && (
-              <video
-                playsInline
-                ref={myVideoRef}
-                autoPlay
-                style={{ width: '300px' }}
-              />
-            )}
+            {myStream && <video playsInline ref={myVideoRef} autoPlay />}
           </div>
           <div className="video">
             {callAccepted && !callEnded ? (
-              <video
-                playsInline
-                ref={userVideoRef}
-                autoPlay
-                style={{ width: '300px' }}
-              />
+              <video playsInline ref={userVideoRef} autoPlay />
             ) : null}
           </div>
-        </div>
-        <div className="myId">
-          <div className="call-button">
-            {callAccepted && !callEnded ? (
-              <Button variant="contained" color="secondary" onClick={leaveCall}>
-                End Call
-              </Button>
-            ) : (
-              <Button
-                color="primary"
-                aria-label="call"
-                onClick={() => handleCallUser(receiverId)}
-              >
-                <VideocamIcon fontSize="large" />
-              </Button>
-            )}
+
+          <div className="interaction">
+            <div className="call_button">
+              {callAccepted && !callEnded ? (
+                <Box
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: ' center',
+                    width: '100%',
+                  }}
+                >
+                  <TooltipMUI
+                    title={visibleCam ? 'Tắt camera' : 'Bật camera'}
+                    placement="top"
+                  >
+                    <Button
+                      variant="contained"
+                      size="small"
+                      color="successCustom"
+                      onClick={handleOnOffCam}
+                      sx={{
+                        borderRadius: '50%',
+                        minWidth: '50px',
+                        height: '50px',
+                      }}
+                    >
+                      {visibleCam ? (
+                        <VideocamIcon sx={{ fontSize: '1.7rem' }} />
+                      ) : (
+                        <VideocamOffIcon sx={{ fontSize: '1.7rem' }} />
+                      )}
+                    </Button>
+                  </TooltipMUI>
+
+                  <TooltipMUI title="Kết thúc cuộc gọi" placement="top">
+                    <Button
+                      variant="contained"
+                      size="small"
+                      color="error"
+                      onClick={leaveCall}
+                      sx={{
+                        borderRadius: '50%',
+                        minWidth: '50px',
+                        height: '50px',
+                        marginLeft: '30px',
+                      }}
+                    >
+                      <CallEndIcon sx={{ fontSize: '1.7rem' }} />
+                    </Button>
+                  </TooltipMUI>
+
+                  <TooltipMUI
+                    title={onMic ? 'Tắt mic' : 'Bật mic'}
+                    placement="top"
+                  >
+                    <Button
+                      variant="contained"
+                      size="small"
+                      color={onMic ? 'warning' : 'secondary'}
+                      onClick={handleOnOffMic}
+                      sx={{
+                        borderRadius: '50%',
+                        minWidth: '50px',
+                        height: '50px',
+                        marginLeft: '30px',
+                      }}
+                    >
+                      {onMic ? (
+                        <MicIcon sx={{ fontSize: '1.7rem' }} />
+                      ) : (
+                        <MicOffIcon sx={{ fontSize: '1.7rem' }} />
+                      )}
+                    </Button>
+                  </TooltipMUI>
+                </Box>
+              ) : (
+                <Button
+                  color="primary"
+                  aria-label="call"
+                  onClick={() => handleCallUser(receiverId)}
+                >
+                  <VideocamIcon fontSize="small" />
+                </Button>
+              )}
+            </div>
           </div>
-        </div>
-        <div>
           {receivingCall && !callAccepted ? (
-            <div className="caller">
-              <h1> is calling...</h1>
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={() => handleAnswerCall()}
-              >
-                Answer
-              </Button>
+            <div>
+              <div className="caller">
+                <h1> is calling...</h1>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={() => handleAnswerCall()}
+                >
+                  Answer
+                </Button>
+              </div>
             </div>
           ) : null}
         </div>

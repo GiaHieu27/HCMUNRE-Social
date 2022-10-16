@@ -34,7 +34,7 @@ const PORT = process.env.PORT || 4000;
 server.listen(PORT, () => {
   console.log(`server is running on port ${PORT}`);
 });
-
+// start socket
 let users = [];
 const addUser = (userId, socketId, userInfo) => {
   const checkUser = users.some((user) => user.userId === userId);
@@ -76,3 +76,4 @@ io2.on('connection', (socket) => {
     socket.broadcast.emit('callEnded');
   });
 });
+// end socket

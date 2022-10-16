@@ -1,0 +1,41 @@
+.video-container {
+  position: relative;
+  height: 100%;
+  width: 98.2vw;
+
+  .video:first-child {
+    position: absolute;
+    height: 190px;
+    width: 306px;
+    top: 20px;
+    left: 20px;
+    border: 1px solid white;
+    border-radius: 10px;
+    z-index: 1;
+
+    video {
+      height: 100%;
+      width: 100%;
+      border: 1px solid white;
+      border-radius: 10px;
+    }
+  }
+
+  .video:nth-child(2) {
+    position: relative;
+    height: 100%;
+    width: 100%;
+
+    video {
+      height: 100%;
+      width: 100%;
+    }
+  }
+
+  .interaction {
+    position: absolute;
+    bottom: 14px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}

@@ -93,6 +93,7 @@ function LoginForm({ containerRef }) {
                   placeholder="Nhập email của bạn"
                   iconName="envelope"
                   onChange={handleChangeLogin}
+                  autoFocus
                 />
                 <LoginInput
                   type="password"

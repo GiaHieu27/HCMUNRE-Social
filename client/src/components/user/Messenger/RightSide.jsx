@@ -33,7 +33,7 @@ function RightSide(props) {
     window.open(
       `http://localhost:3000/call/${null}`,
       '_blank',
-      'menubar=yes,toolbar=yes,scrollbars=yes,resizable=yes,top=40,left=200,width=950,height=600'
+      'menubar=yes,toolbar=yes,resizable=yes,top=40,left=200,width=950,height=600'
     );
   };
 
@@ -60,7 +60,7 @@ function RightSide(props) {
       window.open(
         `http://localhost:3000/call/${props.currentFriend._id}`,
         '_blank',
-        'menubar=yes,toolbar=yes,scrollbars=yes,resizable=yes,top=40,left=200,width=950,height=600'
+        'menubar=yes,toolbar=yes,resizable=yes,top=40,left=200,width=950,height=600'
       );
     });
 
@@ -217,12 +217,12 @@ function RightSide(props) {
             <TooltipMUI title="Từ chối cuộc gọi" placement="top">
               <Button
                 variant="contained"
-                size="large"
+                size="small"
                 color="error"
                 sx={{
                   borderRadius: '50%',
-                  width: '50px',
-                  height: '63px',
+                  minWidth: '50px',
+                  height: '50px',
                 }}
                 onClick={() => handleRejectCall(sender.id)}
               >
@@ -233,12 +233,12 @@ function RightSide(props) {
             <TooltipMUI title="Chấp nhận cuộc gọi" placement="top">
               <Button
                 variant="contained"
-                size="large"
+                size="small"
                 color="successCustom"
                 sx={{
                   borderRadius: '50%',
-                  width: '50px',
-                  height: '63px',
+                  minWidth: '50px',
+                  height: '50px',
                   marginLeft: '43px',
                 }}
                 onClick={() => handleReceiveCall(sender.id)}
@@ -330,12 +330,12 @@ function RightSide(props) {
               <TooltipMUI title="Huỷ cuộc gọi" placement="top">
                 <Button
                   variant="contained"
-                  size="large"
+                  size="small"
                   color="error"
                   sx={{
                     borderRadius: '50%',
-                    width: '50px',
-                    height: '63px',
+                    minWidth: '50px',
+                    height: '50px',
                   }}
                   onClick={() => handleCancelCall(props.currentFriend._id)}
                 >
