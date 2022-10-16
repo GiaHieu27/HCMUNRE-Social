@@ -1,22 +1,23 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import { io } from 'socket.io-client';
-import { Box, Button } from '@mui/material';
 import Peer from 'simple-peer';
+
+import { Box, Button } from '@mui/material';
 import VideocamIcon from '@mui/icons-material/Videocam';
 import CallEndIcon from '@mui/icons-material/CallEnd';
-import { SocketContext } from '../../../context/socketContext';
-import TooltipMUI from '../TooltipMUI';
 import MicIcon from '@mui/icons-material/Mic';
 import MicOffIcon from '@mui/icons-material/MicOff';
 import VideocamOffIcon from '@mui/icons-material/VideocamOff';
-import { grey } from '@mui/material/colors';
 
-const socket = io.connect('http://localhost:5000');
+import TooltipMUI from '../TooltipMUI';
+import { SocketContext } from '../../../context/socketContext';
+
+const socket = io('ws://localhost:8000');
 
 function CallMess() {
-  const { user } = React.useContext(SocketContext);
   const { receiverId } = useParams();
+  const { user } = React.useContext(SocketContext);
 
   const [callAccepted, setCallAccepted] = React.useState(false);
   const [callEnded, setCallEnded] = React.useState(false);
@@ -33,6 +34,8 @@ function CallMess() {
   const myVideoRef = React.useRef();
   const userVideoRef = React.useRef();
   const connectionRef = React.useRef();
+  const btnCallRef = React.useRef();
+  const btnAnswerCallRef = React.useRef();
 
   // set up call
   React.useEffect(() => {
@@ -57,7 +60,19 @@ function CallMess() {
       setReceivingCall(true);
       setCaller(from);
       setCallerSignal(signal);
+      btnAnswerCallRef.current.click();
     });
+  }, []);
+  // auto call
+  React.useEffect(() => {
+    const a = setTimeout(() => {
+      if (receiverId !== 'receiver') {
+        btnCallRef.current.click();
+      }
+    }, 2000);
+    return () => {
+      clearTimeout(a);
+    };
   }, []);
 
   const handleCallUser = (receiverId) => {
@@ -69,6 +84,7 @@ function CallMess() {
 
     // goi dien bang socket id
     peer1.on('signal', (data) => {
+      // signal offer
       socket.emit('callUser', {
         receiverId: receiverId,
         signalData: data,
@@ -77,7 +93,7 @@ function CallMess() {
     });
 
     peer1.on('stream', (stream) => {
-      console.log(stream);
+      // stream = MediaStream
       userVideoRef.current.srcObject = stream;
     });
 
@@ -91,7 +107,6 @@ function CallMess() {
 
   const handleAnswerCall = () => {
     setCallAccepted(true);
-
     const peer2 = new Peer({
       initiator: false,
       trickle: false,
@@ -99,11 +114,12 @@ function CallMess() {
     });
 
     peer2.on('signal', (data) => {
+      // signal answer
       socket.emit('answerCall', { signal: data, to: caller });
     });
 
     peer2.on('stream', (stream) => {
-      console.log(stream);
+      // stream = MediaStream
       userVideoRef.current.srcObject = stream;
     });
 
@@ -119,6 +135,7 @@ function CallMess() {
   const handleOnOffCam = () => {
     setVisibleCam(!visibleCam);
   };
+
   const handleOnOffMic = () => {
     setOnMic(!onMic);
   };
@@ -154,7 +171,7 @@ function CallMess() {
                     <Button
                       variant="contained"
                       size="small"
-                      color="successCustom"
+                      color={visibleCam ? 'successCustom' : 'error'}
                       onClick={handleOnOffCam}
                       sx={{
                         borderRadius: '50%',
@@ -194,7 +211,7 @@ function CallMess() {
                     <Button
                       variant="contained"
                       size="small"
-                      color={onMic ? 'warning' : 'secondary'}
+                      color={onMic ? 'successCustom' : 'error'}
                       onClick={handleOnOffMic}
                       sx={{
                         borderRadius: '50%',
@@ -213,29 +230,21 @@ function CallMess() {
                 </Box>
               ) : (
                 <Button
-                  color="primary"
-                  aria-label="call"
                   onClick={() => handleCallUser(receiverId)}
-                >
-                  <VideocamIcon fontSize="small" />
-                </Button>
+                  ref={btnCallRef}
+                  hidden
+                ></Button>
               )}
             </div>
           </div>
-          {receivingCall && !callAccepted ? (
-            <div>
-              <div className="caller">
-                <h1> is calling...</h1>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={() => handleAnswerCall()}
-                >
-                  Answer
-                </Button>
-              </div>
-            </div>
-          ) : null}
+
+          {receivingCall && !callAccepted && (
+            <Button
+              onClick={() => handleAnswerCall()}
+              ref={btnAnswerCallRef}
+              hidden
+            ></Button>
+          )}
         </div>
       </div>
     </>

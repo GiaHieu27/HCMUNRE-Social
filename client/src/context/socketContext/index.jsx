@@ -6,7 +6,8 @@ const SocketContext = React.createContext();
 
 function SocketProvider({ children }) {
   const user = useSelector((state) => state.user);
-  const socket = io('ws://localhost:8000');
+  // const socket = io('ws://localhost:8000');
+  const socket = io.connect('http://localhost:5000');
 
   return (
     <SocketContext.Provider

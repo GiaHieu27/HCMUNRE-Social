@@ -31,7 +31,7 @@ function RightSide(props) {
     setOpenModalReceive(false);
     socket.emit('receiveCallSuccess', senderId);
     window.open(
-      `http://localhost:3000/call/${null}`,
+      `http://localhost:3000/call/receiver`,
       '_blank',
       'menubar=yes,toolbar=yes,resizable=yes,top=40,left=200,width=950,height=600'
     );
