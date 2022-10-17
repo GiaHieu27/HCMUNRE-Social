@@ -25,8 +25,13 @@ io2.on('connection', (socket) => {
   console.log('connected');
   socket.emit('me', socket.id);
 
-  socket.on('addUser', (userId, userInfo) => {
+  socket.on('addUser', (userId, userInfo, receiverId) => {
     addUser(userId, socket.id, userInfo);
+
+    const friend = findFriend(receiverId);
+    if (friend !== undefined) {
+      socket.emit('infoFriend', friend);
+    }
   });
 
   socket.on('callUser', (data) => {

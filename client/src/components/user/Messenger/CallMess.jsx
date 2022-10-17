@@ -9,6 +9,7 @@ import CallEndIcon from '@mui/icons-material/CallEnd';
 import MicIcon from '@mui/icons-material/Mic';
 import MicOffIcon from '@mui/icons-material/MicOff';
 import VideocamOffIcon from '@mui/icons-material/VideocamOff';
+// import PersonIcon from '@mui/icons-material/Person';
 
 import TooltipMUI from '../TooltipMUI';
 import { SocketContext } from '../../../context/socketContext';
@@ -22,13 +23,14 @@ function CallMess() {
   const [callAccepted, setCallAccepted] = React.useState(false);
   const [callEnded, setCallEnded] = React.useState(false);
   const [receivingCall, setReceivingCall] = React.useState(false);
-  const [visibleCam, setVisibleCam] = React.useState(true);
-  const [onMic, setOnMic] = React.useState(true);
+  const [toggleCam, setToggleCam] = React.useState(true);
+  const [toggleMic, setToggleMic] = React.useState(true);
 
   const [myStream, setMyStream] = React.useState();
   const [callerSignal, setCallerSignal] = React.useState();
-  const [caller, setCaller] = React.useState();
+  // const [currentFriend, serCurrentFriend] = React.useState({});
 
+  const [caller, setCaller] = React.useState('');
   const [mySocketId, setMySocketId] = React.useState('');
 
   const myVideoRef = React.useRef();
@@ -47,7 +49,7 @@ function CallMess() {
         myVideoRef.current.srcObject = stream;
       });
 
-    socket.emit('addUser', user.id, user);
+    socket.emit('addUser', user.id, user, receiverId);
   }, []);
 
   // get my socket id from socket
@@ -55,12 +57,26 @@ function CallMess() {
     socket.on('me', (id) => {
       setMySocketId(id);
     });
+
+    // socket.on('infoFriend', (friend) => {
+    //   serCurrentFriend(friend);
+    // });
+
     socket.on('userReceiveCall', (data) => {
       const { from, signal } = data;
       setReceivingCall(true);
       setCaller(from);
       setCallerSignal(signal);
       btnAnswerCallRef.current.click();
+    });
+
+    socket.on('callEnded', () => {
+      console.log('run');
+      setReceivingCall(false);
+      setCaller('');
+      setCallAccepted(false);
+      setCallEnded(true);
+      connectionRef.current.destroy();
     });
   }, []);
   // auto call
@@ -69,7 +85,7 @@ function CallMess() {
       if (receiverId !== 'receiver') {
         btnCallRef.current.click();
       }
-    }, 2000);
+    }, 3000);
     return () => {
       clearTimeout(a);
     };
@@ -127,17 +143,39 @@ function CallMess() {
     connectionRef.current = peer2;
   };
 
-  const leaveCall = () => {
+  const handleLeaveCall = () => {
+    setCallEnded(true);
+    setReceivingCall(false);
+    setCaller('');
+    setCallAccepted(false);
     setCallEnded(true);
     connectionRef.current.destroy();
   };
 
-  const handleOnOffCam = () => {
-    setVisibleCam(!visibleCam);
+  const handleToggleCam = () => {
+    const videoTrack = myStream
+      .getTracks()
+      .find((track) => track.kind === 'video');
+    if (videoTrack.enabled) {
+      videoTrack.enabled = false;
+      setToggleCam(false);
+    } else {
+      videoTrack.enabled = true;
+      setToggleCam(true);
+    }
   };
 
-  const handleOnOffMic = () => {
-    setOnMic(!onMic);
+  const handleToggleMic = () => {
+    const audioTrack = myStream
+      .getTracks()
+      .find((track) => track.kind === 'audio');
+    if (audioTrack.enabled) {
+      audioTrack.enabled = false;
+      setToggleMic(false);
+    } else {
+      audioTrack.enabled = true;
+      setToggleMic(true);
+    }
   };
 
   return (
@@ -148,9 +186,9 @@ function CallMess() {
             {myStream && <video playsInline ref={myVideoRef} autoPlay />}
           </div>
           <div className="video">
-            {callAccepted && !callEnded ? (
+            {callAccepted && !callEnded && (
               <video playsInline ref={userVideoRef} autoPlay />
-            ) : null}
+            )}
           </div>
 
           <div className="interaction">
@@ -165,21 +203,21 @@ function CallMess() {
                   }}
                 >
                   <TooltipMUI
-                    title={visibleCam ? 'Tắt camera' : 'Bật camera'}
+                    title={toggleCam ? 'Tắt camera' : 'Bật camera'}
                     placement="top"
                   >
                     <Button
                       variant="contained"
                       size="small"
-                      color={visibleCam ? 'successCustom' : 'error'}
-                      onClick={handleOnOffCam}
+                      color={toggleCam ? 'successCustom' : 'error'}
+                      onClick={handleToggleCam}
                       sx={{
                         borderRadius: '50%',
                         minWidth: '50px',
                         height: '50px',
                       }}
                     >
-                      {visibleCam ? (
+                      {toggleCam ? (
                         <VideocamIcon sx={{ fontSize: '1.7rem' }} />
                       ) : (
                         <VideocamOffIcon sx={{ fontSize: '1.7rem' }} />
@@ -192,7 +230,7 @@ function CallMess() {
                       variant="contained"
                       size="small"
                       color="error"
-                      onClick={leaveCall}
+                      onClick={handleLeaveCall}
                       sx={{
                         borderRadius: '50%',
                         minWidth: '50px',
@@ -205,14 +243,14 @@ function CallMess() {
                   </TooltipMUI>
 
                   <TooltipMUI
-                    title={onMic ? 'Tắt mic' : 'Bật mic'}
+                    title={toggleMic ? 'Tắt mic' : 'Bật mic'}
                     placement="top"
                   >
                     <Button
                       variant="contained"
                       size="small"
-                      color={onMic ? 'successCustom' : 'error'}
-                      onClick={handleOnOffMic}
+                      color={toggleMic ? 'successCustom' : 'error'}
+                      onClick={handleToggleMic}
                       sx={{
                         borderRadius: '50%',
                         minWidth: '50px',
@@ -220,7 +258,7 @@ function CallMess() {
                         marginLeft: '30px',
                       }}
                     >
-                      {onMic ? (
+                      {toggleMic ? (
                         <MicIcon sx={{ fontSize: '1.7rem' }} />
                       ) : (
                         <MicOffIcon sx={{ fontSize: '1.7rem' }} />
