@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 
@@ -18,10 +18,10 @@ function Friend() {
   const allFriends = friendData.data.friends;
   const actions = friendsSlice.actions;
 
-  const [sentRequest, setSentRequest] = useState();
-  const [suggestFriends, setSuggestFriends] = useState();
+  const [sentRequest, setSentRequest] = React.useState();
+  const [suggestFriends, setSuggestFriends] = React.useState();
 
-  const getFriendPages = useCallback(async () => {
+  const getFriendPages = React.useCallback(async () => {
     dispatch(actions.FRIEND_REQUEST());
     const res = await getFriend(userStore.token);
     if (res.success === true) {
@@ -31,11 +31,11 @@ function Friend() {
     }
   }, [dispatch, actions, userStore.token]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     getFriendPages();
   }, [getFriendPages]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     setSentRequest(friends.sentRequests);
     setSuggestFriends(friends.suggestFriends);
   }, [friends]);

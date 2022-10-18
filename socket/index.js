@@ -45,11 +45,6 @@ io2.on('connection', (socket) => {
     }
   });
 
-  socket.on('answerCall', (data) => {
-    // data = obj;
-    socket.to(data.to).emit('callAccepted', data.signal);
-  });
-
   socket.on('disconnect', () => {
     socket.broadcast.emit('callEnded');
   });

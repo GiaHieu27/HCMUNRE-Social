@@ -1,13 +1,13 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import Cookies from "js-cookie";
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import Cookies from 'js-cookie';
 
-import userSlice from "../../../redux/slices/userSlice";
-import SearchAccount from "./SearchAccount";
-import SendMail from "./SendMail";
-import CodeVerification from "./CodeVerification";
-import ChangePassword from "./ChangePassword";
+import userSlice from '../../../redux/slices/userSlice';
+import SearchAccount from './SearchAccount';
+import SendMail from './SendMail';
+import CodeVerification from './CodeVerification';
+import ChangePassword from './ChangePassword';
 
 function ResetPassword() {
   const { user } = useSelector((state) => ({ ...state }));
@@ -15,19 +15,19 @@ function ResetPassword() {
   const navigate = useNavigate();
 
   const [visible, setVisible] = useState(0);
-  const [email, setEmail] = useState("");
-  const [error, setError] = useState("");
+  const [email, setEmail] = useState('');
+  const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const [code, setCode] = useState("");
-  const [password, setPassword] = useState("");
-  const [conf_password, setConf_password] = useState("");
-  const [userInfos, setUserInfos] = useState("");
+  const [code, setCode] = useState('');
+  const [password, setPassword] = useState('');
+  const [conf_password, setConf_password] = useState('');
+  const [userInfos, setUserInfos] = useState('');
 
   const logOut = () => {
-    Cookies.set("user", "");
+    Cookies.set('user', '');
     dispatch(userSlice.actions.LOGOUT());
     setTimeout(() => {
-      navigate("/login");
+      navigate('/login');
     }, 2000);
   };
 
@@ -35,8 +35,8 @@ function ResetPassword() {
     <div className="reset">
       <div className="reset_header">
         <Link to="/" className="align-items-centers">
-          <img src="../../../icons/LogoTNMT.svg" alt="logo" />
-          <img src="../../../icons/HCMUNRE.png" alt="logo" />
+          <img src="/icons/LogoTNMT.svg" alt="logo" />
+          <img src="/icons/HCMUNRE.png" alt="logo" />
         </Link>
         {user ? (
           <div className="right_reset">

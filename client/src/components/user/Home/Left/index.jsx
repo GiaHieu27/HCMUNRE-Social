@@ -1,8 +1,8 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
-import LeftLink from "./LeftLink";
-import { left } from "../../../../data/home";
+import LeftLink from './LeftLink';
+import { left } from '../../../../data/home';
 
 function LeftHome({ user }) {
   const [visible] = useState(false);
@@ -10,7 +10,7 @@ function LeftHome({ user }) {
 
   return (
     <div className="left_home scrollbar">
-      <Link to="/profile" className="left_link hover2">
+      <Link to="/profile" className="left_link createPost">
         <img src={user?.picture} alt="" />
         <span>
           {user?.first_name} {user.last_name}
@@ -19,12 +19,12 @@ function LeftHome({ user }) {
       {left.slice(0, 5).map((link, i) => (
         <LeftLink
           key={i}
-          img={link.img}
+          icon={link.icon}
           text={link.text}
           notification={link.notification}
         />
       ))}
-      <div className={`fb_copyright ${visible && "relative_fb_copyright"}`}>
+      <div className={`fb_copyright ${visible && 'relative_fb_copyright'}`}>
         HCMUNRE © {year}
       </div>
     </div>

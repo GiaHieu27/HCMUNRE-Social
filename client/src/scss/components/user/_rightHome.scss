@@ -1,9 +1,9 @@
 .right {
   &_home {
     position: fixed;
-    left: 80.7vw;
+    left: 76.7vw;
     top: 4rem;
-    width: 17vw;
+    width: 22vw;
   }
 }
 
@@ -41,14 +41,12 @@
 
 .contact {
   display: flex;
-  align-items: center;
   gap: 12px;
   font-size: 14px;
-  padding: 5px;
-  border-radius: 10px;
-  cursor: pointer;
-  color: var(--color-primary);
   font-weight: 600;
+  padding: 17px;
+  margin-bottom: 10px;
+  cursor: auto !important;
 
   &_circle {
     width: 35px;
@@ -78,7 +76,9 @@
     border-radius: 50%;
   }
 
-  & span {
-    transform: translateY(-5px);
+  &_action {
+    .gray_btn:hover {
+      color: black;
+    }
   }
 }

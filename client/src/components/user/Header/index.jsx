@@ -2,30 +2,19 @@ import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Badge } from '@mui/material';
+import MessageIcon from '@mui/icons-material/Message';
 import PropTypes from 'prop-types';
 
 import SearchMenu from './SearchMenu';
 import AllMenu from './AllMenu';
 import useClickOutSide from '../../../hooks/useClickOutSide';
 import UserMenu from './UserMenu';
-import {
-  Friends,
-  Gaming,
-  HomeActive,
-  Market,
-  Menu,
-  Search,
-  Notifications,
-  Watch,
-  Messenger,
-  ArrowDown,
-  Home,
-  FriendsActive,
-} from '../../../svg';
+import { Menu, Search, Notifications, ArrowDown } from '../../../svg';
 import Notification from './Notification';
 import { SocketContext } from '../../../context/socketContext';
 import notifySlice, { fetchNotify } from '../../../redux/slices/notifySlice';
 import { updateStatusNotify } from '../../../apis/post';
+import TooltipMUI from '../TooltipMUI';
 
 function Header({ page, getPosts }) {
   const {
@@ -57,7 +46,7 @@ function Header({ page, getPosts }) {
     setShowNotification(false);
   });
 
-  const handleGetNotification = () => {
+  const handleGetNotifications = () => {
     dispatch(notifySlice.actions.UPDATE_STATUS('unseen'));
     updateStatusNotify(user.id, user.token);
   };
@@ -80,8 +69,8 @@ function Header({ page, getPosts }) {
   return (
     <header>
       <div className="header_left">
-        <Link to="/" className="header_logo">
-          <div className="circle">
+        <Link to="/" className="header_logo d-flex align-items-center">
+          <div className="circle me-2">
             <img
               src="/icons/LogoTNMT.svg"
               alt="logo-header"
@@ -89,7 +78,11 @@ function Header({ page, getPosts }) {
               height={40}
             />
           </div>
+          <img src="/icons/HCMUNRE.png" alt="logo" width={120} height={45} />
         </Link>
+      </div>
+
+      <div className="header_middle">
         <div
           className="search search1"
           onClick={() => {
@@ -99,121 +92,101 @@ function Header({ page, getPosts }) {
           <Search color={color} />
           <input type="text" placeholder="Tìm kiếm" className="hide_input" />
         </div>
-      </div>
-      {showSearchMenu && (
-        <SearchMenu color={color} setShowSearchMenu={setShowSearchMenu} />
-      )}
-
-      <div className="header_middle">
-        <Link
-          to="/"
-          className={`middle_icon ${page === 'home' ? 'active' : 'hover1'}`}
-          onClick={() => getPosts()}
-        >
-          {page === 'home' ? (
-            <HomeActive color={color} />
-          ) : (
-            <Home color={color} />
-          )}
-        </Link>
-        <Link
-          to="/friends"
-          className={`middle_icon ${page === 'friends' ? 'active' : 'hover1'}`}
-        >
-          {page === 'friends' ? (
-            <FriendsActive color={color} />
-          ) : (
-            <Friends color={color} />
-          )}
-        </Link>
-        <Link to="/" className="middle_icon hover1">
-          <Watch color={color} />
-          <div className="middle_notification">9+</div>
-        </Link>
-        <Link to="/" className="middle_icon hover1">
-          <Market color={color} />
-        </Link>
-        <Link to="/" className="middle_icon hover1">
-          <Gaming color={color} />
-        </Link>
+        {showSearchMenu && (
+          <SearchMenu color={color} setShowSearchMenu={setShowSearchMenu} />
+        )}
       </div>
 
       <div className="header_right">
-        <Link
-          to="/profile"
-          className={`profile_link hover4 ${
-            page === 'profile' ? 'active_link' : ''
-          }`}
-        >
-          <img src={user?.picture} alt="" />
-          <span>{user?.last_name}</span>
-        </Link>
+        <TooltipMUI title="Tài khoản">
+          <Link
+            to="/profile"
+            className={`profile_link hover4 ${
+              page === 'profile' ? 'active_link' : ''
+            }`}
+          >
+            <img src={user?.picture} alt="" />
+            <span>{user?.last_name}</span>
+          </Link>
+        </TooltipMUI>
 
         {/* All menu */}
-        <div
-          className={`circle_icon ${showAllMenu ? 'active_header' : 'hover1'}`}
-          ref={allMenu}
-        >
+        <TooltipMUI title="Menu">
           <div
-            onClick={() => {
-              setShowAllMenu(!showAllMenu);
-            }}
+            className={`circle_icon ${
+              showAllMenu ? 'active_header' : 'hover1'
+            }`}
+            ref={allMenu}
           >
-            <div style={{ transform: 'translateY(-2px)' }}>
-              <Menu />
+            <div
+              onClick={() => {
+                setShowAllMenu(!showAllMenu);
+              }}
+            >
+              <div style={{ transform: 'translateY(-2px)' }}>
+                <Menu />
+              </div>
             </div>
+            {showAllMenu && <AllMenu />}
           </div>
-          {showAllMenu && <AllMenu />}
-        </div>
+        </TooltipMUI>
 
         {/* Messenger */}
         {pathname !== '/messenger' && (
-          <Link to="/messenger" className="circle_icon hover1">
-            <Messenger />
-          </Link>
+          <TooltipMUI title="Nhắn tin">
+            <Link to="/messenger" className="circle_icon hover1">
+              <MessageIcon />
+            </Link>
+          </TooltipMUI>
         )}
 
         {/* Notification */}
-        <div
-          className={`circle_icon ${
-            showNotification ? 'active_header' : 'hover1'
-          }`}
-          ref={notificationRef}
-        >
+        <TooltipMUI title="Thông báo">
           <div
-            onClick={() => {
-              handleGetNotification();
-              setShowNotification(!showNotification);
-            }}
+            className={`circle_icon ${
+              showNotification ? 'active_header' : 'hover1'
+            }`}
+            ref={notificationRef}
           >
-            <Badge
-              badgeContent={countNotifySent}
-              color="error"
-              sx={{
-                '& .MuiBadge-badge': {
-                  top: '-4px',
-                  right: '-1px',
-                },
+            <div
+              onClick={() => {
+                handleGetNotifications();
+                setShowNotification(!showNotification);
               }}
             >
-              <Notifications />
-            </Badge>
+              <Badge
+                badgeContent={countNotifySent}
+                color="error"
+                sx={{
+                  '& .MuiBadge-badge': {
+                    top: '-4px',
+                    right: '-1px',
+                  },
+                }}
+              >
+                <Notifications />
+              </Badge>
+            </div>
+            {showNotification && <Notification />}
           </div>
-          {showNotification && <Notification />}
-        </div>
+        </TooltipMUI>
 
         {/* User menu */}
-        <div
-          className={`circle_icon ${showUserMenu ? 'active_header' : 'hover1'}`}
-          ref={userMenu}
-        >
-          <div onClick={() => setShowUserMenu(!showUserMenu)}>
-            <div style={{ transform: 'translateY(-1px)' }}>
-              <ArrowDown />
+        <TooltipMUI title="Cài đặt">
+          <div
+            className={`circle_icon ${
+              showUserMenu ? 'active_header' : 'hover1'
+            }`}
+            ref={userMenu}
+          >
+            <div onClick={() => setShowUserMenu(!showUserMenu)}>
+              <div style={{ transform: 'translateY(-1px)' }}>
+                <ArrowDown />
+              </div>
             </div>
+            {showUserMenu && <UserMenu user={user} />}
           </div>
-          {showUserMenu && <UserMenu user={user} />}
-        </div>
+        </TooltipMUI>
       </div>
     </header>
   );

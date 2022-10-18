@@ -24,14 +24,19 @@ header {
     align-items: center;
     gap: 14px;
     transform: translateX(3px);
+    justify-content: center;
   }
 
   &_right {
     display: flex;
     position: absolute;
-    right: 8px;
+    right: 7px;
     top: 50%;
     transform: translateY(-50%);
+
+    .circle_icon.hover1:hover {
+      color: #000;
+    }
   }
 }
 
@@ -66,6 +71,7 @@ header {
   padding: 10px 32px 10px 10px;
   border-radius: 50px;
   cursor: text;
+  width: 78%;
 
   input {
     outline: none;

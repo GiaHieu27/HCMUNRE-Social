@@ -7,7 +7,7 @@ function useBodyScrollLock() {
     document.getElementById('root').style.paddingRight = '17px';
     document.querySelector('.header_middle').style.transform =
       'translateX(-6px)';
-    document.querySelector('.header_right').style.right = '25px';
+    document.querySelector('.header_right').style.right = '23px';
 
     return () => {
       document.body.style.overflow = originalStyle;
