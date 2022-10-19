@@ -8,13 +8,14 @@ exports.authUser = async (req, res, next) => {
     if (!token) {
       return res
         .status(400)
-        .json({ message: 'Bạn không thể thực hiện thao tác này' });
+        .json({ message: 'Bạn không thể thực hiện thao tác này 1' });
     }
     jwt.verify(token, process.env.TOKEN_SECRET, (err, user) => {
       if (err) {
+        console.log(err);
         return res
           .status(400)
-          .json({ message: 'Bạn không thể thực hiện thao tác này' });
+          .json({ message: 'Bạn không thể thực hiện thao tác này 2' });
       }
       req.user = user;
       next();

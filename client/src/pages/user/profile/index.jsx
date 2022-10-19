@@ -1,5 +1,5 @@
 // lib
-import { useContext, useEffect, useState } from 'react';
+import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import Skeleton from 'react-loading-skeleton';
@@ -25,14 +25,14 @@ import { ProfileContext } from '../../../context/profileContext';
 function Profile({ getPosts }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { profile, user, loading } = useContext(ProfileContext);
+  const { profile, user, loading } = React.useContext(ProfileContext);
   const { username } = useParams();
 
   let userParam = username === undefined ? user.username : username;
   let visitor = userParam === user.username ? false : true;
 
-  const [photos, setPhotos] = useState([]);
-  const [visible, setVisible] = useState(false);
+  const [photos, setPhotos] = React.useState([]);
+  const [visible, setVisible] = React.useState(false);
 
   const path1 = `${userParam}/avatar`;
   const path2 = `${userParam}/cover`;
@@ -40,7 +40,7 @@ function Profile({ getPosts }) {
   const max = 30;
   const sort = 'desc';
 
-  useEffect(() => {
+  React.useEffect(() => {
     const getProfile = async () => {
       try {
         dispatch(profileSlice.actions.PROFILE_REQUEST());

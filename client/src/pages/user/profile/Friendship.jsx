@@ -76,17 +76,17 @@ function Friendship() {
       {friendship?.friends ? (
         <div className="friends_menu_wrap">
           <button className="gray_btn" onClick={() => setFriendMenu(true)}>
-            <img src="../../../icons/friends.png" alt="" />
+            <img src="/icons/friends.png" alt="" />
             <span>Bạn bè</span>
           </button>
           {friendMenu && (
             <div className="open_cover_menu" ref={menuRef}>
               <div className="open_cover_menu_item hover1">
-                <img src="../../../icons/favoritesOutline.png" alt="" />
+                <img src="/icons/favoritesOutline.png" alt="" />
                 Yêu thích
               </div>
               <div className="open_cover_menu_item hover1">
-                <img src="../../../icons/editFriends.png" alt="" />
+                <img src="/icons/editFriends.png" alt="" />
                 Điều chỉnh danh sách bạn bè
               </div>
               {friendship?.following ? (
@@ -94,7 +94,7 @@ function Friendship() {
                   className="open_cover_menu_item hover1"
                   onClick={() => handleUnFollow()}
                 >
-                  <img src="../../../icons/unfollowOutlined.png" alt="" />
+                  <img src="/icons/unfollowOutlined.png" alt="" />
                   Huỷ theo dõi
                 </div>
               ) : (
@@ -102,7 +102,7 @@ function Friendship() {
                   className="open_cover_menu_item hover1"
                   onClick={() => handleFollow()}
                 >
-                  <img src="../../../icons/unfollowOutlined.png" alt="" />
+                  <img src="/icons/unfollowOutlined.png" alt="" />
                   Theo dõi
                 </div>
               )}
@@ -120,18 +120,14 @@ function Friendship() {
         !friendship?.requestSent &&
         !friendship?.requestReceived && (
           <button className="green_btn" onClick={() => handleAddFriend()}>
-            <img src="../../../icons/addFriend.png" alt="" className="invert" />
+            <img src="/icons/addFriend.png" alt="" className="invert" />
             <span>Kết bạn</span>
           </button>
         )
       )}
       {friendship?.requestSent ? (
         <button className="green_btn" onClick={() => handleCancelRequest()}>
-          <img
-            src="../../../icons/cancelRequest.png"
-            alt=""
-            className="invert"
-          />
+          <img src="/icons/cancelRequest.png" alt="" className="invert" />
           <span>Huỷ yêu cầu</span>
         </button>
       ) : (
@@ -141,7 +137,7 @@ function Friendship() {
               className="green_btn"
               onClick={() => setRespondMenu(!reponseMenu)}
             >
-              <img src="../../../icons/friends.png" alt="" className="invert" />
+              <img src="/icons/friends.png" alt="" className="invert" />
               <span>Phản hồi</span>
             </button>
             {reponseMenu && (
@@ -167,19 +163,19 @@ function Friendship() {
       <div className="flex">
         {friendship?.following ? (
           <button className="gray_btn" onClick={() => handleUnFollow()}>
-            <img src="../../../icons/follow.png" alt="" />
+            <img src="/icons/follow.png" alt="" />
             <span>Đang theo dõi</span>
           </button>
         ) : (
           <button className="green_btn" onClick={() => handleFollow()}>
-            <img src="../../../icons/follow.png" alt="" className="invert" />
+            <img src="/icons/follow.png" alt="" className="invert" />
             <span>Theo dõi</span>
           </button>
         )}
 
         <button className={friendship?.friends ? 'green_btn' : 'gray_btn'}>
           <img
-            src="../../../icons/message.png"
+            src="/icons/message.png"
             alt=""
             className={friendship?.friends ? 'invert' : ''}
           />
