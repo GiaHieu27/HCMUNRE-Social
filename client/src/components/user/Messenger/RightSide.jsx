@@ -51,11 +51,9 @@ function RightSide(props) {
     socket.on('friendReceiveCall', (user, soketIdFriend) => {
       setOpenModalReceive(true);
       setSender(user);
-      console.log('receiver:', soketIdFriend);
     });
 
     socket.on('receiveCallSuccess', (socketIdCaller) => {
-      console.log('caller:', socketIdCaller);
       setOpenModalCall(false);
       window.open(
         `http://localhost:3000/call/${props.currentFriend._id}`,

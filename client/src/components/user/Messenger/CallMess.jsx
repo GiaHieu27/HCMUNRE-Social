@@ -49,15 +49,14 @@ function CallMess() {
         myVideoRef.current.srcObject = stream;
       });
 
-    socket.emit('addUser', user.id, user, receiverId);
-  }, []);
-
-  // get my socket id from socket
-  React.useEffect(() => {
-    socket.on('me', (id) => {
+    socket.on('getSocketId', (id) => {
       setMySocketId(id);
     });
 
+    socket.emit('addUser', user.id, user);
+  }, []);
+  // listen event from socket server
+  React.useEffect(() => {
     // socket.on('infoFriend', (friend) => {
     //   serCurrentFriend(friend);
     // });
@@ -68,12 +67,13 @@ function CallMess() {
       setCaller(from);
       setCallerSignal(signal);
       btnAnswerCallRef.current.click();
+      console.log('receive call run');
     });
 
     socket.on('callEnded', () => {
-      console.log('run');
+      console.log('Call end run');
       setReceivingCall(false);
-      setCaller('');
+      // setCaller('');
       setCallAccepted(false);
       setCallEnded(true);
       connectionRef.current.destroy();
@@ -92,6 +92,7 @@ function CallMess() {
   }, []);
 
   const handleCallUser = (receiverId) => {
+    console.log('call run');
     const peer1 = new Peer({
       initiator: true,
       trickle: false,
@@ -110,6 +111,7 @@ function CallMess() {
 
     peer1.on('stream', (stream) => {
       // stream = MediaStream
+      console.log('stream', stream);
       userVideoRef.current.srcObject = stream;
     });
 
@@ -136,6 +138,7 @@ function CallMess() {
 
     peer2.on('stream', (stream) => {
       // stream = MediaStream
+      console.log('stream', stream);
       userVideoRef.current.srcObject = stream;
     });
 
@@ -210,7 +213,7 @@ function CallMess() {
                       variant="contained"
                       size="small"
                       color={toggleCam ? 'successCustom' : 'error'}
-                      onClick={handleToggleCam}
+                      onClick={() => handleToggleCam()}
                       sx={{
                         borderRadius: '50%',
                         minWidth: '50px',
@@ -230,7 +233,7 @@ function CallMess() {
                       variant="contained"
                       size="small"
                       color="error"
-                      onClick={handleLeaveCall}
+                      onClick={() => handleLeaveCall()}
                       sx={{
                         borderRadius: '50%',
                         minWidth: '50px',

@@ -23,18 +23,19 @@ const findFriend = (id) => {
 
 io2.on('connection', (socket) => {
   console.log('connected');
-  socket.emit('me', socket.id);
+  socket.emit('getSocketId', socket.id);
 
-  socket.on('addUser', (userId, userInfo, receiverId) => {
+  socket.on('addUser', (userId, userInfo) => {
     addUser(userId, socket.id, userInfo);
 
-    const friend = findFriend(receiverId);
-    if (friend !== undefined) {
-      socket.emit('infoFriend', friend);
-    }
+    // const friend = findFriend(receiverId);
+    // if (friend !== undefined) {
+    //   socket.emit('infoFriend', friend);
+    // }
   });
 
   socket.on('callUser', (data) => {
+    // data = obj
     const friend = findFriend(data.receiverId);
     // friend = obj
     if (friend !== undefined) {
@@ -43,6 +44,11 @@ io2.on('connection', (socket) => {
         from: data.from,
       });
     }
+  });
+
+  socket.on('answerCall', (data) => {
+    // data = obj;
+    socket.to(data.to).emit('callAccepted', data.signal);
   });
 
   socket.on('disconnect', () => {
