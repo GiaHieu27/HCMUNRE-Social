@@ -1,36 +1,38 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { Formik } from "formik";
-import Container from "react-bootstrap/Container";
-import Stack from "react-bootstrap/Stack";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
-import PulseLoader from "react-spinners/PulseLoader";
-import axios from "axios";
-import * as yup from "yup";
-import Cookies from "js-cookie";
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { Formik } from 'formik';
 
-import adminSlice from "../../../redux/slices/adminSlice";
+import Container from 'react-bootstrap/Container';
+import Stack from 'react-bootstrap/Stack';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
+import PulseLoader from 'react-spinners/PulseLoader';
+
+import axios from 'axios';
+import * as yup from 'yup';
+import Cookies from 'js-cookie';
+
+import adminSlice from '../../../redux/slices/adminSlice';
 
 const schema = yup.object().shape({
   email: yup
     .string()
-    .required("Vui lòng nhập email")
-    .email("Vui lòng nhập đúng định dạng email")
-    .max(100, "Tối đa 100 kí tự"),
+    .required('Vui lòng nhập email')
+    .email('Vui lòng nhập đúng định dạng email')
+    .max(100, 'Tối đa 100 kí tự'),
   password: yup
     .string()
-    .required("Vui lòng nhập mật khẩu")
-    .min(6, "Mật khẩu tối thiểu 6 kí tự"),
+    .required('Vui lòng nhập mật khẩu')
+    .min(6, 'Mật khẩu tối thiểu 6 kí tự'),
 });
 
 function LoginAdmin() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [error, setError] = useState("");
-  const [success, setSuccessse] = useState("");
+  const [error, setError] = useState('');
+  const [success, setSuccessse] = useState('');
   const [loading, setLoading] = useState(false);
 
   const handleSubmitLogin = async (values) => {
@@ -41,17 +43,17 @@ function LoginAdmin() {
         `${process.env.REACT_APP_BACKEND_URL}/admin/login`,
         { email, password }
       );
-      setError("");
+      setError('');
       setSuccessse(data.message);
 
       setTimeout(() => {
         dispatch(adminSlice.actions.LOGIN(data));
-        Cookies.set("admin", JSON.stringify(data));
-        navigate("/admin");
+        Cookies.set('admin', JSON.stringify(data));
+        navigate('/admin');
       }, 2000);
     } catch (error) {
       setLoading(false);
-      setSuccessse("");
+      setSuccessse('');
       setError(error.response.data.message);
     }
   };
@@ -60,15 +62,15 @@ function LoginAdmin() {
     <Container
       fluid
       className="bg-success p-2 text-dark bg-opacity-50 d-flex align-items-center"
-      style={{ height: "100vh" }}
+      style={{ height: '100vh' }}
     >
       <Container>
         <Formik
           validationSchema={schema}
           onSubmit={(values) => handleSubmitLogin(values)}
           initialValues={{
-            email: "",
-            password: "",
+            email: '',
+            password: '',
           }}
         >
           {({
@@ -151,7 +153,7 @@ function LoginAdmin() {
                     {loading ? (
                       <PulseLoader color="white" loading={loading} size={8} />
                     ) : (
-                      "Đăng nhập"
+                      'Đăng nhập'
                     )}
                   </Button>
                 </Stack>

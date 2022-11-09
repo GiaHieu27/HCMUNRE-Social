@@ -157,6 +157,7 @@ function Header({ page, getPosts }) {
               <Badge
                 badgeContent={countNotifySent}
                 color="error"
+                component="div"
                 sx={{
                   '& .MuiBadge-badge': {
                     top: '-4px',

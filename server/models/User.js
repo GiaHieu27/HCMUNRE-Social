@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const { ObjectId } = mongoose.Schema;
 
@@ -6,37 +6,37 @@ const userSchema = mongoose.Schema(
   {
     first_name: {
       type: String,
-      required: [true, "first name is required"],
+      required: [true, 'first name is required'],
       trim: true,
       text: true,
     },
     last_name: {
       type: String,
-      required: [true, "last name is required"],
+      required: [true, 'last name is required'],
       trim: true,
       text: true,
     },
     username: {
       type: String,
-      required: [true, "username is required"],
+      required: [true, 'username is required'],
       trim: true,
       text: true,
       unique: true,
     },
     email: {
       type: String,
-      required: [true, "email is required"],
+      required: [true, 'email is required'],
       trim: true,
     },
     password: {
       type: String,
-      required: [true, "password is required"],
+      required: [true, 'password is required'],
     },
     picture: {
       type: String,
       trim: true,
       default:
-        "https://static2.yan.vn/YanNews/2167221/202102/facebook-cap-nhat-avatar-doi-voi-tai-khoan-khong-su-dung-anh-dai-dien-e4abd14d.jpg",
+        'https://static2.yan.vn/YanNews/2167221/202102/facebook-cap-nhat-avatar-doi-voi-tai-khoan-khong-su-dung-anh-dai-dien-e4abd14d.jpg',
     },
     cover: {
       type: String,
@@ -44,7 +44,7 @@ const userSchema = mongoose.Schema(
     },
     gender: {
       type: String,
-      required: [true, "gender is required"],
+      required: [true, 'gender is required'],
       trim: true,
     },
     bYear: {
@@ -70,35 +70,43 @@ const userSchema = mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    isLock: {
+      type: Boolean,
+      default: false,
+    },
+    accesses: {
+      type: Number,
+      default: 0,
+    },
     requests: [
       {
         type: ObjectId,
-        ref: "User",
+        ref: 'User',
       },
     ],
     friends: [
       {
         type: ObjectId,
-        ref: "User",
+        ref: 'User',
       },
     ],
     following: [
       {
         type: ObjectId,
-        ref: "User",
+        ref: 'User',
       },
     ],
     followers: [
       {
         type: ObjectId,
-        ref: "User",
+        ref: 'User',
       },
     ],
     search: [
       {
         user: {
           type: ObjectId,
-          ref: "User",
+          ref: 'User',
           required: true,
         },
         createAt: {
@@ -134,18 +142,18 @@ const userSchema = mongoose.Schema(
       },
       relationship: {
         type: String,
-        enum: ["Độc thân", "Trong một mối quan hệ", "Đã kết hôn", "Đã ly dị"],
+        enum: ['Độc thân', 'Trong một mối quan hệ', 'Đã kết hôn', 'Đã ly dị'],
       },
     },
     savedPosts: [
       {
         post: {
           type: ObjectId,
-          ref: "Post",
+          ref: 'Post',
         },
         postBy: {
           type: ObjectId,
-          ref: "User",
+          ref: 'User',
         },
         savedAt: {
           type: Date,
@@ -159,4 +167,4 @@ const userSchema = mongoose.Schema(
   }
 );
 
-module.exports = mongoose.model("User", userSchema);
+module.exports = mongoose.model('User', userSchema);

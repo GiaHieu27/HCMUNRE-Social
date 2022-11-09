@@ -111,7 +111,7 @@ header {
   &_header {
     background: var(--lighter-green-color);
 
-    svg {
+    & > div > div > svg {
       fill: var(--green-dark-color);
     }
   }

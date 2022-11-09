@@ -1,10 +1,18 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
 
-const register = require("../controllers/admin/Register");
-const login = require("../controllers/admin/Login");
+const { authUser } = require('../middlewares/auth');
+const register = require('../controllers/admin/Register');
+const login = require('../controllers/admin/Login');
+const {
+  countAccess,
+  getTotalAnalyze,
+} = require('../controllers/admin/Analyzes');
 
-router.post("/admin/register", register);
-router.post("/admin/login", login);
+router.post('/admin/register', register);
+router.post('/admin/login', login);
+router.post('/admin/countAccess', authUser, countAccess);
+
+router.get('/admin/getTotalAnalyze', authUser, getTotalAnalyze);
 
 module.exports = router;

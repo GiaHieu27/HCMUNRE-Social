@@ -4,6 +4,10 @@ import { Routes, Route } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import Cookies from 'js-cookie';
 import axios from 'axios';
+import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
 
 // User
 import LoggedInRoutes from './routes/user/LoggedInRoutes';
@@ -27,10 +31,13 @@ import AdminLoggedInRoutes from './routes/admin/AdminLoggedInRoutes';
 import AdminNotLoggedInRoutes from './routes/admin/AdminNotLoggedInRoutes';
 import LoginAdmin from './pages/admin/login';
 import HomeAdmin from './pages/admin/home';
+import Dashboard from './pages/admin/Dashboard';
+import { visitWebsite } from './apis/admin';
 
 function App() {
   const { user, theme } = useSelector((sate) => ({ ...sate }));
   const { socket } = React.useContext(SocketContext);
+  const check = Cookies.get('user');
 
   const [visible, setVisible] = React.useState(false);
 
@@ -66,12 +73,16 @@ function App() {
   }, [user?.token]);
 
   React.useEffect(() => {
-    if (Cookies.get('user')) getPosts();
-  }, [getPosts]);
+    if (check) getPosts();
+  }, [getPosts, check]);
 
   React.useEffect(() => {
     socket.emit('addUser', user?.id, user);
   }, [socket, user]);
+
+  React.useEffect(() => {
+    if (check) visitWebsite(user.token);
+  }, [check]);
 
   return (
     <div className={theme ? 'dark' : ''}>
@@ -120,7 +131,9 @@ function App() {
 
         {/* ---------Admin--------- */}
         <Route element={<AdminLoggedInRoutes />}>
-          <Route path="/admin" element={<HomeAdmin />} />
+          <Route path="/admin" element={<HomeAdmin />}>
+            <Route index element={<Dashboard />} />
+          </Route>
         </Route>
 
         <Route element={<AdminNotLoggedInRoutes />}>

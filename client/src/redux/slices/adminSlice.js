@@ -1,9 +1,9 @@
-import { createSlice } from "@reduxjs/toolkit";
-import Cookies from "js-cookie";
+import { createSlice } from '@reduxjs/toolkit';
+import Cookies from 'js-cookie';
 
 const adminSlice = createSlice({
-  name: "admin",
-  initialState: Cookies.get("admin") ? JSON.parse(Cookies.get("admin")) : null,
+  name: 'admin',
+  initialState: Cookies.get('admin') ? JSON.parse(Cookies.get('admin')) : null,
   reducers: {
     LOGIN: (state, action) => {
       return action.payload;
@@ -11,12 +11,6 @@ const adminSlice = createSlice({
     LOGOUT: (state, action) => {
       return null;
     },
-    // UPDATEPICTURE: (state, action) => {
-    //   state.picture = action.payload;
-    // },
-    // VERIFY: (state, action) => {
-    //   state.verified = action.payload;
-    // },
   },
 });
 

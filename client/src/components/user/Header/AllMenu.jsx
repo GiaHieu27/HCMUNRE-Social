@@ -28,9 +28,7 @@ function AllMenu() {
           <div className="all_right_header">Tạo</div>
           {create.map((item, index) => (
             <div className="all_right_item hover1" key={index}>
-              <div className="all_right_circle">
-                <i className={item.icon}></i>
-              </div>
+              <div className="all_right_circle">{item.icon}</div>
               {item.name}
             </div>
           ))}
