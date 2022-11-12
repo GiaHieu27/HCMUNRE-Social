@@ -23,7 +23,7 @@ const sideBarItems = [
   },
   {
     text: 'User',
-    path: '/user',
+    path: '/admin/user',
     icon: <PersonOutlineOutlinedIcon />,
   },
   {
@@ -45,7 +45,7 @@ const sideBarItems = [
 
 function SideBar() {
   const location = useLocation();
-  const SIDE_BAR_WIDTH = 300;
+  const SIDE_BAR_WIDTH = 250;
 
   const [activeIndex, setActiveIndex] = useState(0);
 

@@ -30,7 +30,14 @@ exports.getTotalAnalyze = async (req, res) => {
 
     return res
       .status(200)
-      .json({ totalAccess, totalUser, totalPost, postHasNotBeenApproved });
+      .json({
+        totalAccess,
+        totalUser,
+        totalPost,
+        postHasNotBeenApproved,
+        allPost,
+        allUser,
+      });
   } catch (e) {
     res.status(500).json({ message: e.message });
   }

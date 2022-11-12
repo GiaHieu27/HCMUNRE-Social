@@ -26,7 +26,7 @@ const SummaryInfo = ({ title, number, icon }) => {
 
 SummaryInfo.propTypes = {
   title: PropTypes.string,
-  number: PropTypes.string,
+  number: PropTypes.number,
   icon: PropTypes.object,
 };
 

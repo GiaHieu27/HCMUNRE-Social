@@ -8,6 +8,7 @@
     "@fontsource/roboto": "^4.5.8",
     "@mui/icons-material": "^5.10.3",
     "@mui/material": "^5.10.5",
+    "@mui/x-data-grid": "^5.17.10",
     "@reduxjs/toolkit": "^1.8.1",
     "@testing-library/jest-dom": "^5.16.2",
     "@testing-library/react": "^12.1.2",
