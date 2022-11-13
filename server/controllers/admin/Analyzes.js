@@ -1,5 +1,6 @@
 const User = require('../../models/User');
 const Post = require('../../models/Post');
+const { default: mongoose } = require('mongoose');
 
 exports.countAccess = async (req, res) => {
   try {
@@ -16,7 +17,18 @@ exports.countAccess = async (req, res) => {
 exports.getTotalAnalyze = async (req, res) => {
   try {
     const allUser = await User.find({});
-    const allPost = await Post.find({});
+    const allPost = await Post.find({})
+      .populate('user', 'full_name picture')
+      .lean();
+
+    allPost.map((post) => {
+      post['full_name'] = post['user'].full_name;
+      post['avatar'] = post['user'].picture;
+      post['id'] = post['_id'];
+      delete post.user;
+
+      return post;
+    });
 
     const totalUser = allUser.length;
     const totalAccess = allUser.reduce((accum, current) => {
@@ -28,16 +40,25 @@ exports.getTotalAnalyze = async (req, res) => {
       return item.approve === false;
     }).length;
 
-    return res
-      .status(200)
-      .json({
-        totalAccess,
-        totalUser,
-        totalPost,
-        postHasNotBeenApproved,
-        allPost,
-        allUser,
-      });
+    return res.status(200).json({
+      totalAccess,
+      totalUser,
+      totalPost,
+      postHasNotBeenApproved,
+      allPost,
+      allUser,
+    });
+  } catch (e) {
+    res.status(500).json({ message: e.message });
+  }
+};
+
+exports.getOneUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const user = await User.findById(id).select('-password');
+    const post = await Post.find({ user: mongoose.Types.ObjectId(id) });
+    return res.status(200).json({ user, post });
   } catch (e) {
     res.status(500).json({ message: e.message });
   }

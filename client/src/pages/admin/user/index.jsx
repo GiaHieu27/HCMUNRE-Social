@@ -4,7 +4,6 @@ import { useSelector } from 'react-redux';
 
 import { Box, Button, Paper, Typography } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
-import PersonAddAltOutlinedIcon from '@mui/icons-material/PersonAddAltOutlined';
 import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
 import OpenInNewOutlinedIcon from '@mui/icons-material/OpenInNewOutlined';
 import ReportIcon from '@mui/icons-material/Report';
@@ -36,7 +35,7 @@ function User() {
       }
     };
     getData();
-  }, []);
+  }, [user.token]);
 
   let columns = [
     {
@@ -44,7 +43,11 @@ function User() {
       headerName: 'Tên người dùng',
       renderCell: (params) => {
         return (
-          <Button variant="text" component={Link} to={`/user/${params.row.id}`}>
+          <Button
+            variant="text"
+            component={Link}
+            to={`/admin/user/${params.row.id}`}
+          >
             {params.value}
           </Button>
         );
@@ -66,16 +69,15 @@ function User() {
       headerName: 'Trạng thái',
       width: 190,
       renderCell: (params) => {
-        console.log(params);
         return (
           <Box
             sx={{
               display: 'flex',
               alignItems: 'center',
             }}
-            color={params.value === true ? 'red' : 'green'}
+            color={!!params.value ? 'red' : 'green'}
           >
-            {params.value === true ? <ReportIcon /> : <VerifiedUserIcon />}
+            {!!params.value ? <ReportIcon /> : <VerifiedUserIcon />}
 
             <Typography
               variant="body2"
@@ -84,9 +86,7 @@ function User() {
                 fontWeight: '500',
               }}
             >
-              {params.value === true
-                ? 'Tài khoản đã bị khoá'
-                : 'Đang hoạt động'}
+              {!!params.value ? 'Tài khoản đã bị khoá' : 'Đang hoạt động'}
             </Typography>
           </Box>
         );
@@ -101,7 +101,7 @@ function User() {
         <Button
           variant="text"
           component={Link}
-          to={`/user/${params.value}`}
+          to={`/admin/user/${params.value}`}
           startIcon={<OpenInNewOutlinedIcon />}
         >
           Chi tiết
@@ -109,62 +109,6 @@ function User() {
       ),
     },
   ];
-
-  // columns = React.useMemo(
-  //   () =>
-  //     columns.map((column) => {
-  //       if (column.field === 'full_name') {
-  //         return {
-  //           ...column,
-  //           getApplyQuickFilterFn: undefined,
-  //         };
-  //       }
-  //       if (column.field === 'address') {
-  //         return {
-  //           ...column,
-  //           getApplyQuickFilterFn: undefined,
-  //         };
-  //       }
-  //       if (column.field === 'city') {
-  //         return {
-  //           ...column,
-  //           getApplyQuickFilterFn: undefined,
-  //         };
-  //       }
-  //       if (column.field === 'region') {
-  //         return {
-  //           ...column,
-  //           getApplyQuickFilterFn: undefined,
-  //         };
-  //       }
-  //       if (column.field === 'postalCode') {
-  //         return {
-  //           ...column,
-  //           getApplyQuickFilterFn: undefined,
-  //         };
-  //       }
-  //       if (column.field === 'country') {
-  //         return {
-  //           ...column,
-  //           getApplyQuickFilterFn: undefined,
-  //         };
-  //       }
-  //       if (column.field === 'phone') {
-  //         return {
-  //           ...column,
-  //           getApplyQuickFilterFn: undefined,
-  //         };
-  //       }
-  //       if (column.field === 'fax') {
-  //         return {
-  //           ...column,
-  //           getApplyQuickFilterFn: undefined,
-  //         };
-  //       }
-  //       return column;
-  //     }),
-  //   []
-  // );
 
   userList.map((user) => {
     user['id'] = user['_id'];
@@ -180,17 +124,17 @@ function User() {
     >
       <CustomBreadcrumds pathnames={pathnames} />
       <PageHeader
-        title={'User List'}
-        rightContent={
-          <Button
-            variant="contained"
-            component={Link}
-            to="/user/create"
-            startIcon={<PersonAddAltOutlinedIcon />}
-          >
-            Create
-          </Button>
-        }
+        title={'Tất cả người dùng'}
+        // rightContent={
+        //   <Button
+        //     variant="contained"
+        //     component={Link}
+        //     to="/user/create"
+        //     startIcon={<PersonAddAltOutlinedIcon />}
+        //   >
+        //     Create
+        //   </Button>
+        // }
       />
 
       <Paper>
@@ -201,7 +145,7 @@ function User() {
           pageSize={pageSize}
           rowsPerPageOptions={[9, 50, 100]}
           onPageSizeChange={(size) => setPageSize(size)}
-          density="comfortable"
+          // density="comfortable"
           showCellRightBorder
           showColumnRightBorder
           disableSelectionOnClick

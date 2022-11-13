@@ -7,6 +7,7 @@ const login = require('../controllers/admin/Login');
 const {
   countAccess,
   getTotalAnalyze,
+  getOneUser,
 } = require('../controllers/admin/Analyzes');
 
 router.post('/admin/register', register);
@@ -14,5 +15,6 @@ router.post('/admin/login', login);
 router.post('/admin/countAccess', authUser, countAccess);
 
 router.get('/admin/getTotalAnalyze', authUser, getTotalAnalyze);
+router.get('/admin/getOneUser/:id', authUser, getOneUser);
 
 module.exports = router;

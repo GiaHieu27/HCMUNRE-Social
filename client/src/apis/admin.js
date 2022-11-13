@@ -31,3 +31,19 @@ export const getTotalAnalyze = async (token) => {
     return error.response.data.message;
   }
 };
+
+export const getOneUser = async (id, token) => {
+  try {
+    const { data } = await axios.get(
+      `${process.env.REACT_APP_BACKEND_URL}/admin/getOneUser/${id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return data;
+  } catch (error) {
+    return error.response.data.message;
+  }
+};

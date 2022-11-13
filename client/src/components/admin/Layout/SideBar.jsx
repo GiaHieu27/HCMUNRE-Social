@@ -11,35 +11,35 @@ import {
 } from '@mui/material';
 import DashboardCustomizeOutlinedIcon from '@mui/icons-material/DashboardCustomizeOutlined';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
-import PlaceOutlinedIcon from '@mui/icons-material/PlaceOutlined';
-import HealthAndSafetyOutlinedIcon from '@mui/icons-material/HealthAndSafetyOutlined';
-import QrCodeScannerOutlinedIcon from '@mui/icons-material/QrCodeScannerOutlined';
+import ArticleIcon from '@mui/icons-material/Article';
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
+import PendingActionsIcon from '@mui/icons-material/PendingActions';
 
 const sideBarItems = [
   {
-    text: 'Dashboard',
+    text: 'Bảng điều khiển',
     path: '/admin',
     icon: <DashboardCustomizeOutlinedIcon />,
   },
   {
-    text: 'User',
+    text: 'Người dùng',
     path: '/admin/user',
     icon: <PersonOutlineOutlinedIcon />,
   },
   {
-    text: 'Place',
-    path: '/place',
-    icon: <PlaceOutlinedIcon />,
+    text: 'Bài viết',
+    path: '/admin/post',
+    icon: <ArticleIcon />,
   },
   {
-    text: 'Vaccine',
-    path: '/vaccine',
-    icon: <HealthAndSafetyOutlinedIcon />,
+    text: 'Duyệt bài',
+    path: '/admin/post-pending',
+    icon: <PendingActionsIcon />,
   },
   {
-    text: 'QR Scan',
-    path: '/qr-scan',
-    icon: <QrCodeScannerOutlinedIcon />,
+    text: 'Quản trị viên',
+    path: '/admin/admin-user',
+    icon: <AdminPanelSettingsIcon />,
   },
 ];
 
@@ -95,6 +95,7 @@ function SideBar() {
             <ListItemIcon
               sx={{
                 color: i === activeIndex && colors.blue.A700,
+                minWidth: '34px',
               }}
             >
               {item.icon}

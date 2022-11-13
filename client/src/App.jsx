@@ -34,6 +34,9 @@ import HomeAdmin from './pages/admin/home';
 import Dashboard from './pages/admin/Dashboard';
 import { visitWebsite } from './apis/admin';
 import User from './pages/admin/user';
+import UserDetail from './pages/admin/user/userDetail';
+import Post from './pages/admin/post';
+import PostDetail from './pages/admin/post/postDetail';
 
 function App() {
   const { user, theme } = useSelector((sate) => ({ ...sate }));
@@ -135,6 +138,9 @@ function App() {
           <Route path="/admin" element={<HomeAdmin />}>
             <Route index element={<Dashboard />} />
             <Route path="/admin/user" element={<User />} />
+            <Route path="/admin/user/:id" element={<UserDetail />} />
+            <Route path="/admin/post" element={<Post />} />
+            <Route path="/admin/post/:id" element={<PostDetail />} />
           </Route>
         </Route>
 
