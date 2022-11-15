@@ -37,6 +37,7 @@ import User from './pages/admin/user';
 import UserDetail from './pages/admin/user/userDetail';
 import Post from './pages/admin/post';
 import PostDetail from './pages/admin/post/postDetail';
+import PostPending from './pages/admin/postPending';
 
 function App() {
   const { user, theme } = useSelector((sate) => ({ ...sate }));
@@ -141,6 +142,8 @@ function App() {
             <Route path="/admin/user/:id" element={<UserDetail />} />
             <Route path="/admin/post" element={<Post />} />
             <Route path="/admin/post/:id" element={<PostDetail />} />
+            <Route path="/admin/post-pending" element={<PostPending />} />
+            <Route path="/admin/post-pending/:id" element={<PostDetail />} />
           </Route>
         </Route>
 

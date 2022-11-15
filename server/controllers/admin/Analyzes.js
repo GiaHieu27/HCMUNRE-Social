@@ -26,7 +26,6 @@ exports.getTotalAnalyze = async (req, res) => {
       post['avatar'] = post['user'].picture;
       post['id'] = post['_id'];
       delete post.user;
-
       return post;
     });
 
@@ -38,13 +37,15 @@ exports.getTotalAnalyze = async (req, res) => {
     const totalPost = allPost.length;
     const postHasNotBeenApproved = allPost.filter((item) => {
       return item.approve === false;
-    }).length;
+    });
+    const totalPostHasNotBeenApproved = postHasNotBeenApproved.length;
 
     return res.status(200).json({
       totalAccess,
       totalUser,
       totalPost,
       postHasNotBeenApproved,
+      totalPostHasNotBeenApproved,
       allPost,
       allUser,
     });
@@ -59,6 +60,23 @@ exports.getOneUser = async (req, res) => {
     const user = await User.findById(id).select('-password');
     const post = await Post.find({ user: mongoose.Types.ObjectId(id) });
     return res.status(200).json({ user, post });
+  } catch (e) {
+    res.status(500).json({ message: e.message });
+  }
+};
+
+exports.browseArticles = async (req, res) => {
+  try {
+    const { id } = req.params;
+    await Post.findByIdAndUpdate(id, { approve: true }, { new: true });
+    const posts = await Post.find({ approve: false }).lean();
+
+    posts.map((post) => {
+      post['id'] = post['_id'];
+      return post;
+    });
+
+    return res.status(200).json({ posts });
   } catch (e) {
     res.status(500).json({ message: e.message });
   }

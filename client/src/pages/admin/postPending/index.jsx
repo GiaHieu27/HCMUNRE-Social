@@ -3,38 +3,44 @@ import { Link, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
 
-import { Box, Button, colors, Paper, Typography } from '@mui/material';
+import { Box, colors, IconButton, Paper, Typography } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
-import PersonAddAltOutlinedIcon from '@mui/icons-material/PersonAddAltOutlined';
-import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
 import OpenInNewOutlinedIcon from '@mui/icons-material/OpenInNewOutlined';
+import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
+import DeleteIcon from '@mui/icons-material/Delete';
 import ReportIcon from '@mui/icons-material/Report';
+import DoneIcon from '@mui/icons-material/Done';
 
-// import userApi from '../../api/userApi';
+import { browseArticles } from '../../../apis/admin';
 import PageHeader from '../../../components/admin/PageHeader';
 import CustomBreadcrumds from '../../../components/admin/CustomBreadcrumds';
 import { getTotalAnalyze } from '../../../apis/admin';
 import SearchToolbar from '../../../components/SearchToolBar';
 
-function Post() {
+function PostPending() {
   const location = useLocation();
   const pathnames = location.pathname.split('/').filter((x) => x);
   const user = useSelector((state) => state.user);
 
-  const [postLists, setPostLists] = React.useState([]);
+  const [postPending, setPostPending] = React.useState([]);
   const [pageSize, setPageSize] = React.useState(9);
 
   React.useEffect(() => {
     const getData = async () => {
       try {
         const res = await getTotalAnalyze(user.token);
-        setPostLists(res.allPost);
+        setPostPending(res.postHasNotBeenApproved);
       } catch (error) {
         console.log(error);
       }
     };
     getData();
   }, [user.token]);
+
+  const handleBrowserPost = async (postId) => {
+    const res = await browseArticles(postId, user.token);
+    setPostPending(res.posts);
+  };
 
   let columns = [
     {
@@ -65,7 +71,6 @@ function Post() {
               display: 'flex',
               alignItems: 'center',
               border: '1px solid',
-              borderRadius: '2px',
               padding: '5px 5px 2px 5px',
               backgroundColor:
                 params.value === 'profilePicture'
@@ -149,16 +154,28 @@ function Post() {
     {
       field: 'id',
       headerName: 'Hành động',
-      width: 130,
+      width: 150,
       renderCell: (params) => (
-        <Button
-          variant="text"
-          component={Link}
-          to={`/admin/post/${params.value}`}
-          startIcon={<OpenInNewOutlinedIcon />}
-        >
-          Chi tiết
-        </Button>
+        <>
+          <IconButton
+            aria-label="check"
+            color="successCustom"
+            onClick={() => handleBrowserPost(params.value)}
+          >
+            <DoneIcon />
+          </IconButton>
+          <IconButton aria-label="delete" color="error">
+            <DeleteIcon />
+          </IconButton>
+          <IconButton
+            aria-label="detail"
+            color="primary"
+            component={Link}
+            to={`/admin/post-pending/${params.value}`}
+          >
+            <OpenInNewOutlinedIcon />
+          </IconButton>
+        </>
       ),
     },
   ];
@@ -173,27 +190,27 @@ function Post() {
       <CustomBreadcrumds pathnames={pathnames} />
       <PageHeader
         title={'Danh sách bài viết'}
-        rightContent={
-          <Button
-            variant="contained"
-            component={Link}
-            to="/user/create"
-            startIcon={<PersonAddAltOutlinedIcon />}
-          >
-            Create
-          </Button>
-        }
+        // rightContent={
+        //   <Button
+        //     variant="contained"
+        //     component={Link}
+        //     to="/user/create"
+        //     startIcon={<PersonAddAltOutlinedIcon />}
+        //   >
+        //     Create
+        //   </Button>
+        // }
       />
 
       <Paper>
         <DataGrid
           autoHeight
-          rows={postLists}
+          rows={postPending}
           columns={columns}
           pageSize={pageSize}
           rowsPerPageOptions={[9, 50, 100]}
           onPageSizeChange={(size) => setPageSize(size)}
-          // density="comfortable"
+          checkboxSelection
           showCellRightBorder
           showColumnRightBorder
           disableSelectionOnClick
@@ -204,4 +221,4 @@ function Post() {
   );
 }
 
-export default Post;
+export default PostPending;

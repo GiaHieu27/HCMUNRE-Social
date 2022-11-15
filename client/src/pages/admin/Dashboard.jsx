@@ -94,7 +94,7 @@ function Dashboard() {
               {summaryData && (
                 <SummaryInfo
                   title="Bài viết chưa duyệt"
-                  number={summaryData.postHasNotBeenApproved}
+                  number={summaryData.totalPostHasNotBeenApproved}
                   icon={
                     <PendingActionsIcon
                       sx={{ fontSize: '3rem' }}
