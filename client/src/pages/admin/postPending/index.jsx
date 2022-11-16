@@ -11,11 +11,12 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import ReportIcon from '@mui/icons-material/Report';
 import DoneIcon from '@mui/icons-material/Done';
 
-import { browseArticles } from '../../../apis/admin';
+import { browseArticles, getTotalAnalyze } from '../../../apis/admin';
+import { deletePost } from '../../../apis/post';
 import PageHeader from '../../../components/admin/PageHeader';
 import CustomBreadcrumds from '../../../components/admin/CustomBreadcrumds';
-import { getTotalAnalyze } from '../../../apis/admin';
 import SearchToolbar from '../../../components/SearchToolBar';
+import TooltipMUI from '../../../components/TooltipMUI';
 
 function PostPending() {
   const location = useLocation();
@@ -41,6 +42,18 @@ function PostPending() {
     const res = await browseArticles(postId, user.token);
     setPostPending(res.posts);
   };
+
+  const handleDeletePost = async (postId) => {
+    const res = await deletePost(postId, user.token);
+    if (res.status === 'ok') {
+      const newPost = postPending.filter((item) => {
+        return item.id !== postId;
+      });
+      setPostPending(newPost);
+    }
+  };
+
+  console.log(postPending);
 
   let columns = [
     {
@@ -119,7 +132,7 @@ function PostPending() {
     {
       field: 'approve',
       headerName: 'Trạng thái',
-      width: 190,
+      width: 170,
       renderCell: (params) => {
         return (
           <Box
@@ -157,24 +170,36 @@ function PostPending() {
       width: 150,
       renderCell: (params) => (
         <>
-          <IconButton
-            aria-label="check"
-            color="successCustom"
-            onClick={() => handleBrowserPost(params.value)}
-          >
-            <DoneIcon />
-          </IconButton>
-          <IconButton aria-label="delete" color="error">
-            <DeleteIcon />
-          </IconButton>
-          <IconButton
-            aria-label="detail"
-            color="primary"
-            component={Link}
-            to={`/admin/post-pending/${params.value}`}
-          >
-            <OpenInNewOutlinedIcon />
-          </IconButton>
+          <TooltipMUI title="Duyệt bài" placement="top">
+            <IconButton
+              aria-label="check"
+              color="successCustom"
+              onClick={() => handleBrowserPost(params.value)}
+            >
+              <DoneIcon />
+            </IconButton>
+          </TooltipMUI>
+
+          <TooltipMUI title="Xoá bài" placement="top">
+            <IconButton
+              aria-label="delete"
+              color="error"
+              onClick={() => handleDeletePost(params.value)}
+            >
+              <DeleteIcon />
+            </IconButton>
+          </TooltipMUI>
+
+          <TooltipMUI title="Chi tiết" placement="top">
+            <IconButton
+              aria-label="detail"
+              color="primary"
+              component={Link}
+              to={`/admin/post-pending/${params.value}`}
+            >
+              <OpenInNewOutlinedIcon />
+            </IconButton>
+          </TooltipMUI>
         </>
       ),
     },

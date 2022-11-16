@@ -10,8 +10,8 @@ import CallEndIcon from '@mui/icons-material/CallEnd';
 import Message from './Message';
 import MessageSend from './MessageSend';
 import FriendInfo from './FriendInfo';
-import TooltipMUI from '../TooltipMUI';
-import CustomDialog from '../CustomDialog';
+import TooltipMUI from '../../TooltipMUI';
+import CustomDialog from '../../CustomDialog';
 import { SocketContext } from '../../../context/socketContext';
 
 function RightSide(props) {

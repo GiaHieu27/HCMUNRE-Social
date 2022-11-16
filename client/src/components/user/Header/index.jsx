@@ -14,7 +14,7 @@ import Notification from './Notification';
 import { SocketContext } from '../../../context/socketContext';
 import notifySlice, { fetchNotify } from '../../../redux/slices/notifySlice';
 import { updateStatusNotify } from '../../../apis/post';
-import TooltipMUI from '../TooltipMUI';
+import TooltipMUI from '../../TooltipMUI';
 
 function Header({ page, getPosts }) {
   const {

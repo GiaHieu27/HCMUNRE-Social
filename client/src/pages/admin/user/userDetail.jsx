@@ -12,7 +12,7 @@ import {
 } from '@mui/material';
 
 import { getOneUser } from '../../../apis/admin';
-import CustomDialog from '../../../components/user/CustomDialog';
+import CustomDialog from '../../../components/CustomDialog';
 import PageHeader from '../../../components/admin/PageHeader';
 import CustomBreadcrumds from '../../../components/admin/CustomBreadcrumds';
 import UserInfo from '../../../components/admin/UserInfo';

@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { Photo } from '../../../svg';
-import TooltipBs from '../TooltipBs';
+import TooltipBs from '../../TooltipBs';
 function AddYourPost(props) {
   return (
     <div className="addtoyourpost">

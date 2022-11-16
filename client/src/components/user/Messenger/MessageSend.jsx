@@ -10,7 +10,7 @@ import RedeemIcon from '@mui/icons-material/Redeem';
 import SendIcon from '@mui/icons-material/Send';
 
 import Picker from 'emoji-picker-react';
-import TooltipMUI from '../TooltipMUI';
+import TooltipMUI from '../../TooltipMUI';
 
 function MessageSend({
   handleChangeInput,

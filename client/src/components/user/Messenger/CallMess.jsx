@@ -11,7 +11,7 @@ import MicOffIcon from '@mui/icons-material/MicOff';
 import VideocamOffIcon from '@mui/icons-material/VideocamOff';
 // import PersonIcon from '@mui/icons-material/Person';
 
-import TooltipMUI from '../TooltipMUI';
+import TooltipMUI from '../../TooltipMUI';
 import { SocketContext } from '../../../context/socketContext';
 
 const socket = io('ws://localhost:8000');
