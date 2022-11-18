@@ -21,7 +21,8 @@ import TooltipMUI from '../../../components/TooltipMUI';
 function PostPending() {
   const location = useLocation();
   const pathnames = location.pathname.split('/').filter((x) => x);
-  const user = useSelector((state) => state.user);
+  const { user, admin } = useSelector((state) => ({ ...state }));
+  const fullName = `${admin.first_name} ${admin.last_name}`;
 
   const [postPending, setPostPending] = React.useState([]);
   const [pageSize, setPageSize] = React.useState(9);
@@ -38,8 +39,8 @@ function PostPending() {
     getData();
   }, [user.token]);
 
-  const handleBrowserPost = async (postId) => {
-    const res = await browseArticles(postId, user.token);
+  const handleBrowserPost = async (postId, fullName) => {
+    const res = await browseArticles(postId, fullName, user.token);
     setPostPending(res.posts);
   };
 
@@ -174,7 +175,7 @@ function PostPending() {
             <IconButton
               aria-label="check"
               color="successCustom"
-              onClick={() => handleBrowserPost(params.value)}
+              onClick={() => handleBrowserPost(params.value, fullName)}
             >
               <DoneIcon />
             </IconButton>

@@ -36,6 +36,8 @@ function Post() {
     getData();
   }, [user.token]);
 
+  // console.log(postLists);
+
   let columns = [
     {
       field: 'full_name',
@@ -147,6 +149,11 @@ function Post() {
         moment(params.value).format('DD-MM-YYYY HH:mm:ss'),
     },
     {
+      field: 'censor',
+      headerName: 'Người duyệt bài',
+      flex: 1,
+    },
+    {
       field: 'id',
       headerName: 'Hành động',
       width: 130,
@@ -193,7 +200,6 @@ function Post() {
           pageSize={pageSize}
           rowsPerPageOptions={[9, 50, 100]}
           onPageSizeChange={(size) => setPageSize(size)}
-          // density="comfortable"
           showCellRightBorder
           showColumnRightBorder
           disableSelectionOnClick

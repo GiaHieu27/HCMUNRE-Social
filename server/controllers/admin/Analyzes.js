@@ -68,7 +68,13 @@ exports.getOneUser = async (req, res) => {
 exports.browseArticles = async (req, res) => {
   try {
     const { id } = req.params;
-    await Post.findByIdAndUpdate(id, { approve: true }, { new: true });
+    const { fullName } = req.body;
+
+    await Post.findByIdAndUpdate(
+      id,
+      { approve: true, censor: fullName },
+      { new: true }
+    );
     const posts = await Post.find({ approve: false }).lean();
 
     posts.map((post) => {

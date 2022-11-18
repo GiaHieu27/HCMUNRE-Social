@@ -30,6 +30,10 @@ const postSchema = mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    censor: {
+      type: String,
+      default: 'N/A',
+    },
     comments: [
       {
         comment: {

@@ -48,11 +48,11 @@ export const getOneUser = async (id, token) => {
   }
 };
 
-export const browseArticles = async (id, token) => {
+export const browseArticles = async (id, fullName, token) => {
   try {
     const { data } = await axios.put(
       `${process.env.REACT_APP_BACKEND_URL}/admin/browseArticles/${id}`,
-      {},
+      { fullName },
       {
         headers: {
           Authorization: `Bearer ${token}`,
