@@ -8,8 +8,8 @@ import { DataGrid } from '@mui/x-data-grid';
 import OpenInNewOutlinedIcon from '@mui/icons-material/OpenInNewOutlined';
 import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
 import DeleteIcon from '@mui/icons-material/Delete';
-import ReportIcon from '@mui/icons-material/Report';
 import DoneIcon from '@mui/icons-material/Done';
+import ReportIcon from '@mui/icons-material/Report';
 
 import { browseArticles, getTotalAnalyze } from '../../../apis/admin';
 import { deletePost } from '../../../apis/post';

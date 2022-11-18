@@ -2,17 +2,22 @@ import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
-import { Box, Button, Paper, Typography } from '@mui/material';
+import { Box, Button, IconButton, Paper, Typography } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
 import OpenInNewOutlinedIcon from '@mui/icons-material/OpenInNewOutlined';
 import ReportIcon from '@mui/icons-material/Report';
+import DeleteIcon from '@mui/icons-material/Delete';
+import DoneIcon from '@mui/icons-material/Done';
+import LockIcon from '@mui/icons-material/Lock';
+import LockOpenIcon from '@mui/icons-material/LockOpen';
 
 // import userApi from '../../api/userApi';
 import PageHeader from '../../../components/admin/PageHeader';
 import CustomBreadcrumds from '../../../components/admin/CustomBreadcrumds';
-import { getTotalAnalyze } from '../../../apis/admin';
+import { getTotalAnalyze, lockAccount } from '../../../apis/admin';
 import SearchToolbar from '../../../components/SearchToolBar';
+import TooltipMUI from '../../../components/TooltipMUI';
 
 function User() {
   const location = useLocation();
@@ -21,6 +26,10 @@ function User() {
 
   const [userList, setUserList] = React.useState([]);
   const [pageSize, setPageSize] = React.useState(9);
+
+  const hanldeLockAcc = async (userId, token) => {
+    const res = await lockAccount(userId, token);
+  };
 
   React.useEffect(() => {
     const getData = async () => {
@@ -97,16 +106,57 @@ function User() {
       field: 'id',
       headerName: 'Hành động',
       width: 130,
-      renderCell: (params) => (
-        <Button
-          variant="text"
-          component={Link}
-          to={`/admin/user/${params.value}`}
-          startIcon={<OpenInNewOutlinedIcon />}
-        >
-          Chi tiết
-        </Button>
-      ),
+
+      renderCell: (params) => {
+        console.log(params);
+
+        return (
+          <>
+            {!params.row.isLock ? (
+              <TooltipMUI title="Khoá tài khoản" placement="top">
+                <IconButton
+                  aria-label="lock"
+                  color="error"
+                  onClick={() => hanldeLockAcc(params.value, user.token)}
+                >
+                  <LockIcon />
+                </IconButton>
+              </TooltipMUI>
+            ) : (
+              <TooltipMUI title="Mở khoá tài khoản" placement="top">
+                <IconButton
+                  aria-label="unlock"
+                  color="success"
+                  onClick={() => hanldeLockAcc(params.value, user.token)}
+                >
+                  <LockOpenIcon />
+                </IconButton>
+              </TooltipMUI>
+            )}
+
+            <TooltipMUI title="Chi tiết" placement="top">
+              <IconButton
+                aria-label="detail"
+                color="primary"
+                component={Link}
+                to={`/admin/post-pending/${params.value}`}
+              >
+                <OpenInNewOutlinedIcon />
+              </IconButton>
+            </TooltipMUI>
+
+            <TooltipMUI title="Xoá tài khoản" placement="top">
+              <IconButton
+                aria-label="delete"
+                color="error"
+                // onClick={() => handleDeletePost(params.value)}
+              >
+                <DeleteIcon />
+              </IconButton>
+            </TooltipMUI>
+          </>
+        );
+      },
     },
   ];
 

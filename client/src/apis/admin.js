@@ -64,3 +64,20 @@ export const browseArticles = async (id, fullName, token) => {
     return error.response.data.message;
   }
 };
+
+export const lockAccount = async (userId, token) => {
+  try {
+    const { data } = await axios.put(
+      `${process.env.REACT_APP_BACKEND_URL}/admin/lockAccount/${userId}`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return data;
+  } catch (error) {
+    return error.response.data.message;
+  }
+};

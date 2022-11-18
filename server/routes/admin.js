@@ -9,6 +9,7 @@ const {
   getTotalAnalyze,
   getOneUser,
   browseArticles,
+  lockAccount,
 } = require('../controllers/admin/Analyzes');
 
 router.post('/admin/register', register);
@@ -19,5 +20,6 @@ router.get('/admin/getTotalAnalyze', authUser, getTotalAnalyze);
 router.get('/admin/getOneUser/:id', authUser, getOneUser);
 
 router.put('/admin/browseArticles/:id', authUser, browseArticles);
+router.put('/admin/lockAccount/:id', authUser, lockAccount);
 
 module.exports = router;

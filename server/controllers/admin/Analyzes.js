@@ -87,3 +87,23 @@ exports.browseArticles = async (req, res) => {
     res.status(500).json({ message: e.message });
   }
 };
+
+exports.lockAccount = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const user = await User.findById(id);
+
+    if (user) {
+      if (user.isLock) {
+        await User.findByIdAndUpdate(id, { isLock: false }, { new: true });
+      } else {
+        await User.findByIdAndUpdate(id, { isLock: true }, { new: true });
+      }
+    }
+
+    return res.status(200);
+  } catch (e) {
+    res.status(500).json({ message: e.message });
+  }
+};
