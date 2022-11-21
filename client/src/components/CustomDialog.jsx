@@ -15,12 +15,15 @@ function CustomDialog(props) {
       open={props.open}
       onClose={props.handleClose}
       PaperProps={{
-        style: { padding: '15px', maxWidth: '315px', borderRadius: '15px' },
+        style: {
+          padding: '15px',
+          maxWidth: props.maxWidth,
+          borderRadius: '15px',
+        },
       }}
-      maxWidth={props.maxWidth ? props.maxWidth : 'xs'}
       fullWidth={props.fullWidth ? props.fullWidth : true}
       sx={{
-        '& 	.MuiDialog-paper': {
+        '& .MuiDialog-paper': {
           boxShadow:
             'rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px',
         },

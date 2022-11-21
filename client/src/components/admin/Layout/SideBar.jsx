@@ -38,7 +38,7 @@ const sideBarItems = [
   },
   {
     text: 'Quản trị viên',
-    path: '/admin/admin-user',
+    path: '/admin/all-admin',
     icon: <AdminPanelSettingsIcon />,
   },
 ];

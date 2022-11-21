@@ -16,7 +16,7 @@ exports.countAccess = async (req, res) => {
 
 exports.getTotalAnalyze = async (req, res) => {
   try {
-    const allUser = await User.find({});
+    const allUser = await User.find({}).select('-password').lean();
     const allPost = await Post.find({})
       .populate('user', 'full_name picture')
       .lean();
@@ -24,7 +24,6 @@ exports.getTotalAnalyze = async (req, res) => {
     allPost.map((post) => {
       post['full_name'] = post['user'].full_name;
       post['avatar'] = post['user'].picture;
-      post['id'] = post['_id'];
       delete post.user;
       return post;
     });
@@ -93,16 +92,19 @@ exports.lockAccount = async (req, res) => {
     const { id } = req.params;
 
     const user = await User.findById(id);
+    let allUser;
 
     if (user) {
       if (user.isLock) {
         await User.findByIdAndUpdate(id, { isLock: false }, { new: true });
+        allUser = await User.find({});
       } else {
         await User.findByIdAndUpdate(id, { isLock: true }, { new: true });
+        allUser = await User.find({});
       }
     }
 
-    return res.status(200);
+    return res.status(200).json({ allUser });
   } catch (e) {
     res.status(500).json({ message: e.message });
   }

@@ -38,6 +38,8 @@ import UserDetail from './pages/admin/user/userDetail';
 import Post from './pages/admin/post';
 import PostDetail from './pages/admin/post/postDetail';
 import PostPending from './pages/admin/postPending';
+import AllAdmin from './pages/admin/allAdmin';
+import AdminDetail from './pages/admin/allAdmin/AdminDetail';
 
 function App() {
   const { user, theme } = useSelector((sate) => ({ ...sate }));
@@ -144,6 +146,9 @@ function App() {
             <Route path="/admin/post/:id" element={<PostDetail />} />
             <Route path="/admin/post-pending" element={<PostPending />} />
             <Route path="/admin/post-pending/:id" element={<PostDetail />} />
+            <Route path="/admin/all-admin" element={<AllAdmin />} />
+            <Route path="/admin/all-admin/:id" element={<AdminDetail />} />
+            {/* <Route path="/admin/all-admin/create" element={<CreateAdmin />} /> */}
           </Route>
         </Route>
 

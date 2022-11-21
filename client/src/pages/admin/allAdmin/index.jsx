@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import moment from 'moment';
 
 import { Box, Button, IconButton, Paper, Typography } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
@@ -13,30 +14,30 @@ import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 import LockIcon from '@mui/icons-material/Lock';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 
-// import userApi from '../../api/userApi';
 import PageHeader from '../../../components/admin/PageHeader';
 import CustomBreadcrumds from '../../../components/admin/CustomBreadcrumds';
 import { getTotalAnalyze, lockAccount } from '../../../apis/admin';
 import SearchToolbar from '../../../components/SearchToolBar';
 import TooltipMUI from '../../../components/TooltipMUI';
-import moment from 'moment';
+import CreateAdmin from './CreateAdmin';
 
-function User() {
+function AllAdmin() {
   const location = useLocation();
   const pathnames = location.pathname.split('/').filter((x) => x);
   const user = useSelector((state) => state.user);
 
-  const [userList, setUserList] = React.useState([]);
+  const [adminList, setAdminList] = React.useState([]);
   const [pageSize, setPageSize] = React.useState(9);
+  const [openCreate, setOpenCreate] = React.useState(false);
 
   const hanldeLockAcc = async (userId, token) => {
     const res = await lockAccount(userId, token);
 
     if (typeof res === 'object') {
-      const allUser = res.allUser.filter((user) => {
-        return !user.isAdmin;
+      const allAdmin = res.allUser.filter((user) => {
+        return user.isAdmin;
       });
-      setUserList(allUser);
+      setAdminList(allAdmin);
     }
   };
 
@@ -44,10 +45,10 @@ function User() {
     const getData = async () => {
       try {
         const res = await getTotalAnalyze(user.token);
-        const allUser = res.allUser.filter((user) => {
-          return !user.isAdmin;
+        const allAdmin = res.allUser.filter((user) => {
+          return user.isAdmin;
         });
-        setUserList(allUser);
+        setAdminList(allAdmin);
       } catch (error) {
         console.log(error);
       }
@@ -115,6 +116,7 @@ function User() {
       field: 'createdAt',
       headerName: 'Ngày tạo tài khoản',
       width: 150,
+
       renderCell: (params) => moment(params.value).format('DD-MM-YYYY'),
     },
     {
@@ -151,7 +153,7 @@ function User() {
                 aria-label="detail"
                 color="primary"
                 component={Link}
-                to={`/admin/post-pending/${params.value}`}
+                to={`/admin/all-admin/${params.value}`}
               >
                 <OpenInNewOutlinedIcon />
               </IconButton>
@@ -181,13 +183,12 @@ function User() {
     >
       <CustomBreadcrumds pathnames={pathnames} />
       <PageHeader
-        title={'Tất cả người dùng'}
+        title={'Tất cả quản trị viên'}
         rightContent={
           <Button
             variant="contained"
-            component={Link}
-            to="/user/create"
             startIcon={<PersonAddAlt1Icon />}
+            onClick={() => setOpenCreate(true)}
           >
             Create
           </Button>
@@ -198,7 +199,7 @@ function User() {
         <DataGrid
           autoHeight
           getRowId={(r) => r._id}
-          rows={userList}
+          rows={adminList}
           columns={columns}
           pageSize={pageSize}
           rowsPerPageOptions={[9, 50, 100]}
@@ -209,8 +210,10 @@ function User() {
           components={{ Toolbar: SearchToolbar }}
         />
       </Paper>
+
+      <CreateAdmin openCreate={openCreate} setOpenCreate={setOpenCreate} />
     </Box>
   );
 }
 
-export default User;
+export default AllAdmin;

@@ -154,7 +154,7 @@ function Post() {
       flex: 1,
     },
     {
-      field: 'id',
+      field: '_id',
       headerName: 'Hành động',
       width: 130,
       renderCell: (params) => (
@@ -195,6 +195,7 @@ function Post() {
       <Paper>
         <DataGrid
           autoHeight
+          getRowId={(r) => r._id}
           rows={postLists}
           columns={columns}
           pageSize={pageSize}

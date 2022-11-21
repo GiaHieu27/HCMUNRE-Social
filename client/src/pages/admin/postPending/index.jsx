@@ -166,7 +166,7 @@ function PostPending() {
         moment(params.value).format('DD-MM-YYYY HH:mm:ss'),
     },
     {
-      field: 'id',
+      field: '_id',
       headerName: 'Hành động',
       width: 150,
       renderCell: (params) => (
@@ -231,6 +231,7 @@ function PostPending() {
       <Paper>
         <DataGrid
           autoHeight
+          getRowId={(r) => r._id}
           rows={postPending}
           columns={columns}
           pageSize={pageSize}

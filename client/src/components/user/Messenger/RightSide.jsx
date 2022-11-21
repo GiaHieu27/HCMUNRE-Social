@@ -159,6 +159,7 @@ function RightSide(props) {
       <CustomDialog
         open={openModalReceive}
         handleClose={() => setOpenModalReceive(false)}
+        maxWidth="315px"
         content={
           <Box
             sx={{
@@ -251,6 +252,7 @@ function RightSide(props) {
       <CustomDialog
         open={openModalCall}
         handleClose={() => setOpenModalCall(false)}
+        maxWidth="315px"
         content={
           <Box
             sx={{
