@@ -63,7 +63,7 @@ function AllAdmin() {
       renderCell: (params) => {
         return (
           <Button
-            variant="text"
+            variant='text'
             component={Link}
             to={`/admin/user/${params.row.id}`}
           >
@@ -99,7 +99,7 @@ function AllAdmin() {
             {!!params.value ? <ReportIcon /> : <VerifiedUserIcon />}
 
             <Typography
-              variant="body2"
+              variant='body2'
               sx={{
                 marginLeft: '5px',
                 fontWeight: '500',
@@ -127,20 +127,20 @@ function AllAdmin() {
         return (
           <>
             {!params.row.isLock ? (
-              <TooltipMUI title="Khoá tài khoản" placement="top">
+              <TooltipMUI title='Khoá tài khoản' placement='top'>
                 <IconButton
-                  aria-label="lock"
-                  color="error"
+                  aria-label='lock'
+                  color='error'
                   onClick={() => hanldeLockAcc(params.value, user.token)}
                 >
                   <LockIcon />
                 </IconButton>
               </TooltipMUI>
             ) : (
-              <TooltipMUI title="Mở khoá tài khoản" placement="top">
+              <TooltipMUI title='Mở khoá tài khoản' placement='top'>
                 <IconButton
-                  aria-label="unlock"
-                  color="success"
+                  aria-label='unlock'
+                  color='success'
                   onClick={() => hanldeLockAcc(params.value, user.token)}
                 >
                   <LockOpenIcon />
@@ -148,10 +148,10 @@ function AllAdmin() {
               </TooltipMUI>
             )}
 
-            <TooltipMUI title="Chi tiết" placement="top">
+            <TooltipMUI title='Chi tiết' placement='top'>
               <IconButton
-                aria-label="detail"
-                color="primary"
+                aria-label='detail'
+                color='primary'
                 component={Link}
                 to={`/admin/all-admin/${params.value}`}
               >
@@ -159,10 +159,10 @@ function AllAdmin() {
               </IconButton>
             </TooltipMUI>
 
-            <TooltipMUI title="Xoá tài khoản" placement="top">
+            <TooltipMUI title='Xoá tài khoản' placement='top'>
               <IconButton
-                aria-label="delete"
-                color="error"
+                aria-label='delete'
+                color='error'
                 // onClick={() => handleDeletePost(params.value)}
               >
                 <DeleteIcon />
@@ -186,7 +186,7 @@ function AllAdmin() {
         title={'Tất cả quản trị viên'}
         rightContent={
           <Button
-            variant="contained"
+            variant='contained'
             startIcon={<PersonAddAlt1Icon />}
             onClick={() => setOpenCreate(true)}
           >

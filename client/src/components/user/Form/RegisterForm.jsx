@@ -147,8 +147,8 @@ function RegisterForm({ containerRef }) {
   };
 
   return (
-    <div className="login_col align-items-centers flex-col sign-up">
-      <div className="form_wrapper align-items-centers">
+    <div className='login_col align-items-centers flex-col sign-up'>
+      <div className='form_wrapper align-items-centers'>
         <Formik
           enableReinitialize
           initialValues={{
@@ -169,47 +169,47 @@ function RegisterForm({ containerRef }) {
           }}
         >
           {(formik) => (
-            <Form className="form sign-up">
-              <div className="reg_row">
+            <Form className='form sign-up'>
+              <div className='reg_row'>
                 <RegisterInput
-                  type="text"
-                  name="first_name"
-                  placeholder="Họ của bạn"
-                  iconName="user"
+                  type='text'
+                  name='first_name'
+                  placeholder='Họ của bạn'
+                  iconName='user'
                   onChange={handleRegisterChange}
                 />
                 <RegisterInput
-                  type="text"
-                  name="last_name"
-                  placeholder="Tên của bạn"
-                  iconName="user"
+                  type='text'
+                  name='last_name'
+                  placeholder='Tên của bạn'
+                  iconName='user'
                   onChange={handleRegisterChange}
                 />
               </div>
               <RegisterInput
-                type="text"
-                name="email"
-                placeholder="Nhập email của bạn"
-                iconName="envelope"
+                type='text'
+                name='email'
+                placeholder='Nhập email của bạn'
+                iconName='envelope'
                 onChange={handleRegisterChange}
               />
               <RegisterInput
-                type="password"
-                name="password"
-                placeholder="Nhập mật khẩu của bạn"
-                iconName="lock-alt"
+                type='password'
+                name='password'
+                placeholder='Nhập mật khẩu của bạn'
+                iconName='lock-alt'
                 onChange={handleRegisterChange}
               />
               <RegisterInput
-                type="password"
-                name="conf_password"
-                placeholder="Nhập lại mật khẩu của bạn"
-                iconName="lock-alt"
+                type='password'
+                name='conf_password'
+                placeholder='Nhập lại mật khẩu của bạn'
+                iconName='lock-alt'
                 onChange={handleRegisterChange}
               />
-              <div className="reg_col">
-                <div className="reg_line_header">
-                  Sinh nhật <i className="info_icon"></i>
+              <div className='reg_col'>
+                <div className='reg_line_header'>
+                  Sinh nhật <i className='info_icon'></i>
                 </div>
                 <DateOfBirthSelect
                   bYear={bYear}
@@ -223,9 +223,9 @@ function RegisterForm({ containerRef }) {
                 />
               </div>
 
-              <div className="reg_col">
-                <div className="reg_line_header">
-                  Giới tính <i className="info_icon"></i>
+              <div className='reg_col'>
+                <div className='reg_line_header'>
+                  Giới tính <i className='info_icon'></i>
                 </div>
                 <GenderSelect
                   genderError={genderError}
@@ -234,20 +234,20 @@ function RegisterForm({ containerRef }) {
               </div>
 
               <button
-                type="submit"
+                type='submit'
                 style={{ paddingBottom: `${loading ? '11px' : '0'}` }}
               >
                 {loading ? (
-                  <PropagateLoader color="white" loading={loading} size={12} />
+                  <PropagateLoader color='white' loading={loading} size={12} />
                 ) : (
                   'Đăng ký'
                 )}
               </button>
-              {error && <div className="error_text">{error}</div>}
-              {success && <div className="success_text">{success}</div>}
+              {error && <div className='error_text'>{error}</div>}
+              {success && <div className='success_text'>{success}</div>}
               <p>
                 <span>Bạn đã có tài khoản </span>
-                <b className="pointer" onClick={() => handleClick()}>
+                <b className='pointer' onClick={() => handleClick()}>
                   Đăng nhập tại đây
                 </b>
               </p>

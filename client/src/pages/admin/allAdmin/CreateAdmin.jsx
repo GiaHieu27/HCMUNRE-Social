@@ -1,10 +1,21 @@
 import React from 'react';
-import { Box, Grid } from '@mui/material';
+import {
+  Box,
+  Button,
+  FormControl,
+  FormControlLabel,
+  FormLabel,
+  Grid,
+  Radio,
+  RadioGroup,
+} from '@mui/material';
 import { Form, Formik } from 'formik';
+import axios from 'axios';
 import * as yup from 'yup';
 
 import CustomDialog from '../../../components/CustomDialog';
 import RegisterInputAdmin from '../../../components/user/Form/RegisterAdmin';
+import DateTimePicker from '../../../components/user/Form/DatetimePicker';
 
 function CreateAdmin({ openCreate, setOpenCreate }) {
   const css = {
@@ -17,10 +28,25 @@ function CreateAdmin({ openCreate, setOpenCreate }) {
     last_name: '',
     email: '',
     password: '',
-    bYear: new Date().getFullYear(),
-    bMonth: new Date().getMonth() + 1,
-    bDate: new Date().getDate(),
+    conf_password: '',
     gender: '',
+    birthday: '',
+  };
+
+  const [user, setUser] = React.useState(userInfos);
+  const {
+    first_name,
+    last_name,
+    email,
+    password,
+    conf_password,
+    gender,
+    birthday,
+  } = user;
+
+  const handleRegisterChange = (e) => {
+    const { name, value } = e.target;
+    setUser({ ...user, [name]: value });
   };
 
   const RegisterValidation = yup.object({
@@ -50,14 +76,48 @@ function CreateAdmin({ openCreate, setOpenCreate }) {
       .string()
       .required('Vui lòng nhập mật khẩu')
       .oneOf([yup.ref('password')], 'Mật khẩu không trùng khớp'),
+    gender: yup.string().required('Vui lòng chọn giới tính'),
+    birthday: yup.string().required('Vui lòng chọn sinh nhật'),
   });
+
+  const registerSubmit = async () => {
+    try {
+      // setLoading(true);
+      const { data } = await axios.post(
+        `${process.env.REACT_APP_BACKEND_URL}/admin/register`,
+        {
+          first_name,
+          last_name,
+          email,
+          password,
+          birthday,
+          gender,
+        }
+      );
+
+      // setError('');
+      // setSuccessse(data.message);
+
+      console.log(data);
+      // const { message, ...rest } = data;
+      // setTimeout(() => {
+      //   dispatch(userSlice.actions.LOGIN(rest));
+      //   Cookies.set('user', JSON.stringify(rest));
+      //   navigate('/');
+      // }, 2000);
+    } catch (error) {
+      // setLoading(false);
+      // setSuccessse('');
+      console.log(error.response.data.message);
+    }
+  };
 
   return (
     <CustomDialog
       open={openCreate}
       handleClose={() => setOpenCreate(false)}
-      maxWidth="500px"
-      title="Tạo tài khoản quản trị viên"
+      maxWidth='500px'
+      title='Tạo tài khoản quản trị viên'
       content={
         <Box
           sx={{
@@ -70,118 +130,128 @@ function CreateAdmin({ openCreate, setOpenCreate }) {
         >
           <Formik
             enableReinitialize
-            initialValues={
-              {
-                // first_name,
-                // last_name,
-                // email,
-                // password,
-                // conf_password,
-                // bYear,
-                // bMonth,
-                // bDate,
-                // gender,
-              }
-            }
+            initialValues={{
+              first_name,
+              last_name,
+              email,
+              password,
+              conf_password,
+              // bYear,
+              // bMonth,
+              // bDate,
+              gender,
+              birthday,
+            }}
             validationSchema={RegisterValidation}
-            // onSubmit={() => {
-            //   checkDateAndGender();
-            //   registerSubmit();
-            // }}
+            onSubmit={() => {
+              registerSubmit();
+            }}
           >
-            <Form>
-              <Grid container spacing={3}>
-                <Grid item xs={12} sm={6}>
-                  <RegisterInputAdmin
-                    name="first_name"
-                    required
-                    fullWidth
-                    id="firstName"
-                    label="Nhâp Họ"
-                    type="text"
-                    autoFocus
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <RegisterInputAdmin
-                    required
-                    fullWidth
-                    id="last_name"
-                    label="Nhập Tên"
-                    name="last_name"
-                    type="text"
-                  />
-                </Grid>
-                <Grid item xs={12} sx={css}>
-                  <RegisterInputAdmin
-                    required
-                    fullWidth
-                    id="email"
-                    label="Nhập Email"
-                    name="email"
-                    autoComplete="email"
-                    type="email"
-                  />
-                </Grid>
-                <Grid item xs={12} sx={css}>
-                  <RegisterInputAdmin
-                    required
-                    fullWidth
-                    name="password"
-                    label="Nhập mật khẩu"
-                    type="password"
-                    id="password"
-                    autoComplete="new-password"
-                  />
-                </Grid>
-                <Grid item xs={12} sx={css}>
-                  <RegisterInputAdmin
-                    required
-                    fullWidth
-                    name="conf_password"
-                    label="Nhập lại mật khẩu"
-                    type="password"
-                    autoComplete="new-password"
-                  />
-                </Grid>
-              </Grid>
-            </Form>
+            {(formik) => {
+              console.log(formik);
+              return (
+                <Form>
+                  <Grid container spacing={3}>
+                    <Grid item xs={12} sm={6}>
+                      <RegisterInputAdmin
+                        name='first_name'
+                        fullWidth
+                        label='Nhâp Họ'
+                        type='text'
+                        onChange={handleRegisterChange}
+                        autoFocus
+                      />
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                      <RegisterInputAdmin
+                        fullWidth
+                        label='Nhập Tên'
+                        name='last_name'
+                        type='text'
+                        onChange={handleRegisterChange}
+                      />
+                    </Grid>
+                    <Grid item xs={12} sx={css}>
+                      <RegisterInputAdmin
+                        fullWidth
+                        label='Nhập Email'
+                        name='email'
+                        type='email'
+                        onChange={handleRegisterChange}
+                      />
+                    </Grid>
+                    <Grid item xs={12} sx={css}>
+                      <RegisterInputAdmin
+                        fullWidth
+                        name='password'
+                        label='Nhập mật khẩu'
+                        type='password'
+                        onChange={handleRegisterChange}
+                      />
+                    </Grid>
+                    <Grid item xs={12} sx={css}>
+                      <RegisterInputAdmin
+                        fullWidth
+                        name='conf_password'
+                        label='Nhập lại mật khẩu'
+                        type='password'
+                        onChange={handleRegisterChange}
+                      />
+                    </Grid>
+                    <Grid item xs={12} sx={css}>
+                      <FormControl>
+                        <FormLabel>Giới tính</FormLabel>
+                        <RadioGroup
+                          aria-labelledby='demo-radio-buttons-group-label'
+                          defaultValue='female'
+                          name='gender'
+                          row
+                        >
+                          <FormControlLabel
+                            value='Nam'
+                            control={<Radio />}
+                            label='Nam'
+                            onChange={handleRegisterChange}
+                          />
+                          <FormControlLabel
+                            value='Nữ'
+                            control={<Radio />}
+                            label='Nữ'
+                            onChange={handleRegisterChange}
+                          />
+                          <FormControlLabel
+                            value='Khác'
+                            control={<Radio />}
+                            label='Khác'
+                            onChange={handleRegisterChange}
+                          />
+                        </RadioGroup>
+                      </FormControl>
+                    </Grid>
+                    <Grid item xs={12} sx={css}>
+                      <DateTimePicker
+                        name='birthday'
+                        label='Sinh nhật'
+                        onChange={handleRegisterChange}
+                      />
+                    </Grid>
+
+                    <Grid item sx={css}>
+                      <Button type='submit' variant='contained'>
+                        Tạo
+                      </Button>
+                      <Button onClick={() => setOpenCreate(false)}>Hủy</Button>
+                    </Grid>
+                  </Grid>
+                </Form>
+              );
+            }}
           </Formik>
         </Box>
       }
-      actions={
-        // !openModalReject ? (
-        //   <Box
-        //     sx={{
-        //       display: 'flex',
-        //       justifyContent: 'center',
-        //       alignItems: ' center',
-        //       marginTop: '20px',
-        //     }}
-        //     width="100%"
-        //   >
-        //     <TooltipMUI title="Huỷ cuộc gọi" placement="top">
-        //       <Button
-        //         variant="contained"
-        //         size="small"
-        //         color="error"
-        //         sx={{
-        //           borderRadius: '50%',
-        //           minWidth: '50px',
-        //           height: '50px',
-        //         }}
-        //         onClick={() => handleCancelCall(props.currentFriend._id)}
-        //       >
-        //         <CallEndIcon sx={{ fontSize: '1.7rem' }} />
-        //       </Button>
-        //     </TooltipMUI>
-        //   </Box>
-        // ) : (
-        //   ''
-        // )
+      // actions={
 
-        <Box></Box>
-      }
+      // }
     />
   );
 }

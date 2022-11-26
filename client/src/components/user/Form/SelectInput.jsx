@@ -25,6 +25,8 @@ const SelectWrapper = ({ name, options, ...otherProps }) => {
     configSelect.helperText = meta.error;
   }
 
+  // console.log(setFieldValue);
+
   return (
     <TextField {...configSelect}>
       {Object.keys(options).map((item, pos) => {
