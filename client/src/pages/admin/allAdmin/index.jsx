@@ -190,7 +190,7 @@ function AllAdmin() {
             startIcon={<PersonAddAlt1Icon />}
             onClick={() => setOpenCreate(true)}
           >
-            Create
+            Tạo tài khoản admin
           </Button>
         }
       />

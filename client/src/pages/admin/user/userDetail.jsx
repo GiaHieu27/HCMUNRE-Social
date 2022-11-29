@@ -32,6 +32,7 @@ function UserDetail() {
     const getUser = async () => {
       try {
         const res = await getOneUser(id, currentUser.token);
+        console.log(res);
         setUser(res);
       } catch (error) {
         console.log(error);
@@ -56,7 +57,7 @@ function UserDetail() {
 
   return (
     <>
-      <CustomBreadcrumds pathnames={pathnames} name="user-detail" />
+      <CustomBreadcrumds pathnames={pathnames} name='user-detail' />
       <PageHeader title={'Thông tin chi tiết'} />
       <Grid container spacing={3}>
         <Grid item xs={8}>
@@ -78,7 +79,7 @@ function UserDetail() {
         type={dialogType}
         showIcon
         content={
-          <Typography variant="subtitle1" textAlign={'center'}>
+          <Typography variant='subtitle1' textAlign={'center'}>
             {dialogText}
           </Typography>
         }
@@ -86,7 +87,7 @@ function UserDetail() {
           <Box
             sx={{ display: 'flex', justifyContent: 'center', width: '100%' }}
           >
-            <Button variant="contained" onClick={() => setDialogOpen(false)}>
+            <Button variant='contained' onClick={() => setDialogOpen(false)}>
               OK
             </Button>
           </Box>

@@ -54,12 +54,13 @@ function SideBar() {
       (item) =>
         window.location.pathname.split('/')[1] === item.path.split('/')[1]
     );
+    console.log(activeItem);
     setActiveIndex(activeItem);
   }, [location]);
 
   return (
     <Drawer
-      variant="permanent"
+      variant='permanent'
       container={window.document.body}
       sx={{
         width: SIDE_BAR_WIDTH,
@@ -74,42 +75,46 @@ function SideBar() {
     >
       <Toolbar />
       <List>
-        {sideBarItems.map((item, i) => (
-          <ListItemButton
-            key={`sidebar-key-${i}`}
-            selected={i === activeIndex}
-            component={Link}
-            to={item.path}
-            sx={{
-              width: 'calc(100% - 20px)',
-              margin: '5px auto',
-              borderRadius: '10px',
-              '&.Mui-selected': {
-                color: colors.blue.A700,
-              },
-              '&.Mui-selected:hover': {
-                backgroundColor: colors.blue[200],
-              },
-            }}
-          >
-            <ListItemIcon
+        {sideBarItems.map((item, i) => {
+          // console.log(i);
+          // console.log(activeIndex);
+          return (
+            <ListItemButton
+              key={`sidebar-key-${i}`}
+              selected={i === activeIndex}
+              component={Link}
+              to={item.path}
               sx={{
-                color: i === activeIndex && colors.blue.A700,
-                minWidth: '34px',
-              }}
-            >
-              {item.icon}
-            </ListItemIcon>
-            <ListItemText
-              primary={item.text}
-              sx={{
-                '& span': {
-                  fontWeight: i === activeIndex && '600',
+                width: 'calc(100% - 20px)',
+                margin: '5px auto',
+                borderRadius: '10px',
+                '&.Mui-selected': {
+                  color: colors.green.A700,
+                },
+                '&.Mui-selected:hover': {
+                  backgroundColor: colors.green[200],
                 },
               }}
-            />
-          </ListItemButton>
-        ))}
+            >
+              <ListItemIcon
+                sx={{
+                  color: i === activeIndex && colors.green.A700,
+                  minWidth: '34px',
+                }}
+              >
+                {item.icon}
+              </ListItemIcon>
+              <ListItemText
+                primary={item.text}
+                sx={{
+                  '& span': {
+                    fontWeight: i === activeIndex && '600',
+                  },
+                }}
+              />
+            </ListItemButton>
+          );
+        })}
       </List>
     </Drawer>
   );

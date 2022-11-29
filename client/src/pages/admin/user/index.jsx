@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import moment from 'moment';
 
 import { Box, Button, IconButton, Paper, Typography } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
@@ -8,18 +9,15 @@ import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
 import OpenInNewOutlinedIcon from '@mui/icons-material/OpenInNewOutlined';
 import ReportIcon from '@mui/icons-material/Report';
 import DeleteIcon from '@mui/icons-material/Delete';
-// import DoneIcon from '@mui/icons-material/Done';
-import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
+
 import LockIcon from '@mui/icons-material/Lock';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 
-// import userApi from '../../api/userApi';
+import { getTotalAnalyze, lockAccount } from '../../../apis/admin';
 import PageHeader from '../../../components/admin/PageHeader';
 import CustomBreadcrumds from '../../../components/admin/CustomBreadcrumds';
-import { getTotalAnalyze, lockAccount } from '../../../apis/admin';
 import SearchToolbar from '../../../components/SearchToolBar';
 import TooltipMUI from '../../../components/TooltipMUI';
-import moment from 'moment';
 
 function User() {
   const location = useLocation();
@@ -62,7 +60,7 @@ function User() {
       renderCell: (params) => {
         return (
           <Button
-            variant="text"
+            variant='text'
             component={Link}
             to={`/admin/user/${params.row.id}`}
           >
@@ -98,7 +96,7 @@ function User() {
             {!!params.value ? <ReportIcon /> : <VerifiedUserIcon />}
 
             <Typography
-              variant="body2"
+              variant='body2'
               sx={{
                 marginLeft: '5px',
                 fontWeight: '500',
@@ -125,20 +123,20 @@ function User() {
         return (
           <>
             {!params.row.isLock ? (
-              <TooltipMUI title="Khoá tài khoản" placement="top">
+              <TooltipMUI title='Khoá tài khoản' placement='top'>
                 <IconButton
-                  aria-label="lock"
-                  color="error"
+                  aria-label='lock'
+                  color='error'
                   onClick={() => hanldeLockAcc(params.value, user.token)}
                 >
                   <LockIcon />
                 </IconButton>
               </TooltipMUI>
             ) : (
-              <TooltipMUI title="Mở khoá tài khoản" placement="top">
+              <TooltipMUI title='Mở khoá tài khoản' placement='top'>
                 <IconButton
-                  aria-label="unlock"
-                  color="success"
+                  aria-label='unlock'
+                  color='success'
                   onClick={() => hanldeLockAcc(params.value, user.token)}
                 >
                   <LockOpenIcon />
@@ -146,21 +144,21 @@ function User() {
               </TooltipMUI>
             )}
 
-            <TooltipMUI title="Chi tiết" placement="top">
+            <TooltipMUI title='Chi tiết' placement='top'>
               <IconButton
-                aria-label="detail"
-                color="primary"
+                aria-label='detail'
+                color='primary'
                 component={Link}
-                to={`/admin/post-pending/${params.value}`}
+                to={`/admin/user/${params.value}`}
               >
                 <OpenInNewOutlinedIcon />
               </IconButton>
             </TooltipMUI>
 
-            <TooltipMUI title="Xoá tài khoản" placement="top">
+            <TooltipMUI title='Xoá tài khoản' placement='top'>
               <IconButton
-                aria-label="delete"
-                color="error"
+                aria-label='delete'
+                color='error'
                 // onClick={() => handleDeletePost(params.value)}
               >
                 <DeleteIcon />
@@ -180,19 +178,7 @@ function User() {
       }}
     >
       <CustomBreadcrumds pathnames={pathnames} />
-      <PageHeader
-        title={'Tất cả người dùng'}
-        rightContent={
-          <Button
-            variant="contained"
-            component={Link}
-            to="/user/create"
-            startIcon={<PersonAddAlt1Icon />}
-          >
-            Create
-          </Button>
-        }
-      />
+      <PageHeader title={'Tất cả người dùng'} />
 
       <Paper>
         <DataGrid
