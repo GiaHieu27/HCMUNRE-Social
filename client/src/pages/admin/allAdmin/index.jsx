@@ -189,6 +189,7 @@ function AllAdmin() {
             variant='contained'
             startIcon={<PersonAddAlt1Icon />}
             onClick={() => setOpenCreate(true)}
+            color={'success'}
           >
             Tạo tài khoản admin
           </Button>

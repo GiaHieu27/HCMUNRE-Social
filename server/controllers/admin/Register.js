@@ -26,18 +26,6 @@ async function register(req, res) {
     const bMonth = birthday.slice(5, 7);
     const bDate = birthday.slice(8);
 
-    console.log(
-      first_name,
-      last_name,
-      newUserName,
-      email,
-      cryptedPassword,
-      bYear,
-      bMonth,
-      bDate,
-      gender
-    );
-
     const user = await new User({
       first_name,
       last_name,
@@ -62,15 +50,7 @@ async function register(req, res) {
     const token = generateToken({ id: user._id.toString() }, '7d');
 
     res.send({
-      id: user._id,
-      username: user.username,
-      first_name: user.first_name,
-      last_name: user.last_name,
-      picture: user.picture,
-      isAdmin: user.isAdmin,
-      token: token,
-      verified: user.verified,
-      message: 'Đăng ký thành công ! Xác thực email của bạn',
+      message: 'Tạo tài khoản thành công',
     });
   } catch (e) {
     if (e.message === 'User validation failed: gender: gender is required') {

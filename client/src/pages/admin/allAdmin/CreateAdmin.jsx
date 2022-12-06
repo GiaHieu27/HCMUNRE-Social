@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Box,
   Button,
@@ -18,6 +19,7 @@ import RegisterInputAdmin from '../../../components/user/Form/RegisterAdmin';
 import DateTimePicker from '../../../components/user/Form/DatetimePicker';
 
 function CreateAdmin({ openCreate, setOpenCreate }) {
+  const navigate = useNavigate();
   const css = {
     '&.MuiGrid-item': {
       paddingTop: '15px',
@@ -82,7 +84,6 @@ function CreateAdmin({ openCreate, setOpenCreate }) {
 
   const registerSubmit = async () => {
     try {
-      // setLoading(true);
       const { data } = await axios.post(
         `${process.env.REACT_APP_BACKEND_URL}/admin/register`,
         {
@@ -95,19 +96,11 @@ function CreateAdmin({ openCreate, setOpenCreate }) {
         }
       );
 
-      // setError('');
-      // setSuccessse(data.message);
-
-      console.log(data);
-      // const { message, ...rest } = data;
-      // setTimeout(() => {
-      //   dispatch(userSlice.actions.LOGIN(rest));
-      //   Cookies.set('user', JSON.stringify(rest));
-      //   navigate('/');
-      // }, 2000);
+      if (data.message) {
+        setOpenCreate(false);
+        navigate(0);
+      }
     } catch (error) {
-      // setLoading(false);
-      // setSuccessse('');
       console.log(error.response.data.message);
     }
   };
@@ -148,7 +141,6 @@ function CreateAdmin({ openCreate, setOpenCreate }) {
             }}
           >
             {(formik) => {
-              console.log(formik);
               return (
                 <Form>
                   <Grid container spacing={3}>

@@ -319,37 +319,37 @@ function Messenger() {
       <Header />
       <Toaster position={'top-center'} reverseOrder={false} />
       <div className={'messenger'}>
-        <div className="row-custom">
-          <div className="col-3">
-            <div className="left-side">
-              <div className="top">
-                <div className="image-name">
-                  <div className="image">
-                    <img src={user.picture} alt="" />
+        <div className='row-custom'>
+          <div className='col-3'>
+            <div className='left-side'>
+              <div className='top'>
+                <div className='image-name'>
+                  <div className='image'>
+                    <img src={user.picture} alt='' />
                   </div>
-                  <div className="name">
+                  <div className='name'>
                     <h3>Nhắn tin</h3>
                   </div>
                 </div>
 
-                <div className="icons">
-                  <div className="icon">
+                <div className='icons'>
+                  <div className='icon'>
                     <MoreHorizIcon />
                   </div>
                 </div>
               </div>
-              <div className="friend-search">
-                <div className="search">
-                  <SearchIcon color="success" />
+              <div className='friend-search'>
+                <div className='search'>
+                  <SearchIcon color='success' />
                   <input
-                    type="text"
-                    placeholder="Tìm kiếm trong tin nhắn"
-                    className="form-control-cus"
+                    type='text'
+                    placeholder='Tìm kiếm trong tin nhắn'
+                    className='form-control-cus'
                   />
                 </div>
               </div>
 
-              <div className="friends-mess scrollbar_mess">
+              <div className='friends-mess scrollbar_mess'>
                 {friends && friends.length
                   ? friends.map((friend) => (
                       <div

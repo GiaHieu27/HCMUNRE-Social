@@ -23,22 +23,22 @@ const sideBarItems = [
   },
   {
     text: 'Người dùng',
-    path: '/admin/user',
+    path: '/admin/user/',
     icon: <PersonOutlineOutlinedIcon />,
   },
   {
     text: 'Bài viết',
-    path: '/admin/post',
+    path: '/admin/post/',
     icon: <ArticleIcon />,
   },
   {
     text: 'Duyệt bài',
-    path: '/admin/post-pending',
+    path: '/admin/post-pending/',
     icon: <PendingActionsIcon />,
   },
   {
     text: 'Quản trị viên',
-    path: '/admin/all-admin',
+    path: '/admin/all-admin/',
     icon: <AdminPanelSettingsIcon />,
   },
 ];
@@ -50,10 +50,9 @@ function SideBar() {
   const [activeIndex, setActiveIndex] = useState(0);
 
   useEffect(() => {
-    const activeItem = sideBarItems.findIndex(
-      (item) =>
-        window.location.pathname.split('/')[1] === item.path.split('/')[1]
-    );
+    const activeItem = sideBarItems.findIndex((item) => {
+      return window.location.pathname.split('/')[2] === item.path.split('/')[2];
+    });
     console.log(activeItem);
     setActiveIndex(activeItem);
   }, [location]);
@@ -108,7 +107,7 @@ function SideBar() {
                 primary={item.text}
                 sx={{
                   '& span': {
-                    fontWeight: i === activeIndex && '600',
+                    fontWeight: i === activeIndex && '500',
                   },
                 }}
               />
