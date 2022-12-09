@@ -28,6 +28,9 @@ function Post() {
     const getData = async () => {
       try {
         const res = await getTotalAnalyze(user.token);
+        res.allPost.sort(
+          (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+        );
         setPostLists(res.allPost);
       } catch (error) {
         console.log(error);
@@ -45,7 +48,7 @@ function Post() {
       renderCell: (params) => {
         return (
           <Typography
-            variant="body2"
+            variant='body2'
             sx={{
               fontWeight: '500',
             }}
@@ -93,7 +96,7 @@ function Post() {
             }
           >
             <Typography
-              variant="body2"
+              variant='body2'
               sx={{
                 fontWeight: '500',
                 marginBottom: '0px',
@@ -116,7 +119,7 @@ function Post() {
     {
       field: 'approve',
       headerName: 'Trạng thái',
-      width: 190,
+      width: 150,
       renderCell: (params) => {
         return (
           <Box
@@ -129,7 +132,7 @@ function Post() {
             {!params.value ? <ReportIcon /> : <VerifiedUserIcon />}
 
             <Typography
-              variant="body2"
+              variant='body2'
               sx={{
                 marginLeft: '5px',
                 fontWeight: '500',
@@ -159,7 +162,7 @@ function Post() {
       width: 130,
       renderCell: (params) => (
         <Button
-          variant="text"
+          variant='text'
           component={Link}
           to={`/admin/post/${params.value}`}
           startIcon={<OpenInNewOutlinedIcon />}
@@ -182,9 +185,9 @@ function Post() {
         title={'Danh sách bài viết'}
         rightContent={
           <Button
-            variant="contained"
+            variant='contained'
             component={Link}
-            to="/user/create"
+            to='/user/create'
             startIcon={<PersonAddAltOutlinedIcon />}
           >
             Create

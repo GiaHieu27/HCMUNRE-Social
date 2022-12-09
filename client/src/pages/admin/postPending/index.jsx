@@ -31,7 +31,11 @@ function PostPending() {
     const getData = async () => {
       try {
         const res = await getTotalAnalyze(user.token);
-        setPostPending(res.postHasNotBeenApproved);
+        setPostPending(
+          res.postHasNotBeenApproved.sort(
+            (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+          )
+        );
       } catch (error) {
         console.log(error);
       }
@@ -63,7 +67,7 @@ function PostPending() {
       renderCell: (params) => {
         return (
           <Typography
-            variant="body2"
+            variant='body2'
             sx={{
               fontWeight: '500',
             }}
@@ -110,7 +114,7 @@ function PostPending() {
             }
           >
             <Typography
-              variant="body2"
+              variant='body2'
               sx={{
                 fontWeight: '500',
                 marginBottom: '0px',
@@ -146,7 +150,7 @@ function PostPending() {
             {!params.value ? <ReportIcon /> : <VerifiedUserIcon />}
 
             <Typography
-              variant="body2"
+              variant='body2'
               sx={{
                 marginLeft: '5px',
                 fontWeight: '500',
@@ -171,30 +175,30 @@ function PostPending() {
       width: 150,
       renderCell: (params) => (
         <>
-          <TooltipMUI title="Duyệt bài" placement="top">
+          <TooltipMUI title='Duyệt bài' placement='top'>
             <IconButton
-              aria-label="check"
-              color="successCustom"
+              aria-label='check'
+              color='successCustom'
               onClick={() => handleBrowserPost(params.value, fullName)}
             >
               <DoneIcon />
             </IconButton>
           </TooltipMUI>
 
-          <TooltipMUI title="Xoá bài" placement="top">
+          <TooltipMUI title='Xoá bài' placement='top'>
             <IconButton
-              aria-label="delete"
-              color="error"
+              aria-label='delete'
+              color='error'
               onClick={() => handleDeletePost(params.value)}
             >
               <DeleteIcon />
             </IconButton>
           </TooltipMUI>
 
-          <TooltipMUI title="Chi tiết" placement="top">
+          <TooltipMUI title='Chi tiết' placement='top'>
             <IconButton
-              aria-label="detail"
-              color="primary"
+              aria-label='detail'
+              color='primary'
               component={Link}
               to={`/admin/post-pending/${params.value}`}
             >
