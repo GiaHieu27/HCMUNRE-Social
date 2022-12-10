@@ -12,7 +12,7 @@ import ReportIcon from '@mui/icons-material/Report';
 
 // import userApi from '../../api/userApi';
 import PageHeader from '../../../components/admin/PageHeader';
-import CustomBreadcrumds from '../../../components/admin/CustomBreadcrumds';
+import CustomBreadcrumbs from '../../../components/admin/CustomBreadcrumbs';
 import { getTotalAnalyze } from '../../../apis/admin';
 import SearchToolbar from '../../../components/SearchToolBar';
 
@@ -180,7 +180,7 @@ function Post() {
         textAlign: 'center',
       }}
     >
-      <CustomBreadcrumds pathnames={pathnames} />
+      <CustomBreadcrumbs pathnames={pathnames} />
       <PageHeader
         title={'Danh sách bài viết'}
         rightContent={

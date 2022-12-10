@@ -14,7 +14,7 @@ import ReportIcon from '@mui/icons-material/Report';
 import { browseArticles, getTotalAnalyze } from '../../../apis/admin';
 import { deletePost } from '../../../apis/post';
 import PageHeader from '../../../components/admin/PageHeader';
-import CustomBreadcrumds from '../../../components/admin/CustomBreadcrumds';
+import CustomBreadcrumbs from '../../../components/admin/CustomBreadcrumbs';
 import SearchToolbar from '../../../components/SearchToolBar';
 import TooltipMUI from '../../../components/TooltipMUI';
 
@@ -217,7 +217,7 @@ function PostPending() {
         textAlign: 'center',
       }}
     >
-      <CustomBreadcrumds pathnames={pathnames} />
+      <CustomBreadcrumbs pathnames={pathnames} />
       <PageHeader
         title={'Danh sách bài viết'}
         // rightContent={

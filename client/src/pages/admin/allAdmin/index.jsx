@@ -15,7 +15,7 @@ import LockIcon from '@mui/icons-material/Lock';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 
 import PageHeader from '../../../components/admin/PageHeader';
-import CustomBreadcrumds from '../../../components/admin/CustomBreadcrumds';
+import CustomBreadcrumbs from '../../../components/admin/CustomBreadcrumbs';
 import { getTotalAnalyze, lockAccount } from '../../../apis/admin';
 import SearchToolbar from '../../../components/SearchToolBar';
 import TooltipMUI from '../../../components/TooltipMUI';
@@ -181,7 +181,7 @@ function AllAdmin() {
         textAlign: 'center',
       }}
     >
-      <CustomBreadcrumds pathnames={pathnames} />
+      <CustomBreadcrumbs pathnames={pathnames} />
       <PageHeader
         title={'Tất cả quản trị viên'}
         rightContent={

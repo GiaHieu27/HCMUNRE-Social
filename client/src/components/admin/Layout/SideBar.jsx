@@ -53,7 +53,6 @@ function SideBar() {
     const activeItem = sideBarItems.findIndex((item) => {
       return window.location.pathname.split('/')[2] === item.path.split('/')[2];
     });
-    console.log(activeItem);
     setActiveIndex(activeItem);
   }, [location]);
 
@@ -75,8 +74,6 @@ function SideBar() {
       <Toolbar />
       <List>
         {sideBarItems.map((item, i) => {
-          // console.log(i);
-          // console.log(activeIndex);
           return (
             <ListItemButton
               key={`sidebar-key-${i}`}
@@ -89,9 +86,10 @@ function SideBar() {
                 borderRadius: '10px',
                 '&.Mui-selected': {
                   color: colors.green.A700,
+                  backgroundColor: colors.green[50],
                 },
                 '&.Mui-selected:hover': {
-                  backgroundColor: colors.green[200],
+                  backgroundColor: colors.green[100],
                 },
               }}
             >

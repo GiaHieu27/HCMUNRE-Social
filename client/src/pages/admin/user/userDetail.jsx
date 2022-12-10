@@ -14,7 +14,7 @@ import {
 import { getOneUser } from '../../../apis/admin';
 import CustomDialog from '../../../components/CustomDialog';
 import PageHeader from '../../../components/admin/PageHeader';
-import CustomBreadcrumds from '../../../components/admin/CustomBreadcrumds';
+import CustomBreadcrumbs from '../../../components/admin/CustomBreadcrumbs';
 import UserInfo from '../../../components/admin/UserInfo';
 
 function UserDetail() {
@@ -57,7 +57,7 @@ function UserDetail() {
 
   return (
     <>
-      <CustomBreadcrumds pathnames={pathnames} name='user-detail' />
+      <CustomBreadcrumbs pathnames={pathnames} name='user-detail' />
       <PageHeader title={'Thông tin chi tiết'} />
       <Grid container spacing={3}>
         <Grid item xs={8}>

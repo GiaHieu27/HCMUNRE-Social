@@ -15,7 +15,7 @@ import LockOpenIcon from '@mui/icons-material/LockOpen';
 
 import { getTotalAnalyze, lockAccount } from '../../../apis/admin';
 import PageHeader from '../../../components/admin/PageHeader';
-import CustomBreadcrumds from '../../../components/admin/CustomBreadcrumds';
+import CustomBreadcrumbs from '../../../components/admin/CustomBreadcrumbs';
 import SearchToolbar from '../../../components/SearchToolBar';
 import TooltipMUI from '../../../components/TooltipMUI';
 
@@ -177,7 +177,7 @@ function User() {
         textAlign: 'center',
       }}
     >
-      <CustomBreadcrumds pathnames={pathnames} />
+      <CustomBreadcrumbs pathnames={pathnames} />
       <PageHeader title={'Tất cả người dùng'} />
 
       <Paper>

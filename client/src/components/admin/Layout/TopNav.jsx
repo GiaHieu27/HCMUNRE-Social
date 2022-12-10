@@ -1,12 +1,13 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
-import CoronavirusOutlinedIcon from '@mui/icons-material/CoronavirusOutlined';
 import ExitToAppOutlinedIcon from '@mui/icons-material/ExitToAppOutlined';
+import HomeIcon from '@mui/icons-material/Home';
 import {
   AppBar,
   Avatar,
+  Button,
   colors,
   IconButton,
   Stack,
@@ -32,7 +33,7 @@ function TopNav() {
 
   return (
     <AppBar
-      position="fixed"
+      position='fixed'
       sx={{
         backgroundColor: colors.common.white,
         color: colors.common.black,
@@ -42,10 +43,10 @@ function TopNav() {
       elevation={0}
     >
       <Toolbar>
-        <img src="/icons/LogoTNMT.png" alt="logo" width={37} height={37} />
+        <img src='/icons/LogoTNMT.png' alt='logo' width={37} height={37} />
         <Typography
-          variant="h6"
-          component="div"
+          variant='h6'
+          component='div'
           sx={{
             flexGrow: 1,
             marginLeft: '10px',
@@ -54,14 +55,17 @@ function TopNav() {
           HCMUNRE SOCIAL
         </Typography>
 
-        <Stack direction={'row'} spacing={2} alignItems="center">
+        <Stack direction={'row'} spacing={3} alignItems='center'>
+          <Button component={Link} to='/' startIcon={<HomeIcon />}>
+            Website
+          </Button>
           <Avatar
-            alt="User image"
+            alt='User image'
             src={admin.picture}
             sx={{ height: '30px', width: '30px' }}
           />
           <IconButton
-            aria-label="logout"
+            aria-label='logout'
             sx={{ color: colors.blue[800] }}
             onClick={logOut}
           >
