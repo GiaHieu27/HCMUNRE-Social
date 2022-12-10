@@ -1,7 +1,10 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import PulseLoader from 'react-spinners/PulseLoader';
+import Slide from '@mui/material/Slide';
+import Snackbar from '@mui/material/Snackbar';
+import toast, { Toaster } from 'react-hot-toast';
 
 import EmojiPickerBackground from './EmojiPickerBackground';
 import ImageReview from './ImageReview';
@@ -14,7 +17,7 @@ import profileSlice from '../../../redux/slices/profileSlice';
 import uploadImages from '../../../apis/uploadImages';
 import { createPost } from '../../../apis/post';
 
-function CreratePostPopup({ user, setVisible, posts, dispatch, profile }) {
+function CreatePostPopup({ user, setVisible, posts, dispatch, profile }) {
   const dispatchh = useDispatch();
 
   const [showPrev, setShowPrev] = useState(false);
@@ -47,14 +50,14 @@ function CreratePostPopup({ user, setVisible, posts, dispatch, profile }) {
       setLoading(false);
 
       if (res.status === 'ok') {
-        if (profile) {
-          dispatchh(profileSlice.actions.PROFILE_POSTS([res.data, ...posts]));
-        } else {
-          dispatch({
-            type: 'POST_SUCCESS',
-            payload: [res.data, ...posts],
-          });
-        }
+        // if (profile) {
+        //   dispatchh(profileSlice.actions.PROFILE_POSTS([res.data, ...posts]));
+        // } else {
+        //   dispatch({
+        //     type: 'POST_SUCCESS',
+        //     payload: [res.data, ...posts],
+        //   });
+        // }
         setBackground('');
         setText('');
         setVisible(false);
@@ -94,14 +97,14 @@ function CreratePostPopup({ user, setVisible, posts, dispatch, profile }) {
       );
       setLoading(false);
       if (res.status === 'ok') {
-        if (profile) {
-          dispatchh(profileSlice.actions.PROFILE_POSTS([res.data, ...posts]));
-        } else {
-          dispatch({
-            type: 'POST_SUCCESS',
-            payload: [res.data, ...posts],
-          });
-        }
+        // if (profile) {
+        //   dispatchh(profileSlice.actions.PROFILE_POSTS([res.data, ...posts]));
+        // } else {
+        //   dispatch({
+        //     type: 'POST_SUCCESS',
+        //     payload: [res.data, ...posts],
+        //   });
+        // }
         setText('');
         setImages([]);
         setVisible(false);
@@ -136,14 +139,14 @@ function CreratePostPopup({ user, setVisible, posts, dispatch, profile }) {
       setLoading(false);
 
       if (res.status === 'ok') {
-        if (profile) {
-          dispatchh(profileSlice.actions.PROFILE_POSTS([res.data, ...posts]));
-        } else {
-          dispatch({
-            type: 'POST_SUCCESS',
-            payload: [res.data, ...posts],
-          });
-        }
+        // if (profile) {
+        //   dispatchh(profileSlice.actions.PROFILE_POSTS([res.data, ...posts]));
+        // } else {
+        //   dispatch({
+        //     type: 'POST_SUCCESS',
+        //     payload: [res.data, ...posts],
+        //   });
+        // }
         setText('');
         setImages([]);
         setVisible(false);
@@ -176,14 +179,14 @@ function CreratePostPopup({ user, setVisible, posts, dispatch, profile }) {
       setLoading(false);
 
       if (res.status === 'ok') {
-        if (profile) {
-          dispatchh(profileSlice.actions.PROFILE_POSTS([res.data, ...posts]));
-        } else {
-          dispatch({
-            type: 'POST_SUCCESS',
-            payload: [res.data, ...posts],
-          });
-        }
+        // if (profile) {
+        //   dispatchh(profileSlice.actions.PROFILE_POSTS([res.data, ...posts]));
+        // } else {
+        //   dispatch({
+        //     type: 'POST_SUCCESS',
+        //     payload: [res.data, ...posts],
+        //   });
+        // }
         setText('');
         setImages([]);
         setVisible(false);
@@ -204,17 +207,24 @@ function CreratePostPopup({ user, setVisible, posts, dispatch, profile }) {
       setLoading(false);
 
       if (res.status === 'ok') {
-        if (profile) {
-          dispatchh(profileSlice.actions.PROFILE_POSTS([res.data, ...posts]));
-        } else {
-          dispatch({
-            type: 'POST_SUCCESS',
-            payload: [res.data, ...posts],
-          });
-        }
+        // if (profile) {
+        //   dispatchh(profileSlice.actions.PROFILE_POSTS([res.data, ...posts]));
+        // } else {
+        //   dispatch({
+        //     type: 'POST_SUCCESS',
+        //     payload: [res.data, ...posts],
+        //   });
+        // }
         setBackground('');
         setText('');
         setVisible(false);
+        // toast.success(`svvsv đã gửi một tin nhắn`, {
+        //   style: {
+        //     background: '#333',
+        //     color: '#fff',
+        //     fontSize: '18px',
+        //   },
+        // });
       } else {
         setError(res);
       }
@@ -225,97 +235,101 @@ function CreratePostPopup({ user, setVisible, posts, dispatch, profile }) {
   useBodyScrollLock();
 
   return (
-    <div className="blur">
-      <div className="postBox" ref={postRef}>
-        {error && <PostError error={error} setError={setError} />}
-        <div className="box_header">
-          <div className="small_circle" onClick={() => setVisible(false)}>
-            <i className="exit_icon"></i>
-          </div>
-          <span>Tạo bài viết</span>
-        </div>
-
-        <div className="box_profile">
-          <img src={user.picture} alt="" className="box_profile_img" />
-          <div className="box_col">
-            <div className="box_profile_name">
-              {user.first_name} {user.last_name}
+    <>
+      <div className='blur'>
+        <div className='postBox' ref={postRef}>
+          {error && <PostError error={error} setError={setError} />}
+          <div className='box_header'>
+            <div className='small_circle' onClick={() => setVisible(false)}>
+              <i className='exit_icon'></i>
             </div>
-            <div className="box_privacy">
-              <img src="/icons/public.png" alt="" />
-              <span>Công khai</span>
-              <i className="arrowDown_icon"></i>
+            <span>Tạo bài viết</span>
+          </div>
+
+          <div className='box_profile'>
+            <img src={user.picture} alt='' className='box_profile_img' />
+            <div className='box_col'>
+              <div className='box_profile_name'>
+                {user.first_name} {user.last_name}
+              </div>
+              <div className='box_privacy'>
+                <img src='/icons/public.png' alt='' />
+                <span>Công khai</span>
+                <i className='arrowDown_icon'></i>
+              </div>
             </div>
           </div>
-        </div>
 
-        {!showPrev ? (
-          <EmojiPickerBackground
-            user={user}
-            text={text}
-            setText={setText}
-            setBackground={setBackground}
-            background={background}
+          {!showPrev ? (
+            <EmojiPickerBackground
+              user={user}
+              text={text}
+              setText={setText}
+              setBackground={setBackground}
+              background={background}
+              showBg={showBg}
+              setShowBg={setShowBg}
+              picker={picker}
+              setPicker={setPicker}
+            />
+          ) : (
+            <ImageReview
+              user={user}
+              text={text}
+              setText={setText}
+              images={images}
+              setImages={setImages}
+              setShowPrev={setShowPrev}
+              setError={setError}
+              picker={picker}
+              setPicker={setPicker}
+              videos={videos}
+              setVideos={setVideos}
+            />
+          )}
+          <AddYourPost
+            setShowPrev={setShowPrev}
+            showPrev={showPrev}
             showBg={showBg}
             setShowBg={setShowBg}
             picker={picker}
             setPicker={setPicker}
-          />
-        ) : (
-          <ImageReview
-            user={user}
-            text={text}
-            setText={setText}
-            images={images}
-            setImages={setImages}
-            setShowPrev={setShowPrev}
-            setError={setError}
-            picker={picker}
-            setPicker={setPicker}
+            background={background}
             videos={videos}
-            setVideos={setVideos}
+            images={images}
           />
-        )}
-        <AddYourPost
-          setShowPrev={setShowPrev}
-          showPrev={showPrev}
-          showBg={showBg}
-          setShowBg={setShowBg}
-          picker={picker}
-          setPicker={setPicker}
-          background={background}
-          videos={videos}
-          images={images}
-        />
 
-        <button
-          className="post_submit"
-          style={{
-            background: `${
-              !text && !images.length && !videos.length ? '#e4e6eb' : '#20a305'
-            }`,
-            cursor: `${
-              !text && !images.length && !videos.length
-                ? 'not-allowed'
-                : 'pointer'
-            }`,
-            color: `${
-              !text && !images.length && !videos.length ? '#bcc0c4' : '#ffff'
-            }`,
-          }}
-          onClick={() => {
-            if (text || images.length || videos.length) handleSubmitPost();
-          }}
-          disabled={loading}
-        >
-          {loading ? <PulseLoader color="#fff" size={5} /> : 'Đăng'}
-        </button>
+          <button
+            className='post_submit'
+            style={{
+              background: `${
+                !text && !images.length && !videos.length
+                  ? '#e4e6eb'
+                  : '#20a305'
+              }`,
+              cursor: `${
+                !text && !images.length && !videos.length
+                  ? 'not-allowed'
+                  : 'pointer'
+              }`,
+              color: `${
+                !text && !images.length && !videos.length ? '#bcc0c4' : '#ffff'
+              }`,
+            }}
+            onClick={() => {
+              if (text || images.length || videos.length) handleSubmitPost();
+            }}
+            disabled={loading}
+          >
+            {loading ? <PulseLoader color='#fff' size={5} /> : 'Đăng'}
+          </button>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 
-CreratePostPopup.propTypes = {
+CreatePostPopup.propTypes = {
   setVisible: PropTypes.func,
   dispatch: PropTypes.func,
 
@@ -324,4 +338,4 @@ CreratePostPopup.propTypes = {
   user: PropTypes.object,
 };
 
-export default CreratePostPopup;
+export default CreatePostPopup;

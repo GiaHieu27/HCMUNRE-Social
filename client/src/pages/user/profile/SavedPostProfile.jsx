@@ -6,7 +6,7 @@ import axios from 'axios';
 import Header from '../../../components/user/Header';
 import Post from '../../../components/user/Post';
 
-function SavedPosstProfile() {
+function SavedPostProfile() {
   const { idPost } = useParams();
   const user = useSelector((state) => state.user);
 
@@ -45,8 +45,8 @@ function SavedPosstProfile() {
   return (
     <>
       <Header />
-      <div className="home" style={{ height: `${height + 140}px` }}>
-        <div className="saved_post" ref={savedPostRef}>
+      <div className='home' style={{ height: `${height + 140}px` }}>
+        <div className='saved_post' ref={savedPostRef}>
           {post.hasOwnProperty('background') && (
             <Post post={post} user={user} saved />
           )}
@@ -56,4 +56,4 @@ function SavedPosstProfile() {
   );
 }
 
-export default SavedPosstProfile;
+export default SavedPostProfile;
