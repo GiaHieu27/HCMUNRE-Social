@@ -1,10 +1,6 @@
-import { useEffect, useRef, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import PulseLoader from 'react-spinners/PulseLoader';
-import Slide from '@mui/material/Slide';
-import Snackbar from '@mui/material/Snackbar';
-import toast, { Toaster } from 'react-hot-toast';
 
 import EmojiPickerBackground from './EmojiPickerBackground';
 import ImageReview from './ImageReview';
@@ -13,13 +9,10 @@ import useClickOutSide from '../../../hooks/useClickOutSide';
 import useBodyScrollLock from '../../../hooks/useBodyScrollLock';
 import PostError from './PostError';
 import dataURLtoBlob from '../../../helpers/dataURLtoBlob';
-import profileSlice from '../../../redux/slices/profileSlice';
 import uploadImages from '../../../apis/uploadImages';
 import { createPost } from '../../../apis/post';
 
-function CreatePostPopup({ user, setVisible, posts, dispatch, profile }) {
-  const dispatchh = useDispatch();
-
+function CreatePostPopup({ user, setVisible }) {
   const [showPrev, setShowPrev] = useState(false);
   const [loading, setLoading] = useState(false);
   const [showBg, setShowBg] = useState(false);
@@ -50,14 +43,6 @@ function CreatePostPopup({ user, setVisible, posts, dispatch, profile }) {
       setLoading(false);
 
       if (res.status === 'ok') {
-        // if (profile) {
-        //   dispatchh(profileSlice.actions.PROFILE_POSTS([res.data, ...posts]));
-        // } else {
-        //   dispatch({
-        //     type: 'POST_SUCCESS',
-        //     payload: [res.data, ...posts],
-        //   });
-        // }
         setBackground('');
         setText('');
         setVisible(false);
@@ -97,14 +82,6 @@ function CreatePostPopup({ user, setVisible, posts, dispatch, profile }) {
       );
       setLoading(false);
       if (res.status === 'ok') {
-        // if (profile) {
-        //   dispatchh(profileSlice.actions.PROFILE_POSTS([res.data, ...posts]));
-        // } else {
-        //   dispatch({
-        //     type: 'POST_SUCCESS',
-        //     payload: [res.data, ...posts],
-        //   });
-        // }
         setText('');
         setImages([]);
         setVisible(false);
@@ -139,14 +116,6 @@ function CreatePostPopup({ user, setVisible, posts, dispatch, profile }) {
       setLoading(false);
 
       if (res.status === 'ok') {
-        // if (profile) {
-        //   dispatchh(profileSlice.actions.PROFILE_POSTS([res.data, ...posts]));
-        // } else {
-        //   dispatch({
-        //     type: 'POST_SUCCESS',
-        //     payload: [res.data, ...posts],
-        //   });
-        // }
         setText('');
         setImages([]);
         setVisible(false);
@@ -179,14 +148,6 @@ function CreatePostPopup({ user, setVisible, posts, dispatch, profile }) {
       setLoading(false);
 
       if (res.status === 'ok') {
-        // if (profile) {
-        //   dispatchh(profileSlice.actions.PROFILE_POSTS([res.data, ...posts]));
-        // } else {
-        //   dispatch({
-        //     type: 'POST_SUCCESS',
-        //     payload: [res.data, ...posts],
-        //   });
-        // }
         setText('');
         setImages([]);
         setVisible(false);
@@ -207,24 +168,9 @@ function CreatePostPopup({ user, setVisible, posts, dispatch, profile }) {
       setLoading(false);
 
       if (res.status === 'ok') {
-        // if (profile) {
-        //   dispatchh(profileSlice.actions.PROFILE_POSTS([res.data, ...posts]));
-        // } else {
-        //   dispatch({
-        //     type: 'POST_SUCCESS',
-        //     payload: [res.data, ...posts],
-        //   });
-        // }
         setBackground('');
         setText('');
         setVisible(false);
-        // toast.success(`svvsv đã gửi một tin nhắn`, {
-        //   style: {
-        //     background: '#333',
-        //     color: '#fff',
-        //     fontSize: '18px',
-        //   },
-        // });
       } else {
         setError(res);
       }

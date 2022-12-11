@@ -23,7 +23,7 @@ function LoginForm({ containerRef }) {
 
   const [login, setLogin] = useState(loginInfo);
   const [error, setError] = useState('');
-  const [success, setSuccessse] = useState('');
+  const [success, setSuccess] = useState('');
   const [loading, setLoading] = useState(false);
 
   const { email, password } = login;
@@ -52,17 +52,23 @@ function LoginForm({ containerRef }) {
         `${process.env.REACT_APP_BACKEND_URL}/login`,
         { email, password }
       );
-      setError('');
-      setSuccessse(data.message);
 
-      setTimeout(() => {
-        dispatch(userSlice.actions.LOGIN(data));
-        Cookies.set('user', JSON.stringify(data));
-        navigate('/');
-      }, 2000);
+      if (data && !data.isLock) {
+        setError('');
+        setSuccess(data.message);
+
+        setTimeout(() => {
+          dispatch(userSlice.actions.LOGIN(data));
+          Cookies.set('user', JSON.stringify(data));
+          navigate('/');
+        }, 1500);
+      } else {
+        setError(data.message);
+        setLoading(false);
+      }
     } catch (error) {
       setLoading(false);
-      setSuccessse('');
+      setSuccess('');
       setError(error.response.data.message);
     }
   };
@@ -73,8 +79,8 @@ function LoginForm({ containerRef }) {
   };
 
   return (
-    <div className="login_col align-items-centers flex-col sign-in">
-      <div className="form_wrapper align-items-centers">
+    <div className='login_col align-items-centers flex-col sign-in'>
+      <div className='form_wrapper align-items-centers'>
         <Formik
           enableReinitialize
           initialValues={{
@@ -86,30 +92,30 @@ function LoginForm({ containerRef }) {
         >
           {(formik) => {
             return (
-              <Form className="form sign-in">
+              <Form className='form sign-in'>
                 <LoginInput
-                  type="text"
-                  name="email"
-                  placeholder="Nhập email của bạn"
-                  iconName="envelope"
+                  type='text'
+                  name='email'
+                  placeholder='Nhập email của bạn'
+                  iconName='envelope'
                   onChange={handleChangeLogin}
                   autoFocus
                 />
                 <LoginInput
-                  type="password"
-                  name="password"
-                  placeholder="Nhập mật khẩu của bạn"
-                  iconName="lock-alt"
+                  type='password'
+                  name='password'
+                  placeholder='Nhập mật khẩu của bạn'
+                  iconName='lock-alt'
                   onChange={handleChangeLogin}
                   bottom
                 />
                 <button
                   style={{ paddingBottom: `${loading ? '11px' : '0'}` }}
-                  type="submit"
+                  type='submit'
                 >
                   {loading ? (
                     <PropagateLoader
-                      color="white"
+                      color='white'
                       loading={loading}
                       size={12}
                     />
@@ -117,16 +123,16 @@ function LoginForm({ containerRef }) {
                     'Đăng nhập'
                   )}
                 </button>
-                {error && <div className="error_text">{error}</div>}
-                {success && <div className="success_text">{success}</div>}
+                {error && <div className='error_text'>{error}</div>}
+                {success && <div className='success_text'>{success}</div>}
                 <p>
                   <b>
-                    <Link to="/reset">Quên mật khẩu</Link>
+                    <Link to='/reset'>Quên mật khẩu</Link>
                   </b>
                 </p>
                 <p>
                   <span>Bạn chưa có tài khoản? </span>
-                  <b className="pointer" onClick={() => handleClick()}>
+                  <b className='pointer' onClick={() => handleClick()}>
                     Đăng ký ngay
                   </b>
                 </p>
