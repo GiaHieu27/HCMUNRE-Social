@@ -31,7 +31,7 @@ function RightSide(props) {
     setOpenModalReceive(false);
     socket.emit('receiveCallSuccess', senderId);
     window.open(
-      `http://localhost:3000/call/receiver`,
+      `http://localhost:3005/call/receiver`,
       '_blank',
       'menubar=yes,toolbar=yes,resizable=yes,top=40,left=200,width=950,height=600'
     );
@@ -48,7 +48,7 @@ function RightSide(props) {
   };
   // listen event from socket
   React.useEffect(() => {
-    socket.on('friendReceiveCall', (user, soketIdFriend) => {
+    socket.on('friendReceiveCall', (user, socketIdFriend) => {
       setOpenModalReceive(true);
       setSender(user);
     });
@@ -56,7 +56,7 @@ function RightSide(props) {
     socket.on('receiveCallSuccess', (socketIdCaller) => {
       setOpenModalCall(false);
       window.open(
-        `http://localhost:3000/call/${props.currentFriend._id}`,
+        `http://localhost:3005/call/${props.currentFriend._id}`,
         '_blank',
         'menubar=yes,toolbar=yes,resizable=yes,top=40,left=200,width=950,height=600'
       );
@@ -78,49 +78,49 @@ function RightSide(props) {
   }, []);
 
   return (
-    <div className="col-9">
-      <div className="right-side">
-        <input type="checkbox" id="dot" />
-        <div className="row-custom">
-          <div className="col-8">
-            <div className="message-send-show">
-              <div className="header">
-                <div className="image-name">
-                  <div className="image">
+    <div className='col-9'>
+      <div className='right-side'>
+        <input type='checkbox' id='dot' />
+        <div className='row-custom'>
+          <div className='col-8'>
+            <div className='message-send-show'>
+              <div className='header'>
+                <div className='image-name'>
+                  <div className='image'>
                     <img
                       src={props.currentFriend.picture}
-                      alt="avatar -friend"
+                      alt='avatar -friend'
                     />
                     {props.onlineFriends &&
                     props.onlineFriends.length > 0 &&
                     props.onlineFriends.some(
                       (user) => user.userId === props.currentFriend._id
                     ) ? (
-                      <div className="active-icon"></div>
+                      <div className='active-icon'></div>
                     ) : (
                       ''
                     )}
                   </div>
-                  <div className="name">
+                  <div className='name'>
                     <h3>
                       {props.currentFriend.first_name}{' '}
                       {props.currentFriend.last_name}
                     </h3>
                   </div>
                 </div>
-                <div className="icons">
+                <div className='icons'>
                   <div
-                    className="icon"
+                    className='icon'
                     onClick={() => handleCall(props.currentFriend._id)}
                   >
-                    <TooltipMUI title="Gọi điện">
-                      <VideocamIcon color="success" />
+                    <TooltipMUI title='Gọi điện'>
+                      <VideocamIcon color='success' />
                     </TooltipMUI>
                   </div>
-                  <div className="icon">
-                    <label htmlFor="dot">
-                      <TooltipMUI title="Thông tin về cuộc trò chuyện">
-                        <MoreHorizIcon color="success" />
+                  <div className='icon'>
+                    <label htmlFor='dot'>
+                      <TooltipMUI title='Thông tin về cuộc trò chuyện'>
+                        <MoreHorizIcon color='success' />
                       </TooltipMUI>
                     </label>
                   </div>
@@ -145,7 +145,7 @@ function RightSide(props) {
               />
             </div>
           </div>
-          <div className="col-4">
+          <div className='col-4'>
             <FriendInfo
               // message={message}
               currentFriend={props.currentFriend}
@@ -159,7 +159,7 @@ function RightSide(props) {
       <CustomDialog
         open={openModalReceive}
         handleClose={() => setOpenModalReceive(false)}
-        maxWidth="315px"
+        maxWidth='315px'
         content={
           <Box
             sx={{
@@ -170,33 +170,33 @@ function RightSide(props) {
             }}
           >
             <Avatar
-              alt="avatar-sender"
+              alt='avatar-sender'
               src={sender?.picture}
               sx={{ width: '75px', height: '75px', mb: '18px' }}
             />
             <Typography
-              variant="h6"
+              variant='h6'
               fontWeight={700}
-              textAlign="center"
+              textAlign='center'
               lineHeight={1}
-              fontFamily="inherit"
+              fontFamily='inherit'
               fontSize={27.2}
             >
               {sender.first_name} {sender.last_name}
             </Typography>
             <Typography
-              variant="h6"
+              variant='h6'
               fontWeight={700}
-              textAlign="center"
-              fontFamily="inherit"
+              textAlign='center'
+              fontFamily='inherit'
               fontSize={27.2}
             >
               đang gọi cho bạn
             </Typography>
             <Typography
-              variant="body1"
+              variant='body1'
               fontWeight={500}
-              textAlign="center"
+              textAlign='center'
               fontSize={14.5}
             >
               Cuộc gọi sẽ bắt đầu ngay sau khi bạn chấp nhận
@@ -211,13 +211,13 @@ function RightSide(props) {
               alignItems: ' center',
               marginTop: '20px',
             }}
-            width="100%"
+            width='100%'
           >
-            <TooltipMUI title="Từ chối cuộc gọi" placement="top">
+            <TooltipMUI title='Từ chối cuộc gọi' placement='top'>
               <Button
-                variant="contained"
-                size="small"
-                color="error"
+                variant='contained'
+                size='small'
+                color='error'
                 sx={{
                   borderRadius: '50%',
                   minWidth: '50px',
@@ -229,11 +229,11 @@ function RightSide(props) {
               </Button>
             </TooltipMUI>
 
-            <TooltipMUI title="Chấp nhận cuộc gọi" placement="top">
+            <TooltipMUI title='Chấp nhận cuộc gọi' placement='top'>
               <Button
-                variant="contained"
-                size="small"
-                color="successCustom"
+                variant='contained'
+                size='small'
+                color='successCustom'
                 sx={{
                   borderRadius: '50%',
                   minWidth: '50px',
@@ -252,7 +252,7 @@ function RightSide(props) {
       <CustomDialog
         open={openModalCall}
         handleClose={() => setOpenModalCall(false)}
-        maxWidth="315px"
+        maxWidth='315px'
         content={
           <Box
             sx={{
@@ -263,27 +263,27 @@ function RightSide(props) {
             }}
           >
             <Avatar
-              alt="avatar-sender"
+              alt='avatar-sender'
               src={props.currentFriend.picture}
               sx={{ width: '75px', height: '75px', mb: '18px' }}
             />
             {!openModalReject ? (
               <>
                 <Typography
-                  variant="h6"
+                  variant='h6'
                   fontWeight={700}
-                  textAlign="center"
+                  textAlign='center'
                   lineHeight={1}
-                  fontFamily="inherit"
+                  fontFamily='inherit'
                   fontSize={25.2}
                 >
                   {props.currentFriend.first_name}{' '}
                   {props.currentFriend.last_name}
                 </Typography>
                 <Typography
-                  variant="body1"
+                  variant='body1'
                   fontWeight={500}
-                  textAlign="center"
+                  textAlign='center'
                   fontSize={15.5}
                   sx={{ mt: '10px' }}
                 >
@@ -293,20 +293,20 @@ function RightSide(props) {
             ) : (
               <>
                 <Typography
-                  variant="h6"
+                  variant='h6'
                   fontWeight={700}
-                  textAlign="center"
+                  textAlign='center'
                   lineHeight={1}
-                  fontFamily="inherit"
+                  fontFamily='inherit'
                   fontSize={25.2}
                 >
                   {props.currentFriend.first_name}{' '}
                   {props.currentFriend.last_name}
                 </Typography>
                 <Typography
-                  variant="body1"
+                  variant='body1'
                   fontWeight={500}
-                  textAlign="center"
+                  textAlign='center'
                   fontSize={15.5}
                   sx={{ mt: '10px' }}
                 >
@@ -325,13 +325,13 @@ function RightSide(props) {
                 alignItems: ' center',
                 marginTop: '20px',
               }}
-              width="100%"
+              width='100%'
             >
-              <TooltipMUI title="Huỷ cuộc gọi" placement="top">
+              <TooltipMUI title='Huỷ cuộc gọi' placement='top'>
                 <Button
-                  variant="contained"
-                  size="small"
-                  color="error"
+                  variant='contained'
+                  size='small'
+                  color='error'
                   sx={{
                     borderRadius: '50%',
                     minWidth: '50px',

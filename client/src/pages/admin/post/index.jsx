@@ -181,19 +181,7 @@ function Post() {
       }}
     >
       <CustomBreadcrumbs pathnames={pathnames} />
-      <PageHeader
-        title={'Danh sách bài viết'}
-        rightContent={
-          <Button
-            variant='contained'
-            component={Link}
-            to='/user/create'
-            startIcon={<PersonAddAltOutlinedIcon />}
-          >
-            Create
-          </Button>
-        }
-      />
+      <PageHeader title={'Danh sách bài viết'} />
 
       <Paper>
         <DataGrid

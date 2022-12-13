@@ -183,19 +183,19 @@ function CallMess() {
 
   return (
     <>
-      <div className="container-fluid p-0" style={{ height: '98.99vh' }}>
-        <div className="video-container">
-          <div className="video">
+      <div className='container-fluid p-0' style={{ height: '100vh' }}>
+        <div className='video-container'>
+          <div className='video'>
             {myStream && <video playsInline ref={myVideoRef} autoPlay />}
           </div>
-          <div className="video">
+          <div className='video'>
             {callAccepted && !callEnded && (
               <video playsInline ref={userVideoRef} autoPlay />
             )}
           </div>
 
-          <div className="interaction">
-            <div className="call_button">
+          <div className='interaction'>
+            <div className='call_button'>
               {callAccepted && !callEnded ? (
                 <Box
                   sx={{
@@ -207,11 +207,11 @@ function CallMess() {
                 >
                   <TooltipMUI
                     title={toggleCam ? 'Tắt camera' : 'Bật camera'}
-                    placement="top"
+                    placement='top'
                   >
                     <Button
-                      variant="contained"
-                      size="small"
+                      variant='contained'
+                      size='small'
                       color={toggleCam ? 'successCustom' : 'error'}
                       onClick={() => handleToggleCam()}
                       sx={{
@@ -228,11 +228,11 @@ function CallMess() {
                     </Button>
                   </TooltipMUI>
 
-                  <TooltipMUI title="Kết thúc cuộc gọi" placement="top">
+                  <TooltipMUI title='Kết thúc cuộc gọi' placement='top'>
                     <Button
-                      variant="contained"
-                      size="small"
-                      color="error"
+                      variant='contained'
+                      size='small'
+                      color='error'
                       onClick={() => handleLeaveCall()}
                       sx={{
                         borderRadius: '50%',
@@ -247,11 +247,11 @@ function CallMess() {
 
                   <TooltipMUI
                     title={toggleMic ? 'Tắt mic' : 'Bật mic'}
-                    placement="top"
+                    placement='top'
                   >
                     <Button
-                      variant="contained"
-                      size="small"
+                      variant='contained'
+                      size='small'
                       color={toggleMic ? 'successCustom' : 'error'}
                       onClick={handleToggleMic}
                       sx={{
