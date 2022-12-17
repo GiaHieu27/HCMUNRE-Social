@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
 
@@ -15,19 +15,16 @@ import LockOpenIcon from '@mui/icons-material/LockOpen';
 
 import { getTotalAnalyze, lockAccount } from '../../../apis/admin';
 import PageHeader from '../../../components/admin/PageHeader';
-import CustomBreadcrumbs from '../../../components/admin/CustomBreadcrumbs';
 import SearchToolbar from '../../../components/SearchToolBar';
 import TooltipMUI from '../../../components/TooltipMUI';
 
 function User() {
-  const location = useLocation();
-  const pathnames = location.pathname.split('/').filter((x) => x);
   const user = useSelector((state) => state.user);
 
   const [userList, setUserList] = React.useState([]);
   const [pageSize, setPageSize] = React.useState(9);
 
-  const hanldeLockAcc = async (userId, token) => {
+  const handleLockAcc = async (userId, token) => {
     const res = await lockAccount(userId, token);
 
     if (typeof res === 'object') {
@@ -127,7 +124,7 @@ function User() {
                 <IconButton
                   aria-label='lock'
                   color='error'
-                  onClick={() => hanldeLockAcc(params.value, user.token)}
+                  onClick={() => handleLockAcc(params.value, user.token)}
                 >
                   <LockIcon />
                 </IconButton>
@@ -137,7 +134,7 @@ function User() {
                 <IconButton
                   aria-label='unlock'
                   color='success'
-                  onClick={() => hanldeLockAcc(params.value, user.token)}
+                  onClick={() => handleLockAcc(params.value, user.token)}
                 >
                   <LockOpenIcon />
                 </IconButton>
@@ -177,7 +174,6 @@ function User() {
         textAlign: 'center',
       }}
     >
-      <CustomBreadcrumbs pathnames={pathnames} />
       <PageHeader title={'Tất cả người dùng'} />
 
       <Paper>

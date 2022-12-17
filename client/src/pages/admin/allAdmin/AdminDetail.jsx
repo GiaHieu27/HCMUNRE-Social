@@ -1,26 +1,17 @@
 import React from 'react';
-import { useParams, useLocation } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import {
-  Box,
-  Button,
-  Card,
-  CardContent,
-  Grid,
-  Stack,
-  Typography,
-} from '@mui/material';
+import { Box, Button, Grid, Stack, Typography } from '@mui/material';
 
 import { getOneUser } from '../../../apis/admin';
 import CustomDialog from '../../../components/CustomDialog';
 import PageHeader from '../../../components/admin/PageHeader';
-import CustomBreadcrumbs from '../../../components/admin/CustomBreadcrumbs';
+
 import UserInfo from '../../../components/admin/UserInfo';
 
 function AdminDetail() {
   const { id } = useParams();
-  const location = useLocation();
-  const pathnames = location.pathname.split('/').filter((x) => x);
+
   const currentUser = useSelector((state) => state.user);
 
   const [user, setUser] = React.useState();
@@ -38,37 +29,15 @@ function AdminDetail() {
       }
     };
     getUser();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  const onUpdateSuccess = () => {
-    console.log('success');
-    setDialogType('success');
-    setDialogText('User updated');
-    setDialogOpen(true);
-  };
-
-  const onUpdateFalse = (message) => {
-    console.log('false');
-    setDialogType('error');
-    setDialogText(message || 'User update fail');
-    setDialogOpen(true);
-  };
 
   return (
     <>
-      <CustomBreadcrumbs pathnames={pathnames} name='user-detail' />
       <PageHeader title={'Thông tin chi tiết'} />
       <Grid container spacing={3}>
         <Grid item xs={8}>
-          <Stack spacing={4}>
-            {user && (
-              <UserInfo
-                user={user}
-                onUpdateSuccess={onUpdateSuccess}
-                onUpdateFalse={onUpdateFalse}
-              />
-            )}
-          </Stack>
+          <Stack spacing={4}>{user && <UserInfo user={user} />}</Stack>
         </Grid>
       </Grid>
 

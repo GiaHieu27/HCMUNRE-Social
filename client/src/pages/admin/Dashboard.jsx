@@ -1,23 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
-import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-import CardHeader from '@mui/material/CardHeader';
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
 import PendingActionsIcon from '@mui/icons-material/PendingActions';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
+import FeedIcon from '@mui/icons-material/Feed';
+import PeopleIcon from '@mui/icons-material/People';
 import RoomOutlinedIcon from '@mui/icons-material/RoomOutlined';
 import ArticleIcon from '@mui/icons-material/Article';
 
 import { getTotalAnalyze } from '../../apis/admin';
 import SummaryInfo from '../../components/admin/Dashboard/SummaryInfo';
-// import SummaryInfo from '../components/DashBoard/SummaryInfo';
-// import VaccinatedChart from '../components/DashBoard/VaccinatedChart';
-// import LastestVaccineLotTable from '../components/DashBoard/LastestVaccineLotTable';
 
 function Dashboard() {
   const user = useSelector((state) => state.user);
@@ -33,6 +29,7 @@ function Dashboard() {
       }
     };
     getData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   console.log(summaryData);
@@ -45,27 +42,12 @@ function Dashboard() {
             <CardContent>
               {summaryData && (
                 <SummaryInfo
-                  title="Tổng số lượt truy cập"
+                  title='Tổng số lượt truy cập'
                   number={summaryData.totalAccess}
                   icon={
-                    <RoomOutlinedIcon sx={{ fontSize: '3rem' }} color="error" />
-                  }
-                />
-              )}
-            </CardContent>
-          </Card>
-        </Grid>
-        <Grid item xs={3}>
-          <Card elevation={0} sx={{ boxShadow: 2 }}>
-            <CardContent>
-              {summaryData && (
-                <SummaryInfo
-                  title="Tổng số người dùng"
-                  number={summaryData.totalUser}
-                  icon={
-                    <PersonOutlineOutlinedIcon
+                    <RoomOutlinedIcon
                       sx={{ fontSize: '3rem' }}
-                      color="warning"
+                      color='secondary'
                     />
                   }
                 />
@@ -78,10 +60,10 @@ function Dashboard() {
             <CardContent>
               {summaryData && (
                 <SummaryInfo
-                  title="Tổng số bài viết"
-                  number={summaryData.totalPost}
+                  title='Tổng số người dùng'
+                  number={summaryData.totalUser}
                   icon={
-                    <ArticleIcon sx={{ fontSize: '3rem' }} color="primary" />
+                    <PeopleIcon sx={{ fontSize: '3rem' }} color='warning' />
                   }
                 />
               )}
@@ -93,14 +75,60 @@ function Dashboard() {
             <CardContent>
               {summaryData && (
                 <SummaryInfo
-                  title="Bài viết chưa duyệt"
+                  title='Người dùng mới'
+                  number={summaryData.newUsers.length}
+                  icon={
+                    <PersonOutlineOutlinedIcon
+                      sx={{ fontSize: '3rem' }}
+                      color='success'
+                    />
+                  }
+                />
+              )}
+            </CardContent>
+          </Card>
+        </Grid>
+        <Grid item xs={3}>
+          <Card elevation={0} sx={{ boxShadow: 2 }}>
+            <CardContent>
+              {summaryData && (
+                <SummaryInfo
+                  title='Tổng số bài viết'
+                  number={summaryData.totalPost}
+                  icon={
+                    <ArticleIcon sx={{ fontSize: '3rem' }} color='primary' />
+                  }
+                />
+              )}
+            </CardContent>
+          </Card>
+        </Grid>
+        <Grid item xs={3}>
+          <Card elevation={0} sx={{ boxShadow: 2 }}>
+            <CardContent>
+              {summaryData && (
+                <SummaryInfo
+                  title='Bài viết chưa duyệt'
                   number={summaryData.totalPostHasNotBeenApproved}
                   icon={
                     <PendingActionsIcon
                       sx={{ fontSize: '3rem' }}
-                      color="error"
+                      color='error'
                     />
                   }
+                />
+              )}
+            </CardContent>
+          </Card>
+        </Grid>
+        <Grid item xs={3}>
+          <Card elevation={0} sx={{ boxShadow: 2 }}>
+            <CardContent>
+              {summaryData && (
+                <SummaryInfo
+                  title='Bài viết mới'
+                  number={summaryData.newPosts.length}
+                  icon={<FeedIcon sx={{ fontSize: '3rem' }} color='success' />}
                 />
               )}
             </CardContent>

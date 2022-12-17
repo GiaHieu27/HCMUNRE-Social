@@ -129,9 +129,6 @@ function CreateAdmin({ openCreate, setOpenCreate }) {
               email,
               password,
               conf_password,
-              // bYear,
-              // bMonth,
-              // bDate,
               gender,
               birthday,
             }}

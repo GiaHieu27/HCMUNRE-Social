@@ -1,26 +1,18 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react';
-import { useParams, useLocation } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import {
-  Box,
-  Button,
-  Card,
-  CardContent,
-  Grid,
-  Stack,
-  Typography,
-} from '@mui/material';
+import { Box, Button, Grid, Stack, Typography } from '@mui/material';
 
 import { getOneUser } from '../../../apis/admin';
 import CustomDialog from '../../../components/CustomDialog';
 import PageHeader from '../../../components/admin/PageHeader';
-import CustomBreadcrumbs from '../../../components/admin/CustomBreadcrumbs';
+
 import UserInfo from '../../../components/admin/UserInfo';
 
 function PostDetail() {
   const { id } = useParams();
-  const location = useLocation();
-  const pathnames = location.pathname.split('/').filter((x) => x);
+
   const currentUser = useSelector((state) => state.user);
 
   const [user, setUser] = React.useState();
@@ -56,7 +48,6 @@ function PostDetail() {
 
   return (
     <>
-      <CustomBreadcrumbs pathnames={pathnames} name='user-detail' />
       <PageHeader title={'Thông tin chi tiết'} />
       <Grid container spacing={3}>
         <Grid item xs={8}>

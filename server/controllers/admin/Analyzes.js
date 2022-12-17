@@ -1,6 +1,6 @@
+const { default: mongoose } = require('mongoose');
 const User = require('../../models/User');
 const Post = require('../../models/Post');
-const { default: mongoose } = require('mongoose');
 
 exports.countAccess = async (req, res) => {
   try {
@@ -29,8 +29,8 @@ exports.getTotalAnalyze = async (req, res) => {
     });
 
     const totalUser = allUser.length;
-    const totalAccess = allUser.reduce((accum, current) => {
-      return accum + current.accesses;
+    const totalAccess = allUser.reduce((accumulate, current) => {
+      return accumulate + current.accesses;
     }, 0);
 
     const totalPost = allPost.length;
@@ -38,6 +38,26 @@ exports.getTotalAnalyze = async (req, res) => {
       return item.approve === false;
     });
     const totalPostHasNotBeenApproved = postHasNotBeenApproved.length;
+
+    const newUsers = await User.find({
+      createdAt: {
+        $gte: new Date(new Date().getTime() - 15 * 24 * 60 * 60 * 1000),
+      },
+    })
+      .sort({
+        createdAt: -1,
+      })
+      .lean();
+
+    const newPosts = await Post.find({
+      createdAt: {
+        $gte: new Date(new Date().getTime() - 15 * 24 * 60 * 60 * 1000),
+      },
+    })
+      .sort({
+        createdAt: -1,
+      })
+      .lean();
 
     return res.status(200).json({
       totalAccess,
@@ -47,6 +67,8 @@ exports.getTotalAnalyze = async (req, res) => {
       totalPostHasNotBeenApproved,
       allPost,
       allUser,
+      newUsers,
+      newPosts,
     });
   } catch (e) {
     res.status(500).json({ message: e.message });

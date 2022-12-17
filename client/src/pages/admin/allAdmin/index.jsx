@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
 
@@ -15,15 +15,13 @@ import LockIcon from '@mui/icons-material/Lock';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 
 import PageHeader from '../../../components/admin/PageHeader';
-import CustomBreadcrumbs from '../../../components/admin/CustomBreadcrumbs';
+
 import { getTotalAnalyze, lockAccount } from '../../../apis/admin';
 import SearchToolbar from '../../../components/SearchToolBar';
 import TooltipMUI from '../../../components/TooltipMUI';
 import CreateAdmin from './CreateAdmin';
 
 function AllAdmin() {
-  const location = useLocation();
-  const pathnames = location.pathname.split('/').filter((x) => x);
   const user = useSelector((state) => state.user);
 
   const [adminList, setAdminList] = React.useState([]);
@@ -181,7 +179,6 @@ function AllAdmin() {
         textAlign: 'center',
       }}
     >
-      <CustomBreadcrumbs pathnames={pathnames} />
       <PageHeader
         title={'Tất cả quản trị viên'}
         rightContent={

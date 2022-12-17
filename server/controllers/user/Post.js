@@ -10,6 +10,12 @@ exports.createPost = async (req, res) => {
         'user',
         'first_name last_name username picture cover'
       );
+    } else {
+      post = await new Post(req.body).save();
+      await post.populate(
+        'user',
+        'first_name last_name username picture cover'
+      );
     }
     res.json(post);
   } catch (error) {

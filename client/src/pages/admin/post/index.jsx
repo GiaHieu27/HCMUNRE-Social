@@ -1,24 +1,20 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
 
 import { Box, Button, colors, Paper, Typography } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
-import PersonAddAltOutlinedIcon from '@mui/icons-material/PersonAddAltOutlined';
 import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
 import OpenInNewOutlinedIcon from '@mui/icons-material/OpenInNewOutlined';
 import ReportIcon from '@mui/icons-material/Report';
 
-// import userApi from '../../api/userApi';
 import PageHeader from '../../../components/admin/PageHeader';
-import CustomBreadcrumbs from '../../../components/admin/CustomBreadcrumbs';
+
 import { getTotalAnalyze } from '../../../apis/admin';
 import SearchToolbar from '../../../components/SearchToolBar';
 
 function Post() {
-  const location = useLocation();
-  const pathnames = location.pathname.split('/').filter((x) => x);
   const user = useSelector((state) => state.user);
 
   const [postLists, setPostLists] = React.useState([]);
@@ -180,7 +176,6 @@ function Post() {
         textAlign: 'center',
       }}
     >
-      <CustomBreadcrumbs pathnames={pathnames} />
       <PageHeader title={'Danh sách bài viết'} />
 
       <Paper>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
 
@@ -14,13 +14,11 @@ import ReportIcon from '@mui/icons-material/Report';
 import { browseArticles, getTotalAnalyze } from '../../../apis/admin';
 import { deletePost } from '../../../apis/post';
 import PageHeader from '../../../components/admin/PageHeader';
-import CustomBreadcrumbs from '../../../components/admin/CustomBreadcrumbs';
+
 import SearchToolbar from '../../../components/SearchToolBar';
 import TooltipMUI from '../../../components/TooltipMUI';
 
 function PostPending() {
-  const location = useLocation();
-  const pathnames = location.pathname.split('/').filter((x) => x);
   const { user, admin } = useSelector((state) => ({ ...state }));
   const fullName = `${admin.first_name} ${admin.last_name}`;
 
@@ -217,20 +215,7 @@ function PostPending() {
         textAlign: 'center',
       }}
     >
-      <CustomBreadcrumbs pathnames={pathnames} />
-      <PageHeader
-        title={'Danh sách bài viết'}
-        // rightContent={
-        //   <Button
-        //     variant="contained"
-        //     component={Link}
-        //     to="/user/create"
-        //     startIcon={<PersonAddAltOutlinedIcon />}
-        //   >
-        //     Create
-        //   </Button>
-        // }
-      />
+      <PageHeader title={'Danh sách bài viết'} />
 
       <Paper>
         <DataGrid
