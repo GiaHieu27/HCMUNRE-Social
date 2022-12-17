@@ -8,6 +8,7 @@ import DialogActions from '@mui/material/DialogActions';
 import Box from '@mui/material/Box';
 import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined';
 import ErrorOutlineOutlinedIcon from '@mui/icons-material/ErrorOutlineOutlined';
+import CloseIcon from '@mui/icons-material/Close';
 
 function CustomDialog(props) {
   return (
@@ -32,6 +33,17 @@ function CustomDialog(props) {
         },
       }}
     >
+      <Box
+        onClick={props.handleClose}
+        sx={{
+          position: 'absolute',
+          top: '6px',
+          right: '6px',
+          cursor: 'pointer',
+        }}
+      >
+        <CloseIcon sx={{ fontSize: '2rem' }} />
+      </Box>
       {props.title && (
         <DialogTitle
           sx={{
@@ -43,13 +55,13 @@ function CustomDialog(props) {
             <Box textAlign={'center'}>
               {props.type === 'success' && (
                 <CheckCircleOutlinedIcon
-                  color="success"
+                  color='success'
                   sx={{ fontSize: '3.5rem' }}
                 />
               )}
               {props.type === 'error' && (
                 <ErrorOutlineOutlinedIcon
-                  color="error"
+                  color='error'
                   sx={{ fontSize: '3.5rem' }}
                 />
               )}

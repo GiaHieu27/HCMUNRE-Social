@@ -11,6 +11,9 @@ import 'boxicons';
 import LoginInput from '../Inputs/LoginInput/LoginInput';
 import Cookies from 'js-cookie';
 import userSlice from '../../../redux/slices/userSlice';
+import CustomDialog from '../../CustomDialog';
+import { Box, Typography } from '@mui/material';
+import moment from 'moment';
 
 const loginInfo = {
   email: '',
@@ -25,6 +28,8 @@ function LoginForm({ containerRef }) {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [loading, setLoading] = useState(false);
+  const [dialog, setDialog] = useState(false);
+  const [dataBlock, setDataBlock] = useState('');
 
   const { email, password } = login;
 
@@ -63,7 +68,8 @@ function LoginForm({ containerRef }) {
           navigate('/');
         }, 1500);
       } else {
-        setError(data.message);
+        setDataBlock(data.updatedAt);
+        setDialog(true);
         setLoading(false);
       }
     } catch (error) {
@@ -141,6 +147,26 @@ function LoginForm({ containerRef }) {
           }}
         </Formik>
       </div>
+
+      <CustomDialog
+        open={dialog}
+        title='Tài khoản của bạn đã bị khóa'
+        handleClose={() => setDialog(false)}
+        maxWidth='480px'
+        content={
+          <Box>
+            <Typography sx={{ textAlign: 'center' }}>
+              Chúng tôi phát hiện bạn đã vi phạm qui định sử dụng dịch vụ của
+              chúng tôi. Liên hệ với người quản trị để biết thêm chi tiết
+            </Typography>
+            <Typography sx={{ textAlign: 'center', paddingTop: '10px' }}>
+              {`Ngày khóa tài khoản: ${moment(dataBlock).format(
+                'DD - MM - YYYY'
+              )}`}
+            </Typography>
+          </Box>
+        }
+      />
     </div>
   );
 }

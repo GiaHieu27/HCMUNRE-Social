@@ -21,6 +21,7 @@ async function login(req, res) {
     if (user.isLock) {
       res.send({
         isLock: user.isLock,
+        updatedAt: user.updatedAt,
         message: 'Tài khoản của bạn đã bị khóa',
       });
     } else {

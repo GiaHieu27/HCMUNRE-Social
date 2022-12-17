@@ -32,7 +32,7 @@ function LoginAdmin() {
   const navigate = useNavigate();
 
   const [error, setError] = useState('');
-  const [success, setSuccessse] = useState('');
+  const [success, setSuccess] = useState('');
   const [loading, setLoading] = useState(false);
 
   const handleSubmitLogin = async (values) => {
@@ -44,7 +44,7 @@ function LoginAdmin() {
         { email, password }
       );
       setError('');
-      setSuccessse(data.message);
+      setSuccess(data.message);
 
       setTimeout(() => {
         dispatch(adminSlice.actions.LOGIN(data));
@@ -53,7 +53,7 @@ function LoginAdmin() {
       }, 2000);
     } catch (error) {
       setLoading(false);
-      setSuccessse('');
+      setSuccess('');
       setError(error.response.data.message);
     }
   };
@@ -61,7 +61,7 @@ function LoginAdmin() {
   return (
     <Container
       fluid
-      className="bg-success p-2 text-dark bg-opacity-50 d-flex align-items-center"
+      className='bg-success p-2 text-dark bg-opacity-50 d-flex align-items-center'
       style={{ height: '100vh' }}
     >
       <Container>
@@ -86,72 +86,72 @@ function LoginAdmin() {
               <Form
                 noValidate
                 onSubmit={handleSubmit}
-                className="admin-form mx-auto"
+                className='admin-form mx-auto'
               >
                 <Stack gap={3}>
                   <img
-                    src="/icons/LogoTNMT.svg"
-                    alt="logo"
+                    src='/icons/LogoTNMT.svg'
+                    alt='logo'
                     width={75}
                     height={75}
-                    className="mx-auto"
+                    className='mx-auto'
                   />
-                  <h3 className="text-center">Đăng nhập</h3>
-                  <Form.Group md="4" controlId="email">
+                  <h3 className='text-center'>Đăng nhập</h3>
+                  <Form.Group md='4' controlId='email'>
                     <Form.Floating>
                       <Form.Control
-                        type="text"
-                        name="email"
+                        type='text'
+                        name='email'
                         value={values.email}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         isInvalid={errors.email && touched.email}
-                        placeholder="Email"
+                        placeholder='Email'
                       />
                       <Form.Label>Email</Form.Label>
                     </Form.Floating>
                     {touched.email && errors.email && (
-                      <Form.Control.Feedback type="invalid">
+                      <Form.Control.Feedback type='invalid'>
                         {errors.email}
                       </Form.Control.Feedback>
                     )}
                   </Form.Group>
 
-                  <Form.Group md="4" controlId="password">
+                  <Form.Group md='4' controlId='password'>
                     <Form.Floating>
                       <Form.Control
-                        type="password"
-                        name="password"
+                        type='password'
+                        name='password'
                         value={values.password}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         isInvalid={errors.password && touched.password}
-                        placeholder="Mật khẩu"
+                        placeholder='Mật khẩu'
                       />
                       <Form.Label>Mật khẩu</Form.Label>
                     </Form.Floating>
                     {touched.password && errors.password && (
-                      <Form.Control.Feedback type="invalid">
+                      <Form.Control.Feedback type='invalid'>
                         {errors.password}
                       </Form.Control.Feedback>
                     )}
                   </Form.Group>
                   {error && (
-                    <div className="error_text text-center">{error}</div>
+                    <div className='error_text text-center'>{error}</div>
                   )}
                   {success && (
-                    <div className="success_text text-center">{success}</div>
+                    <div className='success_text text-center'>{success}</div>
                   )}
 
-                  <p className="text-center mb-0">
+                  <p className='text-center mb-0'>
                     <b>
-                      <Link to="/reset">Quên mật khẩu</Link>
+                      <Link to='/reset'>Quên mật khẩu</Link>
                     </b>
                   </p>
 
-                  <Button type="submit" variant="success">
+                  <Button type='submit' variant='success'>
                     {loading ? (
-                      <PulseLoader color="white" loading={loading} size={8} />
+                      <PulseLoader color='white' loading={loading} size={8} />
                     ) : (
                       'Đăng nhập'
                     )}
