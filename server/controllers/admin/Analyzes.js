@@ -86,6 +86,20 @@ exports.getOneUser = async (req, res) => {
   }
 };
 
+exports.getOnePost = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const post = await Post.findById(id).populate(
+      'user',
+      'full_name picture cover'
+    );
+    // const post = await Post.find({ user: mongoose.Types.ObjectId(id) });
+    return res.status(200).json({ post });
+  } catch (e) {
+    res.status(500).json({ message: e.message });
+  }
+};
+
 exports.browseArticles = async (req, res) => {
   try {
     const { id } = req.params;

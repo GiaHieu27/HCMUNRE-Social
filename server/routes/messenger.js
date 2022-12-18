@@ -6,7 +6,7 @@ const {
   seenMessage,
   sentMessage,
 } = require('../controllers/user/Messenger');
-const { authUser } = require('../middlewares/auth');
+const { authUser } = require('../middleware/auth');
 
 const router = express.Router();
 router.post('/messageSend', authUser, messageSend);

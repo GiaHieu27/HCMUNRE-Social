@@ -4,18 +4,17 @@ import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { Box, Button, Grid, Stack, Typography } from '@mui/material';
 
-import { getOneUser } from '../../../apis/admin';
+import { getOnePost } from '../../../apis/admin';
 import CustomDialog from '../../../components/CustomDialog';
 import PageHeader from '../../../components/admin/PageHeader';
-
-import UserInfo from '../../../components/admin/UserInfo';
+import Post from '../../../components/user/Post';
 
 function PostDetail() {
   const { id } = useParams();
 
   const currentUser = useSelector((state) => state.user);
 
-  const [user, setUser] = React.useState();
+  const [post, setPost] = React.useState();
   const [dialogOpen, setDialogOpen] = React.useState(false);
   const [dialogType, setDialogType] = React.useState('');
   const [dialogText, setDialogText] = React.useState('');
@@ -23,8 +22,9 @@ function PostDetail() {
   React.useEffect(() => {
     const getUser = async () => {
       try {
-        const res = await getOneUser(id, currentUser.token);
-        setUser(res);
+        const res = await getOnePost(id, currentUser.token);
+        console.log(res);
+        setPost(res);
       } catch (error) {
         console.log(error);
       }
@@ -32,34 +32,13 @@ function PostDetail() {
     getUser();
   }, []);
 
-  const onUpdateSuccess = () => {
-    console.log('success');
-    setDialogType('success');
-    setDialogText('User updated');
-    setDialogOpen(true);
-  };
-
-  const onUpdateFalse = (message) => {
-    console.log('false');
-    setDialogType('error');
-    setDialogText(message || 'User update fail');
-    setDialogOpen(true);
-  };
-
   return (
     <>
       <PageHeader title={'Thông tin chi tiết'} />
       <Grid container spacing={3}>
         <Grid item xs={8}>
-          <Stack spacing={4}>
-            {user && (
-              <UserInfo
-                user={user}
-                onUpdateSuccess={onUpdateSuccess}
-                onUpdateFalse={onUpdateFalse}
-              />
-            )}
-          </Stack>
+          {post && <Post post={post} user={currentUser} admin />}
+          <Stack spacing={4}></Stack>
         </Grid>
       </Grid>
 

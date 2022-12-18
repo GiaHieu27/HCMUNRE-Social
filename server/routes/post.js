@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { authUser } = require('../middlewares/auth');
+const { authUser } = require('../middleware/auth');
 const {
   createPost,
   getAllPosts,
