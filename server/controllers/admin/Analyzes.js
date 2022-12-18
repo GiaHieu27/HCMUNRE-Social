@@ -1,6 +1,7 @@
 const { default: mongoose } = require('mongoose');
 const User = require('../../models/User');
 const Post = require('../../models/Post');
+const React = require('../../models/React');
 
 exports.countAccess = async (req, res) => {
   try {
@@ -93,8 +94,10 @@ exports.getOnePost = async (req, res) => {
       'user',
       'full_name picture cover'
     );
-    // const post = await Post.find({ user: mongoose.Types.ObjectId(id) });
-    return res.status(200).json({ post });
+
+    const reacts = await React.find({ postRef: id });
+
+    return res.status(200).json({ post, reacts });
   } catch (e) {
     res.status(500).json({ message: e.message });
   }

@@ -12,9 +12,7 @@ function PostHeader({ post, admin, setShowMenu }) {
         {!admin && <img src={post.user.picture} alt='' />}
         <div className='header_col'>
           <div className='post_profile_name'>
-            {admin
-              ? post.post.user.full_name
-              : `${post.user.first_name} ${post.user.last_name}`}
+            {!admin && `${post.user.first_name} ${post.user.last_name}`}
             <div className='updated_p'>
               {!admin &&
                 post.type === 'profilePicture' &&
@@ -36,22 +34,26 @@ function PostHeader({ post, admin, setShowMenu }) {
                 }`}
             </div>
           </div>
-          <div className='post_profile_privacy_date'>
-            <Moment fromNow interval={30}>
-              {!admin ? post.createdAt : post.post.createdAt}
-            </Moment>
-            <Public color='gray' />
-          </div>
+          {!admin && (
+            <div className='post_profile_privacy_date'>
+              <Moment fromNow interval={30}>
+                {!admin ? post.createdAt : post.post.createdAt}
+              </Moment>
+              <Public color='gray' />
+            </div>
+          )}
         </div>
       </Link>
-      <div>
-        <div
-          className='post_header_right hover1'
-          onClick={() => setShowMenu((prev) => !prev)}
-        >
-          <Dots color='gray' />
+      {!admin && (
+        <div>
+          <div
+            className='post_header_right hover1'
+            onClick={() => setShowMenu((prev) => !prev)}
+          >
+            <Dots color='gray' />
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

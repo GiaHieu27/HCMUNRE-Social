@@ -1,4 +1,3 @@
-import React from 'react';
 import Comment from './Comment';
 import CreateComments from './CreateComments';
 import ReactsPopup from './ReactsPopup';

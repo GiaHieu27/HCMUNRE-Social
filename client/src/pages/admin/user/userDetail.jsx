@@ -31,34 +31,12 @@ function UserDetail() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // const onUpdateSuccess = () => {
-  //   console.log('success');
-  //   setDialogType('success');
-  //   setDialogText('User updated');
-  //   setDialogOpen(true);
-  // };
-
-  // const onUpdateFalse = (message) => {
-  //   console.log('false');
-  //   setDialogType('error');
-  //   setDialogText(message || 'User update fail');
-  //   setDialogOpen(true);
-  // };
-
   return (
     <>
       <PageHeader title={'Thông tin người dùng chi tiết'} />
       <Grid container spacing={3}>
         <Grid item xs={8}>
-          <Stack spacing={4}>
-            {user && (
-              <UserInfo
-                user={user}
-                // onUpdateSuccess={onUpdateSuccess}
-                // onUpdateFalse={onUpdateFalse}
-              />
-            )}
-          </Stack>
+          <Stack spacing={4}>{user && <UserInfo user={user} />}</Stack>
         </Grid>
       </Grid>
 
