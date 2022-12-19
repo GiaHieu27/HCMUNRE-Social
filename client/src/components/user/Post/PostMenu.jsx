@@ -62,8 +62,8 @@ function PostMenu(props) {
         <div onClick={() => handleDelPost()}>
           <MenuItem
             icon='trash_icon'
-            title='Chuyển vào thùng rác'
-            subtitle='Các mục trong thùng rác sẽ bị xoá sau 30 ngày'
+            title='Xóa bài viết'
+            // subtitle='Các mục trong thùng rác sẽ bị xoá sau 30 ngày'
           />
         </div>
       )}
