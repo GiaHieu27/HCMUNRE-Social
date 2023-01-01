@@ -4,6 +4,28 @@
   font-size: 14px;
   margin-top: 5px;
 
+  &_hide {
+    .comment_img {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+    }
+
+    .comment_image {
+      margin-top: 5px;
+      width: 200px;
+      height: 150px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    &_wrap {
+      background: var(--bg-forth);
+      padding: 5px 15px;
+      border-radius: 20px;
+    }
+  }
+
   &_img {
     width: 35px;
     height: 35px;

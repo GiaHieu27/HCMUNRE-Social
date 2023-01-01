@@ -3,6 +3,7 @@ import Moment from 'react-moment';
 import LightGallery from 'lightgallery/react';
 import lgZoom from 'lightgallery/plugins/zoom';
 import { useSelector } from 'react-redux';
+import classnames from 'classnames';
 
 import { Dots } from '../../../svg';
 import useClickOutSide from '../../../hooks/useClickOutSide';
@@ -18,15 +19,20 @@ function Comment({ comment, post }) {
     setOpenModal(false);
   });
 
-  const handleHideComment = (commentId, token, postId) => {
-    const res = hideComment(commentId, token, postId);
+  const handleHideComment = async (commentId, token, postId) => {
+    const res = await hideComment(commentId, token, postId);
+    // console.log(res);
   };
 
-  console.log(post);
+  console.log(comment);
 
   return (
     <>
-      <div className='comment'>
+      <div
+        className={classnames('comment', {
+          comment_hide: comment.hide,
+        })}
+      >
         <img
           src={comment.commentBy.picture}
           alt='commentByPicture'
@@ -61,7 +67,7 @@ function Comment({ comment, post }) {
                   <div
                     className='open_cover_menu_item hover2'
                     onClick={() =>
-                      handleHideComment(comment, user.token, post._id)
+                      handleHideComment(comment._id, user.token, post._id)
                     }
                   >
                     Ẩn bình luận

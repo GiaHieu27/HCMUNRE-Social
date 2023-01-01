@@ -86,13 +86,22 @@ exports.comment = async (req, res) => {
 exports.hideComment = async (req, res) => {
   try {
     const { commentId, postId } = req.body;
-    console.log(commentId);
-    const comment = await Post.find({
-      commentId,
-    }).lean();
-    // console.log(comment);
 
-    res.json();
+    await Post.updateMany(
+      {},
+      { $set: { 'comments.$[elem].hide': true } },
+      {
+        arrayFilters: [
+          { 'elem._id': { $eq: mongoose.Types.ObjectId(commentId) } },
+        ],
+      }
+    );
+
+    const getCommentUpdate = await Post.findOne({
+      'comments._id': mongoose.Types.ObjectId(commentId),
+    }).lean();
+
+    res.json(getCommentUpdate);
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
