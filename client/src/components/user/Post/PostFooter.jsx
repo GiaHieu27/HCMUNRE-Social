@@ -121,7 +121,9 @@ function PostFooter({
           [...comments]
             .sort((a, b) => new Date(b.commentAt) - new Date(a.commentAt))
             .slice(0, saved ? comments.length : count)
-            .map((comment, i) => <Comment comment={comment} key={i} />)}
+            .map((comment, i) => (
+              <Comment comment={comment} post={post} key={i} />
+            ))}
         {count < comments.length && !saved && (
           <div className='view_comments' onClick={() => showMore()}>
             Xem thêm bình luận

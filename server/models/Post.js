@@ -50,6 +50,10 @@ const postSchema = mongoose.Schema(
           type: Date,
           require: true,
         },
+        hide: {
+          type: Boolean,
+          default: false,
+        },
       },
     ],
   },

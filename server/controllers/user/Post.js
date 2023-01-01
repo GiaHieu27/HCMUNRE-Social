@@ -1,3 +1,4 @@
+const { default: mongoose } = require('mongoose');
 const Post = require('../../models/Post');
 const User = require('../../models/User');
 
@@ -77,6 +78,21 @@ exports.comment = async (req, res) => {
     ).populate('comments.commentBy', 'picture first_name last_name username');
 
     res.json(newComments.comments);
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+exports.hideComment = async (req, res) => {
+  try {
+    const { commentId, postId } = req.body;
+    console.log(commentId);
+    const comment = await Post.find({
+      commentId,
+    }).lean();
+    // console.log(comment);
+
+    res.json();
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }

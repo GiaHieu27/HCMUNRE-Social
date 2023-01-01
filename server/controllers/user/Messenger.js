@@ -57,12 +57,6 @@ exports.getMessage = async (req, res) => {
       ],
     });
 
-    // getAllMessages = getAllMessages.filter(
-    //   (m) =>
-    //     (m.senderId === id && m.receiverId === userId) ||
-    //     (m.receiverId === id && m.senderId === userId)
-    // );
-
     res.json(getAllMessages);
   } catch (error) {
     return res.status(500).json({ message: error.message });

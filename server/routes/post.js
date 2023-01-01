@@ -10,6 +10,7 @@ const {
   deletePost,
   getAllSavedPosts,
   getOneSavedPost,
+  hideComment,
 } = require('.././controllers/user/Post');
 const {
   createNotify,
@@ -26,6 +27,8 @@ router.get('/getOneSavedPost/:postId', authUser, getOneSavedPost);
 
 router.put('/comment', authUser, comment);
 router.put('/savePost/:id', authUser, savePost);
+router.put('/savePost/:id', authUser, savePost);
+router.put('/hideComment/', authUser, hideComment);
 
 router.delete('/deletePost/:id', authUser, deletePost);
 
@@ -34,4 +37,5 @@ router.post('/createNotify', authUser, createNotify);
 router.get('/getAllNotify', authUser, getAllNotify);
 router.put('/updateStatusNotify', authUser, updateStatusNotify);
 router.put('/updateStatusNotifySeen', authUser, updateStatusNotifySeen);
+
 module.exports = router;
