@@ -85,7 +85,7 @@ exports.comment = async (req, res) => {
 
 exports.hideComment = async (req, res) => {
   try {
-    const { commentId, postId } = req.body;
+    const { commentId } = req.body;
 
     await Post.updateMany(
       {},
@@ -99,7 +99,45 @@ exports.hideComment = async (req, res) => {
 
     const getCommentUpdate = await Post.findOne({
       'comments._id': mongoose.Types.ObjectId(commentId),
-    }).lean();
+    })
+      .select('comments')
+      .populate('comments.commentBy', 'picture first_name last_name username');
+
+    res.json(getCommentUpdate);
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+exports.showComment = async (req, res) => {
+  try {
+    const { commentId } = req.body;
+
+    await Post.updateMany(
+      {},
+      { $set: { 'comments.$[elem].hide': false } },
+      {
+        arrayFilters: [
+          { 'elem._id': { $eq: mongoose.Types.ObjectId(commentId) } },
+        ],
+      }
+    );
+
+    const getCommentUpdate = await Post.findOne({
+      'comments._id': mongoose.Types.ObjectId(commentId),
+    })
+      .select('comments')
+      .populate('comments.commentBy', 'picture first_name last_name username');
+
+    res.json(getCommentUpdate);
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+exports.deleteComment = async (req, res) => {
+  try {
+    const { commentId } = req.body;
 
     res.json(getCommentUpdate);
   } catch (error) {

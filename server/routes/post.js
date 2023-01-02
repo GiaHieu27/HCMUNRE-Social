@@ -11,6 +11,8 @@ const {
   getAllSavedPosts,
   getOneSavedPost,
   hideComment,
+  deleteComment,
+  showComment,
 } = require('.././controllers/user/Post');
 const {
   createNotify,
@@ -29,6 +31,8 @@ router.put('/comment', authUser, comment);
 router.put('/savePost/:id', authUser, savePost);
 router.put('/savePost/:id', authUser, savePost);
 router.put('/hideComment/', authUser, hideComment);
+router.put('/showComment/', authUser, showComment);
+router.put('/deleteComment/', authUser, deleteComment);
 
 router.delete('/deletePost/:id', authUser, deletePost);
 

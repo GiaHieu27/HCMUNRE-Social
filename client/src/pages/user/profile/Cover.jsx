@@ -30,6 +30,7 @@ function Cover({ cover, visitor, photos }) {
 
   useEffect(() => {
     setWidth(coverWidthRef.current.clientWidth);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [window.innerWidth]);
 
   useClickOutSide(menuRef, () => {
@@ -78,6 +79,7 @@ function Cover({ cover, visitor, photos }) {
         console.log(error);
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [croppedAreaPixels]
   );
 
@@ -124,35 +126,35 @@ function Cover({ cover, visitor, photos }) {
   };
 
   return (
-    <div className="profile_cover" ref={coverWidthRef}>
+    <div className='profile_cover' ref={coverWidthRef}>
       {coverPicture && (
-        <div className="save_changes_cover">
-          <div className="save_changes_left">
-            <i className="public_icon"></i>
+        <div className='save_changes_cover'>
+          <div className='save_changes_left'>
+            <i className='public_icon'></i>
             Ảnh bìa của bạn sẽ được hiển thị công khai
           </div>
-          <div className="save_changes_right">
+          <div className='save_changes_right'>
             <button
-              className="green_btn opacity_btn"
+              className='green_btn opacity_btn'
               onClick={() => setCoverPicture('')}
             >
               Huỷ
             </button>
-            <button className="green_btn" onClick={handleUpdateCover}>
-              {loading ? <PulseLoader color="white" size="7px" /> : 'Save'}
+            <button className='green_btn' onClick={handleUpdateCover}>
+              {loading ? <PulseLoader color='white' size='7px' /> : 'Lưu'}
             </button>
           </div>
         </div>
       )}
       <input
-        type="file"
+        type='file'
         ref={uploadRef}
-        accept="image/png,image/jpg,image/jpeg,image/gif,image/webp"
+        accept='image/png,image/jpg,image/jpeg,image/gif,image/webp'
         hidden
         onChange={handleChangeImage}
       />
       {coverPicture && (
-        <div className="cover_cropper">
+        <div className='cover_cropper'>
           <Cropper
             image={coverPicture}
             crop={crop}
@@ -162,36 +164,36 @@ function Cover({ cover, visitor, photos }) {
             onCropComplete={onCropComplete}
             onZoomChange={setZoom}
             showGrid={true}
-            objectFit="horizontal-cover"
+            objectFit='horizontal-cover'
           />
         </div>
       )}
       {cover && !coverPicture && (
-        <img src={cover} alt="profile_cover" className="cover" ref={coverRef} />
+        <img src={cover} alt='profile_cover' className='cover' ref={coverRef} />
       )}
       {!visitor && (
-        <div className="update_cover_wrapper" ref={menuRef}>
+        <div className='update_cover_wrapper' ref={menuRef}>
           <div
-            className="open_cover_update"
+            className='open_cover_update'
             onClick={() => setShowCoverMenu(!showCoverMenu)}
           >
-            <i className="camera_filled_icon"></i>
+            <i className='camera_filled_icon'></i>
             Thêm ảnh bìa
           </div>
           {showCoverMenu && (
-            <div className="open_cover_menu">
+            <div className='open_cover_menu'>
               <div
-                className="open_cover_menu_item hover2"
+                className='open_cover_menu_item hover2'
                 onClick={() => setShow(true)}
               >
-                <i className="photo_icon"></i>
+                <i className='photo_icon'></i>
                 Chọn ảnh
               </div>
               <div
-                className="open_cover_menu_item hover2"
+                className='open_cover_menu_item hover2'
                 onClick={() => uploadRef.current.click()}
               >
-                <i className="upload_icon"></i>
+                <i className='upload_icon'></i>
                 Tải ảnh lên
               </div>
             </div>
@@ -199,9 +201,9 @@ function Cover({ cover, visitor, photos }) {
         </div>
       )}
       {error && (
-        <div className="postError comment_error">
-          <div className="postError_error">{error}</div>
-          <button className="green_btn" onClick={() => setError('')}>
+        <div className='postError comment_error'>
+          <div className='postError_error'>{error}</div>
+          <button className='green_btn' onClick={() => setError('')}>
             Thử lại
           </button>
         </div>

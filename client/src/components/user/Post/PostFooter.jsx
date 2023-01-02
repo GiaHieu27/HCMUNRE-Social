@@ -1,3 +1,4 @@
+import { deleteComment } from '../../../apis/post';
 import Comment from './Comment';
 import CreateComments from './CreateComments';
 import ReactsPopup from './ReactsPopup';
@@ -18,6 +19,11 @@ function PostFooter({
   count,
   showMore,
 }) {
+  const handleDeleteComment = async (commentId, token, postId) => {
+    const res = deleteComment(commentId, token, postId);
+    console.log(res);
+  };
+
   return (
     <>
       <div className='post_infos'>
@@ -122,7 +128,12 @@ function PostFooter({
             .sort((a, b) => new Date(b.commentAt) - new Date(a.commentAt))
             .slice(0, saved ? comments.length : count)
             .map((comment, i) => (
-              <Comment comment={comment} post={post} key={i} />
+              <Comment
+                comment={comment}
+                post={post}
+                handleDeleteComment={handleDeleteComment}
+                key={i}
+              />
             ))}
         {count < comments.length && !saved && (
           <div className='view_comments' onClick={() => showMore()}>

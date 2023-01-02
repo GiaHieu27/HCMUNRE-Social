@@ -9,8 +9,9 @@ import { Dots } from '../../../svg';
 import useClickOutSide from '../../../hooks/useClickOutSide';
 import { hideComment } from '../../../apis/post';
 
-function Comment({ comment, post }) {
+function Comment({ comment, post, handleDeleteComment }) {
   const [openModal, setOpenModal] = React.useState(false);
+  const [commentState, setCommentState] = React.useState(comment);
   const uploadRef = React.useRef(null);
 
   const user = useSelector((state) => state.user);
@@ -19,22 +20,35 @@ function Comment({ comment, post }) {
     setOpenModal(false);
   });
 
-  const handleHideComment = async (commentId, token, postId) => {
-    const res = await hideComment(commentId, token, postId);
-    // console.log(res);
+  const handleHideComment = async (commentId, token) => {
+    const res = await hideComment(commentId, token);
+
+    const commentUpdateHide = res.comments.filter((comment) => {
+      return comment._id === commentState._id;
+    });
+
+    setCommentState(commentUpdateHide[0]);
   };
 
-  console.log(comment);
+  const handleShowComment = async (commentId, token) => {
+    const res = await hideComment(commentId, token);
+
+    const commentUpdateHide = res.comments.filter((comment) => {
+      return comment._id === commentState._id;
+    });
+
+    setCommentState(commentUpdateHide[0]);
+  };
 
   return (
     <>
       <div
         className={classnames('comment', {
-          comment_hide: comment.hide,
+          comment_hide: commentState.hide,
         })}
       >
         <img
-          src={comment.commentBy.picture}
+          src={commentState.commentBy.picture}
           alt='commentByPicture'
           className='comment_img'
         />
@@ -44,17 +58,22 @@ function Comment({ comment, post }) {
             <div className={`'flex flex-column align-items-start'`}>
               <div className='comment_wrap'>
                 <div className='comment_name'>
-                  {comment.commentBy.first_name} {comment.commentBy.last_name}
+                  {commentState.commentBy.first_name}{' '}
+                  {commentState.commentBy.last_name}
                 </div>
-                <div className='comment_text'>{comment.comment}</div>
+                <div className='comment_text'>{commentState.comment}</div>
               </div>
-              {comment.images && (
+              {commentState.images && (
                 <LightGallery
                   licenseKey='`0000-0000-000-0000'
                   plugins={[lgZoom]}
                   mode='lg-fade'
                 >
-                  <img src={comment.images} alt='' className='comment_image' />
+                  <img
+                    src={commentState.images}
+                    alt=''
+                    className='comment_image'
+                  />
                 </LightGallery>
               )}
             </div>
@@ -66,11 +85,30 @@ function Comment({ comment, post }) {
                 <div className='open_cover_menu comment_popup' ref={uploadRef}>
                   <div
                     className='open_cover_menu_item hover2'
+                    onClick={() => {
+                      commentState.hide
+                        ? handleShowComment(
+                            commentState._id,
+                            user.token,
+                            post._id
+                          )
+                        : handleHideComment(
+                            commentState._id,
+                            user.token,
+                            post._id
+                          );
+                    }}
+                  >
+                    {commentState.hide ? 'Hiện bình luận' : 'Ẩn bình luận'}
+                  </div>
+
+                  <div
+                    className='open_cover_menu_item hover2'
                     onClick={() =>
-                      handleHideComment(comment._id, user.token, post._id)
+                      handleHideComment(commentState._id, user.token, post._id)
                     }
                   >
-                    Ẩn bình luận
+                    Xóa bình luận
                   </div>
                 </div>
               )}
@@ -81,7 +119,7 @@ function Comment({ comment, post }) {
             <span>Trả lời</span>
             <span>
               <Moment fromNow interval={30}>
-                {comment.commentAt}
+                {commentState.commentAt}
               </Moment>
             </span>
           </div>
