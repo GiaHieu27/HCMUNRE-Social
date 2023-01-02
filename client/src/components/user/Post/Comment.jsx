@@ -106,18 +106,21 @@ function Comment({ comment, post, handleDeleteComment }) {
                     {commentState.hide ? 'Hiện bình luận' : 'Ẩn bình luận'}
                   </div>
 
-                  <div
-                    className='open_cover_menu_item hover2'
-                    onClick={() =>
-                      handleDeleteComment(
-                        commentState._id,
-                        user.token,
-                        post._id
-                      )
-                    }
-                  >
-                    Xóa bình luận
-                  </div>
+                  {(user.id === commentState.commentBy._id ||
+                    user.id === post.user._id) && (
+                    <div
+                      className='open_cover_menu_item hover2'
+                      onClick={() =>
+                        handleDeleteComment(
+                          commentState._id,
+                          user.token,
+                          post._id
+                        )
+                      }
+                    >
+                      Xóa bình luận
+                    </div>
+                  )}
                 </div>
               )}
             </div>

@@ -21,7 +21,13 @@ function PostFooter({
 }) {
   const handleDeleteComment = async (commentId, token, postId) => {
     const res = await deleteComment(commentId, token, postId);
-    console.log(res);
+    if (res.status) {
+      const remainComment = comments.filter((comment) => {
+        return comment._id !== commentId;
+      });
+
+      setComments(remainComment);
+    }
   };
 
   return (
@@ -71,7 +77,7 @@ function PostFooter({
               setVisible(false);
             }, 500);
           }}
-          onClick={() => handleReact(checkUserReact ? checkUserReact : 'like')}
+          onClick={() => handleReact(checkUserReact ? checkUserReact : 'Thích')}
         >
           {checkUserReact ? (
             <img
@@ -102,7 +108,17 @@ function PostFooter({
               }`,
             }}
           >
-            {checkUserReact ? checkUserReact : 'like'}
+            {checkUserReact === 'love'
+              ? 'Yêu thích'
+              : checkUserReact === 'haha'
+              ? 'Haha'
+              : checkUserReact === 'sad'
+              ? 'Buồn'
+              : checkUserReact === 'wow'
+              ? 'Wow'
+              : checkUserReact === 'angry'
+              ? 'Phẫn nộ'
+              : 'Thích'}
           </span>
         </div>
         <div className='post_action hover1'>

@@ -81,9 +81,6 @@ function CreateComments({ user, postId, setComments, setCount }) {
       } else {
         setLoading(true);
         const comments = await comment(postId, text, '', user.token);
-
-        console.log(comments);
-
         setComments(comments);
         setCount((prev) => ++prev);
         setLoading(false);
