@@ -18,7 +18,7 @@ exports.createPost = async (req, res) => {
         'first_name last_name username picture cover'
       );
     }
-    res.json(post);
+    res.status(200).json(post);
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
@@ -51,7 +51,7 @@ exports.getAllPosts = async (req, res) => {
 
     followingPost.push(...[...userPost]);
     followingPost.sort((a, b) => b.createdAt - a.createdAt);
-    res.json(followingPost);
+    res.status(200).json(followingPost);
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
@@ -77,7 +77,7 @@ exports.comment = async (req, res) => {
       }
     ).populate('comments.commentBy', 'picture first_name last_name username');
 
-    res.json(newComments.comments);
+    res.status(200).json(newComments.comments);
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
@@ -103,7 +103,7 @@ exports.hideComment = async (req, res) => {
       .select('comments')
       .populate('comments.commentBy', 'picture first_name last_name username');
 
-    res.json(getCommentUpdate);
+    res.status(200).json(getCommentUpdate);
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
@@ -129,7 +129,7 @@ exports.showComment = async (req, res) => {
       .select('comments')
       .populate('comments.commentBy', 'picture first_name last_name username');
 
-    res.json(getCommentUpdate);
+    res.status(200).json(getCommentUpdate);
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
@@ -137,9 +137,18 @@ exports.showComment = async (req, res) => {
 
 exports.deleteComment = async (req, res) => {
   try {
-    const { commentId } = req.body;
+    const { commentId, postId } = req.body;
 
-    res.json(getCommentUpdate);
+    const del = await Post.updateOne(
+      { _id: mongoose.Types.ObjectId(postId) },
+      { $pull: { comments: { _id: mongoose.Types.ObjectId(commentId) } } }
+    );
+
+    if (del.acknowledged) {
+      res.status(200).json({ status: true });
+    } else {
+      res.status(400).json({ status: false });
+    }
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
@@ -178,7 +187,7 @@ exports.savePost = async (req, res) => {
         }
       );
     }
-    res.json({ status: 'ok' });
+    res.status(200).json({ status: 'ok' });
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
@@ -192,7 +201,7 @@ exports.getAllSavedPosts = async (req, res) => {
       .populate('savedPosts.postBy', 'first_name last_name picture username')
       .lean();
 
-    res.json(savedPosts.savedPosts);
+    res.status(200).json(savedPosts.savedPosts);
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
@@ -204,7 +213,7 @@ exports.getOneSavedPost = async (req, res) => {
     const post = await Post.findById(postId)
       .populate('user', 'first_name last_name username picture')
       .populate('comments.commentBy', 'first_name last_name username picture');
-    res.json(post);
+    res.status(200).json(post);
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
@@ -213,7 +222,7 @@ exports.getOneSavedPost = async (req, res) => {
 exports.deletePost = async (req, res) => {
   try {
     await Post.findByIdAndRemove(req.params.id);
-    res.json({ status: 'ok' });
+    res.status(200).json({ status: 'ok' });
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }

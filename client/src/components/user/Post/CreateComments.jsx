@@ -81,6 +81,9 @@ function CreateComments({ user, postId, setComments, setCount }) {
       } else {
         setLoading(true);
         const comments = await comment(postId, text, '', user.token);
+
+        console.log(comments);
+
         setComments(comments);
         setCount((prev) => ++prev);
         setLoading(false);
@@ -91,75 +94,75 @@ function CreateComments({ user, postId, setComments, setCount }) {
   };
 
   return (
-    <div className="create_comment_wrap">
-      <div className="create_comment">
-        <img src={user?.picture} alt="" />
-        <div className="comment_input_wrap">
+    <div className='create_comment_wrap'>
+      <div className='create_comment'>
+        <img src={user?.picture} alt='' />
+        <div className='comment_input_wrap'>
           {picker && (
-            <div className="comment_emoji_picker">
+            <div className='comment_emoji_picker'>
               <Picker onEmojiClick={handleEmojiClick} />
             </div>
           )}
           <input
-            type="file"
+            type='file'
             ref={imgRef}
-            accept="image/png,image/jpeg,image/jpeg,image/gif,image/webp"
+            accept='image/png,image/jpeg,image/jpeg,image/gif,image/webp'
             onChange={handleChangeImage}
             hidden
           />
           {error && (
-            <div className="postError comment_error">
-              <div className="postError_error">{error}</div>
-              <button className="green_btn" onClick={() => setError('')}>
+            <div className='postError comment_error'>
+              <div className='postError_error'>{error}</div>
+              <button className='green_btn' onClick={() => setError('')}>
                 Thử lại
               </button>
             </div>
           )}
           <input
-            type="text"
+            type='text'
             ref={textRef}
             value={text}
-            placeholder="Viet binh luan"
+            placeholder='Viet binh luan'
             onChange={(e) => setText(e.target.value)}
             onKeyUp={handleComment}
             onClick={() => setPicker(false)}
           />
-          <div className="comment_circle">
-            <ClipLoader color="green" size="7px" loading={loading} />
+          <div className='comment_circle'>
+            <ClipLoader color='green' size='7px' loading={loading} />
           </div>
 
           <div
-            className="comment_circle_icon hover2"
+            className='comment_circle_icon hover2'
             onClick={() => {
               setPicker(!picker);
             }}
           >
-            <i className="emoji_icon"></i>
+            <i className='emoji_icon'></i>
           </div>
           <div
-            className="comment_circle_icon hover2"
+            className='comment_circle_icon hover2'
             onClick={() => {
               imgRef.current.click();
             }}
           >
-            <i className="camera_icon"></i>
+            <i className='camera_icon'></i>
           </div>
-          <div className="comment_circle_icon hover2">
-            <i className="gif_icon"></i>
+          <div className='comment_circle_icon hover2'>
+            <i className='gif_icon'></i>
           </div>
-          <div className="comment_circle_icon hover2">
-            <i className="sticker_icon"></i>
+          <div className='comment_circle_icon hover2'>
+            <i className='sticker_icon'></i>
           </div>
         </div>
       </div>
       {commentImage && (
-        <div className="comment_img_preview">
-          <img src={commentImage} alt="" />
+        <div className='comment_img_preview'>
+          <img src={commentImage} alt='' />
           <div
-            className="small_white_circle"
+            className='small_white_circle'
             onClick={() => setCommentImage('')}
           >
-            <i className="exit_icon"></i>
+            <i className='exit_icon'></i>
           </div>
         </div>
       )}

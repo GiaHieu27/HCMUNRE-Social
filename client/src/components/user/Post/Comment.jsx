@@ -7,7 +7,7 @@ import classnames from 'classnames';
 
 import { Dots } from '../../../svg';
 import useClickOutSide from '../../../hooks/useClickOutSide';
-import { hideComment } from '../../../apis/post';
+import { hideComment, showComment } from '../../../apis/post';
 
 function Comment({ comment, post, handleDeleteComment }) {
   const [openModal, setOpenModal] = React.useState(false);
@@ -31,7 +31,7 @@ function Comment({ comment, post, handleDeleteComment }) {
   };
 
   const handleShowComment = async (commentId, token) => {
-    const res = await hideComment(commentId, token);
+    const res = await showComment(commentId, token);
 
     const commentUpdateHide = res.comments.filter((comment) => {
       return comment._id === commentState._id;
@@ -39,6 +39,10 @@ function Comment({ comment, post, handleDeleteComment }) {
 
     setCommentState(commentUpdateHide[0]);
   };
+
+  React.useEffect(() => {
+    setCommentState(comment);
+  }, [comment]);
 
   return (
     <>
@@ -105,7 +109,11 @@ function Comment({ comment, post, handleDeleteComment }) {
                   <div
                     className='open_cover_menu_item hover2'
                     onClick={() =>
-                      handleHideComment(commentState._id, user.token, post._id)
+                      handleDeleteComment(
+                        commentState._id,
+                        user.token,
+                        post._id
+                      )
                     }
                   >
                     Xóa bình luận
