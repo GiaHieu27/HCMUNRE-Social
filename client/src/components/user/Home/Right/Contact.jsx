@@ -13,6 +13,7 @@ function Contact() {
   const actions = friendSlice.actions;
 
   const [friends, setFriends] = React.useState([]);
+  const [loading, setLoading] = React.useState(false);
 
   const handleAddFriend = async (friendId, token) => {
     const res = await addFriend(friendId, token);
@@ -22,16 +23,22 @@ function Contact() {
   };
 
   React.useEffect(() => {
-    const getFriendPages = async () => {
-      dispatch(actions.FRIEND_REQUEST());
-      const res = await getFriend(user.token);
-      if (res.success === true) {
-        dispatch(actions.FRIEND_SUCCESS(res.data));
-      } else {
-        dispatch(actions.FRIEND_ERROR(res.data));
+    (async () => {
+      try {
+        setLoading(true);
+        dispatch(actions.FRIEND_REQUEST());
+        const res = await getFriend(user.token);
+        if (res.success === true) {
+          dispatch(actions.FRIEND_SUCCESS(res.data));
+          setLoading(false);
+        } else {
+          dispatch(actions.FRIEND_ERROR(res.data));
+          setLoading(false);
+        }
+      } catch (error) {
+        console.log(error);
       }
-    };
-    getFriendPages();
+    })();
   }, [actions, dispatch, user.token]);
 
   React.useEffect(() => {
@@ -40,26 +47,26 @@ function Contact() {
 
   return (
     <>
-      {friends && friends.length > 0 ? (
+      {!loading ? (
         friends.slice(0, 2).map((friend) => (
-          <div className="createPost contact flex-column" key={friend._id}>
-            <div className="d-flex align-items-center gap-2">
-              <div className="contact_img">
-                <img src={friend.picture} alt="" />
+          <div className='createPost contact flex-column' key={friend._id}>
+            <div className='d-flex align-items-center gap-2'>
+              <div className='contact_img'>
+                <img src={friend.picture} alt='' />
               </div>
               <span>
                 {friend.first_name} {friend.last_name}
               </span>
             </div>
 
-            <div className="contact_action d-flex flex-row justify-content-around">
+            <div className='contact_action d-flex flex-row justify-content-around'>
               <button
-                className="green_btn"
+                className='green_btn'
                 onClick={() => handleAddFriend(friend._id, user.token)}
               >
                 Kết bạn
               </button>
-              <Link to={`/profile/${friend.username}`} className="gray_btn">
+              <Link to={`/profile/${friend.username}`} className='gray_btn'>
                 Trang cá nhân
               </Link>
             </div>
@@ -68,19 +75,19 @@ function Contact() {
       ) : (
         <>
           {Array.from(new Array(2), (val, index) => index + 1).map((val, i) => (
-            <div className="createPost contact flex-column" key={i}>
+            <div className='createPost contact flex-column' key={i}>
               <Stack
                 spacing={1}
-                direction="row"
-                justifyContent="flex-start"
-                alignItems="center"
+                direction='row'
+                justifyContent='flex-start'
+                alignItems='center'
               >
-                <Skeleton variant="circular" width={40} height={40} />
+                <Skeleton variant='circular' width={40} height={40} />
                 <Skeleton width={70} height={30} />
               </Stack>
-              <Stack spacing={2} direction="row">
-                <Skeleton variant="rounded" width={190} height={40} />
-                <Skeleton variant="rounded" width={190} height={40} />
+              <Stack spacing={2} direction='row'>
+                <Skeleton variant='rounded' width={190} height={40} />
+                <Skeleton variant='rounded' width={190} height={40} />
               </Stack>
             </div>
           ))}

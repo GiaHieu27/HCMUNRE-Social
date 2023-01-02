@@ -29,6 +29,7 @@ function PostPending() {
     const getData = async () => {
       try {
         const res = await getTotalAnalyze(user.token);
+        console.log(res.postHasNotBeenApproved);
         setPostPending(
           res.postHasNotBeenApproved.sort(
             (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
@@ -43,20 +44,21 @@ function PostPending() {
 
   const handleBrowserPost = async (postId, fullName) => {
     const res = await browseArticles(postId, fullName, user.token);
-    setPostPending(res.posts);
+    // console.log(res.posts);
+    setPostPending(
+      res.posts.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+    );
   };
 
   const handleDeletePost = async (postId) => {
     const res = await deletePost(postId, user.token);
     if (res.status === 'ok') {
       const newPost = postPending.filter((item) => {
-        return item.id !== postId;
+        return item._id !== postId;
       });
       setPostPending(newPost);
     }
   };
-
-  console.log(postPending);
 
   let columns = [
     {

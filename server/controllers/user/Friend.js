@@ -296,6 +296,7 @@ exports.getFriend = async (req, res) => {
 
     const { friends, requests } = user;
     let suggestFriends = friends.reduce((previousValue, currentValue) => {
+      console.log(currentValue);
       previousValue.push(currentValue.friends);
       return previousValue.flat();
     }, []);

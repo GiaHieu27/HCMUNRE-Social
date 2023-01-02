@@ -113,10 +113,14 @@ exports.browseArticles = async (req, res) => {
       { approve: true, censor: fullName },
       { new: true }
     );
-    const posts = await Post.find({ approve: false }).lean();
+    const posts = await Post.find({ approve: false })
+      .populate('user', 'full_name picture')
+      .lean();
 
     posts.map((post) => {
       post['id'] = post['_id'];
+      post['full_name'] = post['user'].full_name;
+      post['avatar'] = post['user'].picture;
       return post;
     });
 

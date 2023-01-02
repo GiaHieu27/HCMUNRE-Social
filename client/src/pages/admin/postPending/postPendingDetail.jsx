@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { Box, Button, Grid, Stack, Typography } from '@mui/material';
 
-import { getOneUser } from '../../../apis/admin';
+import { browseArticles, getOneUser } from '../../../apis/admin';
 import CustomDialog from '../../../components/user/CustomDialog';
 import PageHeader from '../../../components/admin/PageHeader';
 
@@ -45,6 +45,10 @@ function PostDetail() {
     setDialogText(message || 'User update fail');
     setDialogOpen(true);
   };
+
+  // const handleBrowserPost = async (postId, fullName) => {
+  //   const res = await browseArticles(postId, fullName, user.token);
+  // };
 
   return (
     <>

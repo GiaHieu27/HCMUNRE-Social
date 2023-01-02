@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import { Box, Button, Grid, Paper, Stack, Typography } from '@mui/material';
 import moment from 'moment';
 
-import { getOnePost } from '../../../apis/admin';
+import { browseArticles, getOnePost } from '../../../apis/admin';
 import CustomDialog from '../../../components/CustomDialog';
 import PageHeader from '../../../components/admin/PageHeader';
 import Post from '../../../components/user/Post';
@@ -13,8 +13,9 @@ import { deletePost } from '../../../apis/post';
 
 function PostDetail() {
   const { id } = useParams();
-  const { user } = useSelector((state) => ({ ...state }));
+  const { user, admin } = useSelector((state) => ({ ...state }));
   const navigate = useNavigate();
+  const fullName = `${admin.first_name} ${admin.last_name}`;
 
   const currentUser = useSelector((state) => state.user);
 
@@ -40,6 +41,13 @@ function PostDetail() {
     const res = await deletePost(postId, user.token);
     if (res.status === 'ok') {
       navigate('/admin/post/');
+    }
+  };
+
+  const handleBrowserPost = async (postId, fullName) => {
+    const res = await browseArticles(postId, fullName, user.token);
+    if (res) {
+      navigate('/admin/post-pending/');
     }
   };
 
@@ -128,13 +136,16 @@ function PostDetail() {
                 marginTop='20px'
                 sx={{ display: 'flex', justifyContent: 'center' }}
               >
-                <Button
-                  variant='contained'
-                  sx={{ marginRight: '20px' }}
-                  color='success'
-                >
-                  Duyệt bài
-                </Button>
+                {!post.post.approve && (
+                  <Button
+                    variant='contained'
+                    sx={{ marginRight: '20px' }}
+                    color='success'
+                    onClick={() => handleBrowserPost(post.post._id, fullName)}
+                  >
+                    Duyệt bài
+                  </Button>
+                )}
                 <Button
                   variant='contained'
                   color='error'
