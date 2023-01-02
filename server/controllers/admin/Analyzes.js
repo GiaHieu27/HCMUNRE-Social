@@ -148,3 +148,13 @@ exports.lockAccount = async (req, res) => {
     res.status(500).json({ message: e.message });
   }
 };
+
+exports.delAccount = async (req, res) => {
+  try {
+    console.log(req.params.id);
+    await User.findByIdAndRemove(req.params.id);
+    res.status(200).json({ status: true });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};

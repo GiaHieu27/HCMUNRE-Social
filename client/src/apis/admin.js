@@ -97,3 +97,19 @@ export const lockAccount = async (userId, token) => {
     return error.response.data.message;
   }
 };
+
+export const delAccount = async (userId, token) => {
+  try {
+    const { data } = await axios.delete(
+      `${process.env.REACT_APP_BACKEND_URL}/admin/delAccount/${userId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return data;
+  } catch (error) {
+    return error.response.data.message;
+  }
+};

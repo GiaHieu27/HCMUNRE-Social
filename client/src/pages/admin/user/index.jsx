@@ -13,7 +13,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import LockIcon from '@mui/icons-material/Lock';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 
-import { getTotalAnalyze, lockAccount } from '../../../apis/admin';
+import { delAccount, getTotalAnalyze, lockAccount } from '../../../apis/admin';
 import PageHeader from '../../../components/admin/PageHeader';
 import SearchToolbar from '../../../components/SearchToolBar';
 import TooltipMUI from '../../../components/TooltipMUI';
@@ -32,6 +32,17 @@ function User() {
         return !user.isAdmin;
       });
       setUserList(allUser);
+    }
+  };
+
+  const handleDelAcc = async (userId, token) => {
+    const res = await delAccount(userId, token);
+    if (res.status) {
+      const newUserList = userList.filter((user) => {
+        return user._id !== userId;
+      });
+
+      setUserList(newUserList);
     }
   };
 
@@ -117,6 +128,7 @@ function User() {
       headerName: 'Hành động',
       width: 130,
       renderCell: (params) => {
+        // console.log(params);
         return (
           <>
             {!params.row.isLock ? (
@@ -152,11 +164,11 @@ function User() {
               </IconButton>
             </TooltipMUI>
 
-            <TooltipMUI title='Xoá tài khoản' placement='top'>
+            <TooltipMUI title='Xóa tài khoản' placement='top'>
               <IconButton
                 aria-label='delete'
                 color='error'
-                // onClick={() => handleDeletePost(params.value)}
+                onClick={() => handleDelAcc(params.value, user.token)}
               >
                 <DeleteIcon />
               </IconButton>

@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { Box, Button, Grid, Paper, Stack, Typography } from '@mui/material';
 import moment from 'moment';
@@ -9,9 +9,12 @@ import { getOnePost } from '../../../apis/admin';
 import CustomDialog from '../../../components/CustomDialog';
 import PageHeader from '../../../components/admin/PageHeader';
 import Post from '../../../components/user/Post';
+import { deletePost } from '../../../apis/post';
 
 function PostDetail() {
   const { id } = useParams();
+  const { user } = useSelector((state) => ({ ...state }));
+  const navigate = useNavigate();
 
   const currentUser = useSelector((state) => state.user);
 
@@ -32,6 +35,13 @@ function PostDetail() {
     };
     getUser();
   }, []);
+
+  const handleDeletePost = async (postId) => {
+    const res = await deletePost(postId, user.token);
+    if (res.status === 'ok') {
+      navigate('/admin/post/');
+    }
+  };
 
   return (
     <>
@@ -125,7 +135,11 @@ function PostDetail() {
                 >
                   Duyệt bài
                 </Button>
-                <Button variant='contained' color='error'>
+                <Button
+                  variant='contained'
+                  color='error'
+                  onClick={() => handleDeletePost(post.post._id)}
+                >
                   Xóa bài
                 </Button>
               </Stack>

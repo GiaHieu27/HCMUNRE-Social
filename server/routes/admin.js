@@ -11,6 +11,7 @@ const {
   browseArticles,
   lockAccount,
   getOnePost,
+  delAccount,
 } = require('../controllers/admin/Analyzes');
 
 router.post('/admin/register', register);
@@ -23,5 +24,6 @@ router.get('/admin/getOnePost/:id', authUser, getOnePost);
 
 router.put('/admin/browseArticles/:id', authUser, browseArticles);
 router.put('/admin/lockAccount/:id', authUser, lockAccount);
+router.delete('/admin/delAccount/:id', authUser, delAccount);
 
 module.exports = router;
