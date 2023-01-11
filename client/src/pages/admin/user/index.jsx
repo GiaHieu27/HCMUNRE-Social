@@ -215,7 +215,7 @@ function User() {
       <CustomDialog
         open={show}
         handleClose={() => setShow(false)}
-        maxWidth={"400"}
+        maxWidth={400}
         title={"Bạn có chắc chắn muốn xóa"}
         actions={
           <Box

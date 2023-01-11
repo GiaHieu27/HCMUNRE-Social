@@ -162,7 +162,7 @@ function Post({ post, user, profile, saved, admin }) {
       <CustomDialog
         open={dialogOpen}
         handleClose={() => setDialogOpen(false)}
-        maxWidth={"400"}
+        maxWidth={400}
         title={"Bạn có chắc chắn muốn xóa"}
         actions={
           <Box
