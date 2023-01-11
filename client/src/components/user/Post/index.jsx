@@ -1,14 +1,21 @@
-import React, { useEffect, useRef, useState, useCallback } from 'react';
-import PropTypes from 'prop-types';
+import React, { useEffect, useRef, useState, useCallback } from "react";
+import PropTypes from "prop-types";
 
-import PostMenu from './PostMenu';
+import PostMenu from "./PostMenu";
 
-import { createNotify, getReacts, reactPost } from '../../../apis/post';
-import { SocketContext } from '../../../context/socketContext';
-import PostHeader from './PostHeader';
-import PostUserContent from './PostUserContent';
-import PostAdminContent from './PostAdminContent';
-import PostFooter from './PostFooter';
+import {
+  createNotify,
+  deletePost,
+  getReacts,
+  reactPost,
+} from "../../../apis/post";
+import { SocketContext } from "../../../context/socketContext";
+import PostHeader from "./PostHeader";
+import PostUserContent from "./PostUserContent";
+import PostAdminContent from "./PostAdminContent";
+import PostFooter from "./PostFooter";
+import CustomDialog from "../../CustomDialog";
+import { Box, Button } from "@mui/material";
 
 function Post({ post, user, profile, saved, admin }) {
   const { socket } = React.useContext(SocketContext);
@@ -19,8 +26,9 @@ function Post({ post, user, profile, saved, admin }) {
   const [comments, setComments] = useState([]);
   const [total, setTotal] = useState(0);
   const [count, setCount] = useState(1);
-  const [checkUserReact, setCheckUserReact] = useState('');
+  const [checkUserReact, setCheckUserReact] = useState("");
   const [checkSavedPost, setCheckSavedPost] = useState();
+  const [dialogOpen, setDialogOpen] = useState(false);
 
   const postRef = useRef(null);
 
@@ -50,7 +58,7 @@ function Post({ post, user, profile, saved, admin }) {
       await createNotify(
         post._id,
         post.user._id,
-        'đã bày tỏ cảm xúc về một bài viết của bạn',
+        "đã bày tỏ cảm xúc về một bài viết của bạn",
         reactName,
         user.token
       );
@@ -73,16 +81,14 @@ function Post({ post, user, profile, saved, admin }) {
       const newNotify = await createNotify(
         post._id,
         post.user._id,
-        'đã bày tỏ cảm xúc về một bài viết của bạn',
+        "đã bày tỏ cảm xúc về một bài viết của bạn",
         reactName,
         user.token
       );
 
-      socket.emit('sendNotification', newNotify);
+      socket.emit("sendNotification", newNotify);
     }
   };
-
-  // console.log(post);
 
   const onInit = () => {
     if (!document) return;
@@ -96,10 +102,21 @@ function Post({ post, user, profile, saved, admin }) {
     setComments(post?.comments);
   }, [post]);
 
+  const handleDelPost = async () => {
+    console.log("run");
+
+    const res = await deletePost(post._id, user.token);
+    console.log(res);
+    if (res.status === "ok") {
+      postRef.current.remove();
+      setDialogOpen(false);
+    }
+  };
+
   return (
     <div
-      className='post'
-      style={{ width: `${profile && '100%'}` }}
+      className="post"
+      style={{ width: `${profile && "100%"}` }}
       ref={postRef}
     >
       <PostHeader post={post} admin={admin} setShowMenu={setShowMenu} />
@@ -115,6 +132,7 @@ function Post({ post, user, profile, saved, admin }) {
           setCheckSavedPost={setCheckSavedPost}
           checkSavedPost={checkSavedPost}
           postRef={postRef}
+          setDialogOpen={setDialogOpen}
         />
       )}
 
@@ -140,6 +158,46 @@ function Post({ post, user, profile, saved, admin }) {
           showMore={showMore}
         />
       )}
+
+      <CustomDialog
+        open={dialogOpen}
+        handleClose={() => setDialogOpen(false)}
+        maxWidth={"400"}
+        title={"Bạn có chắc chắn muốn xóa"}
+        actions={
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: " center",
+            }}
+            width="100%"
+          >
+            <Button
+              sx={{
+                width: "100px",
+                height: "50px",
+              }}
+              onClick={() => setDialogOpen(false)}
+            >
+              Hủy
+            </Button>
+
+            <Button
+              variant="contained"
+              color="error"
+              sx={{
+                width: "100px",
+                height: "50px",
+                marginLeft: "43px",
+              }}
+              onClick={() => handleDelPost()}
+            >
+              Xóa
+            </Button>
+          </Box>
+        }
+      />
     </div>
   );
 }
