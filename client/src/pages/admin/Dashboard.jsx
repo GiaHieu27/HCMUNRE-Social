@@ -1,19 +1,20 @@
-import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import Grid from '@mui/material/Grid';
-import Stack from '@mui/material/Stack';
-import PendingActionsIcon from '@mui/icons-material/PendingActions';
-import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
-import FeedIcon from '@mui/icons-material/Feed';
-import PeopleIcon from '@mui/icons-material/People';
-import RoomOutlinedIcon from '@mui/icons-material/RoomOutlined';
-import ArticleIcon from '@mui/icons-material/Article';
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import Grid from "@mui/material/Grid";
+import Stack from "@mui/material/Stack";
+import PendingActionsIcon from "@mui/icons-material/PendingActions";
+import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
+import FeedIcon from "@mui/icons-material/Feed";
+import PeopleIcon from "@mui/icons-material/People";
+import RoomOutlinedIcon from "@mui/icons-material/RoomOutlined";
+import ArticleIcon from "@mui/icons-material/Article";
+import { colors } from "@mui/material";
 
-import { getTotalAnalyze } from '../../apis/admin';
-import SummaryInfo from '../../components/admin/Dashboard/SummaryInfo';
+import { getTotalAnalyze } from "../../apis/admin";
+import SummaryInfo from "../../components/admin/Dashboard/SummaryInfo";
 
 function Dashboard() {
   const user = useSelector((state) => state.user);
@@ -42,12 +43,12 @@ function Dashboard() {
             <CardContent>
               {summaryData && (
                 <SummaryInfo
-                  title='Tổng số lượt truy cập'
+                  title="Tổng số lượt truy cập"
                   number={summaryData.totalAccess}
                   icon={
                     <RoomOutlinedIcon
-                      sx={{ fontSize: '3rem' }}
-                      color='secondary'
+                      sx={{ fontSize: "3rem" }}
+                      color="secondary"
                     />
                   }
                 />
@@ -60,10 +61,10 @@ function Dashboard() {
             <CardContent>
               {summaryData && (
                 <SummaryInfo
-                  title='Tổng số người dùng'
+                  title="Tổng số người dùng"
                   number={summaryData.totalUser}
                   icon={
-                    <PeopleIcon sx={{ fontSize: '3rem' }} color='warning' />
+                    <PeopleIcon sx={{ fontSize: "3rem" }} color="warning" />
                   }
                 />
               )}
@@ -75,12 +76,12 @@ function Dashboard() {
             <CardContent>
               {summaryData && (
                 <SummaryInfo
-                  title='Người dùng mới'
+                  title="Người dùng mới"
                   number={summaryData.newUsers.length}
                   icon={
                     <PersonOutlineOutlinedIcon
-                      sx={{ fontSize: '3rem' }}
-                      color='success'
+                      sx={{ fontSize: "3rem" }}
+                      color="success"
                     />
                   }
                 />
@@ -93,10 +94,10 @@ function Dashboard() {
             <CardContent>
               {summaryData && (
                 <SummaryInfo
-                  title='Tổng số bài viết'
+                  title="Tổng số bài viết"
                   number={summaryData.totalPost}
                   icon={
-                    <ArticleIcon sx={{ fontSize: '3rem' }} color='primary' />
+                    <ArticleIcon sx={{ fontSize: "3rem" }} color="primary" />
                   }
                 />
               )}
@@ -104,16 +105,24 @@ function Dashboard() {
           </Card>
         </Grid>
         <Grid item xs={3}>
-          <Card elevation={0} sx={{ boxShadow: 2 }}>
+          <Card
+            elevation={0}
+            sx={{
+              // boxShadow: 2,
+              border: "2px solid",
+              borderColor: colors.red.A700,
+            }}
+          >
             <CardContent>
               {summaryData && (
                 <SummaryInfo
-                  title='Bài viết chưa duyệt'
+                  pending
+                  title="Bài viết chưa duyệt"
                   number={summaryData.totalPostHasNotBeenApproved}
                   icon={
                     <PendingActionsIcon
-                      sx={{ fontSize: '3rem' }}
-                      color='error'
+                      sx={{ fontSize: "3rem" }}
+                      color="error"
                     />
                   }
                 />
@@ -126,9 +135,9 @@ function Dashboard() {
             <CardContent>
               {summaryData && (
                 <SummaryInfo
-                  title='Bài viết mới'
+                  title="Bài viết mới"
                   number={summaryData.newPosts.length}
-                  icon={<FeedIcon sx={{ fontSize: '3rem' }} color='success' />}
+                  icon={<FeedIcon sx={{ fontSize: "3rem" }} color="success" />}
                 />
               )}
             </CardContent>
