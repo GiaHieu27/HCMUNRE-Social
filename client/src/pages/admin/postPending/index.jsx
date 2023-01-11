@@ -200,7 +200,6 @@ function PostPending() {
             <IconButton
               aria-label="delete"
               color="error"
-              // onClick={() => handleDeletePost(params.value)}
               onClick={() => {
                 setShow(true);
                 setId(params.value);
